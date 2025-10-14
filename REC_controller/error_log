@@ -1,0 +1,48 @@
+[06-Oct-2025 10:54:28 America/Mexico_City] Error al obtener preguntas: Table 'intran23_administrador.vacantes_preguntas' doesn't exist
+[06-Oct-2025 10:57:02 America/Mexico_City] Error al obtener preguntas: Table 'intran23_administrador.vacantes_preguntas' doesn't exist
+[06-Oct-2025 10:59:53 America/Mexico_City] Error al obtener preguntas: Table 'intran23_administrador.vacantes_preguntas' doesn't exist
+[06-Oct-2025 11:00:03 America/Mexico_City] Error al obtener preguntas: Table 'intran23_administrador.vacantes_preguntas' doesn't exist
+[06-Oct-2025 11:00:50 America/Mexico_City] Error al obtener preguntas: Table 'intran23_administrador.vacantes_preguntas' doesn't exist
+[06-Oct-2025 11:12:16 America/Mexico_City] Error al obtener preguntas: Table 'intran23_administrador.vacantes_preguntas' doesn't exist
+[06-Oct-2025 11:12:21 America/Mexico_City] Error al obtener preguntas: Table 'intran23_administrador.vacantes_preguntas' doesn't exist
+[06-Oct-2025 11:16:38 America/Mexico_City] Error al obtener preguntas: Table 'intran23_administrador.vacantes_preguntas' doesn't exist
+[06-Oct-2025 11:18:36 America/Mexico_City] Error al obtener preguntas: Table 'intran23_administrador.vacantes_preguntas' doesn't exist
+[06-Oct-2025 11:19:16 America/Mexico_City] Error al obtener preguntas: Table 'intran23_administrador.vacantes_preguntas' doesn't exist
+[06-Oct-2025 11:19:24 America/Mexico_City] Error al obtener preguntas: Table 'intran23_administrador.vacantes_preguntas' doesn't exist
+[06-Oct-2025 11:19:58 America/Mexico_City] Error al obtener preguntas: Table 'intran23_administrador.solicitud_vacantes_preguntas' doesn't exist
+[06-Oct-2025 11:47:34 America/Mexico_City] PHP Warning:  move_uploaded_file(uploads/cvs/1759772854_68e400b6ce640.pdf): Failed to open stream: No such file or directory in /home4/intran23/public_html/administrador2/REC_controller/guardar_candidato.php on line 40
+[06-Oct-2025 11:47:34 America/Mexico_City] PHP Warning:  move_uploaded_file(): Unable to move &quot;/tmp/phpRrCng1&quot; to &quot;uploads/cvs/1759772854_68e400b6ce640.pdf&quot; in /home4/intran23/public_html/administrador2/REC_controller/guardar_candidato.php on line 40
+[06-Oct-2025 11:47:52 America/Mexico_City] PHP Warning:  move_uploaded_file(../uploads/cvs/1759772872_68e400c87128a.pdf): Failed to open stream: No such file or directory in /home4/intran23/public_html/administrador2/REC_controller/guardar_candidato.php on line 40
+[06-Oct-2025 11:47:52 America/Mexico_City] PHP Warning:  move_uploaded_file(): Unable to move &quot;/tmp/phpPf2VwF&quot; to &quot;../uploads/cvs/1759772872_68e400c87128a.pdf&quot; in /home4/intran23/public_html/administrador2/REC_controller/guardar_candidato.php on line 40
+[06-Oct-2025 11:53:50 America/Mexico_City] PHP Warning:  Undefined variable $nombre_carpeta_limpio in /home4/intran23/public_html/administrador2/REC_controller/guardar_candidato.php on line 34
+[06-Oct-2025 11:53:50 America/Mexico_City] PHP Warning:  Undefined variable $nombre_carpeta_limpio in /home4/intran23/public_html/administrador2/REC_controller/guardar_candidato.php on line 52
+[06-Oct-2025 13:29:25 America/Mexico_City] Error al obtener detalles del candidato: Table 'intran23_administrador.candidatos_respuestas' doesn't exist
+[06-Oct-2025 13:29:27 America/Mexico_City] Error al obtener detalles del candidato: Table 'intran23_administrador.candidatos_respuestas' doesn't exist
+[06-Oct-2025 13:30:17 America/Mexico_City] Error al obtener detalles del candidato: Table 'intran23_administrador.vacantes_preguntas' doesn't exist
+[06-Oct-2025 13:30:42 America/Mexico_City] Error al obtener detalles del candidato: Table 'intran23_administrador.solicitudes_vacantes_vacantes_preguntas' doesn't exist
+[07-Oct-2025 11:25:23 America/Mexico_City] Error al obtener historial de candidato: Table 'intran23_administrador.candidatos_historial' doesn't exist
+[07-Oct-2025 11:25:27 America/Mexico_City] Error al obtener historial de candidato: Table 'intran23_administrador.candidatos_historial' doesn't exist
+[07-Oct-2025 11:26:31 America/Mexico_City] Error al obtener historial de candidato: Table 'intran23_administrador.candidatos_historial' doesn't exist
+[07-Oct-2025 11:26:39 America/Mexico_City] Error al obtener historial de candidato: Table 'intran23_administrador.candidatos_historial' doesn't exist
+[07-Oct-2025 12:44:28 America/Mexico_City] PHP Fatal error:  Uncaught ArgumentCountError: The number of variables must match the number of parameters in the prepared statement in /home4/intran23/public_html/administrador2/REC_controller/guardar_candidato.php:104
+Stack trace:
+#0 /home4/intran23/public_html/administrador2/REC_controller/guardar_candidato.php(104): mysqli_stmt->bind_param('sisssisssisssii...', 'Christian Chair...', '24', 'cchaire@gmail.c...', '9832561474', 'Torre\xC3\xB3n Coahui...', '1', 'Licenciatura', 'T\xC3\xA9cnico en sis...', 'Espa\xC3\xB1ol e Ingl...', '1', '1 mes', 'Gerente de Tecn...', '2', 'Se buen manejo ...', NULL, NULL, 'CVs/christian_c...', '15000', 'Indeed, faceboo...', 'Luis', '8715031796', 'Milwooke', 'Gerente de Sist...', 'lo que hay', 'pruebra@', '', '', '', '', '', '')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador2/REC_controller/guardar_candidato.php on line 104
+[07-Oct-2025 12:44:45 America/Mexico_City] PHP Fatal error:  Uncaught ArgumentCountError: The number of variables must match the number of parameters in the prepared statement in /home4/intran23/public_html/administrador2/REC_controller/guardar_candidato.php:104
+Stack trace:
+#0 /home4/intran23/public_html/administrador2/REC_controller/guardar_candidato.php(104): mysqli_stmt->bind_param('sisssisssisssii...', 'Christian Chair...', '24', 'cchaire@gmail.c...', '9832561474', 'Torre\xC3\xB3n Coahui...', '1', 'Licenciatura', 'T\xC3\xA9cnico en sis...', 'Espa\xC3\xB1ol e Ingl...', '1', '1 mes', 'Gerente de Tecn...', '2', 'Se buen manejo ...', NULL, NULL, 'CVs/christian_c...', '15000', 'Indeed, faceboo...', 'Luis', '8715031796', 'Milwooke', 'Gerente de Sist...', 'lo que hay', 'pruebra@gmail.c...', '', '', '', '', '', '')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador2/REC_controller/guardar_candidato.php on line 104
+[07-Oct-2025 12:45:53 America/Mexico_City] PHP Fatal error:  Uncaught ArgumentCountError: The number of variables must match the number of parameters in the prepared statement in /home4/intran23/public_html/administrador2/REC_controller/guardar_candidato.php:104
+Stack trace:
+#0 /home4/intran23/public_html/administrador2/REC_controller/guardar_candidato.php(104): mysqli_stmt->bind_param('sisssisssisssii...', 'Christian Chair...', '24', 'cchaire@gmail.c...', '9832561474', 'Torre\xC3\xB3n Coahui...', '1', 'Licenciatura', 'T\xC3\xA9cnico en sis...', 'Espa\xC3\xB1ol e Ingl...', '1', '1 mes', 'Gerente de Tecn...', '2', 'Se buen manejo ...', NULL, NULL, 'CVs/christian_c...', '15000', 'Indeed, faceboo...', 'Luis', '8715031796', 'Milwooke', 'Gerente de Sist...', 'lo que hay', 'pruebra@gmail.c...', '', '', '', '', '', '')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador2/REC_controller/guardar_candidato.php on line 104
+[08-Oct-2025 15:21:31 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'contrato_firmado_path' in 'field list' in /home4/intran23/public_html/administrador2/REC_controller/subir_contrato.php:44
+Stack trace:
+#0 /home4/intran23/public_html/administrador2/REC_controller/subir_contrato.php(44): mysqli->prepare('UPDATE solicitu...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador2/REC_controller/subir_contrato.php on line 44
+[08-Oct-2025 15:45:50 America/Mexico_City] Table 'intran23_administrador.candidatos_documentos' doesn't exist
+[08-Oct-2025 15:46:38 America/Mexico_City] Table 'intran23_administrador.candidatos_documentos' doesn't exist

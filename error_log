@@ -1,0 +1,38 @@
+[06-Oct-2025 13:43:31 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[06-Oct-2025 13:43:31 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[06-Oct-2025 13:43:31 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[06-Oct-2025 13:43:39 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[06-Oct-2025 13:43:39 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[06-Oct-2025 13:43:39 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[06-Oct-2025 14:20:08 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[06-Oct-2025 14:20:08 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[06-Oct-2025 14:20:08 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[06-Oct-2025 16:48:18 America/Mexico_City] PHP Warning:  Undefined array key "loggedin" in /home4/intran23/public_html/administrador2/src/templates/adminheader.php on line 6
+[07-Oct-2025 09:58:17 America/Mexico_City] PHP Warning:  Undefined array key "loggedin" in /home4/intran23/public_html/administrador2/src/templates/adminheader.php on line 6
+[07-Oct-2025 09:58:21 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[07-Oct-2025 09:58:21 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[07-Oct-2025 09:58:21 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[07-Oct-2025 09:58:26 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[07-Oct-2025 09:58:26 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[07-Oct-2025 09:58:26 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[07-Oct-2025 09:58:32 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[07-Oct-2025 09:58:32 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[07-Oct-2025 09:58:32 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[07-Oct-2025 09:58:44 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[07-Oct-2025 09:58:44 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[07-Oct-2025 09:58:44 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[07-Oct-2025 10:09:04 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[07-Oct-2025 10:09:04 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[07-Oct-2025 10:09:04 America/Mexico_City] PHP Warning:  Undefined array key "requisitos" in /home4/intran23/public_html/administrador2/REC_todas_solicitudes.php on line 159
+[07-Oct-2025 10:45:15 America/Mexico_City] PHP Warning:  Undefined array key "loggedin" in /home4/intran23/public_html/administrador2/src/templates/adminheader.php on line 6
+[07-Oct-2025 11:55:18 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot delete or update a parent row: a foreign key constraint fails (`intran23_administrador`.`permisos`, CONSTRAINT `permisos_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`)) in /home4/intran23/public_html/administrador2/UT_gestion_usuarios.php:33
+Stack trace:
+#0 /home4/intran23/public_html/administrador2/UT_gestion_usuarios.php(33): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador2/UT_gestion_usuarios.php on line 33
+[07-Oct-2025 12:41:50 America/Mexico_City] PHP Warning:  Undefined array key "loggedin" in /home4/intran23/public_html/administrador2/src/templates/adminheader.php on line 6
+[07-Oct-2025 15:10:47 America/Mexico_City] PHP Warning:  Undefined array key "loggedin" in /home4/intran23/public_html/administrador2/src/templates/adminheader.php on line 6
+[07-Oct-2025 16:36:41 America/Mexico_City] PHP Warning:  Undefined array key "loggedin" in /home4/intran23/public_html/administrador2/src/templates/adminheader.php on line 6
+[08-Oct-2025 12:46:41 America/Mexico_City] PHP Warning:  Undefined array key "loggedin" in /home4/intran23/public_html/administrador2/src/templates/adminheader.php on line 6
+[08-Oct-2025 14:48:01 America/Mexico_City] PHP Warning:  Undefined array key "loggedin" in /home4/intran23/public_html/administrador2/src/templates/adminheader.php on line 6
+[09-Oct-2025 15:16:20 America/Mexico_City] PHP Warning:  Undefined array key "loggedin" in /home4/intran23/public_html/administrador2/src/templates/adminheader.php on line 6

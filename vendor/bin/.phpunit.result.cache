@@ -1,0 +1,1 @@
+{"version":1,"defects":{"LoginTest::testEmptyFields":5,"LoginTest::testInvalidEmailFormat":5,"LoginTest::testUserNotFound":8,"LoginTest::testSuccessfulLogin":8},"times":{"LoginTest::testEmptyFields":0.016,"LoginTest::testInvalidEmailFormat":0.002,"LoginTest::testUserNotFound":0.002,"LoginTest::testSuccessfulLogin":0}}

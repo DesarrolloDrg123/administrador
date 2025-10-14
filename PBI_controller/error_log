@@ -1,0 +1,10 @@
+[08-Sep-2025 15:55:45 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'report_link' cannot be null in /home4/intran23/public_html/administrador/PBI_controller/config_ajax.php:60
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PBI_controller/config_ajax.php(60): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PBI_controller/config_ajax.php on line 60
+[08-Sep-2025 15:56:11 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'report_link' cannot be null in /home4/intran23/public_html/administrador/PBI_controller/config_ajax.php:60
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PBI_controller/config_ajax.php(60): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PBI_controller/config_ajax.php on line 60

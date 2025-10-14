@@ -1,0 +1,40 @@
+[30-Jul-2024 10:55:54 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM transferencias t
+        JOIN sucursales s ON t.sucursal_id = s.id
+      ' at line 2 in /home4/intran23/public_html/administrador/transferencias.php:23
+Stack trace:
+#0 /home4/intran23/public_html/administrador/transferencias.php(23): mysqli->prepare('SELECT t.id, s....')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/transferencias.php on line 23
+[30-Jul-2024 10:57:32 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'folio' in 'field list' in /home4/intran23/public_html/administrador/transferencias.php:60
+Stack trace:
+#0 /home4/intran23/public_html/administrador/transferencias.php(60): mysqli->prepare('INSERT INTO tra...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/transferencias.php on line 60
+[30-Jul-2024 10:59:48 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'folio' cannot be null in /home4/intran23/public_html/administrador/transferencias.php:65
+Stack trace:
+#0 /home4/intran23/public_html/administrador/transferencias.php(65): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/transferencias.php on line 65
+[30-Jul-2024 11:03:59 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'folio' cannot be null in /home4/intran23/public_html/administrador/transferencias.php:65
+Stack trace:
+#0 /home4/intran23/public_html/administrador/transferencias.php(65): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/transferencias.php on line 65
+[31-Jul-2024 11:22:14 America/Mexico_City] PHP Warning:  Undefined variable $mail in /home4/intran23/public_html/administrador/transferencias.php on line 128
+[31-Jul-2024 11:22:14 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to a member function isSMTP() on null in /home4/intran23/public_html/administrador/transferencias.php:128
+Stack trace:
+#0 {main}
+  thrown in /home4/intran23/public_html/administrador/transferencias.php on line 128
+[31-Jul-2024 11:23:23 America/Mexico_City] PHP Warning:  Undefined variable $mail in /home4/intran23/public_html/administrador/transferencias.php on line 128
+[31-Jul-2024 11:23:23 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to a member function isSMTP() on null in /home4/intran23/public_html/administrador/transferencias.php:128
+Stack trace:
+#0 {main}
+  thrown in /home4/intran23/public_html/administrador/transferencias.php on line 128
+[31-Jul-2024 12:39:26 America/Mexico_City] PHP Warning:  Undefined variable $folio_formateado in /home4/intran23/public_html/administrador/transferencias.php on line 304
+[01-Aug-2024 08:16:09 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM transferencias t
+            JOIN categorias c ON t.categoria_id = c.id
+ ' at line 6 in /home4/intran23/public_html/administrador/aprobar.php:36
+Stack trace:
+#0 /home4/intran23/public_html/administrador/aprobar.php(36): mysqli->prepare('SELECT b.benefi...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/aprobar.php on line 36

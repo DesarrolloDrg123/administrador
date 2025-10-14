@@ -1,0 +1,1735 @@
+[01-Apr-2025 10:15:15 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000143', 'G-645')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[01-Apr-2025 10:15:33 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000142', 'Pedido se dupli...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[01-Apr-2025 13:23:22 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000144', 'G-648')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[01-Apr-2025 14:04:34 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000145', 'G-649')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[02-Apr-2025 12:19:42 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[02-Apr-2025 12:19:51 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[02-Apr-2025 12:19:59 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[02-Apr-2025 12:20:01 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[02-Apr-2025 12:20:01 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[02-Apr-2025 12:20:01 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[02-Apr-2025 12:20:01 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[02-Apr-2025 12:20:01 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[03-Apr-2025 08:25:49 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000146', 'K-139')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[03-Apr-2025 08:27:18 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000147', 'B-115')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[03-Apr-2025 15:38:49 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000149', 'E-405')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[03-Apr-2025 15:39:12 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000148', 'E-404')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[03-Apr-2025 15:40:59 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000150', 'B-116')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[03-Apr-2025 16:08:26 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000151', '1042')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[04-Apr-2025 09:07:48 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000152', 'Se solicitara a...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[04-Apr-2025 12:06:42 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000153', 'G-652')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[04-Apr-2025 12:29:58 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000154', 'G-654')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[07-Apr-2025 15:27:15 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000155', 'H-347')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[08-Apr-2025 08:27:57 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000141', 'A-2869')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[08-Apr-2025 08:40:00 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000157', 'G-656')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[08-Apr-2025 10:15:17 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 10:15:21 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 10:15:25 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 10:15:31 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 10:15:37 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 10:15:42 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 10:16:34 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 10:16:38 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 10:16:39 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 10:16:40 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 10:16:40 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 10:16:41 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 10:16:41 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 10:16:41 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 10:16:41 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 10:16:42 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 10:16:42 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Apr-2025 11:31:54 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000160', 'A-2874')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[08-Apr-2025 12:06:45 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000159', 'A-2874')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[08-Apr-2025 12:07:07 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000158', 'A-2874')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[09-Apr-2025 12:11:49 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000161', 'G-658')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[09-Apr-2025 12:12:12 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000156', 'E-406')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[09-Apr-2025 12:16:10 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000162', 'B-117')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[09-Apr-2025 14:44:43 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000164', 'Error en SKU')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[09-Apr-2025 14:45:43 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[09-Apr-2025 14:45:43 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[09-Apr-2025 14:45:43 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[09-Apr-2025 14:45:43 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[09-Apr-2025 14:45:43 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[09-Apr-2025 14:45:43 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000164', '2025-04-09', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[09-Apr-2025 14:52:06 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000163', 'F-273')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[09-Apr-2025 15:00:46 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000164', 'F-274')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[10-Apr-2025 08:40:36 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[10-Apr-2025 08:40:55 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[10-Apr-2025 09:23:33 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000165', 'E-407')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[10-Apr-2025 09:23:57 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[10-Apr-2025 09:23:57 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[10-Apr-2025 09:23:57 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[10-Apr-2025 09:23:57 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[10-Apr-2025 09:23:58 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[10-Apr-2025 09:23:58 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[10-Apr-2025 09:23:58 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[10-Apr-2025 09:23:58 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[10-Apr-2025 09:23:58 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[10-Apr-2025 09:23:59 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[10-Apr-2025 09:23:59 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[10-Apr-2025 09:23:59 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[10-Apr-2025 09:41:23 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[10-Apr-2025 13:19:22 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000166', 'D-216')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[11-Apr-2025 09:37:37 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000167', '1046')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-Apr-2025 08:45:03 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000168', 'A-2883')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-Apr-2025 11:30:57 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000169', 'B-118')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-Apr-2025 13:32:36 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000171', 'B-119')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-Apr-2025 13:34:55 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000172', 'SOLICITAR TRASP...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-Apr-2025 13:35:42 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[14-Apr-2025 13:35:42 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[14-Apr-2025 13:35:42 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[14-Apr-2025 13:35:42 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[14-Apr-2025 13:35:42 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[14-Apr-2025 13:35:42 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000172', '2025-04-14', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[14-Apr-2025 13:53:06 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000170', 'G-660')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-Apr-2025 14:29:55 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000174', 'E-408')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[15-Apr-2025 13:48:37 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000173', 'B-120')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[15-Apr-2025 14:28:20 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000175', 'A-2891')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-Apr-2025 12:21:32 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000176', 'F-277')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-Apr-2025 12:55:30 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000172', 'D-217')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[21-Apr-2025 15:19:27 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000177', '1047')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[22-Apr-2025 09:38:35 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000179', 'A-2900')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[22-Apr-2025 09:48:10 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000178', 'G-662')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[22-Apr-2025 09:50:23 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000180', 'G-663')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[22-Apr-2025 10:56:15 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000181', 'B-121')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[22-Apr-2025 11:26:15 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000182', 'Se solicitara e...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[23-Apr-2025 09:53:47 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000183', 'F-278')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[23-Apr-2025 14:30:01 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[23-Apr-2025 14:30:12 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[23-Apr-2025 14:30:13 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[23-Apr-2025 14:44:34 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000184', 'VERIFICAR SKU')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[23-Apr-2025 16:01:33 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[23-Apr-2025 16:01:33 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[23-Apr-2025 16:01:33 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[23-Apr-2025 16:01:33 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[23-Apr-2025 16:01:33 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[23-Apr-2025 16:01:33 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000184', '2025-04-23', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[24-Apr-2025 11:13:31 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000184', 'K-141')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[24-Apr-2025 14:13:09 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000185', '1049')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[25-Apr-2025 08:36:55 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000186', 'D-220')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[28-Apr-2025 10:26:22 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000188', 'E-409')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[28-Apr-2025 14:04:25 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000189', 'A-2911')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[28-Apr-2025 14:47:12 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[28-Apr-2025 14:47:17 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[30-Apr-2025 12:55:40 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000190', 'Se actualizaran...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[30-Apr-2025 16:31:20 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000187', 'B-122')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[30-Apr-2025 16:35:57 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000191', 'B-124')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[06-May-2025 14:32:31 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000193', 'B-125')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[06-May-2025 14:59:38 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[06-May-2025 14:59:38 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[06-May-2025 14:59:38 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[06-May-2025 14:59:38 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[06-May-2025 14:59:38 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[06-May-2025 14:59:38 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000190', '2025-05-06', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[06-May-2025 16:50:02 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000197', 'Pidio Nadia')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[06-May-2025 16:50:13 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000196', 'Pidio Nadia')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[06-May-2025 16:51:34 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000192', 'A-2930')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[06-May-2025 16:52:35 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000194', 'A-2930')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[06-May-2025 17:02:23 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[06-May-2025 17:02:23 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[06-May-2025 17:02:23 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[06-May-2025 17:02:23 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[06-May-2025 17:02:23 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[06-May-2025 17:02:23 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000196', '2025-05-06', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[06-May-2025 17:15:38 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[06-May-2025 17:15:38 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[06-May-2025 17:15:38 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[06-May-2025 17:15:38 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[06-May-2025 17:15:38 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[06-May-2025 17:15:38 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000197', '2025-05-06', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[07-May-2025 13:39:26 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:39:33 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:39:48 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:40:06 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:40:16 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:40:21 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:40:23 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:40:23 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:40:51 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:40:54 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:41:26 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:41:28 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:41:45 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:41:51 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:41:51 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:41:52 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:48:37 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:48:41 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:48:45 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:48:46 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:48:51 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:48:51 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:48:51 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:48:51 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:48:52 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:48:52 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:48:52 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:48:53 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[07-May-2025 13:48:53 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-May-2025 10:07:27 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-May-2025 10:10:38 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000190', 'F-284')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[08-May-2025 10:10:48 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000195', 'D-223')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[08-May-2025 10:10:58 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000196', 'D-223')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[08-May-2025 10:11:12 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000197', 'H-351')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[08-May-2025 10:11:20 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000198', 'M-3')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[08-May-2025 10:11:28 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000199', 'D-223')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[08-May-2025 10:38:27 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000200', 'H-351')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[08-May-2025 10:45:48 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-May-2025 10:56:49 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000210', 'SE PEDIRA EN OR...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[08-May-2025 11:04:03 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000211', 'A-2931')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[09-May-2025 12:24:40 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000212', '1050')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[12-May-2025 08:23:53 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000213', 'H-353')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[12-May-2025 11:45:40 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[12-May-2025 12:52:36 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000214', 'B-128')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[13-May-2025 13:14:12 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000215', 'A-2949')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[13-May-2025 13:15:47 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000216', 'A-2946')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[13-May-2025 16:01:36 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000217', '1051')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[13-May-2025 16:20:30 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000218', 'F-289')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-May-2025 10:56:45 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000224', 'Sucursal errone...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-May-2025 11:09:22 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000223', 'G-677')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-May-2025 11:28:12 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[14-May-2025 11:28:12 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[14-May-2025 11:28:12 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[14-May-2025 11:28:12 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[14-May-2025 11:28:12 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[14-May-2025 11:28:12 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000224', '2025-05-14', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[14-May-2025 11:29:46 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000224', 'Sucursal errone...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-May-2025 11:29:54 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000222', 'L-16')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-May-2025 16:43:53 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000226', 'Paola pidi\xC3\xB3 qu...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-May-2025 09:34:11 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000221', '1054')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-May-2025 12:34:52 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000219', 'E-410')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-May-2025 12:35:01 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000220', 'E-411')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-May-2025 12:40:11 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000225', 'F-290')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-May-2025 12:45:13 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000227', '1056')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[19-May-2025 15:35:52 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000228', 'E-412')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[20-May-2025 08:23:51 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000229', 'G-678')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[20-May-2025 12:28:38 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000230', 'H-354')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[20-May-2025 12:31:39 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000231', 'L-17')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[20-May-2025 12:40:38 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000232', 'F-291')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[20-May-2025 14:08:53 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000233', 'M-5')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[20-May-2025 15:32:51 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[20-May-2025 15:32:54 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[21-May-2025 10:59:46 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[21-May-2025 10:59:53 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[21-May-2025 11:00:14 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[21-May-2025 11:00:15 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[21-May-2025 11:00:26 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[21-May-2025 11:00:26 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[21-May-2025 11:01:41 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[02-Jun-2025 10:01:48 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000257', 'F-295')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[02-Jun-2025 12:13:25 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000259', '1059')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[02-Jun-2025 12:41:52 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000258', 'Habia existenci...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[02-Jun-2025 13:03:48 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000256', 'K-143')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[03-Jun-2025 08:23:04 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000260', 'Prueba')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[04-Jun-2025 09:02:04 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000261', 'H-358')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[04-Jun-2025 09:43:08 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000262', 'A-2993')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-Jul-2025 08:35:55 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000429', 'E-436')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-Jul-2025 08:52:35 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000426', 'D-248')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-Jul-2025 08:58:54 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000424', 'F-325')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-Jul-2025 09:00:25 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000423', 'Tomar existenci...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-Jul-2025 09:07:26 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000419', 'H-382')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-Jul-2025 09:14:29 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000425', 'Tomar existenci...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-Jul-2025 12:04:43 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000431', 'E-436')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-Jul-2025 12:17:13 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000427', 'H-383')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-Jul-2025 12:17:13 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000427', 'H-383')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[17-Jul-2025 10:13:16 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000428', 'H-381')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[17-Jul-2025 11:03:28 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000430', 'D-249')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[17-Jul-2025 11:06:42 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000432', 'H-384')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[17-Jul-2025 11:08:53 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000433', 'H-385')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[17-Jul-2025 12:06:32 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000436', 'G-730')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[17-Jul-2025 12:30:42 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000437', 'A-3097')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[17-Jul-2025 15:46:01 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000438', 'G-731')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[18-Jul-2025 08:48:53 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000439', 'B-145')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[21-Jul-2025 09:25:39 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000435', 'G-732')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[21-Jul-2025 09:37:34 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000440', 'G-733')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[21-Jul-2025 11:56:01 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[21-Jul-2025 11:56:09 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[21-Jul-2025 11:56:17 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[22-Jul-2025 16:45:27 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[22-Jul-2025 16:45:42 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[23-Jul-2025 11:54:11 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000434', 'A-3109')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[23-Jul-2025 11:57:15 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000441', 'G-732')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[23-Jul-2025 11:59:14 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000442', 'D-250')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[23-Jul-2025 12:22:29 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000443', 'Pedir traspaso ...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[23-Jul-2025 12:27:41 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000445', 'D-251')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[23-Jul-2025 12:30:15 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000444', 'D-252')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[23-Jul-2025 12:33:09 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000446', 'G-735')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[23-Jul-2025 12:36:33 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000447', 'H-386')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[23-Jul-2025 12:38:29 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000448', 'E-440')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[23-Jul-2025 12:43:26 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000449', 'A-3111')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[23-Jul-2025 12:54:01 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000450', 'A-3112')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[24-Jul-2025 11:07:02 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000451', 'E-441')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[24-Jul-2025 11:10:01 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000407', 'Se hara nuevo p...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[24-Jul-2025 16:46:29 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[24-Jul-2025 16:46:29 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[24-Jul-2025 16:46:29 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[24-Jul-2025 16:46:29 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[24-Jul-2025 16:46:29 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[24-Jul-2025 16:46:29 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000443', '2025-07-24', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[28-Jul-2025 12:01:57 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000443', 'K-161')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[28-Jul-2025 12:04:00 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000452', 'F-329')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[28-Jul-2025 12:10:42 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000453', 'D-254')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[28-Jul-2025 12:16:30 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000457', 'G-740')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[29-Jul-2025 08:36:16 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000454', 'K-162')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[29-Jul-2025 09:36:47 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000459', 'G-742')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[30-Jul-2025 10:00:50 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000458', 'Se hara traspas...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[30-Jul-2025 10:02:42 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000455', 'A-3128')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[30-Jul-2025 10:03:24 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000456', 'A-3128')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[30-Jul-2025 11:04:59 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[30-Jul-2025 12:35:20 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000460', 'B-146')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[31-Jul-2025 10:39:06 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[31-Jul-2025 10:39:17 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[31-Jul-2025 11:16:10 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000466', 'VERIFICAR SKU')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[31-Jul-2025 11:55:07 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000462', 'D-256')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[31-Jul-2025 11:58:43 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000463', 'B-148')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[31-Jul-2025 12:25:33 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000468', 'G-746')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[31-Jul-2025 12:46:33 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000467', 'D-257')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[31-Jul-2025 12:46:45 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000464', 'G-745')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[31-Jul-2025 13:06:43 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[31-Jul-2025 13:06:43 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[31-Jul-2025 13:06:43 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[31-Jul-2025 13:06:43 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[31-Jul-2025 13:06:43 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[31-Jul-2025 13:06:43 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000466', '2025-07-31', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[01-Aug-2025 09:06:37 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000475', 'VERIFICAR SKU')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[01-Aug-2025 10:00:25 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000466', 'C-63')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[01-Aug-2025 11:52:31 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000461', 'A-3137')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[01-Aug-2025 11:52:44 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000465', 'F-334')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[04-Aug-2025 08:08:29 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000474', 'H-387')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[04-Aug-2025 08:08:41 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000472', 'R-1')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[04-Aug-2025 08:08:52 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000473', 'F-328')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[04-Aug-2025 08:09:05 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000471', 'E-442')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[04-Aug-2025 08:09:18 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000470', 'F-327')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[04-Aug-2025 08:09:33 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000469', 'G-739')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[04-Aug-2025 08:33:15 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000476', 'F-336')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[05-Aug-2025 08:42:16 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000477', 'Se cambia por e...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[05-Aug-2025 08:51:05 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 9
+[05-Aug-2025 08:51:19 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 9
+[05-Aug-2025 08:51:59 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 9
+[05-Aug-2025 08:52:00 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 9
+[05-Aug-2025 08:52:00 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 9
+[05-Aug-2025 08:52:00 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 9
+[05-Aug-2025 08:52:00 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 9
+[05-Aug-2025 09:25:32 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 9
+[05-Aug-2025 09:26:01 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 9
+[05-Aug-2025 09:38:51 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[05-Aug-2025 09:38:51 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[05-Aug-2025 09:38:51 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[05-Aug-2025 09:38:51 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[05-Aug-2025 09:38:51 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[05-Aug-2025 09:38:51 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000475', '2025-08-05', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[06-Aug-2025 08:30:14 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000353', 'Verificar SKU')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[06-Aug-2025 13:14:58 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000475', 'H-392')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[06-Aug-2025 13:32:48 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000479', 'A-3141')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[06-Aug-2025 13:34:31 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000480', 'Tomar existenci...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[06-Aug-2025 13:36:19 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000481', 'Pedir traspaso ...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[06-Aug-2025 13:41:18 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000482', 'D-260')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[06-Aug-2025 13:41:38 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000484', 'Se duplico con ...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[06-Aug-2025 13:44:14 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000483', 'B-150')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[07-Aug-2025 09:51:33 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000478', 'B-149')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[07-Aug-2025 12:03:18 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000486', 'VERIFICAR SKU')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[07-Aug-2025 12:03:26 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000487', 'VERIFICAR SKU')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[07-Aug-2025 12:07:44 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000488', 'G-754')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[07-Aug-2025 12:08:06 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000489', 'SKU incorrecto')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[07-Aug-2025 12:19:50 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000491', 'A-3147')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[07-Aug-2025 12:28:52 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[07-Aug-2025 12:28:52 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[07-Aug-2025 12:28:52 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[07-Aug-2025 12:28:52 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[07-Aug-2025 12:28:52 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[07-Aug-2025 12:28:52 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000486', '2025-08-07', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[07-Aug-2025 12:29:07 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[07-Aug-2025 12:29:07 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[07-Aug-2025 12:29:07 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[07-Aug-2025 12:29:07 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[07-Aug-2025 12:29:07 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[07-Aug-2025 12:29:07 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000487', '2025-08-07', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[07-Aug-2025 12:45:52 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000486', 'H-393')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[07-Aug-2025 12:46:01 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000487', 'H-393')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[08-Aug-2025 09:22:12 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000485', 'B-151')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[08-Aug-2025 10:29:21 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000492', 'E-445')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[08-Aug-2025 10:33:11 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000490', 'Verificar Costo...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[11-Aug-2025 08:47:24 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000494', 'Revisar existen...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[11-Aug-2025 08:47:30 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000495', 'Revisar existen...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[11-Aug-2025 10:09:11 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 10:09:11 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 10:09:11 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 10:09:11 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 10:09:11 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 10:09:11 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000489', '2025-08-11', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[11-Aug-2025 10:19:25 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 10:19:25 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 10:19:25 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 10:19:25 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 10:19:25 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 10:19:25 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000495', '2025-08-11', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[11-Aug-2025 10:49:05 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000495', 'Agregar toner o...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[11-Aug-2025 11:55:54 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000489', 'A-3153')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[11-Aug-2025 11:58:40 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000493', 'E-443')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[11-Aug-2025 12:04:42 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000496', 'G-756')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[11-Aug-2025 12:24:53 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000497', 'H-395')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[11-Aug-2025 13:16:47 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 13:16:47 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 13:16:47 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 13:16:47 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 13:16:47 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 13:16:47 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000495', '2025-08-11', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[11-Aug-2025 13:50:31 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000498', 'B-152')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[11-Aug-2025 15:13:00 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000495', 'Solicitar los 1...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[11-Aug-2025 15:39:46 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 9
+[11-Aug-2025 15:39:47 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 9
+[11-Aug-2025 15:39:50 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 9
+[11-Aug-2025 15:39:54 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 9
+[11-Aug-2025 15:40:15 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 15:40:15 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 15:40:15 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 15:40:15 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 15:40:15 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[11-Aug-2025 15:40:15 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000495', '2025-08-11', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[11-Aug-2025 15:57:07 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000499', 'Equipo desconti...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[13-Aug-2025 09:43:03 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000495', 'K-165')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[13-Aug-2025 09:43:27 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000500', 'K-165')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[13-Aug-2025 09:49:43 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000502', 'F-340')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[13-Aug-2025 09:49:52 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000501', 'F-339')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[13-Aug-2025 09:54:24 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000505', 'Pedir traspaso ...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[13-Aug-2025 10:03:04 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000503', 'B-153')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[13-Aug-2025 10:03:18 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000504', 'H-396')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-Aug-2025 11:29:58 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000510', 'A-3158')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-Aug-2025 11:30:13 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000507', '1085')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-Aug-2025 12:15:25 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000508', 'Cambiar SKU')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-Aug-2025 12:58:21 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[14-Aug-2025 12:58:26 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[14-Aug-2025 12:58:36 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[14-Aug-2025 12:58:47 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[14-Aug-2025 12:58:49 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[14-Aug-2025 12:58:51 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[14-Aug-2025 13:03:17 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000511', 'B-154')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-Aug-2025 13:18:09 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000512', 'B-155')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[14-Aug-2025 14:26:40 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[15-Aug-2025 09:06:25 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000509', 'F-343')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[15-Aug-2025 09:11:48 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000513', 'H-397')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[15-Aug-2025 12:04:43 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000514', 'D-268')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[16-Aug-2025 14:10:02 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[16-Aug-2025 14:10:07 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[16-Aug-2025 15:48:17 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[19-Aug-2025 08:42:03 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000518', 'H-398')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[19-Aug-2025 08:49:33 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000519', 'C-64')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[19-Aug-2025 08:54:26 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000520', 'H-399')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[19-Aug-2025 08:54:34 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000521', 'H-399')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[19-Aug-2025 15:56:09 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[19-Aug-2025 15:57:19 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[20-Aug-2025 08:43:26 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[20-Aug-2025 08:43:32 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[20-Aug-2025 08:44:19 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000515', 'G-761')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[20-Aug-2025 08:44:26 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000516', 'G-761')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[20-Aug-2025 08:44:32 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000517', 'G-761')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[21-Aug-2025 12:19:39 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000522', 'G-764')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[21-Aug-2025 12:22:59 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000524', 'H-400')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[21-Aug-2025 12:23:35 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000525', 'L-27')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[21-Aug-2025 12:23:42 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000526', '1086')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[22-Aug-2025 09:05:22 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000523', '1087')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[22-Aug-2025 09:24:36 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000527', 'H-401')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[22-Aug-2025 09:27:38 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000528', 'G-765')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[22-Aug-2025 10:38:30 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000529', 'G-766')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[25-Aug-2025 09:49:06 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000530', 'B-156')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[25-Aug-2025 09:52:02 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000531', 'H-402')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[25-Aug-2025 09:55:02 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000532', 'F-345')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[25-Aug-2025 10:40:47 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000533', 'K-166')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[25-Aug-2025 10:48:53 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[25-Aug-2025 11:44:59 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[25-Aug-2025 15:13:40 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000539', 'PRUBA')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[25-Aug-2025 15:15:59 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000540', 'VERIFICAR SKU')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[25-Aug-2025 15:16:25 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[25-Aug-2025 15:16:25 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[25-Aug-2025 15:16:25 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[25-Aug-2025 15:16:25 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[25-Aug-2025 15:16:25 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[25-Aug-2025 15:16:25 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000540', '2025-08-25', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[26-Aug-2025 15:40:18 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000544', 'B-157')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 09:34:45 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000535', 'E-449')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 09:35:45 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000534', 'D-270')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 09:37:10 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000537', 'G-769')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 09:39:15 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000542', 'E-452')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 09:41:47 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000550', 'prueba')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 09:41:54 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '548', 'prueba')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 09:42:00 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000546', 'prueba')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 09:42:37 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000541', 'Revisar costos;...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 09:43:33 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000536', 'E-450')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 09:47:12 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[27-Aug-2025 09:47:12 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[27-Aug-2025 09:47:12 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[27-Aug-2025 09:47:12 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[27-Aug-2025 09:47:12 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[27-Aug-2025 09:47:12 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000541', '2025-08-27', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[27-Aug-2025 11:18:33 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000541', 'E-451')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 11:24:49 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000545', 'B-158')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 11:29:42 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000543', 'H-403')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 11:30:03 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000547', 'A-3173')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 11:30:12 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000551', 'prueba')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 11:33:22 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000538', 'F-350')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 11:35:57 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000549', 'B-159')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 16:05:36 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(50): enviarCorreo(Object(mysqli), 'Devolver', '000000552', 'SKUs erroneos')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[27-Aug-2025 16:18:56 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[27-Aug-2025 16:18:56 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[27-Aug-2025 16:18:56 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[27-Aug-2025 16:18:56 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[27-Aug-2025 16:18:56 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[27-Aug-2025 16:18:56 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000552', '2025-08-27', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[28-Aug-2025 09:08:09 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000552', 'E-453')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[28-Aug-2025 16:30:24 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000551', 'prueba')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[01-Sep-2025 08:59:58 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(70): enviarCorreo(Object(mysqli), 'Rechazar', '000000554', 'prueba')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[01-Sep-2025 09:12:04 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:84
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000506', '1091')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 84
+[01-Sep-2025 09:42:53 America/Mexico_City] PHP Warning:  Undefined array key "correo" in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 100
+[01-Sep-2025 09:42:53 America/Mexico_City] PHP Warning:  Undefined variable $email in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 256
+[01-Sep-2025 09:45:07 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[01-Sep-2025 09:45:07 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[01-Sep-2025 09:45:07 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[01-Sep-2025 09:45:07 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[01-Sep-2025 09:45:07 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[01-Sep-2025 09:45:07 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000505', '2025-09-01', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[01-Sep-2025 14:48:04 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[03-Sep-2025 09:03:01 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000556', 'E-454')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[03-Sep-2025 09:19:18 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000559', 'B-161')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[03-Sep-2025 09:25:35 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000560', 'B-162')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[03-Sep-2025 09:35:04 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000557', 'F-346')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[03-Sep-2025 12:59:33 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000563', 'A-3200')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[03-Sep-2025 14:42:41 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(49): enviarCorreo(Object(mysqli), 'Devolver', '000000553', 'Quitar Monitor ...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[03-Sep-2025 15:11:23 America/Mexico_City] PHP Warning:  Undefined array key "devolucion" in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 24
+[03-Sep-2025 15:11:23 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[03-Sep-2025 15:11:23 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[03-Sep-2025 15:11:23 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[03-Sep-2025 15:11:23 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[03-Sep-2025 15:11:23 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[03-Sep-2025 15:11:23 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000565', '2025-09-03', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[03-Sep-2025 16:43:50 America/Mexico_City] PHP Warning:  Undefined array key "devolucion" in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 24
+[03-Sep-2025 16:43:50 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[03-Sep-2025 16:43:50 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[03-Sep-2025 16:43:50 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[03-Sep-2025 16:43:50 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[03-Sep-2025 16:43:50 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[03-Sep-2025 16:43:50 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000567', '2025-09-03', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[03-Sep-2025 16:54:31 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000565', 'G-772')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[03-Sep-2025 16:54:43 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000566', 'A-3202')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[03-Sep-2025 16:54:54 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000562', 'A-3203')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[04-Sep-2025 08:48:58 America/Mexico_City] PHP Warning:  Undefined array key "devolucion" in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 24
+[04-Sep-2025 08:48:58 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[04-Sep-2025 08:48:58 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[04-Sep-2025 08:48:58 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[04-Sep-2025 08:48:58 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[04-Sep-2025 08:48:58 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[04-Sep-2025 08:48:58 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000568', '2025-09-04', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[04-Sep-2025 10:34:01 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[04-Sep-2025 10:34:01 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[04-Sep-2025 10:34:01 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[04-Sep-2025 10:34:01 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[04-Sep-2025 10:34:01 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[04-Sep-2025 10:34:01 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000553', '2025-09-04', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52
+[04-Sep-2025 11:13:07 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000553', '1092')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[04-Sep-2025 11:13:26 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000561', 'H-404')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[04-Sep-2025 11:54:10 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000568', 'D-272')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[04-Sep-2025 15:07:37 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000569', 'L-28')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[04-Sep-2025 15:08:48 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000570', 'F-353')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[04-Sep-2025 15:29:38 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000567', 'E-456')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[05-Sep-2025 13:17:20 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(68): enviarCorreo(Object(mysqli), 'Rechazar', '000000571', 'Se pide en resu...')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[05-Sep-2025 14:11:14 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000572', 'B-163')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[05-Sep-2025 14:19:57 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000573', 'L-29')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[05-Sep-2025 14:45:34 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000576', 'G-773')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[05-Sep-2025 14:46:08 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000575', 'G-773')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[08-Sep-2025 09:29:46 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(49): enviarCorreo(Object(mysqli), 'Devolver', '000000574', 'VERIFICAR SKUs....')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[08-Sep-2025 10:00:52 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000577', 'G-774')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[08-Sep-2025 10:01:08 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000578', 'G-774')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[08-Sep-2025 10:03:14 America/Mexico_City] PHP Warning:  Undefined array key "nombre" in /home4/intran23/public_html/administrador/PE_controller/pedido_especial.php on line 10
+[08-Sep-2025 10:06:13 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000326', 'G-775')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[08-Sep-2025 10:07:41 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000579', 'G-776')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[08-Sep-2025 10:09:45 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function obtenerCorreo() in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php:107
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php(30): enviarCorreo(Object(mysqli), 'Autorizar', '000000580', 'R-2')
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/auto_dev_rec.php on line 107
+[08-Sep-2025 16:00:32 America/Mexico_City] PHP Warning:  Undefined variable $solicitante in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[08-Sep-2025 16:00:32 America/Mexico_City] PHP Warning:  Undefined variable $no_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[08-Sep-2025 16:00:32 America/Mexico_City] PHP Warning:  Undefined variable $nombre_cliente in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[08-Sep-2025 16:00:32 America/Mexico_City] PHP Warning:  Undefined variable $uso in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[08-Sep-2025 16:00:32 America/Mexico_City] PHP Warning:  Undefined variable $sucursal in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 45
+[08-Sep-2025 16:00:32 America/Mexico_City] PHP Fatal error:  Uncaught Error: Call to undefined function UsuariosAutorizadores() in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php:52
+Stack trace:
+#0 /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php(45): enviarCorreos(Object(mysqli), '000000574', '2025-09-08', NULL, NULL, NULL, NULL, NULL)
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/PE_controller/editar_pedido.php on line 52

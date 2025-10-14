@@ -1,0 +1,185 @@
+[08-Sep-2025 13:31:16 America/Mexico_City] PHP Warning:  require(config/db.php): Failed to open stream: No such file or directory in /home4/intran23/public_html/administrador/UT_controller/puestos_ajax.php on line 2
+[08-Sep-2025 13:31:16 America/Mexico_City] PHP Fatal error:  Uncaught Error: Failed opening required 'config/db.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home4/intran23/public_html/administrador/UT_controller/puestos_ajax.php:2
+Stack trace:
+#0 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/puestos_ajax.php on line 2
+[08-Sep-2025 16:32:17 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:17 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:18 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:18 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:19 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:19 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:19 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:19 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:20 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:20 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:20 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:20 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:21 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:21 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:21 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:21 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:22 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:22 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:22 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:22 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:23 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:23 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:23 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:23 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:24 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:24 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:24 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:24 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:25 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:25 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:25 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:25 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:26 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:26 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:27 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:27 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[08-Sep-2025 16:32:28 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[08-Sep-2025 16:32:28 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[09-Sep-2025 08:29:33 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[09-Sep-2025 08:29:33 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[09-Sep-2025 08:29:33 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[09-Sep-2025 08:29:33 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[09-Sep-2025 08:29:34 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[09-Sep-2025 08:29:34 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[09-Sep-2025 08:33:01 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[09-Sep-2025 08:33:01 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[09-Sep-2025 08:33:02 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[09-Sep-2025 08:33:02 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[09-Sep-2025 08:33:19 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[09-Sep-2025 08:33:19 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[09-Sep-2025 08:33:22 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[09-Sep-2025 08:33:22 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[09-Sep-2025 08:33:28 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[09-Sep-2025 08:33:28 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[09-Sep-2025 08:33:32 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[09-Sep-2025 08:33:32 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[09-Sep-2025 08:33:32 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[09-Sep-2025 08:33:32 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
+[09-Sep-2025 08:35:23 America/Mexico_City] PHP Warning:  Undefined array key "id_programa" in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 6
+[09-Sep-2025 08:35:23 America/Mexico_City] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'id_programa' cannot be null in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php:28
+Stack trace:
+#0 /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php(28): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/intran23/public_html/administrador/UT_controller/modificar_permisos.php on line 28
