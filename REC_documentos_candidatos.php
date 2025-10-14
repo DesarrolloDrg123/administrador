@@ -23,7 +23,7 @@ try {
     $candidato = $result->fetch_assoc();
     
     if (!$candidato) {
-        die("<h2>Token Inválido o Expirado</h2><p>El enlace ha expirado o no es válido. Por favor, contacta con el departamento de Recursos Humanos.</p>");
+        die("<h2>Token Inválido o Expirado</h2><p>El enlace ha expirado o no es válido. Por favor, contacta con el departamento de Talento Huamano DRG.</p>");
     }
     
     // Verificar si ya subió documentos
