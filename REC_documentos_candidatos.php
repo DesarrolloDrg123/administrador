@@ -27,18 +27,18 @@ try {
     }
     
     // Verificar si ya subió documentos
-    $stmt_docs = $conn->prepare("SELECT estatus_documentos FROM documentos_contratacion WHERE candidato_id = ?");
+    $stmt_docs = $conn->prepare("SELECT estatus_documentos FROM solicitudes_vacantes_candidatos WHERE candidato_id = ?");
     $stmt_docs->bind_param("i", $candidato['candidato_id']);
     $stmt_docs->execute();
     $docs_result = $stmt_docs->get_result();
     $doc_status = $docs_result->fetch_assoc();
     
-    if ($doc_status && $doc_status['estatus_documentos'] === 'Completo') {
+    if ($doc_status && $doc_status['estatus_documentos'] === '1') {
         die("<h2>Documentos Ya Enviados</h2><p>Ya has completado la carga de documentos. Si necesitas actualizar algún documento, contacta con Recursos Humanos.</p>");
     }
     
 } catch (Exception $e) {
-    die("<h2>Error</h2><p>Ocurrió un error al validar tu acceso. Por favor, intenta más tarde.</p>");
+    die("<h2>Error</h2><p>Ocurrió un error al validar tu acceso. Por favor, intenta más tarde.</p>" . $e);
 }
 ?>
 <!DOCTYPE html>
