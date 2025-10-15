@@ -23,7 +23,7 @@ try {
     $candidato = $result->fetch_assoc();
     
     if (!$candidato) {
-        die("<h2>Token Inválido o Expirado</h2><p>El enlace ha expirado o no es válido. Por favor, contacta con el departamento de Talento Huamano DRG.</p>");
+        die("<h2>Token Inválido o Expirado</h2><p>El enlace ha expirado o no es válido. Por favor, contacta con el departamento de Talento Humano DRG.</p>");
     }
     
     // Verificar si ya subió documentos
@@ -38,7 +38,7 @@ try {
     }
     
 } catch (Exception $e) {
-    die("<h2>Error</h2><p>Ocurrió un error al validar tu acceso. Por favor, intenta más tarde.</p>" . $e);
+    die("<h2>Error</h2><p>Ocurrió un error al validar tu acceso. Por favor, intenta más tarde.</p>");
 }
 ?>
 <!DOCTYPE html>
@@ -83,107 +83,83 @@ try {
 
                         <h4 class="mb-4">Documentos Requeridos</h4>
 
-                        <!-- 1. Identificación Oficial -->
+                        <!-- 1. Acta de Nacimiento -->
                         <div class="doc-section">
-                            <h5 class="text-primary mb-3">1. Identificación Oficial Vigente <span class="text-danger">*</span></h5>
-                            <p class="text-muted small">INE/IFE, Pasaporte o Cédula Profesional (ambos lados si aplica)</p>
+                            <h5 class="text-primary mb-3">1. Acta de Nacimiento <span class="text-danger">*</span></h5>
+                            <input class="form-control" type="file" id="acta_nacimiento" name="acta_nacimiento" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <div class="file-info">Formatos: PDF, JPG, PNG. Máx. 5MB</div>
+                        </div>
+
+                        <!-- 2. Credencial del Elector -->
+                        <div class="doc-section">
+                            <h5 class="text-primary mb-3">2. Credencial del Elector Vigente (INE) <span class="text-danger">*</span></h5>
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label for="ine_frente" class="form-label">INE/Identificación (Frente) <span class="text-danger">*</span></label>
+                                    <label for="ine_frente" class="form-label">Frente <span class="text-danger">*</span></label>
                                     <input class="form-control" type="file" id="ine_frente" name="ine_frente" accept=".pdf,.jpg,.jpeg,.png" required>
-                                    <div class="file-info">Formatos: PDF, JPG, PNG. Máx. 5MB</div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="ine_reverso" class="form-label">INE/Identificación (Reverso) <span class="text-danger">*</span></label>
+                                    <label for="ine_reverso" class="form-label">Reverso <span class="text-danger">*</span></label>
                                     <input class="form-control" type="file" id="ine_reverso" name="ine_reverso" accept=".pdf,.jpg,.jpeg,.png" required>
-                                    <div class="file-info">Formatos: PDF, JPG, PNG. Máx. 5MB</div>
                                 </div>
                             </div>
+                            <div class="file-info">Ambos lados, formatos: PDF, JPG, PNG. Máx. 5MB</div>
                         </div>
 
-                        <!-- 2. CURP -->
+                        <!-- 3. CURP -->
                         <div class="doc-section">
-                            <h5 class="text-primary mb-3">2. CURP (Clave Única de Registro de Población) <span class="text-danger">*</span></h5>
-                            <p class="text-muted small">Documento oficial emitido por RENAPO</p>
-                            <div class="mb-3">
-                                <label for="curp_documento" class="form-label">Documento CURP <span class="text-danger">*</span></label>
-                                <input class="form-control" type="file" id="curp_documento" name="curp_documento" accept=".pdf,.jpg,.jpeg,.png" required>
-                                <div class="file-info">Formatos: PDF, JPG, PNG. Máx. 5MB</div>
-                            </div>
+                            <h5 class="text-primary mb-3">3. CURP <span class="text-danger">*</span></h5>
+                            <input class="form-control" type="file" id="curp_documento" name="curp_documento" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <div class="file-info">Formato oficial emitido por RENAPO.</div>
                         </div>
 
-                        <!-- 3. RFC -->
+                        <!-- 4. CSF -->
                         <div class="doc-section">
-                            <h5 class="text-primary mb-3">3. RFC (Registro Federal de Contribuyentes) <span class="text-danger">*</span></h5>
-                            <p class="text-muted small">Cédula de identificación fiscal o constancia de situación fiscal</p>
-                            <div class="mb-3">
-                                <label for="rfc_documento" class="form-label">Documento RFC <span class="text-danger">*</span></label>
-                                <input class="form-control" type="file" id="rfc_documento" name="rfc_documento" accept=".pdf,.jpg,.jpeg,.png" required>
-                                <div class="file-info">Formatos: PDF, JPG, PNG. Máx. 5MB</div>
-                            </div>
+                            <h5 class="text-primary mb-3">4. Constancia de Situación Fiscal (CSF) <span class="text-danger">*</span></h5>
+                            <input class="form-control" type="file" id="csf" name="csf" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <div class="file-info">Debe ser actualizada, régimen Sueldos y Salarios.</div>
                         </div>
 
-                        <!-- 4. Comprobante de Domicilio -->
+                        <!-- 5. Número de Seguridad Social -->
                         <div class="doc-section">
-                            <h5 class="text-primary mb-3">4. Comprobante de Domicilio Reciente <span class="text-danger">*</span></h5>
-                            <p class="text-muted small">No mayor a 3 meses (luz, agua, teléfono, predial o estado de cuenta)</p>
-                            <div class="mb-3">
-                                <label for="comprobante_domicilio" class="form-label">Comprobante de Domicilio <span class="text-danger">*</span></label>
-                                <input class="form-control" type="file" id="comprobante_domicilio" name="comprobante_domicilio" accept=".pdf,.jpg,.jpeg,.png" required>
-                                <div class="file-info">Formatos: PDF, JPG, PNG. Máx. 5MB</div>
-                            </div>
+                            <h5 class="text-primary mb-3">5. Número de Seguridad Social (IMSS) <span class="text-danger">*</span></h5>
+                            <input class="form-control" type="file" id="nss" name="nss" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <div class="file-info">Hoja rosa o comprobante oficial del IMSS.</div>
                         </div>
 
-                        <!-- 6. NSS -->
+                        <!-- 6. Hoja de Retención INFONAVIT (opcional) -->
                         <div class="doc-section">
-                            <h5 class="text-primary mb-3">6. Número de Seguridad Social (NSS) <span class="text-danger">*</span></h5>
-                            <p class="text-muted small">Hoja rosa del IMSS o comprobante de afiliación</p>
-                            <div class="mb-3">
-                                <label for="nss_documento" class="form-label">Documento NSS <span class="text-danger">*</span></label>
-                                <input class="form-control" type="file" id="nss_documento" name="nss_documento" accept=".pdf,.jpg,.jpeg,.png" required>
-                                <div class="file-info">Formatos: PDF, JPG, PNG. Máx. 5MB</div>
-                            </div>
+                            <h5 class="text-primary mb-3">6. Hoja de Retención INFONAVIT (solo si aplica)</h5>
+                            <input class="form-control" type="file" id="infonavit" name="infonavit" accept=".pdf,.jpg,.jpeg,.png">
+                            <div class="file-info">Solo en caso de contar con crédito vigente.</div>
                         </div>
 
-                        <!-- 9. Comprobante de Estudios -->
+                        <!-- 7. Comprobante de Domicilio -->
                         <div class="doc-section">
-                            <h5 class="text-primary mb-3">9. Comprobante de Estudios <span class="text-danger">*</span></h5>
-                            <p class="text-muted small">Certificado, título profesional o cédula profesional según corresponda</p>
-                            <div class="mb-3">
-                                <label for="comprobante_estudios" class="form-label">Documento de Estudios <span class="text-danger">*</span></label>
-                                <input class="form-control" type="file" id="comprobante_estudios" name="comprobante_estudios" accept=".pdf,.jpg,.jpeg,.png" required>
-                                <div class="file-info">Formatos: PDF, JPG, PNG. Máx. 5MB</div>
-                            </div>
+                            <h5 class="text-primary mb-3">7. Comprobante de Domicilio <span class="text-danger">*</span></h5>
+                            <input class="form-control" type="file" id="domicilio" name="domicilio" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <div class="file-info">No mayor a 3 meses (agua, luz, teléfono, predial, etc.)</div>
                         </div>
 
-                        <!-- 15. Exámenes Médicos -->
+                        <!-- 8. Comprobante de Estudios -->
                         <div class="doc-section">
-                            <h5 class="text-primary mb-3">15. Exámenes Médicos <span class="text-danger">*</span></h5>
-                            <p class="text-muted small">Resultados de exámenes médicos de contratación</p>
-                            <div class="mb-3">
-                                <label for="examenes_medicos" class="form-label">Resultados de Exámenes Médicos <span class="text-danger">*</span></label>
-                                <input class="form-control" type="file" id="examenes_medicos" name="examenes_medicos" accept=".pdf,.jpg,.jpeg,.png" required>
-                                <div class="file-info">Formatos: PDF, JPG, PNG. Máx. 5MB</div>
-                            </div>
+                            <h5 class="text-primary mb-3">8. Comprobante de Último Grado de Estudios <span class="text-danger">*</span></h5>
+                            <input class="form-control" type="file" id="estudios" name="estudios" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <div class="file-info">Certificado o título profesional según corresponda.</div>
                         </div>
 
-                        <!-- Notas Adicionales -->
-                        <div class="alert alert-info mt-4" role="alert">
-                            <h5 class="alert-heading">📋 Notas Importantes:</h5>
-                            <ul class="mb-0">
-                                <li>Todos los documentos deben ser legibles y estar vigentes</li>
-                                <li>Los archivos no deben exceder los 5MB por documento</li>
-                                <li>Formatos aceptados: PDF, JPG, PNG</li>
-                                <li>Asegúrate de que tu identificación oficial esté vigente</li>
-                                <li>El comprobante de domicilio debe tener máximo 3 meses de antigüedad</li>
-                            </ul>
+                        <!-- 9. Licencia Vigente -->
+                        <div class="doc-section">
+                            <h5 class="text-primary mb-3">9. Licencia Vigente (solo si aplica)</h5>
+                            <input class="form-control" type="file" id="licencia" name="licencia" accept=".pdf,.jpg,.jpeg,.png">
+                            <div class="file-info">Solo si el puesto lo requiere (chofer, etc.).</div>
                         </div>
 
                         <div class="mt-5 text-center">
                             <button type="submit" class="btn btn-primary btn-lg px-5">Enviar Documentos</button>
                         </div>
-
                     </form>
+
                 </div>
             </div>
         </div>
@@ -214,8 +190,8 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
 
         const formData = new FormData(form);
-
         let allFilesSelected = true;
+
         fileInputs.forEach(input => {
             if (input.required && !input.files[0]) {
                 allFilesSelected = false;
@@ -251,7 +227,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     text: 'Tus documentos han sido recibidos correctamente. Gracias por completar tu expediente.',
                     confirmButtonText: 'Cerrar'
                 }).then(() => {
-                    // Deshabilitar el formulario después del envío exitoso
                     form.querySelectorAll('input, button').forEach(el => el.disabled = true);
                 });
             } else {
