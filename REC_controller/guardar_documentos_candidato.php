@@ -16,7 +16,7 @@ if (!$token || !$candidato_id) {
 
 // 1️⃣ Verificar token válido y obtener datos de la solicitud
 $stmt_verify = $conn->prepare("
-    SELECT id AS solicitud_id, folio_solicitud, estatus, cv_adjunto_path
+    SELECT solicitud_id, folio_solicitud, estatus, cv_adjunto_path
     FROM solicitudes_vacantes_candidatos 
     WHERE candidato_id = ? 
     AND token_documentos = ? 
@@ -34,7 +34,6 @@ if (!$solicitud) {
 }
 
 $solicitud_id = $solicitud['solicitud_id'];
-$folio_solicitud = $solicitud['folio_solicitud'];
 $estatus_anterior = $solicitud['estatus'];
 $nuevo_estatus = 'Documentos Recibidos';
 $usuario_accion = 'Candidato (auto)';
@@ -129,15 +128,14 @@ try {
     $stmt_update->execute();
 
     // 5️⃣ Insertar en historial
-    $comentario_historial = $observaciones . " Subió: " . implode(", ", $archivos_guardados);
+    $comentario_historial = "Se subieron los documentos: " . implode(", ", $archivos_guardados);
     $stmt_historial = $conn->prepare("
-        INSERT INTO solicitudes_vacantes_historial
-        (solicitud_id, folio_solicitud, usuario_accion, fecha_accion, estatus_anterior, estatus_nuevo, comentarios)
-        VALUES (?, ?, ?, NOW(), ?, ?, ?)
+        INSERT INTO solicitudes_vacantes_candidatos_historial
+        (candidato_id, usuario_accion, fecha_accion, estatus_anterior, estatus_nuevo, comentarios)
+        VALUES (?, ?, NOW(), ?, ?, ?)
     ");
-    $stmt_historial->bind_param("isssss",
-        $solicitud_id,
-        $folio_solicitud,
+    $stmt_historial->bind_param("issss",
+        $candidato_id,
         $usuario_accion,
         $estatus_anterior,
         $nuevo_estatus,
