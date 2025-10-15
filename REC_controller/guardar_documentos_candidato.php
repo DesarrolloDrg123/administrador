@@ -16,7 +16,7 @@ if (!$token || !$candidato_id) {
 
 // 1️⃣ Verificar token válido y obtener datos de la solicitud
 $stmt_verify = $conn->prepare("
-    SELECT solicitud_id, folio_solicitud, estatus, cv_adjunto_path
+    SELECT solicitud_id, estatus, cv_adjunto_path
     FROM solicitudes_vacantes_candidatos 
     WHERE candidato_id = ? 
     AND token_documentos = ? 
