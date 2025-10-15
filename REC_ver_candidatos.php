@@ -138,8 +138,8 @@ $stmt_candidatos->close();
                                                     echo '<li><a class="dropdown-item text-danger" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Rechazado\')">Rechazar</a></li>';
                                                     break;
                                                 case 'Aprobado':
-                                                    echo '<li><a class="dropdown-item" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Contrato Firmado\')">Finalizar Proceso</a></li>';
-                                                    echo '<li><a class="dropdown-item" href="#" onclick="abrirCargaContrato('.$id_candidato.')">Cargar Contrato</a></li>';
+                                                    echo '<li><a class="dropdown-item" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Espera de Documentos\')">Solicitar Documentos</a></li>';
+                                                    //echo '<li><a class="dropdown-item" href="#" onclick="abrirCargaContrato('.$id_candidato.')">Cargar Contrato</a></li>';
                                                     echo '<li><a class="dropdown-item text-danger" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Rechazado\')">Rechazar</a></li>';
                                                     break;
                                             }

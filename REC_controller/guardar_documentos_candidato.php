@@ -4,7 +4,7 @@ require("../config/db.php");
 
 $response = ['success' => false, 'message' => ''];
 
-// Verificar que se recibió el token y candidato_id
+// Verificar que se recibió token y candidato_id
 $token = $_POST['token'] ?? null;
 $candidato_id = $_POST['candidato_id'] ?? null;
 
@@ -14,165 +14,149 @@ if (!$token || !$candidato_id) {
     exit();
 }
 
-// Verificar que el token es válido
+// 1️⃣ Verificar token válido y obtener datos de la solicitud
 $stmt_verify = $conn->prepare("
-    SELECT candidato_id 
+    SELECT id AS solicitud_id, folio_solicitud, estatus, cv_adjunto_path
     FROM solicitudes_vacantes_candidatos 
     WHERE candidato_id = ? 
-    AND token_documentos = ?
+    AND token_documentos = ? 
     AND fecha_token_documentos >= DATE_SUB(NOW(), INTERVAL 30 DAY)
 ");
 $stmt_verify->bind_param("is", $candidato_id, $token);
 $stmt_verify->execute();
-$result_verify = $stmt_verify->get_result();
+$result = $stmt_verify->get_result();
+$solicitud = $result->fetch_assoc();
 
-if ($result_verify->num_rows === 0) {
+if (!$solicitud) {
     $response['message'] = 'Token inválido o expirado.';
     echo json_encode($response);
     exit();
 }
 
-// Configuración de carpeta de uploads
-$upload_dir = "../uploads/documentos_candidatos/" . $candidato_id . "/";
+$solicitud_id = $solicitud['solicitud_id'];
+$folio_solicitud = $solicitud['folio_solicitud'];
+$estatus_anterior = $solicitud['estatus'];
+$nuevo_estatus = 'Documentos Recibidos';
+$usuario_accion = 'Candidato (auto)';
+$observaciones = 'Carga completa de documentos desde enlace seguro.';
+$directorio_candidato = $solicitud['cv_adjunto_path'];
 
-// Crear el directorio si no existe
-if (!file_exists($upload_dir)) {
-    if (!mkdir($upload_dir, 0755, true)) {
-        $response['message'] = 'Error al crear el directorio de documentos.';
-        echo json_encode($response);
-        exit();
-    }
+// Si la ruta no existe o está vacía, crear carpeta predeterminada
+if (empty($directorio_candidato)) {
+    $directorio_candidato = "../uploads/documentos_candidatos/" . $candidato_id . "/";
+}
+if (!is_dir($directorio_candidato)) {
+    mkdir($directorio_candidato, 0775, true);
 }
 
-// Array con los nombres de los campos de archivos y sus nombres descriptivos
+// 2️⃣ Campos esperados (9 documentos)
 $archivos_campos = [
-    'ine_frente' => 'Identificación Oficial (Frente)',
-    'ine_reverso' => 'Identificación Oficial (Reverso)',
+    'acta_nacimiento' => 'Acta de Nacimiento',
+    'ine_frente' => 'Credencial del Elector (Frente)',
+    'ine_reverso' => 'Credencial del Elector (Reverso)',
     'curp_documento' => 'CURP',
-    'rfc_documento' => 'RFC',
-    'comprobante_domicilio' => 'Comprobante de Domicilio',
-    'nss_documento' => 'Número de Seguridad Social',
-    'comprobante_estudios' => 'Comprobante de Estudios',
-    'examenes_medicos' => 'Exámenes Médicos'
+    'csf_documento' => 'Constancia de Situación Fiscal (CSF)',
+    'nss_documento' => 'Número de Seguridad Social (NSS)',
+    'hoja_infonavit' => 'Hoja de Retención INFONAVIT',
+    'comprobante_domicilio' => 'Comprobante de Domicilio Actual',
+    'comprobante_estudios' => 'Comprobante de Último Grado de Estudios',
+    'licencia_vigente' => 'Licencia Vigente'
 ];
 
-// Extensiones permitidas
+// 3️⃣ Validaciones
 $extensiones_permitidas = ['pdf', 'jpg', 'jpeg', 'png'];
 $tamano_maximo = 5 * 1024 * 1024; // 5MB
-
-// Validación y procesamiento de archivos
 $archivos_guardados = [];
 $errores = [];
 
 $conn->begin_transaction();
 
 try {
-    // Primero, eliminar documentos anteriores si existen (para permitir reenvío)
+    // Limpiar documentos anteriores
     $stmt_delete = $conn->prepare("DELETE FROM solicitudes_vacantes_candidatos_documentos WHERE candidato_id = ?");
     $stmt_delete->bind_param("i", $candidato_id);
     $stmt_delete->execute();
 
-    foreach ($archivos_campos as $campo => $nombre_descriptivo) {
+    // Procesar cada archivo
+    foreach ($archivos_campos as $campo => $nombre_doc) {
         if (isset($_FILES[$campo]) && $_FILES[$campo]['error'] === UPLOAD_ERR_OK) {
             $archivo = $_FILES[$campo];
-            
-            // Validar tamaño
-            if ($archivo['size'] > $tamano_maximo) {
-                $errores[] = "$nombre_descriptivo excede el tamaño máximo permitido (5MB)";
-                continue;
-            }
-            
-            // Obtener extensión
             $extension = strtolower(pathinfo($archivo['name'], PATHINFO_EXTENSION));
-            
-            // Validar extensión
-            if (!in_array($extension, $extensiones_permitidas)) {
-                $errores[] = "$nombre_descriptivo tiene un formato no permitido";
+
+            // Validar tamaño y tipo
+            if ($archivo['size'] > $tamano_maximo) {
+                $errores[] = "$nombre_doc excede los 5MB permitidos";
                 continue;
             }
-            
-            // Generar nombre único para el archivo
+            if (!in_array($extension, $extensiones_permitidas)) {
+                $errores[] = "$nombre_doc tiene formato no permitido ($extension)";
+                continue;
+            }
+
+            // Generar nombre único
             $nombre_archivo = $campo . "_" . $candidato_id . "_" . time() . "." . $extension;
-            $ruta_completa = $upload_dir . $nombre_archivo;
-            
-            // Mover el archivo
-            if (move_uploaded_file($archivo['tmp_name'], $ruta_completa)) {
-                // Guardar en la base de datos
+            $ruta_destino = rtrim($directorio_candidato, "/") . "/" . $nombre_archivo;
+
+            if (move_uploaded_file($archivo['tmp_name'], $ruta_destino)) {
+                // Insertar en tabla de documentos
                 $stmt_insert = $conn->prepare("
                     INSERT INTO solicitudes_vacantes_candidatos_documentos 
-                    (candidato_id, nombre_documento, ruta_documento) 
+                    (candidato_id, nombre_documento, ruta_documento)
                     VALUES (?, ?, ?)
                 ");
-                
-                $ruta_relativa = "uploads/documentos_candidatos/" . $candidato_id . "/" . $nombre_archivo;
-                $stmt_insert->bind_param("iss", $candidato_id, $nombre_descriptivo, $ruta_relativa);
-                
-                if ($stmt_insert->execute()) {
-                    $archivos_guardados[] = $nombre_descriptivo;
-                } else {
-                    $errores[] = "Error al registrar $nombre_descriptivo en la base de datos";
-                    // Eliminar el archivo físico si falló la inserción
-                    unlink($ruta_completa);
-                }
+                $stmt_insert->bind_param("iss", $candidato_id, $nombre_doc, $ruta_destino);
+                $stmt_insert->execute();
+                $stmt_insert->close();
+
+                $archivos_guardados[] = $nombre_doc;
             } else {
-                $errores[] = "Error al guardar $nombre_descriptivo en el servidor";
+                $errores[] = "Error al guardar $nombre_doc";
             }
-            
-        } else if (isset($_FILES[$campo]) && $_FILES[$campo]['error'] !== UPLOAD_ERR_NO_FILE) {
-            // Manejar otros tipos de errores de upload
-            $errores[] = "Error al cargar $nombre_descriptivo";
         }
     }
-    
-    // Verificar que se guardó al menos un documento
+
     if (empty($archivos_guardados)) {
-        throw new Exception("No se guardó ningún documento. " . implode(", ", $errores));
+        throw new Exception("No se cargó ningún documento válido. " . implode(", ", $errores));
     }
-    
-    // Si hay algunos errores pero también archivos guardados
-    if (!empty($errores)) {
-        $conn->rollback();
-        throw new Exception("Algunos documentos no se pudieron guardar: " . implode(", ", $errores));
-    }
-    
-    // Si todo salió bien, actualizar el estatus del candidato
+
+    // 4️⃣ Actualizar estatus
     $stmt_update = $conn->prepare("
-        UPDATE solicitudes_vacantes_candidatos 
-        SET estatus = 'Documentos Recibidos'
+        UPDATE solicitudes_vacantes_candidatos
+        SET estatus = ?, token_documentos = NULL, estatus_documentos = 1
         WHERE candidato_id = ?
     ");
-    $stmt_update->bind_param("i", $candidato_id);
+    $stmt_update->bind_param("si", $nuevo_estatus, $candidato_id);
     $stmt_update->execute();
-    
-    // Invalidar el token para que no se pueda usar de nuevo
-    $stmt_token = $conn->prepare("
-        UPDATE solicitudes_vacantes_candidatos 
-        SET token_documentos = NULL 
-        WHERE candidato_id = ?
+
+    // 5️⃣ Insertar en historial
+    $comentario_historial = $observaciones . " Subió: " . implode(", ", $archivos_guardados);
+    $stmt_historial = $conn->prepare("
+        INSERT INTO solicitudes_vacantes_historial
+        (solicitud_id, folio_solicitud, usuario_accion, fecha_accion, estatus_anterior, estatus_nuevo, comentarios)
+        VALUES (?, ?, ?, NOW(), ?, ?, ?)
     ");
-    $stmt_token->bind_param("i", $candidato_id);
-    $stmt_token->execute();
-    
+    $stmt_historial->bind_param("isssss",
+        $solicitud_id,
+        $folio_solicitud,
+        $usuario_accion,
+        $estatus_anterior,
+        $nuevo_estatus,
+        $comentario_historial
+    );
+    $stmt_historial->execute();
+
     $conn->commit();
-    
+
     $response['success'] = true;
-    $response['message'] = "Documentos guardados exitosamente: " . implode(", ", $archivos_guardados);
+    $response['message'] = "Documentos cargados correctamente.";
     $response['total_documentos'] = count($archivos_guardados);
-    
+    $response['documentos'] = $archivos_guardados;
+
 } catch (Exception $e) {
     $conn->rollback();
-    
-    // Eliminar archivos físicos si hubo error en la transacción
-    foreach (glob($upload_dir . "*") as $archivo) {
-        if (is_file($archivo) && time() - filemtime($archivo) < 60) { // Solo archivos recientes
-            unlink($archivo);
-        }
-    }
-    
     $response['message'] = $e->getMessage();
 }
 
 $conn->close();
-
 echo json_encode($response);
 ?>
