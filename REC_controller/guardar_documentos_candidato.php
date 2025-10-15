@@ -54,12 +54,12 @@ $archivos_campos = [
     'ine_frente' => 'Credencial del Elector (Frente)',
     'ine_reverso' => 'Credencial del Elector (Reverso)',
     'curp_documento' => 'CURP',
-    'csf_documento' => 'Constancia de Situación Fiscal (CSF)',
-    'nss_documento' => 'Número de Seguridad Social (NSS)',
-    'hoja_infonavit' => 'Hoja de Retención INFONAVIT',
-    'comprobante_domicilio' => 'Comprobante de Domicilio Actual',
-    'comprobante_estudios' => 'Comprobante de Último Grado de Estudios',
-    'licencia_vigente' => 'Licencia Vigente'
+    'csf' => 'Constancia de Situación Fiscal (CSF)',
+    'nss' => 'Número de Seguridad Social (NSS)',
+    'infonavit' => 'Hoja de Retención INFONAVIT',
+    'domicilio' => 'Comprobante de Domicilio Actual',
+    'estudios' => 'Comprobante de Último Grado de Estudios',
+    'licencia' => 'Licencia Vigente'
 ];
 
 // 3️⃣ Validaciones
