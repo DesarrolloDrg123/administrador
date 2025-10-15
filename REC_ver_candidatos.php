@@ -40,15 +40,16 @@ $stmt_candidatos->close();
 ?>
 <style>
     .badge-status { padding: 5px 12px; border-radius: 15px; color: white; font-weight: bold; }
-    .status_nuevo_candidato { background-color: #3498db; } /* Azul */
-    .status_en_revision { background-color: #f39c12; } /* Naranja */
-    .status_evaluacion_psicometrica { background-color: #16a085; } /* Verde azulado */
-    .status_rechazado { background-color: #e74c3c; } /* Rojo */
-    .status_evaluacion_tecnica { background-color: #2980b9; } /* Azul más oscuro */
-    .status_entrevista_con_jefe { background-color: #8e44ad; } /* Morado */
-    .status_aprobado { background-color: #2ecc71; } /* Verde brillante */
-    .status_contrato_firmado { background-color: #34495e; } /* Gris oscuro */
-    
+    .status_nuevo_candidato { background-color: #299dbf; }          /* Azul base de la empresa */
+    .status_en_revision { background-color: #f1c40f; }               /* Amarillo cálido, cercano a verde/azul */
+    .status_evaluacion_psicometrica { background-color: #16a085; }   /* Verde-azulado, armoniza con verde empresa */
+    .status_rechazado { background-color: #e74c3c; }                 /* Rojo, sigue destacando para rechazo */
+    .status_evaluacion_tecnica { background-color: #2980b9; }        /* Azul oscuro, armoniza con azul empresa */
+    .status_entrevista_con_jefe { background-color: #8e44ad; }       /* Morado suave, distingue etapas avanzadas */
+    .status_aprobado { background-color: #80bf1f; }                  /* Verde de la empresa */
+    .status_espera_de_documentos { background-color: #34495e; }      /* Gris azulado, neutral */
+    .status_documentos_recibidos { background-color: #2c3e50; }      /* Gris oscuro, neutral pero distinto del anterior */
+
     .container { max-width: 1200px; }
 
     .historial-tabla { width: 100%; border-collapse: collapse; text-align: left; }

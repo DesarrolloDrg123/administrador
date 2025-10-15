@@ -61,13 +61,15 @@
     }
     .btn-historial:hover { background-color: #2980b9; color: #ffffff !important; }
     .badge-status { padding: 5px 12px; border-radius: 15px; color: white; font-weight: bold; font-size: 0.9em; }
-    /* Estatus para Reclutamiento */
-    .status_nueva_solicitud { background-color: #3498db; }
-    .status_autorizada { background-color: #27ae60; }
-    .status_rechazada { background-color: #e74c3c; }
-    .status_publicada { background-color: #9b59b6; }
-    .status_en_proceso_de_seleccion { background-color: #f39c12; }
-    .status_finalizada { background-color: #2c3e50; }
+
+    .status_nueva_solicitud { background-color: #299dbf; }            /* Azul base de la empresa */
+    .status_autorizada { background-color: #80bf1f; }                 /* Verde de la empresa */
+    .status_rechazada { background-color: #e74c3c; }                  /* Rojo para destacar rechazo */
+    .status_publicada { background-color: #2980b9; }                  /* Azul oscuro, armoniza con azul empresa */
+    .status_en_proceso_de_seleccion { background-color: #f1c40f; }    /* Amarillo cÃ¡lido, destaca proceso activo */
+    .status_finalizada { background-color: #34495e; }                 /* Gris azulado, neutral y elegante */
+
+
     .historial-tabla { width: 100%; border-collapse: collapse; text-align: left; }
     .historial-tabla th, .historial-tabla td { padding: 8px 12px; border: 1px solid #ddd; }
     .historial-tabla th { background-color: #f2f2f2; }
@@ -171,7 +173,7 @@
                 let tipo = $('#filtro_tipo').val();
                 let estatus = $('#filtro_estatus').val();
                 
-                // Se ajustan los ¨ªndices de columna para el filtro
+                // Se ajustan los ï¿½ï¿½ndices de columna para el filtro
                 table.column(3).search(puesto ? '^' + puesto.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);
                 table.column(5).search(tipo ? '^' + tipo.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);
                 table.column(6).search(estatus ? '^' + estatus.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);

@@ -61,12 +61,13 @@
     
     .badge-status { padding: 5px 12px; border-radius: 15px; color: white; font-weight: bold; font-size: 0.9em; }
     /* Estatus para Reclutamiento */
-    .status_nueva_solicitud { background-color: #3498db; }
-    .status_autorizada { background-color: #27ae60; }
-    .status_rechazada { background-color: #e74c3c; }
-    .status_publicada { background-color: #9b59b6; }
-    .status_en_proceso_de_seleccion { background-color: #f39c12; }
-    .status_finalizada { background-color: #2c3e50; }
+    .status_nueva_solicitud { background-color: #299dbf; }            /* Azul base de la empresa */
+    .status_autorizada { background-color: #80bf1f; }                 /* Verde de la empresa */
+    .status_rechazada { background-color: #e74c3c; }                  /* Rojo para destacar rechazo */
+    .status_publicada { background-color: #2980b9; }                  /* Azul oscuro, armoniza con azul empresa */
+    .status_en_proceso_de_seleccion { background-color: #f1c40f; }    /* Amarillo cálido, destaca proceso activo */
+    .status_finalizada { background-color: #34495e; }                 /* Gris azulado, neutral y elegante */
+
 
     .swal2-textarea { width: 90% !important; margin-top: 15px !important; }
 </style>

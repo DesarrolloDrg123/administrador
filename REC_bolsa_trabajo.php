@@ -43,14 +43,16 @@
     <style>
         /* (Tus estilos para los badges de estatus y tablas se pueden copiar aquí) */
         .badge-status { padding: 5px 12px; border-radius: 15px; color: white; font-weight: bold; }
-        .status_nuevo_candidato { background-color: #3498db; }
-        .status_en_revision { background-color: #f39c12; }
-        .status_evaluacion_psicometrica { background-color: #16a085; }
-        .status_rechazado { background-color: #e74c3c; }
-        .status_evaluacion_tecnica { background-color: #2980b9; }
-        .status_entrevista_con_jefe { background-color: #8e44ad; }
-        .status_aprobado { background-color: #2ecc71; }
-        .status_contrato_firmado { background-color: #34495e; }
+        .status_nuevo_candidato { background-color: #299dbf; }          /* Azul base de la empresa */
+        .status_en_revision { background-color: #f1c40f; }               /* Amarillo cálido, cercano a verde/azul */
+        .status_evaluacion_psicometrica { background-color: #16a085; }   /* Verde-azulado, armoniza con verde empresa */
+        .status_rechazado { background-color: #e74c3c; }                 /* Rojo, sigue destacando para rechazo */
+        .status_evaluacion_tecnica { background-color: #2980b9; }        /* Azul oscuro, armoniza con azul empresa */
+        .status_entrevista_con_jefe { background-color: #8e44ad; }       /* Morado suave, distingue etapas avanzadas */
+        .status_aprobado { background-color: #80bf1f; }                  /* Verde de la empresa */
+        .status_espera_de_documentos { background-color: #34495e; }      /* Gris azulado, neutral */
+        .status_documentos_recibidos { background-color: #2c3e50; }      /* Gris oscuro, neutral pero distinto del anterior */
+
         
         .container { max-width: 90%; }
 
