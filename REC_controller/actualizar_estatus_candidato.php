@@ -138,13 +138,15 @@ try {
                         
                         <div class='document-list'>
                             <ul>
-                                <li>✅ <strong>Identificación Oficial Vigente</strong> (INE/IFE - frente y reverso)</li>
+                                <li>✅ <strong>Acta de Nacimiento</strong></li>
+                                <li>✅ <strong>Credencial del Elector Vigente (INE)</strong> — Frente y reverso</li>
                                 <li>✅ <strong>CURP</strong> (Clave Única de Registro de Población)</li>
-                                <li>✅ <strong>RFC</strong> (Registro Federal de Contribuyentes)</li>
-                                <li>✅ <strong>Comprobante de Domicilio</strong> (no mayor a 3 meses)</li>
-                                <li>✅ <strong>Número de Seguridad Social (NSS)</strong></li>
-                                <li>✅ <strong>Comprobante de Estudios</strong> (certificado o título)</li>
-                                <li>✅ <strong>Exámenes Médicos</strong> (resultados recientes)</li>
+                                <li>✅ <strong>Constancia de Situación Fiscal (CSF)</strong> — Actualizada, régimen: sueldos y salarios</li>
+                                <li>✅ <strong>Número de Seguridad Social (NSS)</strong> — Hoja oficial del IMSS</li>
+                                <li>✅ <strong>Hoja de Retención de Infonavit</strong> (en caso de tener crédito)</li>
+                                <li>✅ <strong>Comprobante de Domicilio Actual</strong> — No mayor a 3 meses</li>
+                                <li>✅ <strong>Comprobante de Último Grado de Estudios</strong> — Certificado, título o constancia</li>
+                                <li>✅ <strong>Licencia Vigente</strong> (en caso de aplicar)</li>
                             </ul>
                         </div>
                         
