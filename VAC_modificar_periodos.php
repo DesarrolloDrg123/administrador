@@ -123,6 +123,7 @@ if (!isset($_SESSION['permisos'][5])) { //Permiso de Solicitar vacaciones
                     u.num_empleado as noempleado
                 FROM periodos p
                 JOIN usuarios u ON p.usuario_id = u.id
+                WHERE u.estatus = '1'
                 ORDER BY u.num_empleado, u.nombre, p.num_periodo
             ";
     
