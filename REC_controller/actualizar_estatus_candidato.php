@@ -129,11 +129,11 @@ try {
                     <div class='content'>
                         <p style='font-size: 18px;'><strong>¡Excelentes noticias!</strong></p>
                         
-                        <p>Nos complace informarte que <strong>has sido aprobado</strong> por el jefe directo para continuar con el proceso de contratación.</p>
+                        <p>Nos complace informarte que <strong>has sido aprobado</strong> para continuar con el proceso de contratación.</p>
                         
                         <div class='important'>
                             <strong>📋 Siguiente Paso Importante:</strong><br><br>
-                            Para completar tu expediente y poder generar tu contrato, necesitamos que nos proporciones los siguientes documentos de forma digital:
+                            Para completar tu proceso, necesitamos que nos proporciones los siguientes documentos de forma digital:
                         </div>
                         
                         <div class='document-list'>
