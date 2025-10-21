@@ -157,6 +157,9 @@ $sql = "
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $result = $stmt->get_result();
+
+$estatus_filtro = array_unique(array_column($result->num_rows, 'estatus'));
+sort($estatus_filtro);
 ?>
 
 <style>
@@ -222,6 +225,16 @@ $result = $stmt->get_result();
 <div class="container">
     <div class="jumbotron jb1">
         <h1>Registros de Vacaciones</h1>
+
+        <div class="col-md-3">
+            <label for="filtro_estatus" class="form-label">Filtrar por Estatus</label>
+            <select id="filtro_estatus" class="form-select">
+                <option value="">Todos</option>
+                <?php foreach ($estatus_filtro as $estatus): ?>
+                    <option value="<?= htmlspecialchars($estatus) ?>"><?= htmlspecialchars($estatus) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
         
         <div>
             <br>
@@ -320,6 +333,12 @@ $(document).ready(function() {
         "responsive": true,
         "processing": true,
         "ordering": false
+    });
+    $('#filtro_estatus').on('change', function() {
+        let estatus = $('#filtro_estatus').val();
+        // Se ajustan los índices de columna para el filtro
+        table.column(5).search(estatus ? '^' + estatus.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);
+        table.draw();
     });
 });
 
