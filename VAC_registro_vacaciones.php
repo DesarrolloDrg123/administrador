@@ -239,17 +239,20 @@ sort($estatus_filtro);
             <select id="filtro_estatus" class="form-select">
                 <option value="">Todos</option>
                 <?php 
-                    foreach ($estatus_filtro as $estatus): ?>
+                foreach ($estatus_filtro as $estatus): 
+                    $nombre_mostrar = $estatus;
                     if ($estatus === 'aprobada') {
-                        $estatus = 'Autorizada';
+                        $nombre_mostrar = 'Autorizada';
                     } elseif ($estatus === 'pagado') {
-                        $estatus = 'Pagada';
+                        $nombre_mostrar = 'Pagada';
                     }
-                    <option value="<?= htmlspecialchars($estatus) ?>"><?= htmlspecialchars($estatus) ?></option>
+                ?>
+                    <option value="<?= htmlspecialchars($estatus) ?>">
+                        <?= htmlspecialchars($nombre_mostrar) ?>
+                    </option>
                 <?php endforeach; ?>
             </select>
-        </div>
-        
+        </div>        
         <div>
             <br>
             <?php if (count($datos) > 0) : ?>
