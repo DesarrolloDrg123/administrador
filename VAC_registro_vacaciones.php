@@ -246,7 +246,7 @@ sort($estatus_filtro);
         
         <div>
             <br>
-            <?php if ($result->num_rows > 0) : ?>
+            <?php if (count($datos) > 0) : ?>
                 <table id="solicitudesTable">
                     <thead>
                         <tr style="text-align:center;">
@@ -261,7 +261,7 @@ sort($estatus_filtro);
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while ($row = $result->fetch_assoc()) : ?>
+                        <?php foreach ($datos as $row) : ?>
                             <?php
                                 $fecha_inicio = DateTime::createFromFormat('Y-m-d', $row['fecha_inicio'])->format('d/m/Y');
                                 $fecha_fin = DateTime::createFromFormat('Y-m-d', $row['fecha_fin'])->format('d/m/Y');
@@ -333,7 +333,7 @@ sort($estatus_filtro);
 
 <script>
 $(document).ready(function() {
-    $('#solicitudesTable').DataTable({
+    var table = $('#solicitudesTable').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
         },
