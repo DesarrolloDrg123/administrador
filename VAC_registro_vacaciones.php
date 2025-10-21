@@ -137,7 +137,7 @@ if (isset($_POST['pagar_id'])) {
 // --- LÓGICA PARA MOSTRAR LA TABLA ---
 $sql = "
     SELECT 
-        sv.id as solicitud_id,
+        sv.id AS solicitud_id,
         sv.usuario_id,
         sv.fecha_inicio,
         sv.fecha_fin,
@@ -153,13 +153,21 @@ $sql = "
     WHERE
         sv.estatus IN ('aprobada', 'pagado')
     ORDER BY 
-        sv.fecha_solicitud DESC";
+        sv.fecha_solicitud DESC
+";
+
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $result = $stmt->get_result();
 
-$estatus_filtro = array_unique(array_column($result->num_rows, 'estatus'));
+$datos = [];
+while ($row = $result->fetch_assoc()) {
+    $datos[] = $row;
+}
+
+$estatus_filtro = array_unique(array_column($datos, 'estatus'));
 sort($estatus_filtro);
+
 ?>
 
 <style>
