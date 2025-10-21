@@ -354,7 +354,10 @@ $(document).ready(function() {
     $('#filtro_estatus').on('change', function() {
         let estatus = $('#filtro_estatus').val();
         // Se ajustan los índices de columna para el filtro
-        table.column(5).search(estatus ? '^' + estatus.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);
+        let textoBuscar = estatus;
+        if (estatus === 'aprobada') textoBuscar = 'Autorizada';
+        if (estatus === 'pagado') textoBuscar = 'Pagada';
+        table.column(5).search(textoBuscar, true, false);
         table.draw();
     });
 });
