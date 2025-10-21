@@ -238,7 +238,13 @@ sort($estatus_filtro);
             <label for="filtro_estatus" class="form-label">Filtrar por Estatus</label>
             <select id="filtro_estatus" class="form-select">
                 <option value="">Todos</option>
-                <?php foreach ($estatus_filtro as $estatus): ?>
+                <?php 
+                    foreach ($estatus_filtro as $estatus): ?>
+                    if ($estatus === 'aprobada') {
+                        $estatus = 'Autorizada';
+                    } elseif ($estatus === 'pagado') {
+                        $estatus = 'Pagada';
+                    }
                     <option value="<?= htmlspecialchars($estatus) ?>"><?= htmlspecialchars($estatus) ?></option>
                 <?php endforeach; ?>
             </select>
