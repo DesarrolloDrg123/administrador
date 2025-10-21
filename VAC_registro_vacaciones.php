@@ -300,7 +300,7 @@ sort($estatus_filtro);
                                     <?php endif; ?>
                                 </td>
                             </tr>
-                        <?php endwhile; ?>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             <?php else : ?>
