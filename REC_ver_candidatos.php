@@ -102,19 +102,8 @@ $stmt_candidatos->close();
                                         $nombre_carpeta_limpio = preg_replace('/[^a-z0-9\s-]/', '', $nombre_carpeta_limpio);
                                         $nombre_carpeta_limpio = preg_replace('/[\s-]+/', '_', trim($nombre_carpeta_limpio, '_'));
                                 
-                                        // Buscar archivo existente (PDF, DOC o DOCX)
-                                        $extensiones = ['pdf', 'doc', 'docx'];
-                                        $ruta_cv = null;
-
-                                        foreach ($extensiones as $ext) {
-                                            $ruta_relativa = $carpeta . 'cv_' . $nombre_carpeta_limpio . '.' . $ext;
-                                            $ruta_absoluta = $_SERVER['DOCUMENT_ROOT'] . '/' . $ruta_relativa;
-
-                                            if (file_exists($ruta_absoluta)) {
-                                                $ruta_cv = $ruta_relativa;
-                                                break;
-                                            }
-                                        }
+                                        // Construir la ruta al archivo (PDF)
+                                        $ruta_cv = $carpeta . 'cv_' . $nombre_carpeta_limpio . '.pdf';
                                     ?>
                                     <a href="REC_controller/<?= $ruta_cv ?>" target="_blank" class="btn btn-secondary btn-sm" title="Ver CV">
                                         <i class="fas fa-file-download"></i>
