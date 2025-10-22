@@ -117,7 +117,7 @@ try {
                         SET ruta_documento = ?
                         WHERE id = ?
                     ");
-                    $stmt_update_doc->bind_param("si", $ruta_destino, $documento_existente['id']);
+                    $stmt_update_doc->bind_param("si", $ruta_destino, $documento_existente['documento_id']);
                     $stmt_update_doc->execute();
                     $stmt_update_doc->close();
                 } else {
