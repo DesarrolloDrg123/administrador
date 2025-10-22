@@ -94,39 +94,17 @@ $stmt_candidatos->close();
                                 </td>
                                 <td class="text-center">
                                     <?php
-                                    // Ruta base del expediente (sin htmlspecialchars porque la necesitamos "real" para file_exists)
-                                    $carpeta = $candidato['cv_adjunto_path']; // Ejemplo: "uploads/Expediente/5_luis_emmanuel_collazo_meza/"
-
-                                    // 🧹 Limpiar nombre del candidato para formar el nombre del archivo
-                                    $nombre_carpeta_limpio = strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $candidato['nombre_completo']));
-                                    $nombre_carpeta_limpio = preg_replace('/[^a-z0-9\s-]/', '', $nombre_carpeta_limpio);
-                                    $nombre_carpeta_limpio = preg_replace('/[\s-]+/', '_', trim($nombre_carpeta_limpio, '_'));
-
-                                    // 🔍 Buscar el archivo existente (PDF, DOC, DOCX)
-                                    $extensiones = ['pdf', 'doc', 'docx'];
-                                    $ruta_cv = null;
-
-                                    foreach ($extensiones as $ext) {
-                                        $ruta_relativa = $carpeta . 'cv_' . $nombre_carpeta_limpio . '.' . $ext;
-                                        $ruta_absoluta = $_SERVER['DOCUMENT_ROOT'] . '/' . $ruta_relativa;
-
-                                        if (file_exists($ruta_absoluta)) {
-                                            $ruta_cv = $ruta_relativa;
-                                            break;
-                                        }
-                                    }
-                                ?>
-
-                                <?php if ($ruta_cv): ?>
-                                    <a href="/<?= htmlspecialchars($ruta_cv) ?>" target="_blank" class="btn btn-secondary btn-sm" title="Ver CV">
-                                        <i class="fas fa-file-download"></i>
-                                    </a>
-                                <?php else: ?>
-                                    <button class="btn btn-secondary btn-sm" disabled title="CV no disponible">
-                                        <i class="fas fa-file-download"></i>
-                                    </button>
-                                <?php endif; ?>
-
+                                        // Obtener la carpeta
+                                        $carpeta = htmlspecialchars($candidato['cv_adjunto_path']);
+                                
+                                        // Generar nombre del archivo según el nombre del candidato
+                                        $nombre_carpeta_limpio = strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $candidato['nombre_completo']));
+                                        $nombre_carpeta_limpio = preg_replace('/[^a-z0-9\s-]/', '', $nombre_carpeta_limpio);
+                                        $nombre_carpeta_limpio = preg_replace('/[\s-]+/', '_', trim($nombre_carpeta_limpio, '_'));
+                                
+                                        // Construir la ruta al archivo (PDF)
+                                        $ruta_cv = $carpeta . 'cv_' . $nombre_carpeta_limpio . '.pdf';
+                                    ?>
                                     <a href="REC_controller/<?= $ruta_cv ?>" target="_blank" class="btn btn-secondary btn-sm" title="Ver CV">
                                         <i class="fas fa-file-download"></i>
                                     </a>
