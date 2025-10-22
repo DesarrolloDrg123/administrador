@@ -95,7 +95,7 @@ try {
 
                 // 🔍 Verificar si el documento ya existe
                 $stmt_check = $conn->prepare("
-                    SELECT id, ruta_documento 
+                    SELECT documento_id, ruta_documento 
                     FROM solicitudes_vacantes_candidatos_documentos
                     WHERE candidato_id = ? AND nombre_documento = ?
                 ");
