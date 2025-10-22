@@ -86,7 +86,7 @@ try {
                         <!-- 1. Acta de Nacimiento -->
                         <div class="doc-section">
                             <h5 class="text-primary mb-3">1. Acta de Nacimiento <span class="text-danger">*</span></h5>
-                            <input class="form-control" type="file" id="acta_nacimiento" name="acta_nacimiento" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <input class="form-control" type="file" id="acta_nacimiento" name="acta_nacimiento" accept=".pdf,.jpg,.jpeg,.png" >
                             <div class="file-info">Formatos: PDF, JPG, PNG. Máx. 5MB</div>
                         </div>
 
@@ -96,11 +96,11 @@ try {
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label for="ine_frente" class="form-label">Frente <span class="text-danger">*</span></label>
-                                    <input class="form-control" type="file" id="ine_frente" name="ine_frente" accept=".pdf,.jpg,.jpeg,.png" required>
+                                    <input class="form-control" type="file" id="ine_frente" name="ine_frente" accept=".pdf,.jpg,.jpeg,.png" >
                                 </div>
                                 <div class="col-md-6">
                                     <label for="ine_reverso" class="form-label">Reverso <span class="text-danger">*</span></label>
-                                    <input class="form-control" type="file" id="ine_reverso" name="ine_reverso" accept=".pdf,.jpg,.jpeg,.png" required>
+                                    <input class="form-control" type="file" id="ine_reverso" name="ine_reverso" accept=".pdf,.jpg,.jpeg,.png" >
                                 </div>
                             </div>
                             <div class="file-info">Ambos lados, formatos: PDF, JPG, PNG. Máx. 5MB</div>
@@ -109,21 +109,21 @@ try {
                         <!-- 3. CURP -->
                         <div class="doc-section">
                             <h5 class="text-primary mb-3">3. CURP <span class="text-danger">*</span></h5>
-                            <input class="form-control" type="file" id="curp_documento" name="curp_documento" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <input class="form-control" type="file" id="curp_documento" name="curp_documento" accept=".pdf,.jpg,.jpeg,.png" >
                             <div class="file-info">Formato oficial emitido por RENAPO.</div>
                         </div>
 
                         <!-- 4. CSF -->
                         <div class="doc-section">
                             <h5 class="text-primary mb-3">4. Constancia de Situación Fiscal (CSF) <span class="text-danger">*</span></h5>
-                            <input class="form-control" type="file" id="csf" name="csf" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <input class="form-control" type="file" id="csf" name="csf" accept=".pdf,.jpg,.jpeg,.png" >
                             <div class="file-info">Debe ser actualizada, régimen Sueldos y Salarios.</div>
                         </div>
 
                         <!-- 5. Número de Seguridad Social -->
                         <div class="doc-section">
                             <h5 class="text-primary mb-3">5. Número de Seguridad Social (IMSS) <span class="text-danger">*</span></h5>
-                            <input class="form-control" type="file" id="nss" name="nss" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <input class="form-control" type="file" id="nss" name="nss" accept=".pdf,.jpg,.jpeg,.png" >
                             <div class="file-info">Hoja rosa o comprobante oficial del IMSS.</div>
                         </div>
 
@@ -137,14 +137,14 @@ try {
                         <!-- 7. Comprobante de Domicilio -->
                         <div class="doc-section">
                             <h5 class="text-primary mb-3">7. Comprobante de Domicilio <span class="text-danger">*</span></h5>
-                            <input class="form-control" type="file" id="domicilio" name="domicilio" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <input class="form-control" type="file" id="domicilio" name="domicilio" accept=".pdf,.jpg,.jpeg,.png" >
                             <div class="file-info">No mayor a 3 meses (agua, luz, teléfono, predial, etc.)</div>
                         </div>
 
                         <!-- 8. Comprobante de Estudios -->
                         <div class="doc-section">
                             <h5 class="text-primary mb-3">8. Comprobante de Último Grado de Estudios <span class="text-danger">*</span></h5>
-                            <input class="form-control" type="file" id="estudios" name="estudios" accept=".pdf,.jpg,.jpeg,.png" required>
+                            <input class="form-control" type="file" id="estudios" name="estudios" accept=".pdf,.jpg,.jpeg,.png" >
                             <div class="file-info">Certificado o título profesional según corresponda.</div>
                         </div>
 

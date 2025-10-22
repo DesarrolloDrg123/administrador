@@ -49,6 +49,7 @@ $stmt_candidatos->close();
     .status_aprobado { background-color: #80bf1f; }                  /* Verde de la empresa */
     .status_espera_de_documentos { background-color: #34495e; }      /* Gris azulado, neutral */
     .status_documentos_recibidos { background-color: #2c3e50; }      /* Gris oscuro, neutral pero distinto del anterior */
+    .status_confi { background-color: #18212bff; }      /* Gris oscuro, neutral pero distinto del anterior */
 
     .container { max-width: 1200px; }
 
@@ -141,6 +142,15 @@ $stmt_candidatos->close();
                                                 case 'Aprobado':
                                                     echo '<li><a class="dropdown-item" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Espera de Documentos\')">Solicitar Documentos</a></li>';
                                                     //echo '<li><a class="dropdown-item" href="#" onclick="abrirCargaContrato('.$id_candidato.')">Cargar Contrato</a></li>';
+                                                    echo '<li><a class="dropdown-item text-danger" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Rechazado\')">Rechazar</a></li>';
+                                                    break;
+                                                case 'Espera de Documentos':
+                                                    echo '<li><a class="dropdown-item" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Espera de Documentos\')">Reenviar Solicitud de Documentos</a></li>';
+                                                    echo '<li><a class="dropdown-item text-danger" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Rechazado\')">Rechazar</a></li>';
+                                                    break;
+                                                case 'Documentos Recibidos':
+                                                    echo '<li><a class="dropdown-item" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Espera de Documentos\')">Reenviar Solicitud de Documentos</a></li>';
+                                                    echo '<li><a class="dropdown-item" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Documentos Confirmados\')">Confirmar Documentos</a></li>';
                                                     echo '<li><a class="dropdown-item text-danger" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Rechazado\')">Rechazar</a></li>';
                                                     break;
                                             }

@@ -62,7 +62,7 @@ try {
     $stmt_historial->execute();
 
     // 4. SI EL NUEVO ESTATUS ES "APROBADO", GENERAR TOKEN Y ENVIAR CORREO
-    if ($nuevo_estatus === 'Aprobado') {
+    if ($nuevo_estatus === 'Espera de Documentos') {
         // Generar un token único y seguro
         $token = bin2hex(random_bytes(32)); // Token de 64 caracteres
         
