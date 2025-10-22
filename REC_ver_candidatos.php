@@ -56,7 +56,7 @@ $stmt_candidatos->close();
     .historial-tabla { width: 100%; border-collapse: collapse; text-align: left; }
     .historial-tabla th, .historial-tabla td { padding: 8px 12px; border: 1px solid #ddd; }
     .historial-tabla th { background-color: #f2f2f2; }
-    .swal2-html-container { max-height: 400px; overflow-y: auto; text-align: left; }
+    .swal2-html-container { max-height: 600px; overflow-y: auto; text-align: left; }
 </style>
 
 <div class="container mt-4">
