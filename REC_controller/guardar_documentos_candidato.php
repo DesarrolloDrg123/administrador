@@ -115,7 +115,7 @@ try {
                     $stmt_update_doc = $conn->prepare("
                         UPDATE solicitudes_vacantes_candidatos_documentos
                         SET ruta_documento = ?
-                        WHERE id = ?
+                        WHERE documento_id = ?
                     ");
                     $stmt_update_doc->bind_param("si", $ruta_destino, $documento_existente['documento_id']);
                     $stmt_update_doc->execute();
