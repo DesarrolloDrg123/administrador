@@ -150,6 +150,7 @@ $stmt_candidatos->close();
                                                     break;
                                                 case 'Documentos Recibidos':
                                                     echo '<li><a class="dropdown-item" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Espera de Documentos\')">Reenviar Solicitud de Documentos</a></li>';
+                                                    echo '<li><a class="dropdown-item" href="#" onclick="solicitarCorreccionDocumentos('.$id_candidato.')">Solicitar Corrección de Documentos</a></li>';
                                                     echo '<li><a class="dropdown-item" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Documentos Confirmados\')">Confirmar Documentos</a></li>';
                                                     echo '<li><a class="dropdown-item text-danger" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Rechazado\')">Rechazar</a></li>';
                                                     break;
@@ -178,9 +179,6 @@ $stmt_candidatos->close();
             "order": [[0, "asc"]]
         });
     });
-
-    // Función para mostrar los detalles y respuestas del candidato
-// En REC_ver_candidatos.php
 
 function mostrarDetalles(btn) {
     const candidatoId = btn.dataset.id;
@@ -300,6 +298,92 @@ function mostrarDetalles(btn) {
         }
     });
 }
+
+function solicitarCorreccionDocumentos(candidatoId) {
+    const documentos = [
+        'Acta de Nacimiento',
+        'Credencial del Elector (Frente)',
+        'Credencial del Elector (Reverso)',
+        'CURP',
+        'Constancia de Situación Fiscal (CSF)',
+        'Número de Seguridad Social (NSS)',
+        'Hoja de Retención INFONAVIT',
+        'Comprobante de Domicilio Actual',
+        'Comprobante de Último Grado de Estudios',
+        'Licencia Vigente'
+    ];
+
+    let html = '<p>Selecciona los documentos que deben corregirse y explica el motivo:</p>';
+    documentos.forEach((doc, i) => {
+        html += `
+            <div style="margin-bottom:10px; text-align:left;">
+                <input type="checkbox" id="doc_${i}" name="docs" value="${doc}" />
+                <label for="doc_${i}"> ${doc}</label>
+                <textarea id="motivo_${i}" class="form-control mt-1" placeholder="Motivo (opcional)" style="display:none;"></textarea>
+            </div>
+        `;
+    });
+
+    Swal.fire({
+        title: 'Solicitar Corrección de Documentos',
+        html: html,
+        width: '700px',
+        showCancelButton: true,
+        confirmButtonText: 'Enviar Solicitud',
+        cancelButtonText: 'Cancelar',
+        didOpen: () => {
+            documentos.forEach((_, i) => {
+                const checkbox = document.getElementById(`doc_${i}`);
+                const textarea = document.getElementById(`motivo_${i}`);
+                checkbox.addEventListener('change', () => {
+                    textarea.style.display = checkbox.checked ? 'block' : 'none';
+                });
+            });
+        },
+        preConfirm: () => {
+            const seleccionados = [];
+            documentos.forEach((doc, i) => {
+                const chk = document.getElementById(`doc_${i}`);
+                const motivo = document.getElementById(`motivo_${i}`).value;
+                if (chk.checked) {
+                    seleccionados.push({ documento: doc, motivo: motivo });
+                }
+            });
+
+            if (seleccionados.length === 0) {
+                Swal.showValidationMessage('Selecciona al menos un documento para corregir.');
+                return false;
+            }
+            return seleccionados;
+        }
+    }).then(result => {
+        if (result.isConfirmed) {
+            const seleccionados = result.value;
+
+            $.ajax({
+                url: 'REC_controller/solicitar_correccion_documentos.php',
+                type: 'POST',
+                data: {
+                    candidato_id: candidatoId,
+                    documentos: JSON.stringify(seleccionados)
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire('¡Solicitud enviada!', response.message, 'success')
+                            .then(() => location.reload());
+                    } else {
+                        Swal.fire('Error', response.message, 'error');
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error', 'No se pudo conectar con el servidor.', 'error');
+                }
+            });
+        }
+    });
+}
+
 
 function gestionarCandidato(candidatoId, nuevoEstatus) {
     Swal.fire({
