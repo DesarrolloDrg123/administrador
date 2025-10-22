@@ -144,12 +144,7 @@ $stmt_candidatos->close();
                                                     //echo '<li><a class="dropdown-item" href="#" onclick="abrirCargaContrato('.$id_candidato.')">Cargar Contrato</a></li>';
                                                     echo '<li><a class="dropdown-item text-danger" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Rechazado\')">Rechazar</a></li>';
                                                     break;
-                                                case 'Espera de Documentos':
-                                                    echo '<li><a class="dropdown-item" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Espera de Documentos\')">Reenviar Solicitud de Documentos</a></li>';
-                                                    echo '<li><a class="dropdown-item text-danger" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Rechazado\')">Rechazar</a></li>';
-                                                    break;
                                                 case 'Documentos Recibidos':
-                                                    echo '<li><a class="dropdown-item" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Espera de Documentos\')">Reenviar Solicitud de Documentos</a></li>';
                                                     echo '<li><a class="dropdown-item" href="#" onclick="solicitarCorreccionDocumentos('.$id_candidato.')">Solicitar Corrección de Documentos</a></li>';
                                                     echo '<li><a class="dropdown-item" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Documentos Confirmados\')">Confirmar Documentos</a></li>';
                                                     echo '<li><a class="dropdown-item text-danger" href="#" onclick="gestionarCandidato('.$id_candidato.', \'Rechazado\')">Rechazar</a></li>';

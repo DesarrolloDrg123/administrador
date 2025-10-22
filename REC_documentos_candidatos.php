@@ -74,8 +74,6 @@ try {
                         <strong>Correo:</strong> <?= htmlspecialchars($candidato['correo_electronico']) ?>
                     </div>
                     
-                    <p class="text-center text-muted mb-5">Por favor, sube los documentos requeridos para continuar con tu proceso de contratación. Todos los campos marcados con <span class="text-danger">*</span> son obligatorios.</p>
-                    
                     <form id="formDocumentos" enctype="multipart/form-data">
                         <!-- Campo oculto con el token -->
                         <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
@@ -85,21 +83,21 @@ try {
 
                         <!-- 1. Acta de Nacimiento -->
                         <div class="doc-section">
-                            <h5 class="text-primary mb-3">1. Acta de Nacimiento <span class="text-danger">*</span></h5>
+                            <h5 class="text-primary mb-3">1. Acta de Nacimiento </h5>
                             <input class="form-control" type="file" id="acta_nacimiento" name="acta_nacimiento" accept=".pdf,.jpg,.jpeg,.png" >
                             <div class="file-info">Formatos: PDF, JPG, PNG. Máx. 5MB</div>
                         </div>
 
                         <!-- 2. Credencial del Elector -->
                         <div class="doc-section">
-                            <h5 class="text-primary mb-3">2. Credencial del Elector Vigente (INE) <span class="text-danger">*</span></h5>
+                            <h5 class="text-primary mb-3">2. Credencial del Elector Vigente (INE) </h5>
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label for="ine_frente" class="form-label">Frente <span class="text-danger">*</span></label>
+                                    <label for="ine_frente" class="form-label">Frente </label>
                                     <input class="form-control" type="file" id="ine_frente" name="ine_frente" accept=".pdf,.jpg,.jpeg,.png" >
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="ine_reverso" class="form-label">Reverso <span class="text-danger">*</span></label>
+                                    <label for="ine_reverso" class="form-label">Reverso </label>
                                     <input class="form-control" type="file" id="ine_reverso" name="ine_reverso" accept=".pdf,.jpg,.jpeg,.png" >
                                 </div>
                             </div>
@@ -108,21 +106,21 @@ try {
 
                         <!-- 3. CURP -->
                         <div class="doc-section">
-                            <h5 class="text-primary mb-3">3. CURP <span class="text-danger">*</span></h5>
+                            <h5 class="text-primary mb-3">3. CURP </h5>
                             <input class="form-control" type="file" id="curp_documento" name="curp_documento" accept=".pdf,.jpg,.jpeg,.png" >
                             <div class="file-info">Formato oficial emitido por RENAPO.</div>
                         </div>
 
                         <!-- 4. CSF -->
                         <div class="doc-section">
-                            <h5 class="text-primary mb-3">4. Constancia de Situación Fiscal (CSF) <span class="text-danger">*</span></h5>
+                            <h5 class="text-primary mb-3">4. Constancia de Situación Fiscal (CSF) </h5>
                             <input class="form-control" type="file" id="csf" name="csf" accept=".pdf,.jpg,.jpeg,.png" >
                             <div class="file-info">Debe ser actualizada, régimen Sueldos y Salarios.</div>
                         </div>
 
                         <!-- 5. Número de Seguridad Social -->
                         <div class="doc-section">
-                            <h5 class="text-primary mb-3">5. Número de Seguridad Social (IMSS) <span class="text-danger">*</span></h5>
+                            <h5 class="text-primary mb-3">5. Número de Seguridad Social (IMSS) </h5>
                             <input class="form-control" type="file" id="nss" name="nss" accept=".pdf,.jpg,.jpeg,.png" >
                             <div class="file-info">Hoja rosa o comprobante oficial del IMSS.</div>
                         </div>
@@ -136,14 +134,14 @@ try {
 
                         <!-- 7. Comprobante de Domicilio -->
                         <div class="doc-section">
-                            <h5 class="text-primary mb-3">7. Comprobante de Domicilio <span class="text-danger">*</span></h5>
+                            <h5 class="text-primary mb-3">7. Comprobante de Domicilio </h5>
                             <input class="form-control" type="file" id="domicilio" name="domicilio" accept=".pdf,.jpg,.jpeg,.png" >
                             <div class="file-info">No mayor a 3 meses (agua, luz, teléfono, predial, etc.)</div>
                         </div>
 
                         <!-- 8. Comprobante de Estudios -->
                         <div class="doc-section">
-                            <h5 class="text-primary mb-3">8. Comprobante de Último Grado de Estudios <span class="text-danger">*</span></h5>
+                            <h5 class="text-primary mb-3">8. Comprobante de Último Grado de Estudios </h5>
                             <input class="form-control" type="file" id="estudios" name="estudios" accept=".pdf,.jpg,.jpeg,.png" >
                             <div class="file-info">Certificado o título profesional según corresponda.</div>
                         </div>
