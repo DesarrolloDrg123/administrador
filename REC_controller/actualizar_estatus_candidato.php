@@ -67,12 +67,13 @@ try {
         $token = bin2hex(random_bytes(32)); // Token de 64 caracteres
         
         // Guardar el token en la base de datos
+        $estatus_documentos = "0";
         $stmt_token = $conn->prepare("
             UPDATE solicitudes_vacantes_candidatos 
-            SET token_documentos = ?, fecha_token_documentos = NOW() 
+            SET token_documentos = ?, fecha_token_documentos = NOW(), estatus_documentos = ?
             WHERE candidato_id = ?
         ");
-        $stmt_token->bind_param("si", $token, $candidato_id);
+        $stmt_token->bind_param("sii", $token, $estatus_documentos, $candidato_id);
         $stmt_token->execute();
 
         // Construir el enlace para el formulario de documentos
