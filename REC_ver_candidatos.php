@@ -102,13 +102,16 @@ $stmt_candidatos->close();
                                         $nombre_carpeta_limpio = preg_replace('/[^a-z0-9\s-]/', '', $nombre_carpeta_limpio);
                                         $nombre_carpeta_limpio = preg_replace('/[\s-]+/', '_', trim($nombre_carpeta_limpio, '_'));
                                 
+                                        // Buscar archivo existente (PDF, DOC o DOCX)
                                         $extensiones = ['pdf', 'doc', 'docx'];
                                         $ruta_cv = null;
 
                                         foreach ($extensiones as $ext) {
-                                            $ruta = $carpeta . 'cv_' . $nombre_carpeta_limpio . '.' . $ext;
-                                            if (file_exists($ruta)) {
-                                                $ruta_cv = $ruta;
+                                            $ruta_relativa = $carpeta . 'cv_' . $nombre_carpeta_limpio . '.' . $ext;
+                                            $ruta_absoluta = $_SERVER['DOCUMENT_ROOT'] . '/' . $ruta_relativa;
+
+                                            if (file_exists($ruta_absoluta)) {
+                                                $ruta_cv = $ruta_relativa;
                                                 break;
                                             }
                                         }
