@@ -71,11 +71,6 @@ $errores = [];
 $conn->begin_transaction();
 
 try {
-    // Limpiar documentos anteriores
-    $stmt_delete = $conn->prepare("DELETE FROM solicitudes_vacantes_candidatos_documentos WHERE candidato_id = ?");
-    $stmt_delete->bind_param("i", $candidato_id);
-    $stmt_delete->execute();
-
     // Procesar cada archivo
     foreach ($archivos_campos as $campo => $nombre_doc) {
         if (isset($_FILES[$campo]) && $_FILES[$campo]['error'] === UPLOAD_ERR_OK) {
@@ -97,15 +92,45 @@ try {
             $ruta_destino = rtrim($directorio_candidato, "/") . "/" . $nombre_archivo;
 
             if (move_uploaded_file($archivo['tmp_name'], $ruta_destino)) {
-                // Insertar en tabla de documentos
-                $stmt_insert = $conn->prepare("
-                    INSERT INTO solicitudes_vacantes_candidatos_documentos 
-                    (candidato_id, nombre_documento, ruta_documento)
-                    VALUES (?, ?, ?)
+
+                // 🔍 Verificar si el documento ya existe
+                $stmt_check = $conn->prepare("
+                    SELECT id, ruta_documento 
+                    FROM solicitudes_vacantes_candidatos_documentos
+                    WHERE candidato_id = ? AND nombre_documento = ?
                 ");
-                $stmt_insert->bind_param("iss", $candidato_id, $nombre_doc, $ruta_destino);
-                $stmt_insert->execute();
-                $stmt_insert->close();
+                $stmt_check->bind_param("is", $candidato_id, $nombre_doc);
+                $stmt_check->execute();
+                $resultado = $stmt_check->get_result();
+                $documento_existente = $resultado->fetch_assoc();
+                $stmt_check->close();
+
+                if ($documento_existente) {
+                    // 🧹 Eliminar archivo anterior si existe
+                    if (file_exists($documento_existente['ruta_documento'])) {
+                        unlink($documento_existente['ruta_documento']);
+                    }
+
+                    // 🔄 Actualizar registro existente
+                    $stmt_update_doc = $conn->prepare("
+                        UPDATE solicitudes_vacantes_candidatos_documentos
+                        SET ruta_documento = ?
+                        WHERE id = ?
+                    ");
+                    $stmt_update_doc->bind_param("si", $ruta_destino, $documento_existente['id']);
+                    $stmt_update_doc->execute();
+                    $stmt_update_doc->close();
+                } else {
+                    // ➕ Insertar nuevo documento
+                    $stmt_insert_doc = $conn->prepare("
+                        INSERT INTO solicitudes_vacantes_candidatos_documentos 
+                        (candidato_id, nombre_documento, ruta_documento)
+                        VALUES (?, ?, ?)
+                    ");
+                    $stmt_insert_doc->bind_param("iss", $candidato_id, $nombre_doc, $ruta_destino);
+                    $stmt_insert_doc->execute();
+                    $stmt_insert_doc->close();
+                }
 
                 $archivos_guardados[] = $nombre_doc;
             } else {
@@ -113,6 +138,7 @@ try {
             }
         }
     }
+
 
     if (empty($archivos_guardados)) {
         throw new Exception("No se cargó ningún documento válido. " . implode(", ", $errores));
