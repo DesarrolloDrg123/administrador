@@ -202,7 +202,7 @@ try {
             // Si falla el envío con PHPMailer
             error_log("Error al enviar correo con PHPMailer: " . $mail->ErrorInfo);
             $response['correo_enviado'] = false;
-            $response['message'] = "El estatus del candidato ha sido actualizado a 'Aprobado'. ADVERTENCIA: No se pudo enviar el correo de notificación. Error: " . $mail->ErrorInfo;
+            $response['message'] = "ADVERTENCIA: No se pudo enviar el correo de notificación. Error: " . $mail->ErrorInfo;
             $response['enlace_manual'] = $enlace_formulario;
         }
         
