@@ -196,7 +196,7 @@ try {
             $mail->send();
             
             $response['correo_enviado'] = true;
-            $response['message'] = "El estatus del candidato ha sido actualizado a 'Aprobado'. Se ha enviado un correo electrónico con las instrucciones para cargar documentos.";
+            $response['message'] = "Se ha enviado un correo electrónico con las instrucciones para cargar documentos.";
             
         } catch (Exception $e) {
             // Si falla el envío con PHPMailer
