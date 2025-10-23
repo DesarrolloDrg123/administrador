@@ -19,6 +19,15 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 
 $candidato_id = $_POST['candidato_id'] ?? null;
 $observaciones = $_POST['observaciones'] ?? '';
+$documentos_json = $_POST['documentos'] ?? '[]';
+$documentos_corregir = json_decode($documentos_json, true);
+
+if (empty($documentos_corregir)) {
+    $response['message'] = 'No se recibieron documentos para corregir.';
+    echo json_encode($response);
+    exit();
+}
+
 $usuario_accion = $_SESSION['nombre'] ?? 'Sistema';
 
 if (empty($candidato_id)) {
