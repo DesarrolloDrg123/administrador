@@ -358,10 +358,11 @@ function solicitarCorreccionDocumentos(candidatoId) {
             $.ajax({
                 url: 'REC_controller/solicitar_correccion_documentos.php',
                 type: 'POST',
-                data: {
+                contentType: 'application/json',
+                data: JSON.stringify({
                     candidato_id: candidatoId,
-                    documentos: JSON.stringify(seleccionados)
-                },
+                    documentos: seleccionados
+                }),
                 dataType: 'json',
                 success: function(response) {
                     if (response.success) {
