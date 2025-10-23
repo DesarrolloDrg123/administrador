@@ -5,6 +5,12 @@ header('Content-Type: application/json');
 
 require("../config/db.php"); // Solo necesitas la conexión a la BD
 
+// Importar PHPMailer
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../vendor/autoload.php'; // Ajusta la ruta según donde tengas PHPMailer
+
 $response = ['success' => false, 'message' => ''];
 
 function obtenerFolioReclutamiento($conn) {
@@ -104,6 +110,86 @@ try {
 
     // Si todo fue bien, se confirman ambas inserciones
     $conn->commit();
+
+    function obtenerCorreosEncargadosSistema($conn) {
+        // ID del programa de reclutamiento (ajústalo si es distinto)
+        $id_programa_reclutamiento = 40;
+
+        $sql = "SELECT u.email 
+                FROM usuarios u
+                JOIN permisos p ON u.id = p.id_usuario
+                WHERE p.id_programa = ? AND p.acceso = 1 ";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id_programa_reclutamiento);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $emails = [];
+        while ($row = $result->fetch_assoc()) {
+            $emails[] = $row['email'];
+        }
+
+        $stmt->close();
+        return $emails;
+    }
+
+    function enviarNotificacionNuevoCandidato($destinatarios, $solicitante_nombre, $puesto_nombre, $tipo_vacante, $reemplaza_a, $justificacion, $requisitos, $folio) {
+        if (empty($destinatarios)) {
+            error_log("⚠️ No se encontraron destinatarios para la notificación de nuevo candidato.");
+            return;
+        }
+
+        $mail = new PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'mail.intranetdrg.com.mx';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'notification@intranetdrg.com.mx';
+            $mail->Password = 'r-eHQi64a7!3QT9';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port = 465;
+            $mail->CharSet = 'UTF-8';
+            $mail->setFrom('notification@intranetdrg.com.mx', 'DRG Notification');
+
+            foreach ($destinatarios as $email) {
+                $mail->addAddress($email);
+            }
+
+            $mail->isHTML(true);
+            $mail->Subject = "Nueva solicitud de vacante creada: $folio";
+
+            $mail->Body = "
+                <div style='font-family: Arial, sans-serif; background:#f5f5f5; padding:20px;'>
+                    <div style='background:#fff; border-radius:8px; padding:25px; box-shadow:0 0 8px rgba(0,0,0,0.1);'>
+                        <h2 style='color:#1a73e8;'>Nueva Solicitud de Vacante</h2>
+                        <p><strong>Solicitante:</strong> {$solicitante_nombre}</p>
+                        <p><strong>Puesto solicitado:</strong> {$puesto_nombre}</p>
+                        <p><strong>Tipo de Vacante:</strong> {$tipo_vacante}</p>
+                        <p><strong>Reemplaza a:</strong> {$reemplaza_a}</p>
+                        <p><strong>Justificación:</strong><br>{$justificacion}</p>
+                        <p><strong>Requisitos:</strong><br>{$requisitos}</p>
+                        <hr>
+                        <p>📄 Folio de solicitud: <strong>{$folio}</strong></p>
+                        <a href='https://administrador2.intranetdrg.com.mx/REC_solicitudes_vacantes.php' 
+                            style='display:inline-block; margin-top:15px; padding:10px 18px; background:#1a73e8; color:white; border-radius:5px; text-decoration:none;'>
+                            Ver Solicitudes
+                        </a>
+                    </div>
+                    <p style='font-size:12px; color:#666; margin-top:20px;'>Este es un mensaje automático, no responda a este correo.</p>
+                </div>
+            ";
+
+
+            $mail->send();
+        } catch (Exception $e) {
+            error_log("❌ Error al enviar correo de nuevo candidato: " . $mail->ErrorInfo);
+        }
+    }
+
+    // Ejecutar envío de notificación
+    $destinatarios = obtenerCorreosEncargadosSistema($conn);
+    enviarNotificacionNuevoCandidato($destinatarios, $solicitante_nombre, $puesto_nombre, $tipo_vacante, $reemplaza_a, $justificacion, $requisitos, $folio);
 
     // 5. Preparar respuesta de éxito
     $response['success'] = true;

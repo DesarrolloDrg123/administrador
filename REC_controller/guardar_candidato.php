@@ -2,6 +2,12 @@
 header('Content-Type: application/json');
 require("../config/db.php");
 
+// Importar PHPMailer
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../vendor/autoload.php'; // Ajusta la ruta según donde tengas PHPMailer
+
 $response = ['success' => false, 'message' => ''];
 
 // Iniciar una transacción para asegurar que todo se guarde correctamente
@@ -163,6 +169,119 @@ try {
     }
 
     $conn->commit();
+    
+    function obtenerCorreosEncargadosSistema($conn) {
+        // ID del programa de reclutamiento (ajústalo si es distinto)
+        $id_programa_reclutamiento = 40;
+
+        $sql = "SELECT u.email 
+                FROM usuarios u
+                JOIN permisos p ON u.id = p.id_usuario
+                WHERE p.id_programa = ? AND p.acceso = 1 ";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id_programa_reclutamiento);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $emails = [];
+        while ($row = $result->fetch_assoc()) {
+            $emails[] = $row['email'];
+        }
+
+        $stmt->close();
+        return $emails;
+    }
+    
+    function enviarNotificacionNuevoCandidato($destinatarios, $nombre_candidato, $puesto, $correo, $telefono) {
+        if (empty($destinatarios)) {
+            error_log("⚠️ No se encontraron destinatarios para la notificación de nuevo candidato.");
+            return;
+        }
+
+        $mail = new PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'mail.intranetdrg.com.mx';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'notification@intranetdrg.com.mx';
+            $mail->Password = 'r-eHQi64a7!3QT9';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port = 465;
+            $mail->CharSet = 'UTF-8';
+            $mail->setFrom('notification@intranetdrg.com.mx', 'DRG Notification');
+
+            foreach ($destinatarios as $email) {
+                $mail->addAddress($email);
+            }
+
+            $mail->isHTML(true);
+            $mail->Subject = "Nuevo candidato registrado: $nombre_candidato";
+
+            $mail->Body = "
+            <html>
+            <head>
+                <style>
+                    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f9f9fb; }
+                    .container { max-width: 600px; margin: 40px auto; background-color: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+                    .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; padding: 35px 25px; }
+                    .header h1 { margin: 0; font-size: 26px; }
+                    .content { padding: 30px; }
+                    .info-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+                    .info-table td { padding: 8px 5px; border-bottom: 1px solid #eee; }
+                    .info-table td:first-child { font-weight: bold; width: 35%; color: #555; }
+                    .button { display: inline-block; padding: 14px 30px; margin: 25px 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white !important; text-decoration: none; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); }
+                    .button:hover { box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6); }
+                    .footer { background-color: #f5f5f5; text-align: center; padding: 20px; font-size: 12px; color: #888; border-top: 1px solid #eee; }
+                    .highlight { background-color: #f0f4ff; padding: 15px; border-radius: 5px; margin-top: 20px; border-left: 5px solid #667eea; }
+                </style>
+            </head>
+            <body>
+                <div class='container'>
+                    <div class='header'>
+                        <h1>📢 Nuevo Candidato Registrado</h1>
+                    </div>
+                    <div class='content'>
+                        <p>Se ha registrado un nuevo candidato en el sistema de <strong>Reclutamiento DRG</strong>. A continuación los detalles del registro:</p>
+
+                        <table class='info-table'>
+                            <tr><td>👤 Nombre:</td><td>".htmlspecialchars($nombre_candidato)."</td></tr>
+                            <tr><td>💼 Puesto Solicitado:</td><td>".htmlspecialchars($puesto)."</td></tr>
+                            <tr><td>📧 Correo:</td><td>".htmlspecialchars($correo)."</td></tr>
+                            <tr><td>📱 Teléfono:</td><td>".htmlspecialchars($telefono)."</td></tr>
+                        </table>
+
+                        <div class='highlight'>
+                            <strong>🔔 Acción sugerida:</strong> Ingresa al panel de Reclutamiento para revisar el expediente del candidato y continuar con el proceso de evaluación.
+                        </div>
+
+                        <p style='text-align:center;'>
+                            <a href='https://administrador2.intranetdrg.com.mx/REC_candidatos.php' class='button'>Ver Candidatos</a>
+                        </p>
+
+                        <p style='font-size:13px; color:#666; text-align:center;'>
+                            Este correo fue generado automáticamente por el sistema de Talento Humano DRG.<br>
+                            No es necesario responder a este mensaje.
+                        </p>
+                    </div>
+                    <div class='footer'>
+                        <p>© ".date('Y')." DRG Talento Humano | Sistema Interno de Reclutamiento</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+            ";
+
+
+            $mail->send();
+        } catch (Exception $e) {
+            error_log("❌ Error al enviar correo de nuevo candidato: " . $mail->ErrorInfo);
+        }
+    }
+
+    // Ejecutar envío de notificación
+    $destinatarios = obtenerCorreosEncargadosSistema($conn);
+    enviarNotificacionNuevoCandidato($destinatarios, $nombre_completo, $area_interes, $_POST['correo_electronico'], $_POST['telefono']);
     
     $response['success'] = true;
     $response['message'] = 'Candidato registrado con éxito.';
