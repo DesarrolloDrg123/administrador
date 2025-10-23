@@ -107,17 +107,18 @@ try {
         <head>
             <style>
                 body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
-                .container { max-width: 600px; margin: 0 auto; padding: 0; }
-                .header { background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%); color: white; padding: 25px 20px; text-align: center; border-radius: 10px 10px 0 0; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px 20px; text-align: center; border-radius: 10px 10px 0 0; }
                 .header h1 { margin: 0; font-size: 28px; }
-                .content { background-color: #ffffff; padding: 30px; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 10px 10px; }
-                .button { display: inline-block; padding: 15px 35px; background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%); color: white !important; text-decoration: none; border-radius: 50px; margin: 20px 0; font-weight: bold; box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4); }
-                .button:hover { box-shadow: 0 6px 20px rgba(255, 193, 7, 0.6); }
+                .content { background-color: #ffffff; padding: 30px; border: 1px solid #e0e0e0; border-top: none; }
+                .button { display: inline-block; padding: 15px 35px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white !important; text-decoration: none; border-radius: 50px; margin: 20px 0; font-weight: bold; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); }
+                .button:hover { box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6); }
+                .footer { text-align: center; padding: 20px; color: #999; font-size: 12px; background-color: #f5f5f5; border-radius: 0 0 10px 10px; }
                 .important { background-color: #fff3cd; padding: 20px; border-left: 5px solid #ffc107; margin: 20px 0; border-radius: 5px; }
                 .important strong { color: #856404; }
                 .document-list { background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0; }
                 .document-list li { margin: 8px 0; }
-                .footer { text-align: center; padding: 20px; color: #999; font-size: 12px; background-color: #f5f5f5; border-radius: 0 0 10px 10px; }
+                .congratulations { text-align: center; font-size: 48px; margin: 20px 0; }
             </style>
         </head>
         <body>
@@ -145,7 +146,7 @@ try {
                     </p>
                 </div>
                 <div class='footer'>
-                    <p>Este es un correo automático del sistema de Recursos Humanos. Por favor, no responder.</p>
+                    <p>Este es un correo automático del sistema de Talento Humano. Por favor, no responder.</p>
                 </div>
             </div>
         </body>
