@@ -358,11 +358,12 @@ function solicitarCorreccionDocumentos(candidatoId) {
             $.ajax({
                 url: 'REC_controller/solicitar_correccion_documentos.php',
                 type: 'POST',
-                contentType: 'application/json',
                 data: JSON.stringify({
                     candidato_id: candidatoId,
+                    observaciones: '',
                     documentos: seleccionados
                 }),
+                contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 success: function(response) {
                     if (response.success) {
@@ -372,7 +373,8 @@ function solicitarCorreccionDocumentos(candidatoId) {
                         Swal.fire('Error', response.message, 'error');
                     }
                 },
-                error: function() {
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
                     Swal.fire('Error', 'No se pudo conectar con el servidor.', 'error');
                 }
             });

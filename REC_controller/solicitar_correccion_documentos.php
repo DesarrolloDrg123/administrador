@@ -17,14 +17,20 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
     exit();
 }
 
-// Leer datos JSON enviados desde JavaScript
-$input = json_decode(file_get_contents('php://input'), true);
+// 🔹 Leer cuerpo JSON crudo
+$raw = file_get_contents("php://input");
+$input = json_decode($raw, true);
+
+// Depuración opcional — quítalo cuando funcione:
+if ($input === null) {
+    error_log("⚠️ JSON no recibido o inválido: " . $raw);
+}
+
 $candidato_id = $input['candidato_id'] ?? null;
 $observaciones = $input['observaciones'] ?? '';
 $documentos_corregir = $input['documentos'] ?? [];
 
-
-if (empty($documentos_corregir)) {
+if (!is_array($documentos_corregir) || empty($documentos_corregir)) {
     $response['message'] = 'No se recibieron documentos para corregir.';
     echo json_encode($response);
     exit();
