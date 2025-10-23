@@ -17,10 +17,12 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
     exit();
 }
 
-$candidato_id = $_POST['candidato_id'] ?? null;
-$observaciones = $_POST['observaciones'] ?? '';
-$documentos_json = $_POST['documentos'] ?? '[]';
-$documentos_corregir = json_decode($documentos_json, true);
+// Leer datos JSON enviados desde JavaScript
+$input = json_decode(file_get_contents('php://input'), true);
+$candidato_id = $input['candidato_id'] ?? null;
+$observaciones = $input['observaciones'] ?? '';
+$documentos_corregir = $input['documentos'] ?? [];
+
 
 if (empty($documentos_corregir)) {
     $response['message'] = 'No se recibieron documentos para corregir.';
@@ -103,12 +105,10 @@ try {
         $mail->Subject = 'Corrección de Documentos Requeridos';
 
         $documentos_html = '';
-        $documentos_text = '';
         foreach ($documentos_corregir as $item) {
             $doc = htmlspecialchars($item['documento']);
             $motivo = !empty($item['motivo']) ? htmlspecialchars($item['motivo']) : 'No especificado';
             $documentos_html .= "<li>✅ <strong>$doc</strong> — Motivo: $motivo</li>";
-            $documentos_text .= "- $doc — Motivo: $motivo\n";
         }
 
         $mail->Body = "
