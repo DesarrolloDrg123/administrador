@@ -171,7 +171,7 @@ try {
                         <p><strong>Requisitos:</strong><br>{$requisitos}</p>
                         <hr>
                         <p>📄 Folio de solicitud: <strong>{$folio}</strong></p>
-                        <a href='https://administrador2.intranetdrg.com.mx/REC_solicitudes_vacantes.php' 
+                        <a href='https://https://administrador.intranetdrg.com.mx/REC_gestion_vacantes.php' 
                             style='display:inline-block; margin-top:15px; padding:10px 18px; background:#1a73e8; color:white; border-radius:5px; text-decoration:none;'>
                             Ver Solicitudes
                         </a>

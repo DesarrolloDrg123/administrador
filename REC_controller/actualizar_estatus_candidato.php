@@ -206,6 +206,86 @@ try {
             $response['enlace_manual'] = $enlace_formulario;
         }
         
+    } elseif ($nuevo_estatus === 'Rechazado') {
+        // Configurar PHPMailer
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'mail.intranetdrg.com.mx';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'notification@intranetdrg.com.mx';
+            $mail->Password = 'r-eHQi64a7!3QT9';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port = 465;
+            $mail->CharSet = 'UTF-8';
+
+            $mail->setFrom('notification@intranetdrg.com.mx', 'DRG Notification');
+            $mail->addAddress($correo_candidato, $nombre_candidato);
+
+            // Título del correo
+            $mail->Subject = 'Resultado de tu proceso de selección';
+
+            // Cuerpo del correo HTML
+            $mail->isHTML(true);
+            $mail->Body = "
+            <html>
+            <head>
+                <style>
+                    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+                    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                    .header { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; padding: 30px 20px; text-align: center; border-radius: 10px 10px 0 0; }
+                    .header h1 { margin: 0; font-size: 26px; }
+                    .content { background-color: #ffffff; padding: 30px; border: 1px solid #e0e0e0; border-top: none; }
+                    .footer { text-align: center; padding: 20px; color: #999; font-size: 12px; background-color: #f5f5f5; border-radius: 0 0 10px 10px; }
+                    .important { background-color: #fff3cd; padding: 15px; border-left: 5px solid #f1c40f; margin: 20px 0; border-radius: 5px; }
+                    .important strong { color: #856404; }
+                    .sad { font-size: 48px; text-align: center; margin: 10px 0; }
+                </style>
+            </head>
+            <body>
+                <div class='container'>
+                    <div class='header'>
+                        <div class='sad'>😔</div>
+                        <h1>Resultado de tu proceso de selección</h1>
+                    </div>
+                    <div class='content'>
+                        <p>Estimado(a) <strong>" . htmlspecialchars($nombre_candidato) . "</strong>,</p>
+                        <p>Queremos agradecerte sinceramente por haber participado en nuestro proceso de selección.</p>
+                        <div class='important'>
+                            <strong>Motivo del rechazo:</strong><br>
+                            " . nl2br(htmlspecialchars($observaciones)) . "
+                        </div>
+                        <p>Aunque en esta ocasión no has sido seleccionado para continuar, valoramos mucho el tiempo que dedicaste y tu interés en formar parte de <strong>DRG</strong>.</p>
+                        <p>Guardaremos tu información en nuestra base de datos para futuras oportunidades que se ajusten a tu perfil.</p>
+                        <p style='margin-top: 30px; font-weight: bold; color: #e74c3c;'>¡Te deseamos mucho éxito en tus próximos proyectos!</p>
+                    </div>
+                    <div class='footer'>
+                        <p>Este es un correo automático del sistema de Talento Humano.</p>
+                        <p>Por favor, no respondas a este correo.</p>
+                    </div>
+                </div>
+            </body>
+            </html>";
+
+            // Cuerpo alternativo en texto plano
+            $mail->AltBody = "Estimado(a) {$nombre_candidato},\n\n" .
+                            "Gracias por participar en el proceso de selección.\n\n" .
+                            "Motivo del rechazo: {$observaciones}\n\n" .
+                            "Te deseamos mucho éxito en tus próximos proyectos.\n\n" .
+                            "- DRG Recursos Humanos";
+
+            $mail->send();
+
+            $response['correo_enviado'] = true;
+            $response['message'] = "El candidato fue notificado del rechazo por correo electrónico.";
+
+        } catch (Exception $e) {
+            error_log("Error al enviar correo de rechazo: " . $mail->ErrorInfo);
+            $response['correo_enviado'] = false;
+            $response['message'] = "El estatus se actualizó a rechazado, pero no se pudo enviar el correo. Error: " . $mail->ErrorInfo;
+        }
+
     } else {
         $response['message'] = "El estatus del candidato ha sido actualizado a '$nuevo_estatus'.";
     }

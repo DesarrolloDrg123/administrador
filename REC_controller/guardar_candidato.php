@@ -256,7 +256,7 @@ try {
                         </div>
 
                         <p style='text-align:center;'>
-                            <a href='https://administrador2.intranetdrg.com.mx/REC_candidatos.php' class='button'>Ver Candidatos</a>
+                            <a href='https://administrador.intranetdrg.com.mx/REC_gestion_vacantes.php' class='button'>Ver Candidatos</a>
                         </p>
 
                         <p style='font-size:13px; color:#666; text-align:center;'>
