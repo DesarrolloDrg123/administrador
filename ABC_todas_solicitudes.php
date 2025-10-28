@@ -183,7 +183,7 @@
                 "responsive": true,
                 "order": [[0, "desc"]],
                 "processing": true,
-                "columnDefs": [ { "orderable": false, "targets": [2,3,4,5,6] } ],
+                "columnDefs": [ { "orderable": false, "targets": [1,2,3,4,5,6] } ],
                 dom: 'lBfrtip',
                 buttons: [
                     { extend: 'excelHtml5', text: 'Exportar a Excel', className: 'btn btn-success btn-lg m-2' },
@@ -198,9 +198,9 @@
                 let estatus = $('#filtro_estatus').val();
                 
                 // Aplicar cada filtro con búsqueda exacta (regex)
-                table.column(3).search(sucursal ? '^' + sucursal.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);
-                table.column(4).search(tipo ? '^' + tipo.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);
-                table.column(5).search(estatus ? '^' + estatus.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);
+                table.column(4).search(sucursal ? '^' + sucursal.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);
+                table.column(5).search(tipo ? '^' + tipo.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);
+                table.column(6).search(estatus ? '^' + estatus.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);
                 
                 table.draw();
             });

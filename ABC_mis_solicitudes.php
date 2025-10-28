@@ -160,7 +160,7 @@
                 "lengthMenu": [10, 25, 50],
                 "responsive": true,
                 "order": [[0, "desc"]],
-                "columnDefs": [ { "orderable": false, "targets": [2,3,4,5,6] } ]
+                "columnDefs": [ { "orderable": false, "targets": [1,2,3,4,5,6] } ]
             });
 
             // --- INICIO: SCRIPT PARA FILTRADO DINÁMICO Y ESPECÍFICO ---
@@ -169,9 +169,9 @@
                 let tipo = $('#filtro_tipo').val();
                 let estatus = $('#filtro_estatus').val();
                 
-                table.column(3).search(sucursal ? '^' + sucursal.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);
-                table.column(4).search(tipo ? '^' + tipo.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);
-                table.column(5).search(estatus ? '^' + estatus.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);
+                table.column(4).search(sucursal ? '^' + sucursal.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);
+                table.column(5).search(tipo ? '^' + tipo.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);
+                table.column(6).search(estatus ? '^' + estatus.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$' : '', true, false);
                 
                 table.draw();
             });
