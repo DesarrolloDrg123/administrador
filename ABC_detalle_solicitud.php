@@ -102,7 +102,7 @@ $solicitud = $result->fetch_assoc();
 
                 <!-- SECCIÓN: CAMBIO DE PUESTO -->
                 <div id="section-cambio" class="detail-section">
-                    <h3 class="section-title"><?= htmlspecialchars($solicitud['tipo_solicitud']) ?></h3>
+                    <h3 class="section-title"><?= htmlspecialchars($solicitud['tipo_solicitud']) ?> - <?= htmlspecialchars($solicitud['codigo_form']) ?></h3>
                     <div class="row">
                         <div class="col-md-12 detail-group"><div class="detail-label">Colaborador:</div><div class="detail-value"><?= htmlspecialchars($solicitud['nombre_usuario_cambio'] ?? 'N/A') ?></div></div>
                         <div class="col-md-6 detail-group"><div class="detail-label">Puesto Anterior:</div><div class="detail-value"><?= htmlspecialchars($solicitud['nombre_puesto_anterior'] ?? 'N/A') ?></div></div>
@@ -113,7 +113,7 @@ $solicitud = $result->fetch_assoc();
 
                 <!-- SECCIÓN: BAJA -->
                 <div id="section-baja" class="detail-section">
-                    <h3 class="section-title"><?= htmlspecialchars($solicitud['tipo_solicitud']) ?></h3>
+                    <h3 class="section-title"><?= htmlspecialchars($solicitud['tipo_solicitud']) ?> - <?= htmlspecialchars($solicitud['codigo_form']) ?></h3>
                      <div class="row">
                         <div class="col-md-8 detail-group"><div class="detail-label">Usuario a dar de Baja:</div><div class="detail-value"><?= htmlspecialchars($solicitud['nombre_usuario_baja'] ?? 'N/A') ?></div></div>
                         <div class="col-md-4 detail-group"><div class="detail-label">¿Es Foráneo?:</div><div class="detail-value"><?= ($solicitud['es_foraneo'] ?? 0) ? 'Sí' : 'No' ?></div></div>
