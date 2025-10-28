@@ -104,7 +104,7 @@ try {
             <form method="POST" enctype="multipart/form-data" id="solicitudForm">
                 
                 <!-- Encabezado con Título, Logo y Folio -->
-                <h2 class="text-center mb-4">FOR-TEI-001 Solicitud de Accesos, Bajas y Cambios de Usuarios</h2>
+                <h2 class="text-center mb-4">Solicitud de Accesos, Bajas y Cambios de Usuarios</h2>
                 <div class="row mb-4 align-items-center">
                     <div class="col-md-6 text-center">
                         <img src="img/logo-drg.png" alt="Logo DRG" class="img-fluid" style="max-height: 80px;">
@@ -132,6 +132,10 @@ try {
                             <option value="practicante">Practicante</option>
                             <option value="baja">Baja de usuario</option>
                         </select>
+                        <!-- Contenedor para mostrar el código del formulario -->
+                        <div id="codigo_form_container" class="mt-2 text-center" style="display:none;">
+                            <span class="fw-bold text-primary">Código del Formulario: <span id="codigo_form_text"></span></span>
+                        </div>
                     </div>
                 </div>
 
@@ -432,6 +436,31 @@ $(document).ready(function () { // Se usa jQuery para asegurar que todo cargue p
     const puestoAnteriorHiddenInput = document.getElementById('puesto_anterior');
 
     tipoSolicitudSelect.addEventListener('change', updateFormUI);
+
+    const codigoFormContainer = document.getElementById('codigo_form_container');
+    const codigoFormText = document.getElementById('codigo_form_text');
+
+    const codigosForm = {
+        'alta': 'FOR-TEI-001',
+        'cambio_puesto': 'FOR-TEI-002',
+        'remplazo': 'FOR-TEI-006',
+        'practicante': 'FOR-TEI-007',
+        'baja': 'FOR-TEI-008'
+    };
+
+    // Cuando cambia el tipo de solicitud
+    tipoSolicitudSelect.addEventListener('change', function () {
+        const tipo = this.value;
+        if (codigosForm[tipo]) {
+            codigoFormText.textContent = codigosForm[tipo];
+            codigoFormContainer.style.display = 'block';
+        } else {
+            codigoFormContainer.style.display = 'none';
+            codigoFormText.textContent = '';
+        }
+        updateFormUI();
+    });
+
     
     usuarioCambioSelect.addEventListener('change', function() {
         const selectedOption = this.options[this.selectedIndex];

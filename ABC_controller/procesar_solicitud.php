@@ -43,7 +43,7 @@ function enviarNotificacionDeBaja($destinatarios, $nombreUsuarioBaja, $folio, $s
         $mail->Port       = 465;
         $mail->CharSet    = 'UTF-8';
 
-        // --- Remitente y Destinatarios ---
+        // --- Remitente y Destinatarios ---c
         $mail->setFrom('administrador@intranetdrg.com.mx', 'Sistema de Bajas');
         foreach ($destinatarios as $email) {
             $mail->addAddress($email);
@@ -90,15 +90,32 @@ try {
     
     $solicitante = $_SESSION['nombre'];
 
-    $tipo_solicitud_map = [
-        'alta' => 'Alta de usuario',
-        'cambio_puesto' => 'Alta por cambio de puesto',
-        'remplazo' => 'Alta por remplazo de usuario',
-        'practicante' => 'Practicante',
-        'baja' => 'Baja de usuario'
+    $solicitudes = [
+        'alta' => [
+            'texto' => 'Alta de usuario',
+            'codigo' => 'FOR-TEI-001'
+        ],
+        'cambio_puesto' => [
+            'texto' => 'Alta por cambio de puesto',
+            'codigo' => 'FOR-TEI-002'
+        ],
+        'remplazo' => [
+            'texto' => 'Alta por remplazo de usuario',
+            'codigo' => 'FOR-TEI-006'
+        ],
+        'practicante' => [
+            'texto' => 'Practicante',
+            'codigo' => 'FOR-TEI-007'
+        ],
+        'baja' => [
+            'texto' => 'Baja de usuario',
+            'codigo' => 'FOR-TEI-008'
+        ],
     ];
+
     $tipo_solicitud_key = $_POST['tipo_solicitud'] ?? '';
-    $tipo_solicitud_texto = $tipo_solicitud_map[$tipo_solicitud_key] ?? 'No definido';
+    $tipo_solicitud_texto = $solicitudes[$tipo_solicitud_key]['texto'] ?? 'No definido';
+    $codigo_form = $solicitudes[$tipo_solicitud_key]['codigo'] ?? 'NO_DEFINIDO';
 
     // Recolectar todos los posibles campos del formulario
     $nombres = $_POST['nombres'] ?? null;
@@ -158,7 +175,7 @@ try {
     }
     
     $sql_insert = "INSERT INTO solicitudes_movimientos_personal (
-        folio, solicitante, tipo_solicitud, fecha_solicitud,
+        folio, codigo_form, solicitante, tipo_solicitud, fecha_solicitud,
         nombres, apellido_paterno, apellido_materno, nombre_predilecto, numero_empleado,
         fecha_ingreso, fecha_nacimiento, direccion, telefono, sucursal_id, puesto_id,
         usuario_remplazo_id, usuario_a_reemplazar_info,
@@ -166,13 +183,14 @@ try {
         usuario_baja_id, es_foraneo, colaborador_respaldo_id, colaborador_recoge_productos, es_baja_por_reemplazo,
         actividades_practicante,
         justificacion, observaciones, archivo_evidencia_path
-    ) VALUES (?, ?, ?, CURDATE(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    ) VALUES (?, ?, ?, ?, CURDATE(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
     $stmt_insert = $conn->prepare($sql_insert);
     
     $stmt_insert->bind_param(
-        "ssssssssssssiiisiiiisissssss",
+        "sssssssssssssiiisiiiisissssss",
         $folio_formateado,
+        $codigo_form,
         $solicitante,
         $tipo_solicitud_texto,
         $nombres,
