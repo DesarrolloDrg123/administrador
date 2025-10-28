@@ -78,7 +78,7 @@ $solicitud = $result->fetch_assoc();
             <div>
                 <!-- SECCIÓN: ALTA / REMPLAZO / PRACTICANTE -->
                 <div id="section-alta" class="detail-section">
-                    <h3 class="section-title"><?= htmlspecialchars($solicitud['tipo_solicitud']) ?></h3>
+                    <h3 class="section-title"><?= htmlspecialchars($solicitud['tipo_solicitud']) ?> - <?= htmlspecialchars($solicitud['codigo_form']) ?> </h3>
                     <div class="row">
                         <div class="col-md-12 detail-group" id="detalle-reemplazo" style="display:none;">
                             <div class="detail-label">Usuario a Reemplazar:</div>
