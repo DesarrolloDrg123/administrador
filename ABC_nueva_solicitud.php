@@ -134,7 +134,7 @@ try {
                         </select>
                         <!-- Contenedor para mostrar el código del formulario -->
                         <div id="codigo_form_container" class="mt-2 text-center" style="display:none;">
-                            <span class="fw-bold text-primary">Código del Formulario: <span id="codigo_form_text"></span></span>
+                            <span class="fw-bold"><span id="codigo_form_text"></span></span>
                         </div>
                     </div>
                 </div>
