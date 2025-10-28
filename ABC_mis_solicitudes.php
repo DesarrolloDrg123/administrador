@@ -9,7 +9,7 @@
     // Función para obtener las solicitudes del usuario actual
     function MisMovimientosPerso($conn, $nombre) {
         $nombre = $conn->real_escape_string($nombre);
-        $sql = "SELECT mp.id, mp.folio, mp.estatus, mp.fecha_solicitud, mp.solicitante, mp.tipo_solicitud, s.sucursal FROM solicitudes_movimientos_personal mp LEFT JOIN sucursales s ON mp.sucursal_id = s.id WHERE mp.solicitante = '$nombre' ORDER BY mp.id DESC";
+        $sql = "SELECT mp.id, mp.folio, mp.codigo_form, mp.estatus, mp.fecha_solicitud, mp.solicitante, mp.tipo_solicitud, s.sucursal FROM solicitudes_movimientos_personal mp LEFT JOIN sucursales s ON mp.sucursal_id = s.id WHERE mp.solicitante = '$nombre' ORDER BY mp.id DESC";
         $result = $conn->query($sql);
         return ($result && $result->num_rows > 0) ? $result->fetch_all(MYSQLI_ASSOC) : [];
     }
@@ -111,6 +111,7 @@
                 <thead>
                     <tr style="text-align:center;">
                         <th>Folio</th>
+                        <th>Codigo</th>
                         <th>Fecha</th>
                         <th>Solicitante</th>
                         <th>Sucursal</th>
@@ -125,6 +126,7 @@
                         foreach ($mpersonal as $personal) {
                             echo "<tr>";
                             echo "<td style='text-align:center;'><a href='ABC_detalle_solicitud.php?doc=" . urlencode($personal['id']) . "'>" . htmlspecialchars($personal['folio']) . "</a></td>";
+                            echo "<td style='text-align:center;'>" . htmlspecialchars($personal['codigo_form']) . "</td>";
                             echo "<td style='text-align:center;'>" . date('d-m-Y', strtotime($personal['fecha_solicitud'])) . "</td>";
                             echo "<td style='text-align:center;'>" . htmlspecialchars($personal['solicitante']) . "</td>";
                             $sucursal_texto = !empty($personal['sucursal']) ? $personal['sucursal'] : 'N/A';

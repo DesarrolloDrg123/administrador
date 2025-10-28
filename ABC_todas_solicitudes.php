@@ -10,6 +10,7 @@
         $sql = "SELECT 
                     mp.id,
                     mp.folio,
+                    mp.codigo_form,
                     mp.estatus,
                     mp.fecha_solicitud,
                     mp.solicitante,
@@ -135,6 +136,7 @@
                 <thead>
                     <tr style="text-align:center;">
                         <th>Folio</th>
+                        <th>Codigo</th>
                         <th>Fecha de Solicitud</th>
                         <th>Solicitante</th>
                         <th>Sucursal</th>
@@ -149,6 +151,7 @@
                         foreach ($mpersonal as $personal) {
                             echo "<tr>";
                             echo "<td style='text-align:center;'><a href='ABC_detalle_solicitud.php?doc=" . urlencode($personal['id']) . "'>" . htmlspecialchars($personal['folio']) . "</a></td>";
+                            echo "<td style='text-align:center;'>" . htmlspecialchars($personal['codigo_form']) . "</td>";
                             echo "<td style='text-align:center;'>" . date('d-m-Y', strtotime($personal['fecha_solicitud'])) . "</td>";
                             echo "<td style='text-align:center;'>" . htmlspecialchars($personal['solicitante']) . "</td>";
                             echo "<td style='text-align:center;'>" . htmlspecialchars($personal['sucursal'] ?? 'N/A') . "</td>";
