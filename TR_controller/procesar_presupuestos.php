@@ -58,6 +58,16 @@ if (isset($_FILES['excel_periodos']) && $_FILES['excel_periodos']['error'] == 0)
         $presupuesto = $fila[2];
         $restante = $fila[2];
         $periodo = $fila[3];
+        
+        // Si el presupuesto está vacío o es null, se asigna 0
+        if (empty($presupuesto) && $presupuesto !== "0") {
+            $presupuesto = 0;
+        }
+    
+        // Aseguramos que restante también refleje el valor corregido
+        if (empty($restante) && $restante !== "0") {
+            $restante = 0;
+        }
 
         // Validar que los valores sean correctos antes de insertar
         if (empty($sucursal_id) || empty($departamento_id)) {
