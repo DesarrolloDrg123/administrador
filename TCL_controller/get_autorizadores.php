@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 try {
     $programa = 17;
     $acceso = 1;
-    $stmt = $conn->prepare("SELECT u.id, u.nombre FROM usuarios u INNER JOIN permisos p ON u.id = p.id_usuarioWHERE p.id_programa = ? 
+    $stmt = $conn->prepare("SELECT u.id, u.nombre FROM usuarios u INNER JOIN permisos p ON u.id = p.id_usuario WHERE p.id_programa = ? 
     AND p.acceso = ? ORDER BY u.nombre ASC ");
     $stmt->bind_param('ii', $programa, $acceso);
     $stmt->execute();
