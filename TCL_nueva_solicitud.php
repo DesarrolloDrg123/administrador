@@ -15,7 +15,7 @@ $autorizacion_id = $usuario_id;
 try {
     $conn->begin_transaction();
     // Nota: Asegúrate que la tabla control_folios_tcl exista y tenga el id 1
-    $stmt = $conn->prepare("SELECT ultimo_folio FROM control_folios_tcl WHERE id = 1 FOR UPDATE");
+    $stmt = $conn->prepare("SELECT folio FROM control_folios_tcl WHERE id = 1 FOR UPDATE");
     $stmt->execute();
     $result = $stmt->get_result();
     
