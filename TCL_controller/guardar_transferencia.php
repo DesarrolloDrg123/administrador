@@ -97,7 +97,7 @@ try {
     // 4. INSERCIÓN EN LA BASE DE DATOS
     
     $fields = ["folio", "sucursal_id", "beneficiario_id", "fecha_solicitud", "no_cuenta", "fecha_vencimiento", "departamento_id", "categoria_id", "descripcion", "observaciones", "autorizacion_id", "usuario_solicitante_id", "estado"];
-    $values = [$folio_formateado, $sucursal_id, $beneficiario_id, $fecha_solicitud, $no_cuenta, $fecha_vencimiento, $departamento_id, $categoria_id, $descripcion, $observaciones, $autorizacion_id, $usuario_solicitante_id, 'PENDIENTE'];
+    $values = [$folio_formateado, $sucursal_id, $beneficiario_id, $fecha_solicitud, $no_cuenta, $fecha_vencimiento, $departamento_id, $categoria_id, $descripcion, $observaciones, $autorizacion_id, $usuario_solicitante_id, 'Nuevo'];
     
     // Agregar campos de importe según lo que se haya enviado
     if (!empty($importe)) {
@@ -191,11 +191,12 @@ function MandarCorreo($nombreSolicitante, $folio_formateado,$no_cuenta,$importe,
         $mail->addAddress($row['email_autoriza']);
 
         $fechaSolicitud = new DateTime($fecha_solicitud);
-        // La clase IntlDateFormatter no existe en todas las instalaciones PHP, 
-        // se usa un formato simple por seguridad:
-        $fechaSolicitudFormateada = $fechaSolicitud->format('d MMMM YYYY');
+        $fmt = new IntlDateFormatter('es_ES', IntlDateFormatter::LONG, IntlDateFormatter::NONE);
+        $fmt->setPattern('d MMMM yyyy');
+        $fechaSolicitudFormateada = $fmt->format($fechaSolicitud);
+
         $fechaVencimiento = new DateTime($fecha_vencimiento);
-        $fechaVencimientoFormateada = $fechaVencimiento->format('d MMMM YYYY');
+        $fechaVencimientoFormateada = $fmt->format($fechaVencimiento);
 
         $mail->isHTML(true);
         $mail->Subject = 'Nueva Solicitud de Transferencia Clara TCL - Folio: ' . $folio_formateado;
@@ -204,10 +205,15 @@ function MandarCorreo($nombreSolicitante, $folio_formateado,$no_cuenta,$importe,
         <head>
         <meta charset='utf-8' />
             <style>
-                /* Estilos omitidos por brevedad pero pueden ser agregados */
                 body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-                .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; }
-                .label { font-weight: bold; color: #34495e; display: inline-block; width: 150px; }
+                h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+                h2 { color: #2980b9; }
+                strong { color: #2c3e50; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .info-row { margin-bottom: 10px; }
+                .label { font-weight: bold; color: #34495e; }
+                .value { margin-left: 10px; }
+                .logo { position: absolute; top: 20px; right: 100px; max-width: 300px; height: 250; width: 250px; }
             </style>
         </head>
         <body>
@@ -224,9 +230,6 @@ function MandarCorreo($nombreSolicitante, $folio_formateado,$no_cuenta,$importe,
                 
                 <div class='info-row'><span class='label'>Importe Pesos:</span><span>\$ $importe_formateado</span></div>
                 <div class='info-row'><span class='label'>Importe con Letra Pesos:</span><span>$importe_letra</span></div>
-
-                <div class='info-row'><span class='label'>Importe en Dólares:</span><span>$$importedls_formateado</span></div>
-                <div class='info-row'><span class='label'>Importe con Letra Dólares:</span><span>$importedls_letra</span></div>
                 
                 <div class='info-row'><span class='label'>Departamento:</span><span>{$row['departamento']}</span></div>
                 <div class='info-row'><span class='label'>Categoría:</span><span>{$row['categoria']}</span></div>
