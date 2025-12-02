@@ -93,7 +93,7 @@ try {
                 <!-- Beneficiario y Fecha -->
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
-                        <label for="beneficiario" class="form-label">Beneficiario (Usuarios Activos)*</label>
+                        <label for="beneficiario" class="form-label">Beneficiario*</label>
                         <select class="form-select" name="beneficiario" id="beneficiario" required>
                             <option value="" disabled selected>Cargando beneficiarios...</option>
                         </select>
