@@ -21,7 +21,7 @@ try {
     
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $ultimo_folio = $row['ultimo_folio'];
+        $ultimo_folio = $row['folio'];
     } else {
         // Fallback si no existe registro inicial
         $ultimo_folio = 0;

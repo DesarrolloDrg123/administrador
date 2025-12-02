@@ -221,23 +221,23 @@ function MandarCorreo($nombreSolicitante, $folio_formateado,$no_cuenta,$importe,
                 <h1>Nueva Solicitud de transferencia electrónica TCL.</h1>
                 <h2>Solicitante: <strong>{$nombreSolicitante}</strong></h2>
                 
-                <div class='info-row'><span class='label'>Folio:</span><span>{$folio_formateado}</span></div>
-                <div class='info-row'><span class='label'>Sucursal:</span><span>{$row['sucursal']}</span></div>
-                <div class='info-row'><span class='label'>Beneficiario:</span><span>{$row['beneficiario']}</span></div>
-                <div class='info-row'><span class='label'>Fecha de Solicitud:</span><span>$fechaSolicitudFormateada</span></div>
-                <div class='info-row'><span class='label'>Fecha de Vencimiento:</span><span>$fechaVencimientoFormateada</span></div>
-                <div class='info-row'><span class='label'>No. de Cuenta:</span><span>$no_cuenta</span></div>
+                <div class='info-row'><span class='label'>Folio: </span><span>{$folio_formateado}</span></div>
+                <div class='info-row'><span class='label'>Sucursal: </span><span>{$row['sucursal']}</span></div>
+                <div class='info-row'><span class='label'>Beneficiario: </span><span>{$row['beneficiario']}</span></div>
+                <div class='info-row'><span class='label'>Fecha de Solicitud: </span><span>$fechaSolicitudFormateada</span></div>
+                <div class='info-row'><span class='label'>Fecha de Vencimiento: </span><span>$fechaVencimientoFormateada</span></div>
+                <div class='info-row'><span class='label'>No. de Cuenta: </span><span>$no_cuenta</span></div>
                 
-                <div class='info-row'><span class='label'>Importe Pesos:</span><span>\$ $importe_formateado</span></div>
-                <div class='info-row'><span class='label'>Importe con Letra Pesos:</span><span>$importe_letra</span></div>
+                <div class='info-row'><span class='label'>Importe Pesos: </span><span>\$ $importe_formateado</span></div>
+                <div class='info-row'><span class='label'>Importe con Letra Pesos: </span><span>$importe_letra</span></div>
                 
-                <div class='info-row'><span class='label'>Departamento:</span><span>{$row['departamento']}</span></div>
-                <div class='info-row'><span class='label'>Categoría:</span><span>{$row['categoria']}</span></div>
-                <div class='info-row'><span class='label'>Descripción:</span><span>$descripcion</span></div>
-                <div class='info-row'><span class='label'>Observaciones:</span><span>$observaciones</span></div>
+                <div class='info-row'><span class='label'>Departamento: </span><span>{$row['departamento']}</span></div>
+                <div class='info-row'><span class='label'>Categoría: </span><span>{$row['categoria']}</span></div>
+                <div class='info-row'><span class='label'>Descripción: </span><span>$descripcion</span></div>
+                <div class='info-row'><span class='label'>Observaciones: </span><span>$observaciones</span></div>
                 
-                <div class='info-row'><span class='label'>Autoriza Pendiente:</span><span>{$row['usuario_autoriza']}</span></div>
-                <p>Favor de ingresar al portal para revisar y confirmar la transferencia.</p>
+                <div class='info-row'><span class='label'>Autoriza Pendiente: </span><span>{$row['usuario_autoriza']}</span></div>
+                <h1>Confirmar Transferencia en el Portal.</h1>
             </div>
         </body>
         </html>
