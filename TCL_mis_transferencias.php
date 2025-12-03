@@ -2,6 +2,8 @@
 session_start();
 require("config/db.php");
 include("src/templates/adminheader.php");
+include "TR_controller/validate_sat.php";
+include "TR_controller/validate_xml.php";
 
 if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
     header("Location: index.php");
@@ -178,6 +180,7 @@ if (isset($_GET['msg'])) {
                 
                 -- Sumamos los importes para obtener el total del folio
                 SUM(COALESCE(t.importe, 0)) AS importe, 
+                SUM(COALESCE(t.importedls, 0)) AS importedls,
         
                 -- Para los demás campos, tomamos un valor representativo del grupo
                 MAX(b.beneficiario) AS beneficiario,
@@ -189,6 +192,7 @@ if (isset($_GET['msg'])) {
                 MAX(t.no_cuenta) AS no_cuenta, 
                 MAX(t.fecha_vencimiento) AS fecha_vencimiento, 
                 MAX(t.importe_letra) AS importe_letra, 
+                MAX(t.importedls_letra) AS importedls_letra, 
                 MAX(t.tipo_cambio) AS tipo_cambio, 
                 MAX(t.descripcion) AS descripcion, 
                 MAX(t.observaciones) AS observaciones, 
