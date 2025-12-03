@@ -196,7 +196,7 @@ if (isset($_GET['msg'])) {
                 MAX(t.documento_adjunto) AS documento_adjunto,
                 MAX(t.recibo) AS recibo
             FROM 
-                transferencias_tcl t
+                transferencias_clara_tcl t
             JOIN beneficiarios b ON t.beneficiario_id = b.id
             JOIN sucursales s ON t.sucursal_id = s.id
             JOIN departamentos d ON t.departamento_id = d.id
@@ -331,7 +331,7 @@ if (isset($_GET['msg'])) {
                         $placeholders = implode(',', array_fill(0, count($folios_a_buscar), '?'));
                         
                         $sql_total_facturas = "SELECT NO_ORDEN_COMPRA, SUM(TOTAL) AS total_facturas 
-                                               FROM facturas 
+                                               FROM facturas_tcl 
                                                WHERE NO_ORDEN_COMPRA IN ($placeholders) 
                                                GROUP BY NO_ORDEN_COMPRA";
                                                
