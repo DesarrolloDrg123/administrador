@@ -133,7 +133,7 @@ if (isset($_GET['msg'])) {
         // Filtros
         $where = [];
         
-        $where[] = "(t.usuario_id = ? OR t.autorizacion_id = ?)";
+        $where[] = "(t.usuario_solicitante_id = ? OR t.autorizacion_id = ?)";
         $params[] = $usuario_id;
         $params[] = $usuario_id;
         
