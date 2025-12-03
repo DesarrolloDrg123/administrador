@@ -206,8 +206,8 @@ if (isset($_GET['msg'])) {
             JOIN departamentos d ON t.departamento_id = d.id
             JOIN categorias c ON t.categoria_id = c.id
             JOIN usuarios u ON t.autorizacion_id = u.id
-            JOIN usuarios u2 ON t.usuario_id = u2.id
-            $where_sql AND (t.usuario_id = ? OR t.autorizacion_id = ?)
+            JOIN usuarios u2 ON t.usuario_solicitante_id = u2.id
+            $where_sql AND (t.usuario_solicitante_id = ? OR t.autorizacion_id = ?)
             GROUP BY 
                 t.folio
             ORDER BY 
