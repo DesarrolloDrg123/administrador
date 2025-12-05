@@ -26,6 +26,7 @@ try {
     JOIN categorias c ON t.categoria_id = c.id
     JOIN departamentos d ON t.departamento_id = d.id
     JOIN usuarios u1 ON t.usuario_solicitante_id = u1.id
+    JOIN usuarios b ON t.beneficiario_id = b.id
     JOIN sucursales s ON t.sucursal_id = s.id
     JOIN usuarios u2 ON t.autorizacion_id = u2.id
     WHERE t.id = ?';
