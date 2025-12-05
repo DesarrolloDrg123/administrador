@@ -1,7 +1,7 @@
 <?php
 include("src/templates/adminheader.php");
 require("config/db.php");
-include('TR_controller/upload_files.php');
+include('TLC_controller/upload_files.php');
 
 
 if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
@@ -22,7 +22,7 @@ $solicitud_id = $_GET['id'];
 try {
     $sql = 'SELECT t.id, t.folio, s.sucursal AS sucursal, b.beneficiario AS beneficiario, t.fecha_solicitud, t.fecha_vencimiento, t.importe,t.importe_letra, t.importedls, t.importedls_letra, t.descripcion, t.estado, t.documento_adjunto, t.no_cuenta,
     t.observaciones, t.categoria_id, t.departamento_id, t.usuario_id, t.autorizacion_id AS autoriza, t.motivo, u1.nombre AS nombre_usuario, u2.nombre AS nombre_autoriza, d.departamento, c.categoria
-    FROM transferencias t 
+    FROM transferencias_tlc t 
     JOIN categorias c ON t.categoria_id = c.id
     JOIN departamentos d ON t.departamento_id = d.id
     JOIN usuarios u1 ON t.usuario_id = u1.id
@@ -178,13 +178,13 @@ td {
                     <!-- Botones de Acci��n -->
                     <div class="d-flex gap-2 mt-3">
                         <?php if ($solicitud['estado'] === 'Pendiente' && $usuario_ses === $solicitud['nombre_usuario']) : ?>
-                            <a href="TR_edit_transfer.php?id=<?= $solicitud_id ?>&MT=true" class="btn btn-warning">Editar Transferencia</a>
+                            <a href="TLC_edit_transfer.php?id=<?= $solicitud_id ?>&MT=true" class="btn btn-warning">Editar Transferencia</a>
                         <?php endif; ?>
                         <?php if ($MTParam === 'true'): ?>
-                            <a href="TR_mis_transferencias.php" class="btn btn-secondary">Volver</a>
+                            <a href="TLC_mis_transferencias.php" class="btn btn-secondary">Volver</a>
                         <?php endif; ?>
                         <?php if ($ATParam === 'true'): ?>
-                            <a href="TR_por_autorizar.php" class="btn btn-secondary">Volver</a>
+                            <a href="TLC_por_autorizar.php" class="btn btn-secondary">Volver</a>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -296,7 +296,7 @@ td {
     }
 
     $.ajax({
-      url: 'TR_controller/factura_reset.php',
+      url: 'TLC_controller/factura_reset.php',
       method: 'POST',
       data: {
         UUID: uuid,
