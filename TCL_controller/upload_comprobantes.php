@@ -44,7 +44,7 @@ if (isset($_POST['submit_comprobantes'])) {
             if ($stmt_insert = $conn->prepare($sql)) {
                 
                 // Tipo de parámetros: s=string, s=string, d=double/float, s=string, s=string
-                $stmt_insert->bind_param("ssdds", $folio, $tipo_comprobante, $importe, $descripcion, $evidencia_db_path);
+                $stmt_insert->bind_param("ssdss", $folio, $tipo_comprobante, $importe, $descripcion, $evidencia_db_path);
                 
                 if ($stmt_insert->execute()) {
                     // Éxito:
