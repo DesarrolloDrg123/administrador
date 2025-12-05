@@ -17,7 +17,7 @@ try {
         t.id,
         t.folio,
         s.sucursal,
-        b.beneficiario,
+        b.nombre AS beneficiario
         t.fecha_solicitud,
         t.importe,
         t.descripcion,
@@ -26,7 +26,7 @@ try {
     FROM
         transferencias_clara_tcl t
     JOIN sucursales s ON t.sucursal_id = s.id
-    JOIN beneficiarios b ON t.beneficiario_id = b.id
+    JOIN usuarios b ON t.beneficiario_id = b.id
     WHERE
         t.autorizacion_id = ? AND t.estado = "Pendiente"
     ORDER BY
