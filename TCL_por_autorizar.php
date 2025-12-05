@@ -17,7 +17,7 @@ try {
         t.id,
         t.folio,
         s.sucursal,
-        b.nombre AS beneficiario
+        b.nombre AS beneficiario,
         t.fecha_solicitud,
         t.importe,
         t.descripcion,
