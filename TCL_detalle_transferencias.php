@@ -213,7 +213,7 @@ td {
                             <tr><th>Total de Facturas</th><td>$<?= number_format($total_facturas, 2, ".", ",") ?></td></tr>
                             <tr><th>Total de Comprobantes</th><td>$<?= number_format($total_comprobantes, 2, ".", ",") ?></td></tr>
                             <tr><th>Total Comprobado</th><td>$<?= number_format($total_comprobado, 2, ".", ",") ?></td></tr>
-                            <tr><th>Pendiente por Subir</th><td><?= $importe_pendiente = ($pendiente > 0) ? '$' . number_format($pendiente, 2, ".", ",") : '$0.00'; ?></td></tr>
+                            <tr><th>Pendiente por Subir</th><td><?= ($solicitud['estado'] != "Cancelada" && $solicitud['estado'] != "Rechazado") ? '$' . number_format($pendiente, 2, ".", ",") : '$0.00'; ?></td></tr>
                             <?php if (!empty($solicitud['documento_adjunto'])): ?>
                                 <tr>
                                     <th>Documento</th>
