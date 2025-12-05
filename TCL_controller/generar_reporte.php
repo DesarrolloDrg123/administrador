@@ -41,7 +41,7 @@ $sql = "
         t.fecha_solicitud,
         t.estado
     FROM 
-        transferencias t
+        transferencias_clara_tcl t
     JOIN beneficiarios b ON t.beneficiario_id = b.id
     JOIN sucursales s ON t.sucursal_id = s.id
     JOIN departamentos d ON t.departamento_id = d.id
@@ -50,7 +50,7 @@ $sql = "
     JOIN usuarios u_elabora ON t.usuario_id = u_elabora.id
     LEFT JOIN (
         SELECT NO_ORDEN_COMPRA, SUM(TOTAL) as total_facturas
-        FROM facturas
+        FROM facturas_tcl
         GROUP BY NO_ORDEN_COMPRA
     ) fs ON t.folio = fs.NO_ORDEN_COMPRA
     $where_sql
