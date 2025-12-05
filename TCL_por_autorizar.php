@@ -8,7 +8,7 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
     exit();
 }
 
-$autorizacion_id = $_SESSION['usuario_solicitante_id'];
+$autorizacion_id = $_SESSION['usuario_id'];
 $solicitudes = [];
 
 try {
