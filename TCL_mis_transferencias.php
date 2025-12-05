@@ -2,8 +2,8 @@
 session_start();
 require("config/db.php");
 include("src/templates/adminheader.php");
-include "TR_controller/validate_sat.php";
-include "TR_controller/validate_xml.php";
+include "TCL_controller/validate_sat.php";
+include "TCL_controller/validate_xml.php";
 
 if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
     header("Location: index.php");
@@ -476,7 +476,7 @@ if (isset($_GET['msg'])) {
                         });
                         
                         // 3. Redirigimos para iniciar la descarga
-                        window.location.href = `TR_controller/generar_reporte.php?${params.toString()}`;
+                        window.location.href = `TCL_controller/generar_reporte.php?${params.toString()}`;
                     }
                 },
                 {
