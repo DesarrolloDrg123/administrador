@@ -121,7 +121,7 @@ if (isset($_GET['msg'])) {
 </style>
 
 <div class="mt-5 col-md-12">
-    <h2 class="mb-4">Mis Solicitudes de Transferencias</h2>
+    <h2 class="mb-4">Mis Solicitudes de Transferencias Clara</h2>
     <h6 class="mb-4 text-muted">
         <span>
             <span class="badge bg-danger">&nbsp;</span> Folios en <strong>rojo</strong> sin facturas adjuntas
@@ -313,8 +313,8 @@ if (isset($_GET['msg'])) {
                         <th>Importe</th>
                         <th>Moneda</th>
                         <th>Tipo de Cambio</th>
-                        <th>Total de Facturas Subidas</th>
-                        <th>Pendiente por Subir</th>
+                        <th>Total de Comprobaciones</th>
+                        <th>Pendiente por Comprobar</th>
                         <th>Fecha de Solicitud</th>
                         <th>Estado</th>
                         <th>Documento Adjunto</th>
@@ -375,7 +375,7 @@ if (isset($_GET['msg'])) {
                         $moneda = ($filas['importedls'] && $filas['importedls'] != "0.00") ? 'USD' : 'MXN';
                     ?>
                         <tr class="text-center align-middle">
-                            <td><a href="TR_detalle_transferencias.php?id=<?= htmlspecialchars($filas['id']) ?>&MT=true" class="<?= $folio_class ?>"><?= htmlspecialchars($filas['folio']) ?></a></td>
+                            <td><a href="TCL_detalle_transferencias.php?id=<?= htmlspecialchars($filas['id']) ?>&MT=true" class="<?= $folio_class ?>"><?= htmlspecialchars($filas['folio']) ?></a></td>
                             <td><?= htmlspecialchars($filas['beneficiario']) ?></td>
                             <td style="text-align:center; max-width:200px;"><?= htmlspecialchars($filas['descripcion']) ?></td>
                             <td><?= htmlspecialchars($filas['sucursal']) ?></td>

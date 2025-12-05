@@ -1,7 +1,7 @@
 <?php
 include("src/templates/adminheader.php");
 require("config/db.php");
-include('TR_controller/upload_files.php');
+include('TLC_controller/upload_files.php');
 
 
 if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
@@ -42,7 +42,7 @@ try {
     $solicitud = $result->fetch_assoc();
 
     if (!$solicitud) {
-        echo "No se encontr¨® la solicitud o no tienes permiso para verla.";
+        echo "No se encontrï¿½ï¿½ la solicitud o no tienes permiso para verla.";
         exit();
     }
 } catch (Exception $e) {
@@ -54,22 +54,22 @@ try {
 $fecha = new DateTime($solicitud['fecha_solicitud']);
 $fecha1 = new DateTime($solicitud['fecha_vencimiento']);
 
-// Meses en espa0Š9ol abreviados
+// Meses en espaï¿½0ï¿½9ol abreviados
 $meses_espanol = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
 
-// Obtener el d¨ªa, el mes (como ¨ªndice) y el a0Š9o
+// Obtener el dï¿½ï¿½a, el mes (como ï¿½ï¿½ndice) y el aï¿½0ï¿½9o
 $dia = $fecha->format('j');
 $mes = $meses_espanol[(int)$fecha->format('n') - 1];
-$a0Š9o = $fecha->format('Y');
+$aï¿½0ï¿½9o = $fecha->format('Y');
 
-// Obtener el d¨ªa, el mes (como ¨ªndice) y el a0Š9o
+// Obtener el dï¿½ï¿½a, el mes (como ï¿½ï¿½ndice) y el aï¿½0ï¿½9o
 $dia1 = $fecha1->format('j');
 $mes1 = $meses_espanol[(int)$fecha1->format('n') - 1];
-$a0Š9o1 = $fecha1->format('Y');
+$aï¿½0ï¿½9o1 = $fecha1->format('Y');
 
 // Concatenar en el formato deseado
-$fecha_formateada = "{$dia}/{$mes}/{$a0Š9o}";
-$fecha_formateada1 = "{$dia1}/{$mes1}/{$a0Š9o1}";
+$fecha_formateada = "{$dia}/{$mes}/{$aï¿½0ï¿½9o}";
+$fecha_formateada1 = "{$dia1}/{$mes1}/{$aï¿½0ï¿½9o1}";
 ?>
 
 <?php
@@ -158,7 +158,7 @@ td {
                             <?php endif; ?>
                             <tr><th>Autoriza</th><td><?= htmlspecialchars($solicitud['nombre_autoriza']) ?></td></tr>
                             <?php if (empty($solicitud['importe']) || $solicitud['importe'] == '0.00'): ?>
-                                <tr><th>Importe en D¨®lares</th><td>US$<?= number_format($solicitud['importedls'], 2, ".", ",") ?></td></tr>
+                                <tr><th>Importe en Dï¿½ï¿½lares</th><td>US$<?= number_format($solicitud['importedls'], 2, ".", ",") ?></td></tr>
                                 <tr><th>Importe en Letra</th><td><?= htmlspecialchars($solicitud['importedls_letra']) ?></td></tr>
                             <?php else: ?>
                                 <tr><th>Importe en Pesos</th><td>$<?= number_format($solicitud['importe'], 2, ".", ",") ?></td></tr>
@@ -175,16 +175,16 @@ td {
                         </tbody>
                     </table>
 
-                    <!-- Botones de Acci¨®n -->
+                    <!-- Botones de Acciï¿½ï¿½n -->
                     <div class="d-flex gap-2 mt-3">
                         <?php if ($solicitud['estado'] === 'Pendiente' && $usuario_ses === $solicitud['nombre_usuario']) : ?>
-                            <a href="TR_edit_transfer.php?id=<?= $solicitud_id ?>&MT=true" class="btn btn-warning">Editar Transferencia</a>
+                            <a href="TLC_edit_transfer.php?id=<?= $solicitud_id ?>&MT=true" class="btn btn-warning">Editar Transferencia</a>
                         <?php endif; ?>
                         <?php if ($MTParam === 'true'): ?>
-                            <a href="TR_mis_transferencias.php" class="btn btn-secondary">Volver</a>
+                            <a href="TLC_mis_transferencias.php" class="btn btn-secondary">Volver</a>
                         <?php endif; ?>
                         <?php if ($ATParam === 'true'): ?>
-                            <a href="TR_por_autorizar.php" class="btn btn-secondary">Volver</a>
+                            <a href="TLC_por_autorizar.php" class="btn btn-secondary">Volver</a>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -252,7 +252,7 @@ td {
 
 
 
-<!-- Modal de Confirmaci¨®n para Reset -->
+<!-- Modal de Confirmaciï¿½ï¿½n para Reset -->
 <div class="modal fade" id="modalResetFactura" tabindex="-1" role="dialog" aria-labelledby="modalResetLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -296,7 +296,7 @@ td {
     }
 
     $.ajax({
-      url: 'TR_controller/factura_reset.php',
+      url: 'TLC_controller/factura_reset.php',
       method: 'POST',
       data: {
         UUID: uuid,
@@ -308,11 +308,11 @@ td {
           alert('Factura reiniciada correctamente.');
           location.reload(); // Opcional: recarga tabla para ver cambios
         } else {
-          $('#respuestaReset').text('Ocurri¨® un error al reiniciar.');
+          $('#respuestaReset').text('Ocurriï¿½ï¿½ un error al reiniciar.');
         }
       },
       error: function () {
-        $('#respuestaReset').text('Error de comunicaci¨®n con el servidor.');
+        $('#respuestaReset').text('Error de comunicaciï¿½ï¿½n con el servidor.');
       }
     });
   }
@@ -358,17 +358,17 @@ td {
 </script>
 
 <script>
-// Funci¨®n para agregar din¨¢micamente el bloque de HTML
+// Funciï¿½ï¿½n para agregar dinï¿½ï¿½micamente el bloque de HTML
 function agregarBloqueHTML() {
 var fileSection = document.querySelector('.nuevosCampos');
 
-// Verificar si ya existen campos vac¨ªos
+// Verificar si ya existen campos vacï¿½ï¿½os
 var existingRows = fileSection.querySelectorAll('.form-row');
 for (var i = 0; i < existingRows.length; i++) {
     var pdfInput = existingRows[i].querySelector('input[name="file_pdf[]"]');
     var xmlInput = existingRows[i].querySelector('input[name="file_xml[]"]');
     if (pdfInput.files.length === 0 || xmlInput.files.length === 0) {
-        // Ya existe un bloque con campos vac¨ªos, no agregar otro
+        // Ya existe un bloque con campos vacï¿½ï¿½os, no agregar otro
         return;
     }
 }
@@ -391,13 +391,13 @@ div.innerHTML += `
 // Agregar el bloque al formulario
 fileSection.appendChild(div);
 
-// Obtener el ¨²ltimo bloque de formulario agregado
+// Obtener el ï¿½ï¿½ltimo bloque de formulario agregado
 var lastFormRow = fileSection.lastElementChild;
 
-// Obtener los campos de archivo dentro del ¨²ltimo bloque de formulario
+// Obtener los campos de archivo dentro del ï¿½ï¿½ltimo bloque de formulario
 var fileInputs = lastFormRow.querySelectorAll('input[type="file"]');
 
-// Escuchar el evento change en los campos de archivo dentro del ¨²ltimo bloque de formulario
+// Escuchar el evento change en los campos de archivo dentro del ï¿½ï¿½ltimo bloque de formulario
 fileInputs.forEach(function(input) {
     input.addEventListener('change', function() {
         // Verificar si ambos campos de archivo tienen archivos seleccionados
@@ -411,7 +411,7 @@ fileInputs.forEach(function(input) {
 });
 }
 
-// Llamar a la funci¨®n para agregar el bloque de HTML inicial
+// Llamar a la funciï¿½ï¿½n para agregar el bloque de HTML inicial
 agregarBloqueHTML();
 setTimeout(function(){
 	  if ($('#mensajes_globales').length > 0) {
