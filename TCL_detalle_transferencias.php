@@ -499,6 +499,45 @@ setTimeout(function(){
 	}, 5000);
 </script>
 
+<script>
+    $(document).ready(function() {
+        // Verificamos si PHP indicó que se debe mostrar el modal de errores o de éxito
+        <?php 
+        // Usamos isset para evitar errores si upload_files.php no definió las variables
+        if ((isset($mostrar_modal_errores) && $mostrar_modal_errores) || 
+            (isset($mostrar_modal_exito) && $mostrar_modal_exito)) { 
+        ?>
+            // Buscamos el modal por su ID (definido en upload_files.php) y lo mostramos
+            var myModal = new bootstrap.Modal(document.getElementById('modal_resultados'), {
+                keyboard: false
+            });
+            myModal.show();
+            
+            // NOTA: Si usas Bootstrap 4 o anterior y el código de arriba falla, 
+            // intenta descomentar la siguiente línea y comentar las 3 anteriores:
+            // $('#modal_resultados').modal('show');
+        <?php } ?>
+    });
+</script>
+
+<script>
+    // Tu código JS actual puede fallar si el formulario no existe (ej. estado Pendiente)
+    // Reemplaza tu bloque de "formularioFacturas" con este más seguro:
+    var formFacturas = document.querySelector('#formularioFacturas');
+    if (formFacturas) {
+        if(formFacturas.ordenCompra) {
+            formFacturas.ordenCompra.addEventListener('keypress', function (e){
+                if (!soloNumeros(event)){ e.preventDefault(); }
+            });
+        }
+        if(formFacturas.folioFactura) {
+            formFacturas.folioFactura.addEventListener('keypress', function (e){
+                if (!soloLetras(event)){ e.preventDefault(); }
+            });
+        }
+    }
+</script>
+
 <?php
 include("src/templates/adminfooter.php");
 ?>

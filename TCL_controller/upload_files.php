@@ -24,7 +24,6 @@
     $mostrar_modal_errores = false; // Inicializar en falso por defecto
     $mostrar_modal_exito = false;   // Inicializar en falso por defecto
     // ---------------------------------
-    
    $mostrar_modal = false;
 
    if(isset($_POST['submit']))
