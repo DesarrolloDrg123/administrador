@@ -2,6 +2,7 @@
 include("src/templates/adminheader.php");
 require("config/db.php");
 include('TCL_controller/upload_files.php');
+include('TCL_controller/upload_comprobantes.php');
 
 
 if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
@@ -101,6 +102,20 @@ if ($solicitud['importe'] == '0.00' || $solicitud['importe'] == null || $solicit
 }
 
 $pendiente = $importe_transferencia - $total_facturas;
+
+$sql_comprobantes = "SELECT id, importe, descripcion FROM comprobantes_tcl WHERE folio = ?";
+$stmt_comp = $conn->prepare($sql_comprobantes);
+
+if ($stmt_comp) {
+    $stmt_comp->bind_param('s', $folio); // Usamos la variable $folio que ya tienes definida
+    $stmt_comp->execute();
+    $result_comprobantes = $stmt_comp->get_result(); // Esta es la variable que usa el HTML
+    $stmt_comp->close();
+} else {
+    // En caso de error de preparación, inicializa la variable para evitar errores en el HTML
+    $result_comprobantes = null;
+    error_log("Error al preparar la consulta de comprobantes: " . $conn->error);
+}
 
 ?>
 <style>
