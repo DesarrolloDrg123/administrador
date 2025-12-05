@@ -45,12 +45,12 @@ try {
 
     // --- PASO 2: OBTENER TODOS LOS DATOS (CON JOINS) DE LAS TRANSFERENCIAS DE ESE FOLIO ---
     $sql_transferencias = 'SELECT
-            t.*, s.sucursal, b.beneficiario, d.departamento, c.categoria,
+            t.*, s.sucursal, b.nombre AS nombre_beneficiario, d.departamento, c.categoria,
             u_sol.nombre AS nombre_solicitante, u_sol.email AS email_solicitante,
             u_aut.nombre AS nombre_autoriza
         FROM transferencias_clara_tcl t
         LEFT JOIN sucursales s ON t.sucursal_id = s.id
-        LEFT JOIN beneficiarios b ON t.beneficiario_id = b.id
+        JOIN usuarios b ON t.beneficiario_id = b.id
         LEFT JOIN departamentos d ON t.departamento_id = d.id
         LEFT JOIN categorias c ON t.categoria_id = c.id
         LEFT JOIN usuarios u_sol ON t.usuario_solicitante_id = u_sol.id
@@ -169,7 +169,7 @@ try {
                 </div>
                 <div class='info-row'>
                     <span class='label'>Beneficiario:</span>
-                    <span class='value'>{$info_para_correo['beneficiario']}</span>
+                    <span class='value'>{$info_para_correo['nombre_beneficiario']}</span>
                 </div>
                 <div class='info-row'>
                     <span class='label'>Fecha de Solicitud:</span>

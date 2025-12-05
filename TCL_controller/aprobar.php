@@ -29,7 +29,7 @@ try {
             u2.nombre AS solicitante_nombre, u2.email AS solicitante_email
             FROM transferencias_clara_tcl t
             JOIN categorias c ON t.categoria_id = c.id
-            JOIN beneficiarios b ON t.beneficiario_id = b.id
+            JOIN usuarios b ON t.beneficiario_id = b.id
             JOIN usuarios u ON t.autorizacion_id = u.id
             JOIN usuarios u2 ON t.usuario_solicitante_id = u2.id
             JOIN sucursales s ON t.sucursal_id = s.id
