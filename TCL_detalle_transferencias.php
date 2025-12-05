@@ -240,7 +240,7 @@ td {
         </div>
 
         <!-- FACTURAS Y FORMULARIO DE CARGA -->
-        <?php if ($solicitud['estado'] != "Pendiente" && $solicitud['estado'] != "Rechazado" && $solicitud['estado'] != "Cancelado" && $solicitud['beneficiario_id'] == $usuario_id): ?>
+        <?php if ($solicitud['estado'] != "Pendiente" && $solicitud['estado'] != "Rechazado" && $solicitud['estado'] != "Cancelado"): ?>
           <div class="col-md-6">
 
               <h2 class="section-title"><i class="fas fa-receipt"></i> Cargar Facturas</h2>
