@@ -270,17 +270,17 @@ td {
                       <form action="" method="POST" name="formularioComprobantes" id="formularioComprobantes" enctype="multipart/form-data">
                           
                           <div class="form-group">
-                              <label for="importe_comprobante">Monto/Importe del Comprobante:</label>
+                              <label for="importe_comprobante">Monto/Importe del Comprobante: *</label>
                               <input type="number" step="0.01" class="form-control" id="importe_comprobante" name="importe_comprobante" required>
                           </div>
                           
                           <div class="form-group">
-                              <label for="descripcion_comprobante">Descripción del Recibo/Gasto:</label>
+                              <label for="descripcion_comprobante">Descripción del Recibo/Gasto: *</label>
                               <textarea class="form-control" id="descripcion_comprobante" name="descripcion_comprobante" rows="2" required></textarea>
                           </div>
                           
                           <div class="form-group">
-                              <label for="evidencia_comprobante">Evidencia (Imagen, Foto, PDF):</label>
+                              <label for="evidencia_comprobante">Evidencia (Imagen, Foto, PDF): *</label>
                               <input type="file" class="form-control-file" id="evidencia_comprobante" name="evidencia_comprobante" accept="image/*,.pdf" required>
                           </div>
                           
