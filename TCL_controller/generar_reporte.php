@@ -17,7 +17,7 @@ if (!empty($_GET['sucursal'])) { $where[] = "t.sucursal_id = ?"; $params[] = int
 if (!empty($_GET['estado'])) { $where[] = "t.estado = ?"; $params[] = $_GET['estado']; $types .= 's'; }
 if (!empty($_GET['fecha_inicio'])) { $where[] = "t.fecha_solicitud >= ?"; $params[] = date('Y-m-d', strtotime($_GET['fecha_inicio'])); $types .= 's'; }
 if (!empty($_GET['fecha_fin'])) { $where[] = "t.fecha_solicitud <= ?"; $params[] = date('Y-m-d', strtotime($_GET['fecha_fin'])); $types .= 's'; }
-if (!empty($_GET['usuario_id'])) { $usuario_filtrar_id = intval($_GET['usuario_id']);  $where[] = "(t.usuario_id = ? OR t.autorizacion_id = ?)"; $params[] = $usuario_filtrar_id; $params[] = $usuario_filtrar_id; $types .= 'ii'; 
+if (!empty($_GET['usuario_solicitante_id'])) { $usuario_filtrar_id = intval($_GET['usuario_solicitante_id']);  $where[] = "(t.usuario_solicitante_id = ? OR t.autorizacion_id = ?)"; $params[] = $usuario_filtrar_id; $params[] = $usuario_filtrar_id; $types .= 'ii'; 
 }
 
 $where_sql = count($where) > 0 ? " WHERE " . implode(" AND ", $where) : "";
@@ -47,7 +47,7 @@ $sql = "
     JOIN departamentos d ON t.departamento_id = d.id
     JOIN categorias c ON t.categoria_id = c.id
     JOIN usuarios u_autoriza ON t.autorizacion_id = u_autoriza.id
-    JOIN usuarios u_elabora ON t.usuario_id = u_elabora.id
+    JOIN usuarios u_elabora ON t.usuario_solicitante_id = u_elabora.id
     LEFT JOIN (
         SELECT NO_ORDEN_COMPRA, SUM(TOTAL) as total_facturas
         FROM facturas_tcl
