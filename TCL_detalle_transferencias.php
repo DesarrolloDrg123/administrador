@@ -210,8 +210,10 @@ td {
                                 <tr><th>Importe en Pesos</th><td>$<?= number_format($solicitud['importe'], 2, ".", ",") ?></td></tr>
                                 <tr><th>Importe en Letra</th><td><?= htmlspecialchars($solicitud['importe_letra']) ?></td></tr>
                             <?php endif; ?>
-                            <tr><th>Total de Facturas</th><td><?= $importe_factura = ($solicitud['estado'] != "Cancelada" && $solicitud['estado'] != "Rechazado") ? '$' . number_format($total_facturas, 2, ".", ",") : '$0.00'; ?></td></tr>
-                            <tr><th>Pendiente por Subir</th><td><?= $importe_pendiente = ($solicitud['estado'] != "Cancelada" && $solicitud['estado'] != "Rechazado") ? '$' . number_format($pendiente, 2, ".", ",") : '$0.00'; ?></td></tr>
+                            <tr><th>Total de Facturas</th><td>$<?= number_format($total_facturas, 2, ".", ",") ?></td></tr>
+                            <tr><th>Total de Comprobantes</th><td>$<?= number_format($total_comprobantes, 2, ".", ",") ?></td></tr>
+                            <tr><th>Total Comprobado</th><td>$<?= number_format($total_comprobado, 2, ".", ",") ?></td></tr>
+                            <tr><th>Pendiente por Subir</th><td><?= $importe_pendiente = ($pendiente > 0) ? '$' . number_format($pendiente, 2, ".", ",") : '$0.00'; ?></td></tr>
                             <?php if (!empty($solicitud['documento_adjunto'])): ?>
                                 <tr>
                                     <th>Documento</th>
