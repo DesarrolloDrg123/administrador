@@ -23,7 +23,7 @@ $PTParam = isset($_GET['PT']) ? $_GET['PT'] : null;
 
 try {
     // PASO 1: Obtener el folio usando el ID inicial
-    $stmt_folio = $conn->prepare("SELECT folio FROM transferencias WHERE id = ?");
+    $stmt_folio = $conn->prepare("SELECT folio FROM transferencias_clara_tcl WHERE id = ?");
     if (!$stmt_folio) throw new Exception($conn->error);
     $stmt_folio->bind_param('i', $solicitud_id);
     $stmt_folio->execute();
@@ -37,7 +37,7 @@ try {
     // PASO 2: Obtener TODOS los registros que comparten ese folio
     $sql = 'SELECT t.id, t.folio, s.sucursal AS sucursal, b.beneficiario AS beneficiario, t.fecha_solicitud, t.fecha_vencimiento, t.importe,t.importe_letra, t.importedls, t.importedls_letra, t.descripcion, t.estado, t.documento_adjunto, t.no_cuenta,
     t.observaciones, t.categoria_id, t.departamento_id, t.usuario_id, t.autorizacion_id AS autoriza, t.motivo, u1.nombre AS nombre_usuario, u2.nombre AS nombre_autoriza, d.departamento, c.categoria
-    FROM transferencias t 
+    FROM transferencias_clara_tcl t 
     JOIN categorias c ON t.categoria_id = c.id
     JOIN departamentos d ON t.departamento_id = d.id
     JOIN usuarios u1 ON t.usuario_id = u1.id
