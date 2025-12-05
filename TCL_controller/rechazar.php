@@ -22,7 +22,7 @@ if (!isset($_GET['id'])) {
 }
 
 $solicitud_id_inicial = intval($_GET['id']);
-$usuario_id_autorizador = $_SESSION['usuario_solicitante_id'];
+$usuario_id_autorizador = $_SESSION['usuario_id'];
 $motivo_rechazo = trim($_POST['motivo'] ?? '');
 
 if (empty($motivo_rechazo)) {

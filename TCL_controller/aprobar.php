@@ -17,7 +17,7 @@ if (!isset($_GET['id'])) {
 }
 
 $solicitud_id = intval($_GET['id']);
-$usuario_id = $_SESSION['usuario_solicitante_id'];
+$usuario_id = $_SESSION['usuario_id'];
 
 try {
     // Verificar que la solicitud pertenece al usuario
