@@ -1,7 +1,7 @@
 <?php
 include("src/templates/adminheader.php");
 require("config/db.php");
-include('TLC_controller/upload_files.php');
+include('TR_controller/upload_files.php');
 
 
 if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
@@ -178,13 +178,13 @@ td {
                     <!-- Botones de Acci��n -->
                     <div class="d-flex gap-2 mt-3">
                         <?php if ($solicitud['estado'] === 'Pendiente' && $usuario_ses === $solicitud['nombre_usuario']) : ?>
-                            <a href="TLC_edit_transfer.php?id=<?= $solicitud_id ?>&MT=true" class="btn btn-warning">Editar Transferencia</a>
+                            <a href="TR_edit_transfer.php?id=<?= $solicitud_id ?>&MT=true" class="btn btn-warning">Editar Transferencia</a>
                         <?php endif; ?>
                         <?php if ($MTParam === 'true'): ?>
-                            <a href="TLC_mis_transferencias.php" class="btn btn-secondary">Volver</a>
+                            <a href="TR_mis_transferencias.php" class="btn btn-secondary">Volver</a>
                         <?php endif; ?>
                         <?php if ($ATParam === 'true'): ?>
-                            <a href="TLC_por_autorizar.php" class="btn btn-secondary">Volver</a>
+                            <a href="TR_por_autorizar.php" class="btn btn-secondary">Volver</a>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -296,7 +296,7 @@ td {
     }
 
     $.ajax({
-      url: 'TLC_controller/factura_reset.php',
+      url: 'TR_controller/factura_reset.php',
       method: 'POST',
       data: {
         UUID: uuid,
