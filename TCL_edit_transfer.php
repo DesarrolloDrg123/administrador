@@ -171,12 +171,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <select class="form-select" name="beneficiario" id="beneficiario" required>
                              <?php
                             try {
-                                $stmt = $conn->prepare("SELECT id, beneficiario FROM beneficiarios ORDER BY beneficiario ASC");
+                                $stmt = $conn->prepare("SELECT id, nombre FROM usuarios WHERE estatus = '1' ORDER BY nombre ASC");
                                 $stmt->execute();
                                 $result = $stmt->get_result();
         
                                 while ($row = $result->fetch_assoc()) {
-                                    echo '<option value="' . htmlspecialchars($row['id']) . '" ' . ($row['id'] == $solicitud['beneficiario_id'] ? 'selected' : '') . '>' . htmlspecialchars($row['beneficiario']) . '</option>';
+                                    echo '<option value="' . htmlspecialchars($row['id']) . '" ' . ($row['id'] == $solicitud['beneficiario_id'] ? 'selected' : '') . '>' . htmlspecialchars($row['nombre']) . '</option>';
                                 }
                             } catch (Exception $e) {
                                 echo "Error: " . $e->getMessage();
