@@ -1,7 +1,7 @@
 <?php
 include("src/templates/adminheader.php");
 require("config/db.php");
-include('TLC_controller/upload_files.php');
+include('TCL_controller/upload_files.php');
 
 
 if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
@@ -83,7 +83,7 @@ $stmt2->execute();
 $result_facturas = $stmt2->get_result();
 
 // Consulta para obtener la suma de los totales de las facturas
-$sql_total_facturas = "SELECT SUM(TOTAL) AS total_facturas FROM facturas WHERE NO_ORDEN_COMPRA = ?";
+$sql_total_facturas = "SELECT SUM(TOTAL) AS total_facturas FROM facturas_tcl WHERE NO_ORDEN_COMPRA = ?";
 $stmt3 = $conn->prepare($sql_total_facturas);
 $stmt3->bind_param('s', $folio);
 $stmt3->execute();
@@ -178,13 +178,13 @@ td {
                     <!-- Botones de Acci��n -->
                     <div class="d-flex gap-2 mt-3">
                         <?php if ($solicitud['estado'] === 'Pendiente' && $usuario_ses === $solicitud['nombre_usuario']) : ?>
-                            <a href="TLC_edit_transfer.php?id=<?= $solicitud_id ?>&MT=true" class="btn btn-warning">Editar Transferencia</a>
+                            <a href="TCL_edit_transfer.php?id=<?= $solicitud_id ?>&MT=true" class="btn btn-warning">Editar Transferencia</a>
                         <?php endif; ?>
                         <?php if ($MTParam === 'true'): ?>
-                            <a href="TLC_mis_transferencias.php" class="btn btn-secondary">Volver</a>
+                            <a href="TCL_mis_transferencias.php" class="btn btn-secondary">Volver</a>
                         <?php endif; ?>
                         <?php if ($ATParam === 'true'): ?>
-                            <a href="TLC_por_autorizar.php" class="btn btn-secondary">Volver</a>
+                            <a href="TCL_por_autorizar.php" class="btn btn-secondary">Volver</a>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -296,7 +296,7 @@ td {
     }
 
     $.ajax({
-      url: 'TLC_controller/factura_reset.php',
+      url: 'TCL_controller/factura_reset.php',
       method: 'POST',
       data: {
         UUID: uuid,
