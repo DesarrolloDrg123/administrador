@@ -101,7 +101,36 @@ if ($solicitud['importe'] == '0.00' || $solicitud['importe'] == null || $solicit
     $importe_transferencia = $solicitud['importe'];
 }
 
-$pendiente = $importe_transferencia - $total_facturas;
+// =================================================================
+// 1. NUEVA CONSULTA: Suma de los totales de los comprobantes (recibos)
+// =================================================================
+$sql_total_comprobantes = "SELECT SUM(importe) AS total_comprobantes FROM comprobantes_tcl WHERE folio = ?";
+$stmt_comp_total = $conn->prepare($sql_total_comprobantes);
+$stmt_comp_total->bind_param('s', $folio);
+$stmt_comp_total->execute();
+$result_total_comprobantes = $stmt_comp_total->get_result();
+
+// Obtener el total de los comprobantes
+$row_total_comprobantes = $result_total_comprobantes->fetch_assoc();
+$total_comprobantes = $row_total_comprobantes['total_comprobantes'] ?? 0; // Si no hay resultados, asigna 0
+
+// Cerrar el statement de la suma de comprobantes
+$stmt_comp_total->close();
+
+// Calcular el total COMPROBADO (Facturas + Comprobantes)
+$total_comprobado = $total_facturas + $total_comprobantes;
+
+// ... (Tu código existente para definir $importe_transferencia)
+
+if ($solicitud['importe'] == '0.00' || $solicitud['importe'] == null || $solicitud['importe'] == '') {
+    $importe_transferencia = $solicitud['importedls'];
+} else {
+    $importe_transferencia = $solicitud['importe'];
+}
+
+// 2. CÁLCULO DEL PENDIENTE ACTUALIZADO
+// Restamos el total comprobado (Facturas + Comprobantes) al importe original.
+$pendiente = $importe_transferencia - $total_comprobado;
 
 $sql_comprobantes = "SELECT id, importe, descripcion FROM comprobantes_tcl WHERE folio = ?";
 $stmt_comp = $conn->prepare($sql_comprobantes);
@@ -116,6 +145,7 @@ if ($stmt_comp) {
     $result_comprobantes = null;
     error_log("Error al preparar la consulta de comprobantes: " . $conn->error);
 }
+
 
 ?>
 <style>
