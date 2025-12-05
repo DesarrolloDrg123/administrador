@@ -183,7 +183,7 @@ if (isset($_GET['msg'])) {
                 SUM(COALESCE(t.importedls, 0)) AS importedls,
         
                 -- Para los demás campos, tomamos un valor representativo del grupo
-                MAX(b.beneficiario) AS beneficiario,
+                MAX(b.nombre) AS beneficiario,
                 MAX(d.departamento) AS departamento,
                 MAX(c.categoria) AS categoria,
                 MAX(u2.nombre) AS usuario,
@@ -201,13 +201,13 @@ if (isset($_GET['msg'])) {
                 MAX(t.recibo) AS recibo
             FROM 
                 transferencias_clara_tcl t
-            JOIN beneficiarios b ON t.beneficiario_id = b.id
+            JOIN usuarios b ON t.beneficiario_id = b.id
             JOIN sucursales s ON t.sucursal_id = s.id
             JOIN departamentos d ON t.departamento_id = d.id
             JOIN categorias c ON t.categoria_id = c.id
             JOIN usuarios u ON t.autorizacion_id = u.id
             JOIN usuarios u2 ON t.usuario_solicitante_id = u2.id
-            $where_sql AND (t.usuario_solicitante_id = ? OR t.autorizacion_id = ?)
+            $where_sql AND (t.usuario_solicitante_id = ? OR t.autorizacion_id = ? OR t.beneficiario_id = ?)
             GROUP BY 
                 t.folio
             ORDER BY 
@@ -216,6 +216,7 @@ if (isset($_GET['msg'])) {
         $stmt = $conn->prepare($sql);
         
         // Agregar el usuario a los parámetros
+        $params[] = $usuario_id;
         $params[] = $usuario_id;
         $params[] = $usuario_id;
         

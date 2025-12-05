@@ -35,14 +35,14 @@ try {
     $stmt_folio->close();
 
     // PASO 2: Obtener TODOS los registros que comparten ese folio
-    $sql = 'SELECT t.id, t.folio, s.sucursal AS sucursal, b.beneficiario AS beneficiario, t.fecha_solicitud, t.fecha_vencimiento, t.importe,t.importe_letra, t.importedls, t.importedls_letra, t.descripcion, t.estado, t.documento_adjunto, t.no_cuenta,
+    $sql = 'SELECT t.id, t.folio, s.sucursal AS sucursal,  b.nombre AS nombre_beneficiario, t.fecha_solicitud, t.fecha_vencimiento, t.importe,t.importe_letra, t.importedls, t.importedls_letra, t.descripcion, t.estado, t.documento_adjunto, t.no_cuenta,
     t.observaciones, t.categoria_id, t.departamento_id, t.usuario_solicitante_id, t.autorizacion_id AS autoriza, t.motivo, u1.nombre AS nombre_usuario, u2.nombre AS nombre_autoriza, d.departamento, c.categoria
     FROM transferencias_clara_tcl t 
     JOIN categorias c ON t.categoria_id = c.id
     JOIN departamentos d ON t.departamento_id = d.id
     JOIN usuarios u1 ON t.usuario_solicitante_id = u1.id
     JOIN sucursales s ON t.sucursal_id = s.id
-    JOIN beneficiarios b ON t.beneficiario_id = b.id
+    JOIN usuarios b ON t.beneficiario_id = b.id
     JOIN usuarios u2 ON t.autorizacion_id = u2.id
     WHERE t.folio = ?';
     
@@ -169,7 +169,7 @@ td {
                             <tr><th>Folio</th><td class="text-danger fw-bold"><?= htmlspecialchars($solicitud['folio']) ?></td></tr>
                             <tr><th>Sucursal</th><td><?= htmlspecialchars($solicitud['sucursal']) ?></td></tr>
                             <tr><th>Solicitante</th><td><?= htmlspecialchars($solicitud['nombre_usuario']) ?></td></tr>
-                            <tr><th>Beneficiario</th><td><?= htmlspecialchars($solicitud['beneficiario']) ?></td></tr>
+                            <tr><th>Beneficiario</th><td><?= htmlspecialchars($solicitud['nombre_beneficiario']) ?></td></tr>
                             <tr><th>No. de Cuenta</th><td><?= !empty($solicitud['no_cuenta']) ? htmlspecialchars($solicitud['no_cuenta']) : 'N/A' ?></td></tr>
                             <tr><th>Departamento</th><td><?= htmlspecialchars($solicitud['departamento']) ?></td></tr>
                             <tr><th>Categoría</th><td><?= htmlspecialchars($solicitud['categoria']) ?></td></tr>
