@@ -194,60 +194,87 @@ td {
 
         <!-- FACTURAS Y FORMULARIO DE CARGA -->
         <?php if ($solicitud['estado'] != "Pendiente" && $solicitud['estado'] != "Rechazado" && $solicitud['estado'] != "Cancelado" && $solicitud['beneficiario_id'] == $usuario_id): ?>
-        <div class="col-md-6">
-            <h2 class="section-title"><i class="fas fa-receipt"></i> Cargar Facturas</h2>
-            <div class="card mb-4">
-                <div class="card-body">
-                    <form action="" method="POST" name="formularioFacturas" id="formularioFacturas" enctype="multipart/form-data">
-                        <div class='form-row'>
-                            <h5 class='form-group col-md-6' >Archivo PDF: </h5>
-                            <h5 class='form-group col-md-6' >Archivo XML: </h5>
-                        </div>
-                        <div class="nuevosCampos"></div>
-                        <button type="submit" name="submit" class="btn btn-warning mt-3">Cargar Factura(s)</button>
-                    </form>
-                </div>
-            </div>
-            <?php if ($result_facturas->num_rows > 0): ?>
-                <h2 class="section-title"><i class="fas fa-file-alt"></i> Facturas Subidas</h2>
-                <div class="card">
-                    <div class="card-body">
-                        <table class="table table-sm table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>RFC</th>
-                                    <th>Total</th>
-                                    <th>UUID</th>
-                                    <th>Ver</th>
-                                    <th>Descargar</th>
-                                    <th>Reiniciar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $fmt = new IntlDateFormatter('es_ES', IntlDateFormatter::LONG, IntlDateFormatter::NONE);
-                                while ($row_factura = $result_facturas->fetch_assoc()):
-                                    $fecha_factura = new DateTime($row_factura['FECHA_FACTURA']);
-                                    $fecha_factura_formateada = $fmt->format($fecha_factura);
-                                ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($fecha_factura_formateada) ?></td>
-                                    <td><?= htmlspecialchars($row_factura['RFC_EMISOR']) ?></td>
-                                    <td>$<?= number_format($row_factura['TOTAL'], 2, ".", ",") ?></td>
-                                    <td><?= htmlspecialchars($row_factura['UUID']) ?></td>
-                                    <td><a href="view_pdf.php?RFC=<?= $row_factura["RFC_EMISOR"] ?>&UUID=<?= $row_factura["UUID"] ?>" target="_blank"><i class="fas fa-file-invoice fa-2x"></i></a></td>
-                                    <td><a href="download_zip.php?RFC=<?= $row_factura["RFC_EMISOR"] ?>&UUID=<?= $row_factura["UUID"] ?>" target="_blank"><i class="fas fa-file-archive fa-2x"></i></a></td>
-                                    <td><button class="btn btn-link p-0" onclick="abrirModalReset('<?= $row_factura["UUID"] ?>')"><i class="fas fa-trash-restore fa-2x text-danger"></i></button></td>
-                                </tr>
-                                <?php endwhile; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            <?php endif; ?>
-        </div>
-        <?php endif; ?>
+          <div class="col-md-6">
+
+              <h2 class="section-title"><i class="fas fa-receipt"></i> Cargar Facturas</h2>
+              <div class="card mb-4">
+                  <div class="card-body">
+                      <form action="" method="POST" name="formularioFacturas" id="formularioFacturas" enctype="multipart/form-data">
+                          <div class='form-row'>
+                              <h5 class='form-group col-md-6' >Archivo PDF: </h5>
+                              <h5 class='form-group col-md-6' >Archivo XML: </h5>
+                          </div>
+                          <div class="nuevosCampos">
+                              </div>
+                          <button type="submit" name="submit_facturas" class="btn btn-warning mt-3">Cargar Factura(s)</button>
+                      </form>
+                  </div>
+              </div>
+              
+              <?php if ($result_facturas->num_rows > 0): ?>
+                  <h2 class="section-title"><i class="fas fa-file-alt"></i> Facturas Subidas</h2>
+                  <?php endif; ?>
+              
+              <hr>
+              
+              <h2 class="section-title"><i class="fas fa-file-invoice-dollar"></i> Cargar Comprobantes/Recibos</h2>
+              <div class="card mb-4">
+                  <div class="card-body">
+                      <form action="" method="POST" name="formularioComprobantes" id="formularioComprobantes" enctype="multipart/form-data">
+                          
+                          <div class="form-group">
+                              <label for="importe_comprobante">Monto/Importe del Comprobante:</label>
+                              <input type="number" step="0.01" class="form-control" id="importe_comprobante" name="importe_comprobante" required>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="descripcion_comprobante">Descripción del Recibo/Gasto:</label>
+                              <textarea class="form-control" id="descripcion_comprobante" name="descripcion_comprobante" rows="2" required></textarea>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="evidencia_comprobante">Evidencia (Imagen, Foto, PDF):</label>
+                              <input type="file" class="form-control-file" id="evidencia_comprobante" name="evidencia_comprobante" accept="image/*,.pdf" required>
+                          </div>
+                          
+                          <input type="hidden" name="folio_solicitud" value="<?= htmlspecialchars($solicitud['folio']) ?>">
+                          <input type="hidden" name="submit_comprobante" value="1">
+                          
+                          <button type="submit" name="submit_comprobantes" class="btn btn-primary mt-3">Subir Comprobante</button>
+                      </form>
+                  </div>
+              </div>
+              
+              <?php if (isset($result_comprobantes) && $result_comprobantes->num_rows > 0): ?>
+                  <h2 class="section-title"><i class="fas fa-clipboard-list"></i> Comprobantes/Recibos Subidos</h2>
+                  <div class="card mb-4">
+                      <div class="card-body">
+                          <table class="table table-sm table-striped table-hover">
+                              <thead>
+                                  <tr>
+                                      <th>Importe</th>
+                                      <th>Descripción</th>
+                                      <th>Evidencia</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <?php while ($row_comprobante = $result_comprobantes->fetch_assoc()): ?>
+                                  <tr>
+                                      <td>$<?= number_format($row_comprobante['importe'], 2, ".", ",") ?></td>
+                                      <td><?= htmlspecialchars($row_comprobante['descripcion']) ?></td>
+                                      <td>
+                                          <a href="view_evidencia.php?id=<?= $row_comprobante['id'] ?>" target="_blank"><i class="fas fa-image fa-2x"></i></a>
+                                      </td>
+                                  </tr>
+                                  <?php endwhile; ?>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              <?php endif; ?>
+
+          </div>
+          <?php endif; ?>
     </div>
 </div>
 
