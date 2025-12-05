@@ -18,6 +18,13 @@
    
    $errores = array();
    $tipoerror = array();
+
+   // --- AGREGA ESTAS LÍNEAS AQUÍ ---
+    $mensajes_exito = array();      // Inicializar array de éxitos para evitar errores si está vacío
+    $mostrar_modal_errores = false; // Inicializar en falso por defecto
+    $mostrar_modal_exito = false;   // Inicializar en falso por defecto
+    // ---------------------------------
+    
    $mostrar_modal = false;
 
    if(isset($_POST['submit']))
