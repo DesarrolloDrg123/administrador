@@ -18,6 +18,7 @@ $MTParam = isset($_GET['MT']) ? $_GET['MT'] : null;
 $ATParam = isset($_GET['AT']) ? $_GET['AT'] : null;
 
 $solicitud_id = $_GET['id'];
+$usuario_id = $_SESSION['usuario_id'];
 
 try {
     $sql = 'SELECT t.id, t.folio, s.sucursal AS sucursal, b.nombre AS nombre_beneficiario, t.fecha_solicitud, t.fecha_vencimiento, t.importe,t.importe_letra, t.importedls, t.importedls_letra, t.descripcion, t.estado, t.documento_adjunto, t.no_cuenta,
@@ -192,7 +193,7 @@ td {
         </div>
 
         <!-- FACTURAS Y FORMULARIO DE CARGA -->
-        <?php if ($solicitud['estado'] != "Pendiente" && $solicitud['estado'] != "Rechazado" && $solicitud['estado'] != "Cancelado"): ?>
+        <?php if ($solicitud['estado'] != "Pendiente" && $solicitud['estado'] != "Rechazado" && $solicitud['estado'] != "Cancelado" && $solicitud['beneficiario_id'] == $usuario_id): ?>
         <div class="col-md-6">
             <h2 class="section-title"><i class="fas fa-receipt"></i> Cargar Facturas</h2>
             <div class="card mb-4">
