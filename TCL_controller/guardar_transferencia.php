@@ -97,7 +97,7 @@ try {
     // 4. INSERCIÓN EN LA BASE DE DATOS
     
     $fields = ["folio", "sucursal_id", "beneficiario_id", "fecha_solicitud", "no_cuenta", "fecha_vencimiento", "departamento_id", "categoria_id", "descripcion", "observaciones", "autorizacion_id", "usuario_solicitante_id", "estado"];
-    $values = [$folio_formateado, $sucursal_id, $beneficiario_id, $fecha_solicitud, $no_cuenta, $fecha_vencimiento, $departamento_id, $categoria_id, $descripcion, $observaciones, $autorizacion_id, $usuario_solicitante_id, 'Nuevo'];
+    $values = [$folio_formateado, $sucursal_id, $beneficiario_id, $fecha_solicitud, $no_cuenta, $fecha_vencimiento, $departamento_id, $categoria_id, $descripcion, $observaciones, $autorizacion_id, $usuario_solicitante_id, 'Pendiente'];
     
     // Agregar campos de importe según lo que se haya enviado
     if (!empty($importe)) {
