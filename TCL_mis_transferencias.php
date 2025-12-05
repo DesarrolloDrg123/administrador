@@ -121,7 +121,7 @@ if (isset($_GET['msg'])) {
 </style>
 
 <div class="mt-5 col-md-12">
-    <h2 class="mb-4">Mis Solicitudes de Transferencias Clara</h2>
+    <h2 class="mb-4">Mis Transferencias Clara</h2>
     <h6 class="mb-4 text-muted">
         <span>
             <span class="badge bg-danger">&nbsp;</span> Folios en <strong>rojo</strong> sin facturas adjuntas
@@ -133,7 +133,8 @@ if (isset($_GET['msg'])) {
         // Filtros
         $where = [];
         
-        $where[] = "(t.usuario_solicitante_id = ? OR t.autorizacion_id = ?)";
+        $where[] = "(t.usuario_solicitante_id = ? OR t.autorizacion_id = ? OR t.beneficiario_id = ?)";
+        $params[] = $usuario_id;
         $params[] = $usuario_id;
         $params[] = $usuario_id;
         
