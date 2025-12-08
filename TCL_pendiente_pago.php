@@ -46,7 +46,6 @@ $sql = "SELECT
             MAX(t.estado) AS estado,
             MAX(t.documento_adjunto) AS documento_adjunto,
             MAX(t.recibo) AS recibo,
-            MAX(t.notas) AS notas
 
         FROM transferencias_clara_tcl t
         JOIN usuarios b ON t.beneficiario_id = b.id
@@ -124,7 +123,6 @@ h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
                         ? (new DateTime($fila['fecha_autorizacion']))->format('d/m/Y')
                         : 'N/A';
 
-                    $folio_class = !empty($fila['notas']) ? 'text-danger fw-bold' : '';
                     $importe = ($fila['importedls'] > 0) ? $fila['importedls'] : $fila['importe'];
                     $importe_letra = ($fila['importedls'] > 0) ? 'Importe en USD' : $fila['importe_letra'];
                 ?>
