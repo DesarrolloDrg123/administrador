@@ -3,8 +3,15 @@
 // Se asume que estos archivos existen y manejan la conexión ($conn) y las funciones de upload.
 include("src/templates/adminheader.php");
 require("config/db.php");
-include('TCL_controller/upload_files.php'); // Lógica de subida de facturas (PDF/XML)
-include('TCL_controller/upload_comprobantes.php'); // Lógica de subida de recibos/comprobantes
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['submit_facturas'])) {
+        include_once('TCL_controller/upload_files.php');
+    }
+
+    if (isset($_POST['submit_comprobantes'])) {
+        include_once('TCL_controller/upload_comprobantes.php');
+    }
+}
 
 
 // -----------------------------------------------------------
