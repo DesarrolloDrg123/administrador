@@ -1,4 +1,3 @@
-<?php
 // Incluye encabezado, configuración de DB y controladores de archivos.
 // Se asume que estos archivos existen y manejan la conexión ($conn) y las funciones de upload.
 include("src/templates/adminheader.php");
@@ -99,7 +98,8 @@ $fecha_formateada1 = "{$dia1}/{$mes1}/{$anio1}";
 $folio = $solicitud['folio'];
 
 // A. Obtener todas las facturas
-$sql_facturas = "SELECT ID, TOTAL, UUID, ESTATUS FROM facturas_tcl WHERE NO_ORDEN_COMPRA = ?";
+// MODIFICACIÓN: Se incluyen FECHA y RFC, que son necesarios para la tabla de facturas
+$sql_facturas = "SELECT ID, TOTAL, UUID, ESTATUS, FECHA, RFC FROM facturas_tcl WHERE NO_ORDEN_COMPRA = ?";
 $stmt_facturas = $conn->prepare($sql_facturas);
 $stmt_facturas->bind_param('s', $folio);
 $stmt_facturas->execute();
@@ -175,7 +175,7 @@ h2.section-title {
 .table th {
     background-color: #eaf2f8;
     color: #2c3e50;
-    width: 30%; /* Para alinear mejor las columnas en el detalle */
+    width: auto; /* Se ajusta automáticamente con más columnas */
 }
 .card {
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -188,6 +188,11 @@ h2.section-title {
     border-radius: 10px 10px 0 0 !important;
 }
 .text-danger-custom { color: #e74c3c; font-weight: bold; }
+
+/* Estilo para UUID más pequeño */
+.table-facturas td:nth-child(4) {
+    font-size: 0.8rem;
+}
 </style>
 
 <div class="container mt-4">
@@ -286,25 +291,51 @@ h2.section-title {
             <h2 class="section-title"><i class="fas fa-list-alt"></i> Facturas Subidas</h2>
             <div class="card mb-4">
                 <div class="card-body p-0">
-                    <table class="table table-sm table-striped table-hover mb-0">
+                    <table class="table table-sm table-striped table-hover mb-0 table-facturas">
                         <thead>
+                            <!-- MODIFICACIÓN: Encabezados de tabla según la solicitud del usuario -->
                             <tr>
-                                <th>UUID</th>
+                                <th>Fecha</th>
+                                <th>RFC</th>
                                 <th>Total</th>
-                                <th>Estado</th>
-                                <th>Acción</th>
+                                <th>UUID</th>
+                                <th>Ver</th>
+                                <th>Descargar</th>
+                                <th>Reiniciar</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($facturas_array as $row_factura): ?>
+                            <?php foreach ($facturas_array as $row_factura): 
+                                // Formato de fecha para la tabla si existe el campo FECHA
+                                $factura_fecha_display = isset($row_factura['FECHA']) 
+                                    ? (new DateTime($row_factura['FECHA']))->format('Y-m-d') 
+                                    : 'N/A';
+                            ?>
                             <tr>
-                                <td style="font-size: 0.85rem;"><?= htmlspecialchars($row_factura['UUID']) ?></td>
+                                <!-- Fecha -->
+                                <td><?= htmlspecialchars($factura_fecha_display) ?></td>
+                                <!-- RFC -->
+                                <td><?= htmlspecialchars($row_factura['RFC'] ?? 'N/A') ?></td>
+                                <!-- Total -->
                                 <td><?= format_currency($row_factura['TOTAL'], $moneda_simbolo) ?></td>
-                                <td><?= htmlspecialchars($row_factura['ESTATUS'] ?? 'N/A') ?></td>
+                                <!-- UUID -->
+                                <td><?= htmlspecialchars($row_factura['UUID']) ?></td>
+                                <!-- Ver (Asumo enlace para ver el PDF/XML) -->
                                 <td>
-                                    <!-- Botón para Reiniciar Factura -->
+                                    <a href="TCL_controller/factura_files.php?uuid=<?= htmlspecialchars($row_factura['UUID']) ?>&file_type=pdf&action=view" target="_blank" class="btn btn-sm btn-outline-primary" title="Ver PDF">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                                <!-- Descargar (Asumo enlace para descargar el PDF/XML. Usaremos el XML por defecto) -->
+                                <td>
+                                    <a href="TCL_controller/factura_files.php?uuid=<?= htmlspecialchars($row_factura['UUID']) ?>&file_type=xml&action=download" class="btn btn-sm btn-outline-secondary" title="Descargar XML">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </td>
+                                <!-- Reiniciar (Mantiene el botón de Reiniciar) -->
+                                <td>
                                     <button type="button" class="btn btn-sm btn-outline-danger" onclick="abrirModalReset('<?= htmlspecialchars($row_factura['UUID']) ?>')">
-                                        <i class="fas fa-redo"></i> Reiniciar
+                                        <i class="fas fa-redo"></i>
                                     </button>
                                 </td>
                             </tr>
