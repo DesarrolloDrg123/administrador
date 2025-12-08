@@ -401,7 +401,7 @@ if (isset($_GET['msg'])) {
                         $moneda = ($filas['importedls'] && $filas['importedls'] != "0.00") ? 'USD' : 'MXN';
                     ?>
                         <tr class="text-center align-middle">
-                            <td><a href="TCL_edit_transferencia.php?id=<?= htmlspecialchars($filas['id']) ?>&TT=true" class="<?= $folio_class ?>"><?= htmlspecialchars($filas['folio']) ?></a></td>
+                            <td><a href="TCL_edit_transferencia.php?id=<?= htmlspecialchars($filas['id']) ?>&CT=true" class="<?= $folio_class ?>"><?= htmlspecialchars($filas['folio']) ?></a></td>
                             <td><?= htmlspecialchars($filas['beneficiario']) ?></td>
                             <td style="text-align:center; max-width:200px;"><?= htmlspecialchars($filas['descripcion']) ?></td>
                             <td><?= htmlspecialchars($filas['sucursal']) ?></td>
