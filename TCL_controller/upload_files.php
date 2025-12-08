@@ -5,8 +5,8 @@
     }
 
     // Usamos __DIR__ para asegurar que encuentra los archivos en la misma carpeta que este controlador
-    include_once __DIR__ . "/validate_sat.php";
-    include_once __DIR__ . "/validate_xml.php";
+    include "validate_sat.php";
+    include "validate_xml.php";
 
     date_default_timezone_set("America/Mexico_City");
     $dateTimeNow = date("Y-m-d H:i:s");
