@@ -10,6 +10,10 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 
 $usuario_id = $_SESSION['usuario_id'];
 
+$where[] = "(t.estado = 'Pagado' OR t.estado = 'Subido a pago')";
+
+$where_sql = count($where) > 0 ? " WHERE " . implode(" AND ", $where) : "";
+
 try {
     // Consulta SQL para obtener todos los registros sin filtros
     $sql = "SELECT 
