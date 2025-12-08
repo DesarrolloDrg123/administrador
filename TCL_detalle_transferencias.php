@@ -179,14 +179,11 @@ h2.section-title {
     width: auto; /* Se ajusta automáticamente con más columnas */
 }
 .card {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
 }
 .card-header {
-    background-color: #d6eaf8;
-    color: #1a5276;
+    background-color: #f0f8ff;
     font-weight: bold;
-    border-radius: 10px 10px 0 0 !important;
 }
 .text-danger-custom { color: #e74c3c; font-weight: bold; }
 
