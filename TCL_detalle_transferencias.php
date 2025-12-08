@@ -325,17 +325,8 @@ h2.section-title {
                                 <!-- UUID -->
                                 <td><?= htmlspecialchars($row_factura['UUID']) ?></td>
                                 <!-- Ver (Asumo enlace para ver el PDF/XML) -->
-                                <td>
-                                    <a href="TCL_controller/factura_files.php?uuid=<?= htmlspecialchars($row_factura['UUID']) ?>&file_type=pdf&action=view" target="_blank" class="btn btn-sm btn-outline-primary" title="Ver PDF">
-                                        <i class="fas fa-file-invoice fa-2x"></i>
-                                    </a>
-                                </td>
-                                <!-- Descargar (Asumo enlace para descargar el PDF/XML. Usaremos el XML por defecto) -->
-                                <td>
-                                    <a href="TCL_controller/factura_files.php?uuid=<?= htmlspecialchars($row_factura['UUID']) ?>&file_type=xml&action=download" class="btn btn-sm btn-outline-secondary" title="Descargar XML">
-                                        <i class="fas fa-file-archive fa-2x"></i>
-                                    </a>
-                                </td>
+                                <td><a href="view_pdf.php?RFC=<?= $row_factura["RFC_EMISOR"] ?>&UUID=<?= $row_factura["UUID"] ?>" target="_blank"><i class="fas fa-file-invoice fa-2x"></i></a></td>
+                                    <td><a href="download_zip.php?RFC=<?= $row_factura["RFC_EMISOR"] ?>&UUID=<?= $row_factura["UUID"] ?>" target="_blank"><i class="fas fa-file-archive fa-2x"></i></a></td>
                                 <!-- Reiniciar (Mantiene el botón de Reiniciar) -->
                                 <td>
                                     <button type="button" class="btn btn-sm btn-outline-danger" onclick="abrirModalReset('<?= htmlspecialchars($row_factura['UUID']) ?>')">
