@@ -301,15 +301,17 @@ h2.section-title {
                                 <td><?= htmlspecialchars($row_factura['RFC_EMISOR'] ?? 'N/A') ?></td>
                                 <td><?= format_currency($row_factura['TOTAL'], $moneda_simbolo) ?></td>
                                 <td><?= htmlspecialchars($row_factura['UUID']) ?></td>
+                                <!-- Descargar (Asumo enlace para descargar el PDF/XML. Usaremos el XML por defecto) -->
                                 <td>
-                                    <a href="TCL_controller/factura_files.php?uuid=<?= htmlspecialchars($row_factura['UUID']) ?>&file_type=pdf&action=view" target="_blank" class="text-primary" title="Ver PDF">
-                                        <i class="fas fa-file-invoice action-icon"></i>
+                                    <a href="TCL_controller/factura_files.php?uuid=<?= htmlspecialchars($row_factura['UUID']) ?>&file_type=xml&action=download" class="btn btn-sm btn-outline-secondary" title="Descargar XML">
+                                        <i class="fas fa-file-archive fa-2x"></i>
                                     </a>
                                 </td>
+                                <!-- Reiniciar (Mantiene el botón de Reiniciar) -->
                                 <td>
-                                    <a href="TCL_controller/factura_files.php?uuid=<?= htmlspecialchars($row_factura['UUID']) ?>&file_type=xml&action=download" class="text-secondary" title="Descargar XML">
-                                        <i class="fas fa-file-code action-icon"></i>
-                                    </a>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="abrirModalReset('<?= htmlspecialchars($row_factura['UUID']) ?>')">
+                                        <i class="fas fa-redo fa-2x"></i>
+                                    </button>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
@@ -343,7 +345,7 @@ h2.section-title {
                                 <td>
                                     <?php if (!empty($row_comprobante['evidencia'])): ?>
                                         <a href="<?= htmlspecialchars($row_comprobante['evidencia']) ?>" target="_blank" class="text-success" title="Ver Comprobante">
-                                            <i class="fas fa-file-alt action-icon"></i>
+                                            <i class="fas fa-file-alt action-icon fa-2x"></i>
                                         </a>
                                     <?php else: ?>
                                         <span class="text-muted">N/A</span>
