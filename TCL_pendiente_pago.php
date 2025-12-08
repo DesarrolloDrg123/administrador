@@ -111,7 +111,7 @@ h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
 
                     $importe = ($fila['importedls'] > 0) ? $fila['importedls'] : $fila['importe'];
                     $importe_letra = ($fila['importedls'] > 0) ? 'Importe en DLS' : $fila['importe_letra'];
-                    $folio_class = 'text-danger fw-bold' : '';
+                    $folio_class = 'text-danger fw-bold' ;
                 ?>
                 <tr class="text-center align-middle">
                     <td>
