@@ -543,12 +543,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Escuchar el evento change en los nuevos campos de archivo para agregar el siguiente bloque
             const newFileInputs = div.querySelectorAll('input[type="file"]');
+            let bloqueCreado = false;
             newFileInputs.forEach(function(input) {
-                input.addEventListener('change', function() {
-                    // Verificar si ambos campos en este *mismo* bloque tienen archivos seleccionados
+                input.addEventListener('change', function () {
                     const pdfInput = div.querySelector('input[name="file_pdf[]"]');
                     const xmlInput = div.querySelector('input[name="file_xml[]"]');
-                    if (pdfInput.files.length > 0 && xmlInput.files.length > 0) {
+
+                    if (!bloqueCreado && pdfInput.files.length > 0 && xmlInput.files.length > 0) {
+                        bloqueCreado = true;
                         agregarBloqueHTML();
                     }
                 });
