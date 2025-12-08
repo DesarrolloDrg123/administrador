@@ -336,7 +336,7 @@ h2.section-title {
                                 <td>
                                     <?php if (!empty($row_comprobante['evidencia'])): ?>
                                         <a href="<?= htmlspecialchars($row_comprobante['evidencia']) ?>" target="_blank" class="text-success" title="Ver Comprobante">
-                                            <i class="fas fa-file-alt action-icon fa-2x"></i>
+                                            <i class="fas fa-file-alt fa-2x"></i>
                                         </a>
                                     <?php else: ?>
                                         <span class="text-muted">N/A</span>
