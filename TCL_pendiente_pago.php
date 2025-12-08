@@ -172,6 +172,29 @@ h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
         <p class="text-center text-muted">No hay registros.</p>
     <?php endif; ?>
 </div>
+ <div class="modal fade" id="uploadReciboModal" tabindex="-1" aria-labelledby="uploadReciboModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="width:700px; text-align:center;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadReciboModalLabel">Subir Recibo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="uploadReciboForm">
+                        <div class="form-group">
+                            <label for="reciboFile">Seleccionar archivo PDF</label>
+                            <input type="file" class="form-control-file" id="reciboFile" accept="application/pdf" required>
+                        </div>
+                        <input type="hidden" id="id_trans" name="id_trans">
+                        <div class="form-group">
+                            <iframe id="pdfPreview" style="width: 500px; height: 700px;" frameborder="0"></iframe>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Subir Recibo</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 <script>
     $(document).ready(function() {
         var table = $('#solicitudesTable').DataTable({
