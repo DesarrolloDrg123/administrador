@@ -289,22 +289,21 @@ h2.section-title {
 
             <!-- Tabla de Facturas Subidas -->
             <?php if (!empty($facturas_array)): ?>
-            <h2 class="section-title"><i class="fas fa-list-alt"></i> Facturas Subidas</h2>
-            <div class="card mb-4">
+            <h2 class="section-title"><i class="fas fa-file-alt"></i> Facturas Subidas</h2>
+            <div class="card">
                 <div class="card-body p-0">
-                    <table class="table table-sm table-striped table-hover mb-0 table-facturas">
-                        <thead>
-                            <!-- MODIFICACIÓN: Encabezados de tabla según la solicitud del usuario -->
-                            <tr>
-                                <th>Fecha</th>
-                                <th>RFC</th>
-                                <th>Total</th>
-                                <th>UUID</th>
-                                <th>Ver</th>
-                                <th>Descargar</th>
-                                <th>Reiniciar</th>
-                            </tr>
-                        </thead>
+                    <table class="table table-sm table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>RFC</th>
+                                    <th>Total</th>
+                                    <th>UUID</th>
+                                    <th>Ver</th>
+                                    <th>Descargar</th>
+                                    <th>Reiniciar</th>
+                                </tr>
+                            </thead>
                         <tbody>
                             <?php foreach ($facturas_array as $row_factura): 
                                 // Formato de fecha para la tabla si existe el campo FECHA
@@ -324,13 +323,13 @@ h2.section-title {
                                 <!-- Ver (Asumo enlace para ver el PDF/XML) -->
                                 <td>
                                     <a href="TCL_controller/factura_files.php?uuid=<?= htmlspecialchars($row_factura['UUID']) ?>&file_type=pdf&action=view" target="_blank" class="btn btn-sm btn-outline-primary" title="Ver PDF">
-                                        <i class="fas fa-eye"></i>
+                                        <i class="fas fa-file-invoice"></i>
                                     </a>
                                 </td>
                                 <!-- Descargar (Asumo enlace para descargar el PDF/XML. Usaremos el XML por defecto) -->
                                 <td>
                                     <a href="TCL_controller/factura_files.php?uuid=<?= htmlspecialchars($row_factura['UUID']) ?>&file_type=xml&action=download" class="btn btn-sm btn-outline-secondary" title="Descargar XML">
-                                        <i class="fas fa-download"></i>
+                                        <i class="fas fa-file-archive"></i>
                                     </a>
                                 </td>
                                 <!-- Reiniciar (Mantiene el botón de Reiniciar) -->

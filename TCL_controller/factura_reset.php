@@ -19,7 +19,7 @@ try {
     $stmt = $conn->prepare($sql);
     if ($stmt->execute([$descripcion, $uuid])) {
         // Eliminar de facturas
-        $sqlDel = "DELETE FROM facturas WHERE UUID = ?";
+        $sqlDel = "DELETE FROM facturas_tcl WHERE UUID = ?";
         $stmtDel = $conn->prepare($sqlDel);
         $stmtDel->execute([$uuid]);
 
