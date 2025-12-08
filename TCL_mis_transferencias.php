@@ -370,9 +370,9 @@ if (isset($_GET['msg'])) {
                         
                         // Consulta para sumar los importes de la tabla de comprobantes (complementos/recibos).
                         $sql_total_comprobantes = "SELECT folio, SUM(importe) AS total_comprobantes
-                                                     FROM comprobantes_tcl 
-                                                     WHERE folio IN ($placeholders) 
-                                                     GROUP BY folio";
+                        FROM comprobantes_tcl
+                        WHERE folio IN ($placeholders)
+                        GROUP BY folio";
                         $stmt_comprobantes = $conn->prepare($sql_total_comprobantes);
                         $types_comp = str_repeat('s', count($folios_a_buscar));
                         $stmt_comprobantes->bind_param($types_comp, ...$folios_a_buscar);
