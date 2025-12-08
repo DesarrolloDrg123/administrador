@@ -343,10 +343,4 @@
                 </div>
             </div>';
     }
-
-    // Función auxiliar para eliminar archivos temporales
-    function deleteFiles($xml, $pdf){
-        if(file_exists($xml)) unlink($xml);
-        if(file_exists($pdf)) unlink($pdf);
-    }
 ?>
