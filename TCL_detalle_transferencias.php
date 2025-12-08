@@ -601,28 +601,6 @@ $(document).ready(function() {
     <?php } ?>
 });
 </script>
-<script>
-let enviandoFacturas = false;
-
-const formFacturas = document.getElementById('formularioFacturas');
-
-if (formFacturas) {
-    formFacturas.addEventListener('submit', function (e) {
-        if (enviandoFacturas) {
-            e.preventDefault();
-            return false;
-        }
-
-        enviandoFacturas = true;
-
-        const btn = formFacturas.querySelector('button[type="submit"]');
-        if (btn) {
-            btn.disabled = true;
-            btn.innerText = 'Subiendo...';
-        }
-    });
-}
-</script>
 
 <?php
 // Cierre de la conexión y footer
