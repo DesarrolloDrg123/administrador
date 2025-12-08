@@ -531,10 +531,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             div.innerHTML = `
                 <div class="col-md-6">
-                    <input type="file" name="file_pdf[]" class="form-control" accept=".pdf" required />
+                    <input type="file" name="file_pdf[]" class="form-control" accept=".pdf" />
                 </div>
                 <div class="col-md-6">
-                    <input type="file" name="file_xml[]" class="form-control" accept=".xml" required />
+                    <input type="file" name="file_xml[]" class="form-control" accept=".xml" />
                     <input type="hidden" name="ordenCompra[]" value="${folio}">
                 </div>
             `;
