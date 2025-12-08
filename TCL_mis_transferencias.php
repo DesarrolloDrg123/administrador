@@ -326,6 +326,7 @@ if (isset($_GET['msg'])) {
                         <th>Estado</th>
                         <th>Documento Adjunto</th>
                         <th>Recibo</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -458,6 +459,19 @@ if (isset($_GET['msg'])) {
                                     <span class="text-muted">N/A</span>
                                 <?php endif; ?>
                             </td>
+                            <td>
+                                <?php if ($filas['estado'] == 'Pagado' || $filas['estado'] == 'Subido a pago'): ?>
+                                    <button class="btn btn-warning btn-sm"
+                                        onclick="solicitarCancelacion('<?= htmlspecialchars($filas['folio']) ?>')">
+                                        Solicitar cancelación
+                                    </button>
+                                <?php else: ?>
+                                    <button class="btn btn-danger btn-sm"
+                                        onclick="cancelarTransferencia('<?= htmlspecialchars($filas['folio']) ?>')">
+                                        Cancelar
+                                    </button>
+                                <?php endif; ?>
+                            </td>
                         </tr>
                     <?php
                         $folio_anterior = $filas['folio'];
@@ -551,6 +565,48 @@ if (isset($_GET['msg'])) {
             }
         });
     });
+</script>
+<script>
+function solicitarCancelacion(folio) {
+    Swal.fire({
+        title: 'Solicitar cancelación',
+        text: 'Escribe el motivo de la solicitud:',
+        input: 'textarea',
+        inputPlaceholder: 'Motivo de cancelación',
+        inputValidator: (value) => {
+            if (!value) return 'Debes escribir el motivo';
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Enviar solicitud',
+        cancelButtonText: 'Salir'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let motivo = result.value;
+
+            Swal.fire({
+                title: 'Enviando...',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+
+            $.ajax({
+                url: 'TCL_controller/solicitar_cancelacion.php',
+                type: 'POST',
+                data: { folio: folio, motivo: motivo },
+                success: function(resp) {
+                    if (resp.trim() === 'success') {
+                        Swal.fire('Enviado', 'La solicitud fue enviada correctamente', 'success');
+                    } else {
+                        Swal.fire('Error', resp, 'error');
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error', 'No se pudo contactar al servidor', 'error');
+                }
+            });
+        }
+    });
+}
 </script>
 
 
