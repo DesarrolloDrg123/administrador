@@ -1,3 +1,4 @@
+<?php
 // Incluye encabezado, configuración de DB y controladores de archivos.
 // Se asume que estos archivos existen y manejan la conexión ($conn) y las funciones de upload.
 include("src/templates/adminheader.php");
