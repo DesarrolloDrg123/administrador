@@ -121,7 +121,7 @@ if (isset($_GET['msg'])) {
 </style>
 
 <div class="mt-5 col-md-12">
-    <h2 class="mb-4">Todas las Transferencias Clara</h2>
+    <h2 class="mb-4">Cancelacion de Transferencias Clara</h2>
     <h6 class="mb-4 text-muted">
         <span>
             <span class="badge bg-danger">&nbsp;</span> Folios en <strong>rojo</strong> sin facturas adjuntas
@@ -318,6 +318,7 @@ if (isset($_GET['msg'])) {
                         <th>Estado</th>
                         <th>Documento Adjunto</th>
                         <th>Recibo</th>
+                        <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -448,6 +449,16 @@ if (isset($_GET['msg'])) {
                                     </a>
                                 <?php else: ?>
                                     <span class="text-muted">N/A</span>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <?php if ($filas['estado'] != 'Cancelada'): ?>
+                                    <button class="btn btn-danger btn-sm"
+                                        onclick="cancelarTransferencia('<?= htmlspecialchars($filas['folio']) ?>')">
+                                        <i class="fas fa-times-circle"></i> Cancelar
+                                    </button>
+                                <?php else: ?>
+                                    <span class="text-muted">Cancelada</span>
                                 <?php endif; ?>
                             </td>
                         </tr>
