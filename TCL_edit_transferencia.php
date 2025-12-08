@@ -144,7 +144,7 @@ $total_comprobado = (float)$total_facturas + (float)$total_comprobantes;
 $pendiente = $importe_transferencia - $total_comprobado;
 
 // F. Consulta para obtener los comprobantes detallados (para la tabla)
-$sql_comprobantes = "SELECT id, importe, descripcion, archivo_path FROM comprobantes_tcl WHERE folio = ?";
+$sql_comprobantes = "SELECT id, importe, descripcion, evidencia FROM comprobantes_tcl WHERE folio = ?";
 $stmt_comp = $conn->prepare($sql_comprobantes);
 if ($stmt_comp) {
     $stmt_comp->bind_param('s', $folio);
@@ -341,8 +341,8 @@ h2.section-title {
                                 <td><?= format_currency($row_comprobante['importe'], $moneda_simbolo) ?></td>
                                 <td><?= htmlspecialchars($row_comprobante['descripcion']) ?></td>
                                 <td>
-                                    <?php if (!empty($row_comprobante['archivo_path'])): ?>
-                                        <a href="<?= htmlspecialchars($row_comprobante['archivo_path']) ?>" target="_blank" class="text-success" title="Ver Comprobante">
+                                    <?php if (!empty($row_comprobante['evidencia'])): ?>
+                                        <a href="<?= htmlspecialchars($row_comprobante['evidencia']) ?>" target="_blank" class="text-success" title="Ver Comprobante">
                                             <i class="fas fa-file-alt action-icon"></i>
                                         </a>
                                     <?php else: ?>
