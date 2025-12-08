@@ -157,7 +157,7 @@ h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
                     <td>
                         <?php if ($fila['estado'] === 'Aprobado'): ?>
                             <a href="TCL_controller/subir_pago.php?id=<?= $fila['folio'] ?>" class="btn btn-primary btn-sm">Subir a Pago</a>
-                        <?php elseif ($fila['estado'] === 'Subido a pago'): ?>
+                        <?php elseif ($fila['estado'] === 'Subido a Pago'): ?>
                             <a href="TCL_controller/pagar.php?id=<?= $fila['id'] ?>" class="btn btn-success btn-sm">Pagar</a>
                         <?php else: ?>
                             <span class="text-muted">Sin acciones</span>
