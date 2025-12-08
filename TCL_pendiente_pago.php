@@ -182,7 +182,7 @@ h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
                 <div class="modal-body">
                     <form id="uploadReciboForm">
                         <div class="form-group">
-                            <label for="reciboFile">Seleccionar archivo PDF</label>
+                            <label for="reciboFile">Seleccionar archivo</label>
                             <input type="file" class="form-control-file" id="reciboFile" required>
                         </div>
                         <input type="hidden" id="id_trans" name="id_trans">
