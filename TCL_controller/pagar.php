@@ -34,12 +34,12 @@ try {
 
     // --- PASO 2: OBTENER TODAS LAS TRANSFERENCIAS DE ESE FOLIO ---
     $sql_transferencias = 'SELECT
-            t.*, s.sucursal, b.beneficiario,
+            t.*, s.sucursal, b.nombre AS beneficiario,
             u_sol.nombre AS nombre_solicitante, u_sol.email AS email_solicitante
         FROM transferencias_clara_tcl t
         LEFT JOIN sucursales s ON t.sucursal_id = s.id
         LEFT JOIN usuarios b ON t.beneficiario_id = b.id
-        LEFT JOIN usuarios u_sol ON t.usuario_id = u_sol.id
+        LEFT JOIN usuarios u_sol ON t.usuario_solicitante_id = u_sol.id
         WHERE t.folio = ? FOR UPDATE';
         
     $stmt = $conn->prepare($sql_transferencias);
