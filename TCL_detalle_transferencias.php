@@ -600,7 +600,8 @@ $(document).ready(function() {
         myModal.show();
     <?php } ?>
 });
-// Prevención de envíos múltiples del formulario de facturas
+</script>
+<script>
 let enviandoFacturas = false;
 
 const formFacturas = document.getElementById('formularioFacturas');
