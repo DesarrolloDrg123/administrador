@@ -116,7 +116,7 @@ if (isset($_GET['msg'])) {
     .dt-buttons .btn:hover {
         background-color: #2980b9;  /* Color de fondo cuando el botón está en hover */
         border-color: #2980b9;      /* Color del borde cuando el botón está en hover */
-        cursor: pointer;           /* Cambio de cursor al pasar el mouse */
+        cursor: pointer;            /* Cambio de cursor al pasar el mouse */
     }
 </style>
 
@@ -173,13 +173,13 @@ if (isset($_GET['msg'])) {
                 MIN(t.id) AS id, 
                 t.folio,
                 
-                -- ESTA ES LA LÓGICA QUE SOLICITASTE
+                -- Lógica para la sucursal o consolidación corporativa
                 CASE 
                     WHEN COUNT(t.folio) > 1 THEN 'Corporativo' 
                     ELSE MAX(s.sucursal) 
                 END AS sucursal,
                 
-                -- Sumamos los importes para obtener el total del folio
+                -- Sumamos los importes de la transferencia para obtener el total del folio
                 SUM(COALESCE(t.importe, 0)) AS importe, 
                 SUM(COALESCE(t.importedls, 0)) AS importedls,
         
@@ -212,8 +212,8 @@ if (isset($_GET['msg'])) {
             GROUP BY 
                 t.folio
             ORDER BY 
-        t.folio DESC";
-            
+            t.folio DESC";
+        
         $stmt = $conn->prepare($sql);
         
         // Agregar el usuario a los parámetros
@@ -223,7 +223,10 @@ if (isset($_GET['msg'])) {
         
         // Verificar si hay parámetros antes de hacer bind_param
         if (!empty($params)) {
-            $types = str_repeat("s", count($params));
+            // Generar el string de tipos dinámicamente: 's' para string
+            $types = str_repeat("s", count($params)); 
+            // Esto asume que todos los parámetros se manejan como strings para simplicidad,
+            // pero si tiene enteros debe ajustarse ('i'). Mantendré 's' por consistencia con el código original.
             $stmt->bind_param($types, ...$params);
         }
         
@@ -270,7 +273,9 @@ if (isset($_GET['msg'])) {
                     <select id="filtro_estado" name="estado" class="form-select">
                         <option value="">Todas</option>
                         <?php
-                        $sql_estado = "SELECT DISTINCT estado FROM transferencias";
+                        // Nota: La tabla 'transferencias' debe ser 'transferencias_clara_tcl' si esa es la tabla principal.
+                        // Mantengo la consulta original por si 'transferencias' es otra tabla de estados.
+                        $sql_estado = "SELECT DISTINCT estado FROM transferencias"; 
                         $result_estado = $conn->query($sql_estado);
                         while ($row = $result_estado->fetch_assoc()) {
                             echo '<option value="'.$row['estado'].'"'.(isset($_GET['estado']) && $_GET['estado'] == $row['estado'] ? ' selected' : '').'>'.$row['estado'].'</option>';
@@ -331,7 +336,7 @@ if (isset($_GET['msg'])) {
                     $folios_a_buscar = array_unique(array_column($transferencias, 'folio'));
                     $facturas_por_folio = [];
                     
-                    // Si hay folios en nuestra lista, buscamos sus facturas correspondientes.
+                    // Si hay folios en nuestra lista, buscamos la suma de sus FACTURAS (XML, etc.).
                     if (!empty($folios_a_buscar)) {
                         
                         $placeholders = implode(',', array_fill(0, count($folios_a_buscar), '?'));
@@ -340,7 +345,7 @@ if (isset($_GET['msg'])) {
                                                FROM facturas_tcl 
                                                WHERE NO_ORDEN_COMPRA IN ($placeholders) 
                                                GROUP BY NO_ORDEN_COMPRA";
-                                               
+                                            
                         $stmt_facturas = $conn->prepare($sql_total_facturas);
                         
                         // El string de tipos ('s', 's', 's'...) debe coincidir con el número de folios.
@@ -350,23 +355,24 @@ if (isset($_GET['msg'])) {
                         $stmt_facturas->execute();
                         $result_facturas = $stmt_facturas->get_result();
                     
-                        // Guardamos los totales en un array para un acceso rápido y fácil después.
-                        // La clave será el folio y el valor será la suma de sus facturas.
+                        // Guardamos los totales de facturas en un array.
                         while ($row = $result_facturas->fetch_assoc()) {
                             $facturas_por_folio[$row['NO_ORDEN_COMPRA']] = $row['total_facturas'];
                         }
                         $stmt_facturas->close();
                     }
 
+                    // INICIO DEL CAMBIO: Sumar los COMPLEMENTOS / COMPROBANTES NO-FACTURAS
                     $comprobantes_por_folio = [];
                     
                     if (!empty($folios_a_buscar)) {
                         $placeholders = implode(',', array_fill(0, count($folios_a_buscar), '?'));
                         
+                        // Consulta para sumar los importes de la tabla de comprobantes (complementos/recibos).
                         $sql_total_comprobantes = "SELECT folio, SUM(importe) AS total_comprobantes
-                                                      FROM comprobantes_tcl 
-                                                      WHERE folio IN ($placeholders) 
-                                                      GROUP BY folio";
+                                                     FROM comprobantes_tcl 
+                                                     WHERE folio IN ($placeholders) 
+                                                     GROUP BY folio";
                         $stmt_comprobantes = $conn->prepare($sql_total_comprobantes);
                         $types_comp = str_repeat('s', count($folios_a_buscar));
                         $stmt_comprobantes->bind_param($types_comp, ...$folios_a_buscar);
@@ -377,16 +383,23 @@ if (isset($_GET['msg'])) {
                         }
                         $stmt_comprobantes->close();
                     }
+                    // FIN DEL CAMBIO
+                    
                     $folio_anterior = null;
                     
-                    // Ahora, en lugar de un 'while', recorremos el array que creamos al principio.
+                    // Ahora, recorremos las transferencias.
                     foreach ($transferencias as $filas):
                         
                         $fecha = new DateTime($filas['fecha_solicitud']);
                         $fecha_formateada = $fecha->format('d/m/Y');
+                        
+                        // Total comprobado por facturas (XML)
                         $total_facturas = $facturas_por_folio[$filas['folio']] ?? 0;
                         
+                        // Total comprobado por complementos/comprobantes (NO-XML)
                         $total_comprobantes = $comprobantes_por_folio[$filas['folio']] ?? 0;
+                        
+                        // *** LA SUMATORIA TOTAL DE COMPROBACIONES (Facturas + Complementos) ***
                         $total_comprobado = $total_facturas + $total_comprobantes;
                         
                         $folio_class = ($total_comprobado > 0) ? 'text-success fw-bold' : 'text-danger fw-bold';
@@ -394,59 +407,63 @@ if (isset($_GET['msg'])) {
                         $importe_num = ($filas['importedls'] && $filas['importedls'] != "0.00") ? $filas['importedls'] : $filas['importe'];
                         $moneda = ($filas['importedls'] && $filas['importedls'] != "0.00") ? 'USD' : 'MXN';
                     ?>
-                        <tr class="text-center align-middle">
-                            <td><a href="TCL_detalle_transferencias.php?id=<?= htmlspecialchars($filas['id']) ?>&MT=true" class="<?= $folio_class ?>"><?= htmlspecialchars($filas['folio']) ?></a></td>
-                            <td><?= htmlspecialchars($filas['beneficiario']) ?></td>
-                            <td style="text-align:center; max-width:200px;"><?= htmlspecialchars($filas['descripcion']) ?></td>
-                            <td><?= htmlspecialchars($filas['sucursal']) ?></td>
-                            <td><?= htmlspecialchars($filas['departamento']) ?></td>
-                            <td><?= htmlspecialchars($filas['categoria']) ?></td>
-                            <td><?= htmlspecialchars($filas['usuario']) ?></td>
-                            <td><?= htmlspecialchars($filas['autorizacion_id']) ?></td>
-                            <td>$<?= number_format($importe_num, 2, ".", ",") ?></td>
-                            <td><?= htmlspecialchars($moneda) ?></td>
-                            <td>$<?= number_format($filas['tipo_cambio'], 2, ".", ",") ?></td>
-                            
-                            <?php
+                        <tr class="text-center align-middle">
+                            <td><a href="TCL_detalle_transferencias.php?id=<?= htmlspecialchars($filas['id']) ?>&MT=true" class="<?= $folio_class ?>"><?= htmlspecialchars($filas['folio']) ?></a></td>
+                            <td><?= htmlspecialchars($filas['beneficiario']) ?></td>
+                            <td style="text-align:center; max-width:200px;"><?= htmlspecialchars($filas['descripcion']) ?></td>
+                            <td><?= htmlspecialchars($filas['sucursal']) ?></td>
+                            <td><?= htmlspecialchars($filas['departamento']) ?></td>
+                            <td><?= htmlspecialchars($filas['categoria']) ?></td>
+                            <td><?= htmlspecialchars($filas['usuario']) ?></td>
+                            <td><?= htmlspecialchars($filas['autorizacion_id']) ?></td>
+                            <td>$<?= number_format($importe_num, 2, ".", ",") ?></td>
+                            <td><?= htmlspecialchars($moneda) ?></td>
+                            <td>$<?= number_format($filas['tipo_cambio'], 2, ".", ",") ?></td>
+                            
+                            <?php
+                                // Mostramos el total de comprobaciones y el pendiente solo una vez por folio (en la primera fila del grupo)
                                 if ($filas['folio'] !== $folio_anterior):
                                     $importe_transferencia = $importe_num;
                                     
                                     $pendiente = $importe_transferencia - $total_comprobado;
                                     
+                                    // Formateamos los valores y los dejamos en $0.00 si está Cancelada o Rechazada
                                     $importe_comprobado_str = ($filas['estado'] != "Cancelada" && $filas['estado'] != "Rechazado") ? '$' . number_format($total_comprobado, 2) : '$0.00';
                                     $importe_pendiente_str = ($filas['estado'] != "Cancelada" && $filas['estado'] != "Rechazado") ? '$' . number_format($pendiente, 2) : '$0.00';
                             ?>
-                                <td><?= $importe_comprobado_str ?></td>                                 <td><?= $importe_pendiente_str ?></td>                             <?php else: ?>
-                                <td>$0.00</td>
-                                <td>$0.00</td>
-                            <?php endif; ?>
-                    
-                            <td><?= $fecha_formateada ?></td>
-                            <td><?= htmlspecialchars($filas['estado']) ?></td>
-                            <td>
-                                <?php if (!empty($filas['documento_adjunto'])): ?>
-                                    <a href="<?= htmlspecialchars($filas['documento_adjunto']) ?>" target="_blank" class="btn btn-outline-primary btn-sm" title="Documento Adjunto">
-                                        <i class="fas fa-file-alt fa-3x"></i>
-                                    </a>
-                                <?php else: ?>
-                                    <span class="text-muted">N/A</span>
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <?php if (!empty($filas['recibo'])): ?>
-                                    <a href="<?= htmlspecialchars($filas['recibo']) ?>" download class="btn btn-outline-secondary btn-sm" title="Descargar Recibo">
-                                        <i class="fas fa-file-download fa-3x"></i>
-                                    </a>
-                                <?php else: ?>
-                                    <span class="text-muted">N/A</span>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                    <?php
+                                <td><?= $importe_comprobado_str ?></td>
+                                <td><?= $importe_pendiente_str ?></td>
+                            <?php else: ?>
+                                <td>$0.00</td>
+                                <td>$0.00</td>
+                            <?php endif; ?>
+                    
+                            <td><?= $fecha_formateada ?></td>
+                            <td><?= htmlspecialchars($filas['estado']) ?></td>
+                            <td>
+                                <?php if (!empty($filas['documento_adjunto'])): ?>
+                                    <a href="<?= htmlspecialchars($filas['documento_adjunto']) ?>" target="_blank" class="btn btn-outline-primary btn-sm" title="Documento Adjunto">
+                                        <i class="fas fa-file-alt fa-3x"></i>
+                                    </a>
+                                <?php else: ?>
+                                    <span class="text-muted">N/A</span>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <?php if (!empty($filas['recibo'])): ?>
+                                    <a href="<?= htmlspecialchars($filas['recibo']) ?>" download class="btn btn-outline-secondary btn-sm" title="Descargar Recibo">
+                                        <i class="fas fa-file-download fa-3x"></i>
+                                    </a>
+                                <?php else: ?>
+                                    <span class="text-muted">N/A</span>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php
                         $folio_anterior = $filas['folio'];
                     endforeach;
                     ?>
-                </tbody>
+                </tbody>
             </table>
         </div>
         <?php else: ?>
