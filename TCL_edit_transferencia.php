@@ -321,7 +321,6 @@ h2.section-title {
                     <table class="table table-sm table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Importe</th>
                                 <th>Descripción</th>
                                 <th>Ver Archivo</th>
@@ -330,7 +329,6 @@ h2.section-title {
                         <tbody>
                             <?php foreach ($comprobantes_array as $row_comprobante): ?>
                             <tr>
-                                <td><?= htmlspecialchars($row_comprobante['id']) ?></td>
                                 <td><?= format_currency($row_comprobante['importe'], $moneda_simbolo) ?></td>
                                 <td><?= htmlspecialchars($row_comprobante['descripcion']) ?></td>
                                 <td>
