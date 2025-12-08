@@ -150,7 +150,8 @@ $total_comprobado = (float)$total_facturas + (float)$total_comprobantes;
 $pendiente = $importe_transferencia - $total_comprobado;
 
 // F. Consulta para obtener los comprobantes detallados (para la tabla)
-$sql_comprobantes = "SELECT id, importe, descripcion FROM comprobantes_tcl WHERE folio = ?";
+$sql_comprobantes = "SELECT id, importe, descripcion, evidencia FROM comprobantes_tcl WHERE folio = ?";
+
 $stmt_comp = $conn->prepare($sql_comprobantes);
 if ($stmt_comp) {
     $stmt_comp->bind_param('s', $folio);
@@ -386,6 +387,7 @@ h2.section-title {
                                     <th>Importe</th>
                                     <th>Descripción</th>
                                     <th>Evidencia</th>
+                                    <th>Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -394,9 +396,15 @@ h2.section-title {
                                     <td><?= format_currency($row_comprobante['importe'], $moneda_simbolo) ?></td>
                                     <td><?= htmlspecialchars($row_comprobante['descripcion']) ?></td>
                                     <td>
-                                        <a href="view_evidencia.php?id=<?= $row_comprobante['id'] ?>" target="_blank" class="text-primary" title="Ver Evidencia">
+                                        <a href="view_evidencia.php?id=<?= $row_comprobante['id'] ?>" target="_blank" class="text-primary me-2" title="Ver Evidencia">
                                             <i class="fas fa-image fa-2x"></i>
                                         </a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm"
+                                            onclick="eliminarComprobante(<?= (int)$row_comprobante['id'] ?>)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
@@ -560,18 +568,6 @@ document.addEventListener('DOMContentLoaded', function() {
     agregarBloqueHTML();
 });
 
-// Control de validación de formularios (las funciones soloNumeros y soloLetras deben estar definidas en adminheader.php o un script incluido)
-// Se han comentado las validaciones que requerían campos específicos que se añaden dinámicamente. 
-// El siguiente bloque de código se ha simplificado ya que los campos `ordenCompra` y `folioFactura` ya no son inputs directos en el HTML estático.
-
-/*
-var formFacturas = document.querySelector('#formularioFacturas');
-if (formFacturas) {
-    // Si necesitas validar dinámicamente, lo harías dentro del event listener 'change' del file input.
-    // Por ejemplo: formFacturas.addEventListener('submit', function(e) { ... });
-}
-*/
-
 // Ocultar mensajes globales después de 5 segundos
 $(document).ready(function() {
     setTimeout(function() {
@@ -591,11 +587,63 @@ $(document).ready(function() {
         myModal.show();
     <?php } ?>
 });
+function eliminarComprobante(id) {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: 'Este comprobante se eliminará permanentemente.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Eliminando...',
+                text: 'Por favor espera',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            $.ajax({
+                url: 'TCL_controller/eliminar_comprobante.php',
+                type: 'POST',
+                data: { id: id },
+                success: function(respuesta) {
+                    if (respuesta.trim() === 'success') {
+                        Swal.fire({
+                            title: 'Eliminado',
+                            text: 'El comprobante fue eliminado correctamente.',
+                            icon: 'success'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire(
+                            'Error',
+                            'No se pudo eliminar: ' + respuesta,
+                            'error'
+                        );
+                    }
+                },
+                error: function() {
+                    Swal.fire(
+                        'Error de comunicación',
+                        'No se pudo contactar al servidor.',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
+}
+
 </script>
 
 <?php
-// Cierre de la conexión y footer
-// Esto es importante si la conexión $conn sigue abierta
 if (isset($conn)) {
     $conn->close();
 }
