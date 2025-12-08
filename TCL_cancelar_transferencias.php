@@ -132,7 +132,7 @@ if (isset($_GET['msg'])) {
         
         // Filtros
         $where = [];
-        $where[] = "t.estado IN ('Subido a Pago', 'Pendiente', 'Aprobado')";
+        $where[] = "t.estado IN ('Subido a Pago', 'Pendiente', 'Aprobado', 'Subido a Pago', 'Pagado')";
         
         if (!empty($_GET['departamento'])) {
             $where[] = "t.departamento_id = ?";
