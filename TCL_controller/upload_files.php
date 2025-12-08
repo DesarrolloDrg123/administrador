@@ -289,6 +289,11 @@
             $GLOBALS["mensaje_global"] = "<div class='alert alert-danger'>Excepción: " . $e->getMessage() . "</div>";
         }
     }
+    if (isset($_SESSION['factura_en_proceso'])) {
+        return;
+    }
+    $_SESSION['factura_en_proceso'] = true;
+
     
     /* 1. LÓGICA PARA EL MODAL DE ERRORES */
     if (!empty($errores)) {

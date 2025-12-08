@@ -600,6 +600,27 @@ $(document).ready(function() {
         myModal.show();
     <?php } ?>
 });
+// Prevención de envíos múltiples del formulario de facturas
+let enviandoFacturas = false;
+
+const formFacturas = document.getElementById('formularioFacturas');
+
+if (formFacturas) {
+    formFacturas.addEventListener('submit', function (e) {
+        if (enviandoFacturas) {
+            e.preventDefault();
+            return false;
+        }
+
+        enviandoFacturas = true;
+
+        const btn = formFacturas.querySelector('button[type="submit"]');
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = 'Subiendo...';
+        }
+    });
+}
 </script>
 
 <?php
