@@ -100,7 +100,7 @@ $folio = $solicitud['folio'];
 
 // A. Obtener todas las facturas
 // MODIFICACIÓN: Se incluyen FECHA y RFC, que son necesarios para la tabla de facturas
-$sql_facturas = "SELECT ID, TOTAL, UUID, ESTATUS, FECHA, RFC FROM facturas_tcl WHERE NO_ORDEN_COMPRA = ?";
+$sql_facturas = "SELECT * FROM facturas_tcl WHERE NO_ORDEN_COMPRA = ?";
 $stmt_facturas = $conn->prepare($sql_facturas);
 $stmt_facturas->bind_param('s', $folio);
 $stmt_facturas->execute();
