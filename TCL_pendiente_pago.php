@@ -115,7 +115,7 @@ h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
                 ?>
                 <tr class="text-center align-middle">
                     <td>
-                        <a href="TR_edit_transferencia.php?id=<?= $fila['id'] ?>&PT=true" class="<?= $folio_class ?>">
+                        <a href="TCL_edit_transferencia.php?id=<?= $fila['id'] ?>&PT=true" class="<?= $folio_class ?>">
                             <?= htmlspecialchars($fila['folio']) ?>
                         </a>
                     </td>
@@ -156,9 +156,9 @@ h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
                     <!-- Acciones -->
                     <td>
                         <?php if ($fila['estado'] === 'Aprobado'): ?>
-                            <a href="TR_controller/subir_pago.php?id=<?= $fila['folio'] ?>" class="btn btn-primary btn-sm">Subir a Pago</a>
+                            <a href="TCL_controller/subir_pago.php?id=<?= $fila['folio'] ?>" class="btn btn-primary btn-sm">Subir a Pago</a>
                         <?php elseif ($fila['estado'] === 'Subido a pago'): ?>
-                            <a href="TR_controller/pagar.php?id=<?= $fila['id'] ?>" class="btn btn-success btn-sm">Pagar</a>
+                            <a href="TCL_controller/pagar.php?id=<?= $fila['id'] ?>" class="btn btn-success btn-sm">Pagar</a>
                         <?php else: ?>
                             <span class="text-muted">Sin acciones</span>
                         <?php endif; ?>
