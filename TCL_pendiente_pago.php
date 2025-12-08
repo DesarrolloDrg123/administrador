@@ -172,4 +172,79 @@ h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
         <p class="text-center text-muted">No hay registros.</p>
     <?php endif; ?>
 </div>
+<script>
+    $(document).ready(function() {
+        var table = $('#solicitudesTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            },
+            "pageLength": 10,
+            "lengthMenu": [5, 10, 20],
+            "responsive": true,  // Habilitar la respuesta en diferentes tamaños de pantalla
+            "processing": true,
+            "columnDefs": [
+                { "orderable": false, "targets": [10 ,11, 12] } // Ajustar según la posición real de las columnas
+            ]
+        });
+        // 🔹 Filtrar por Estado
+        $('#filtro_estado').on('change', function() {
+            var filtroEstado = $(this).val();
+            if (filtroEstado) {
+                table.column(9).search($('#filtro_estado option:selected').text()).draw();
+            } else {
+                table.column(9).search('').draw();
+            }
+        });
+    });
+</script>
+<script>
+    var currentTransferenciaId = null;
+
+    // Mostrar la vista previa del PDF cuando el usuario selecciona un archivo
+    document.getElementById('reciboFile').addEventListener('change', function(event) {
+        var file = event.target.files[0];
+        if (file.type === "application/pdf") {
+            var fileReader = new FileReader();
+            fileReader.onload = function() {
+                document.getElementById('pdfPreview').src = fileReader.result;
+            };
+            fileReader.readAsDataURL(file);
+        } else {
+            alert("Por favor, selecciona un archivo PDF.");
+            document.getElementById('reciboFile').value = ''; // Limpiar la selección si no es un PDF
+        }
+    });
+
+    // Manejar el envío del formulario para subir el recibo
+    document.getElementById('uploadReciboForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var formData = new FormData();
+        var fileInput = document.getElementById('reciboFile');
+        var file = fileInput.files[0];
+        var id_trans = document.getElementById('id_trans').value; // Asegurar que se obtiene el valor correcto
+    
+        if (file) {
+            formData.append('recibo', file);
+            formData.append('id_trans', id_trans); // Nombre correcto en el formulario
+    
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'TCL_controller/subir_recibo.php', true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    alert('Recibo subido exitosamente.');
+                    location.reload(); // Recargar la página para reflejar el cambio
+                } else {
+                    alert('Error al subir el recibo.');
+                }
+            };
+            xhr.send(formData);
+        }
+    });
+        
+    // Función para abrir el modal de subir recibo con el ID de la transferencia
+    function openUploadReciboModal(transferenciaId) {
+        document.getElementById('id_trans').value = transferenciaId; // Almacena el ID de la transferencia para su uso posterior
+        $('#uploadReciboModal').modal('show');
+    }
+</script>
 <?php include("src/templates/adminfooter.php"); ?>
