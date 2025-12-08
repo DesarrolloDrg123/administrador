@@ -1,6 +1,7 @@
 <?php
 include("src/templates/adminheader.php");
 require("config/db.php");
+// Se asume que estos controladores están definidos en otro lugar
 include('TCL_controller/upload_files.php');
 include('TCL_controller/upload_comprobantes.php');
 
@@ -44,7 +45,7 @@ try {
     $solicitud = $result->fetch_assoc();
 
     if (!$solicitud) {
-        echo "No se encontr�� la solicitud o no tienes permiso para verla.";
+        echo "No se encontró la solicitud o no tienes permiso para verla.";
         exit();
     }
 } catch (Exception $e) {
@@ -56,22 +57,22 @@ try {
 $fecha = new DateTime($solicitud['fecha_solicitud']);
 $fecha1 = new DateTime($solicitud['fecha_vencimiento']);
 
-// Meses en espa�0�9ol abreviados
+// Meses en español abreviados
 $meses_espanol = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
 
-// Obtener el d��a, el mes (como ��ndice) y el a�0�9o
+// Obtener el día, el mes (como índice) y el año
 $dia = $fecha->format('j');
 $mes = $meses_espanol[(int)$fecha->format('n') - 1];
-$a�0�9o = $fecha->format('Y');
+$anio = $fecha->format('Y');
 
-// Obtener el d��a, el mes (como ��ndice) y el a�0�9o
+// Obtener el día, el mes (como índice) y el año
 $dia1 = $fecha1->format('j');
 $mes1 = $meses_espanol[(int)$fecha1->format('n') - 1];
-$a�0�9o1 = $fecha1->format('Y');
+$anio1 = $fecha1->format('Y');
 
 // Concatenar en el formato deseado
-$fecha_formateada = "{$dia}/{$mes}/{$a�0�9o}";
-$fecha_formateada1 = "{$dia1}/{$mes1}/{$a�0�9o1}";
+$fecha_formateada = "{$dia}/{$mes}/{$anio}";
+$fecha_formateada1 = "{$dia1}/{$mes1}/{$anio1}";
 ?>
 
 <?php
@@ -95,12 +96,6 @@ $result_total_facturas = $stmt3->get_result();
 $row_total_facturas = $result_total_facturas->fetch_assoc();
 $total_facturas = $row_total_facturas['total_facturas'] ?? 0; // Si no hay resultados, asigna 0
 
-if ($solicitud['importe'] == '0.00' || $solicitud['importe'] == null || $solicitud['importe'] == '') {
-    $importe_transferencia = $solicitud['importedls'];
-} else {
-    $importe_transferencia = $solicitud['importe'];
-}
-
 // =================================================================
 // 1. NUEVA CONSULTA: Suma de los totales de los comprobantes (recibos)
 // =================================================================
@@ -120,8 +115,7 @@ $stmt_comp_total->close();
 // Calcular el total COMPROBADO (Facturas + Comprobantes)
 $total_comprobado = $total_facturas + $total_comprobantes;
 
-// ... (Tu código existente para definir $importe_transferencia)
-
+// Define el importe de la transferencia (Pesos o Dólares)
 if ($solicitud['importe'] == '0.00' || $solicitud['importe'] == null || $solicitud['importe'] == '') {
     $importe_transferencia = $solicitud['importedls'];
 } else {
@@ -172,6 +166,10 @@ td {
     background-color: #f0f8ff;
     font-weight: bold;
 }
+/* Estilos para el campo de archivo en el formulario de facturas */
+.file-upload-row .col-md-6 {
+    margin-bottom: 15px; /* Espacio entre los bloques de archivo */
+}
 </style>
 
 <div class="container">
@@ -204,7 +202,7 @@ td {
                             <?php endif; ?>
                             <tr><th>Autoriza</th><td><?= htmlspecialchars($solicitud['nombre_autoriza']) ?></td></tr>
                             <?php if (empty($solicitud['importe']) || $solicitud['importe'] == '0.00'): ?>
-                                <tr><th>Importe en D��lares</th><td>US$<?= number_format($solicitud['importedls'], 2, ".", ",") ?></td></tr>
+                                <tr><th>Importe en Dólares</th><td>US$<?= number_format($solicitud['importedls'], 2, ".", ",") ?></td></tr>
                                 <tr><th>Importe en Letra</th><td><?= htmlspecialchars($solicitud['importedls_letra']) ?></td></tr>
                             <?php else: ?>
                                 <tr><th>Importe en Pesos</th><td>$<?= number_format($solicitud['importe'], 2, ".", ",") ?></td></tr>
@@ -223,7 +221,7 @@ td {
                         </tbody>
                     </table>
 
-                    <!-- Botones de Acci��n -->
+                    <!-- Botones de Acción -->
                     <div class="d-flex gap-2 mt-3">
                         <?php if ($solicitud['estado'] === 'Pendiente' && $usuario_ses === $solicitud['nombre_usuario']) : ?>
                             <a href="TCL_edit_transfer.php?id=<?= $solicitud_id ?>&MT=true" class="btn btn-warning">Editar Transferencia</a>
@@ -246,13 +244,20 @@ td {
               <h2 class="section-title"><i class="fas fa-receipt"></i> Cargar Facturas</h2>
               <div class="card mb-4">
                   <div class="card-body">
+                      <!-- FORMULARIO DE FACTURAS (CFDI) -->
                       <form action="" method="POST" name="formularioFacturas" id="formularioFacturas" enctype="multipart/form-data">
-                          <div class='form-row'>
-                              <h5 class='form-group col-md-6' >Archivo PDF: </h5>
-                              <h5 class='form-group col-md-6' >Archivo XML: </h5>
-                          </div>
-                          <div class="nuevosCampos">
+                          <!-- Títulos de los campos -->
+                          <div class='row g-2 mb-3'>
+                              <div class='col-md-6'>
+                                  <h5 class='mb-0'>Archivo PDF: </h5>
                               </div>
+                              <div class='col-md-6'>
+                                  <h5 class='mb-0'>Archivo XML: </h5>
+                              </div>
+                          </div>
+                          <!-- Contenedor donde JS agregará los campos de archivo -->
+                          <div class="nuevosCampos">
+                          </div>
                           <button type="submit" name="submit_facturas" class="btn btn-warning mt-3">Cargar Factura(s)</button>
                       </form>
                   </div>
@@ -260,26 +265,33 @@ td {
               
               <?php if ($result_facturas->num_rows > 0): ?>
                   <h2 class="section-title"><i class="fas fa-file-alt"></i> Facturas Subidas</h2>
-                  <?php endif; ?>
+                  <!-- Aquí iría la tabla de facturas subidas -->
+                  <div class="card mb-4">
+                    <div class="card-body">
+                      <p>Tabla de facturas subidas va aquí...</p>
+                    </div>
+                  </div>
+              <?php endif; ?>
               
               <hr>
               
+              <!-- FORMULARIO DE COMPROBANTES/RECIBOS -->
               <h2 class="section-title"><i class="fas fa-file-invoice-dollar"></i> Cargar Comprobantes/Recibos</h2>
               <div class="card mb-4">
                   <div class="card-body">
                       <form action="" method="POST" name="formularioComprobantes" id="formularioComprobantes" enctype="multipart/form-data">
                           
-                          <div class="form-group">
+                          <div class="form-group mb-3">
                               <label for="importe_comprobante">Monto/Importe del Comprobante: *</label>
                               <input type="number" step="0.01" class="form-control" id="importe_comprobante" name="importe_comprobante" required>
                           </div>
                           
-                          <div class="form-group">
+                          <div class="form-group mb-3">
                               <label for="descripcion_comprobante">Descripción del Recibo/Gasto: *</label>
                               <textarea class="form-control" id="descripcion_comprobante" name="descripcion_comprobante" rows="2" required></textarea>
                           </div>
                           
-                          <div class="form-group">
+                          <div class="form-group mb-3">
                               <label for="evidencia_comprobante">Evidencia (Imagen, Foto, PDF): *</label>
                               <input type="file" class="form-control-file" id="evidencia_comprobante" name="evidencia_comprobante" accept="image/*,.pdf" required>
                           </div>
@@ -310,6 +322,7 @@ td {
                                       <td>$<?= number_format($row_comprobante['importe'], 2, ".", ",") ?></td>
                                       <td><?= htmlspecialchars($row_comprobante['descripcion']) ?></td>
                                       <td>
+                                          <!-- Asumo que view_evidencia.php maneja la visualización del archivo -->
                                           <a href="view_evidencia.php?id=<?= $row_comprobante['id'] ?>" target="_blank"><i class="fas fa-image fa-2x"></i></a>
                                       </td>
                                   </tr>
@@ -327,7 +340,7 @@ td {
 
 
 
-<!-- Modal de Confirmaci��n para Reset -->
+<!-- Modal de Confirmación para Reset -->
 <div class="modal fade" id="modalResetFactura" tabindex="-1" role="dialog" aria-labelledby="modalResetLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -354,11 +367,14 @@ td {
 </div>
 
 <script>
+  // NOTA: Tu código usa alert(), que debe evitarse. Usa modales o mensajes en el DOM.
   function abrirModalReset(uuid) {
     $('#uuidInput').val(uuid);
     $('#descripcionInput').val('');
     $('#respuestaReset').text('');
-    $('#modalResetFactura').modal('show');
+    // Asumo que tienes Bootstrap JS cargado
+    var modalReset = new bootstrap.Modal(document.getElementById('modalResetFactura'));
+    modalReset.show();
   }
 
   function confirmarReset() {
@@ -379,124 +395,145 @@ td {
       },
       success: function (respuesta) {
         if (respuesta.trim() === 'success') {
-          $('#modalResetFactura').modal('hide');
-          alert('Factura reiniciada correctamente.');
+          // Usamos la función nativa de Bootstrap para ocultar el modal
+          var modalReset = bootstrap.Modal.getInstance(document.getElementById('modalResetFactura'));
+          if (modalReset) {
+            modalReset.hide();
+          }
+          // Idealmente se usa un toast o mensaje de éxito, no alert
+          alert('Factura reiniciada correctamente.'); 
           location.reload(); // Opcional: recarga tabla para ver cambios
         } else {
-          $('#respuestaReset').text('Ocurri�� un error al reiniciar.');
+          $('#respuestaReset').text('Ocurrió un error al reiniciar. Respuesta: ' + respuesta);
         }
       },
       error: function () {
-        $('#respuestaReset').text('Error de comunicaci��n con el servidor.');
+        $('#respuestaReset').text('Error de comunicación con el servidor.');
       }
     });
   }
 </script>
 
 <script type="text/javascript">
-     formularioFacturas = document.querySelector('#formularioFacturas');
-     formularioFacturas.ordenCompra.addEventListener('keypress', function (e){
-        if (!soloNumeros(event)){
-        e.preventDefault();
+    // Tu lógica de validación de formulario, corregida para evitar errores si los campos no existen
+    var formularioFacturas = document.querySelector('#formularioFacturas');
+    
+    // Asumo que soloNumeros y soloLetras existen globalmente
+    // if (formularioFacturas) {
+    //     if(formularioFacturas.ordenCompra) { // Este campo no existe en el HTML actual, se envía por hidden input
+    //         formularioFacturas.ordenCompra.addEventListener('keypress', function (e){
+    //             if (!soloNumeros(e)){ e.preventDefault(); }
+    //         });
+    //     }
+    //     if(formularioFacturas.folioFactura) { // Este campo no existe
+    //         formularioFacturas.folioFactura.addEventListener('keypress', function (e){
+    //             if (!soloLetras(e)){ e.preventDefault(); }
+    //         });
+    //     }
+    // }
 
-      }
-    });
-     formularioFacturas.folioFactura.addEventListener('keypress', function (e){
-        if (!soloLetras(event)){
-        e.preventDefault();
-
-      }
-    });
+    // Bloque de timeouts para limpieza de mensajes
     setTimeout(function(){
-	  if ($('#mensajes_globales').length > 0) {
-	    $('#mensajes_globales').remove();
-	    $("#mensajes_globales").html('');
-	  }
-	}, 5000);
-	setTimeout(function(){
-	  if ($('#mensajes_pdf').length > 0 && $('#mensajes_pdf').text()!="Seleccione el archivo pdf:") {
-	    //$('#mensajes_pdf').remove();
-	    $("#mensajes_pdf").html('<h5>Seleccione el archivo pdf:</h5>');
-	  }
-	}, 5000);
-	setTimeout(function(){
-	  if ($('#mensajes_xml').length > 0 && $('#mensajes_xml').text()!="Seleccione el archivo xml:") {
-	    //$('#mensajes_xml').remove();
-	    $("#mensajes_xml").html('<h5>Seleccione el archivo xml:</h5>');
-	  }
-	}, 5000);
-    //mensaje_global = document.byid('#mensajes_globales');
-    //alert($( "#mensajes_globales" ).text());
-//          $('mensajes_globales').contentchanged() {
-	//   alert('changed');
-	// }
+        if ($('#mensajes_globales').length > 0) {
+            $('#mensajes_globales').remove();
+            $("#mensajes_globales").html('');
+        }
+    }, 5000);
+    // Estos timeouts de PDF/XML no aplican a la nueva estructura de campos dinámicos:
+    /*
+    setTimeout(function(){
+        if ($('#mensajes_pdf').length > 0 && $('#mensajes_pdf').text()!="Seleccione el archivo pdf:") {
+            $("#mensajes_pdf").html('<h5>Seleccione el archivo pdf:</h5>');
+        }
+    }, 5000);
+    setTimeout(function(){
+        if ($('#mensajes_xml').length > 0 && $('#mensajes_xml').text()!="Seleccione el archivo xml:") {
+            $("#mensajes_xml").html('<h5>Seleccione el archivo xml:</h5>');
+        }
+    }, 5000);
+    */
 </script>
 
 <script>
-// Funci��n para agregar din��micamente el bloque de HTML
+// =================================================================
+// FUNCIÓN CORREGIDA para agregar dinámicamente el bloque de HTML
+// Se corrigió la estructura de Bootstrap (uso de div.col-md-6)
+// =================================================================
 function agregarBloqueHTML() {
-var fileSection = document.querySelector('.nuevosCampos');
+    var fileSection = document.querySelector('.nuevosCampos');
+    const folio = "<?php echo $solicitud['folio']; ?>";
 
-// Verificar si ya existen campos vac��os
-var existingRows = fileSection.querySelectorAll('.form-row');
-for (var i = 0; i < existingRows.length; i++) {
-    var pdfInput = existingRows[i].querySelector('input[name="file_pdf[]"]');
-    var xmlInput = existingRows[i].querySelector('input[name="file_xml[]"]');
-    if (pdfInput.files.length === 0 || xmlInput.files.length === 0) {
-        // Ya existe un bloque con campos vac��os, no agregar otro
-        return;
-    }
-}
-
-// Crear el bloque de HTML
-var div = document.createElement('div');
-div.classList.add('form-row');
-
-const folio = "<?php echo $solicitud['folio']; ?>";
-
-
-// Agregar el contenido al bloque
-div.innerHTML += `
-  <input type="file" name="file_pdf[]" class=" form-control col-md-6" accept=".pdf" />
-  <input type="file" name="file_xml[]" class=" form-control col-md-6" accept=".xml" />
-  <input type="hidden" name="ordenCompra[]" value="${folio}">
-`;
-
-
-// Agregar el bloque al formulario
-fileSection.appendChild(div);
-
-// Obtener el ��ltimo bloque de formulario agregado
-var lastFormRow = fileSection.lastElementChild;
-
-// Obtener los campos de archivo dentro del ��ltimo bloque de formulario
-var fileInputs = lastFormRow.querySelectorAll('input[type="file"]');
-
-// Escuchar el evento change en los campos de archivo dentro del ��ltimo bloque de formulario
-fileInputs.forEach(function(input) {
-    input.addEventListener('change', function() {
-        // Verificar si ambos campos de archivo tienen archivos seleccionados
-        var pdfInput = lastFormRow.querySelector('input[name="file_pdf[]"]');
-        var xmlInput = lastFormRow.querySelector('input[name="file_xml[]"]');
-        if (pdfInput.files.length > 0 && xmlInput.files.length > 0) {
-            // Agregar otro bloque de formulario
-            agregarBloqueHTML();
+    // 1. Verificar si ya existen campos de archivo PDF y XML vacíos
+    var existingRows = fileSection.querySelectorAll('.file-upload-row');
+    for (var i = 0; i < existingRows.length; i++) {
+        var pdfInput = existingRows[i].querySelector('input[name="file_pdf[]"]');
+        var xmlInput = existingRows[i].querySelector('input[name="file_xml[]"]');
+        
+        // Si no existe, es que la fila está mal estructurada.
+        // Si existe y no tiene archivos seleccionados, detenemos la adición.
+        if ((pdfInput && pdfInput.files.length === 0) || (xmlInput && xmlInput.files.length === 0)) {
+            return;
         }
+    }
+    
+    // 2. Crear el bloque de HTML con la estructura de Bootstrap correcta
+    var div = document.createElement('div');
+    // Usamos 'row g-2' para la cuadrícula y una clase única para la fila
+    div.classList.add('row', 'g-2', 'file-upload-row');
+
+    // 3. Agregar el contenido al bloque (usando col-md-6 para cada input)
+    div.innerHTML = `
+        <div class="col-md-6">
+            <input type="file" name="file_pdf[]" class="form-control" accept=".pdf" required />
+        </div>
+        <div class="col-md-6">
+            <input type="file" name="file_xml[]" class="form-control" accept=".xml" required />
+            <!-- El input hidden va en una de las columnas o fuera del row, pero para array es mejor en la fila -->
+            <input type="hidden" name="ordenCompra[]" value="${folio}">
+        </div>
+    `;
+
+    // 4. Agregar el bloque al formulario
+    fileSection.appendChild(div);
+
+    // 5. Obtener el último bloque de formulario agregado para escuchar eventos
+    var lastFormRow = fileSection.lastElementChild;
+    var fileInputs = lastFormRow.querySelectorAll('input[type="file"]');
+
+    // 6. Escuchar el evento change en los campos de archivo
+    // Esto recrea tu lógica original de agregar dinámicamente si ambos están llenos
+    fileInputs.forEach(function(input) {
+        input.addEventListener('change', function() {
+            var pdfInput = lastFormRow.querySelector('input[name="file_pdf[]"]');
+            var xmlInput = lastFormRow.querySelector('input[name="file_xml[]"]');
+            
+            // Verificar si ambos campos de archivo tienen archivos seleccionados
+            if (pdfInput.files.length > 0 && xmlInput.files.length > 0) {
+                // Agregar otro bloque de formulario si no hay uno vacío ya
+                agregarBloqueHTML();
+            }
+        });
     });
-});
 }
 
-// Llamar a la funci��n para agregar el bloque de HTML inicial
-agregarBloqueHTML();
+// Llamar a la función para agregar el bloque de HTML inicial
+// Se llama solo si el formulario existe
+var formFacturas = document.querySelector('#formularioFacturas');
+if (formFacturas) {
+    agregarBloqueHTML();
+}
+
+
+// Corrección de los timeouts de limpieza de campos (que no aplicaban a la estructura dinámica)
 setTimeout(function(){
-	  if ($('#mensajes_globales').length > 0) {
-	    $('#mensajes_globales').remove();
-	    $("#mensajes_globales").html('');
-	    $('#file_pdf_cp').value = '';
-	    $('#file_xml_cp').value = '';
-	    // document.querySelector('#file_xml_cp').value = '';
-	  }
-	}, 5000);
+    if ($('#mensajes_globales').length > 0) {
+        $('#mensajes_globales').remove();
+        $("#mensajes_globales").html('');
+        // Las siguientes líneas no son necesarias ya que los inputs se recrean dinámicamente
+        // $('#file_pdf_cp').value = '';
+        // $('#file_xml_cp').value = '';
+    }
+}, 5000);
 </script>
 
 <script>
@@ -507,35 +544,14 @@ setTimeout(function(){
         if ((isset($mostrar_modal_errores) && $mostrar_modal_errores) || 
             (isset($mostrar_modal_exito) && $mostrar_modal_exito)) { 
         ?>
-            // Buscamos el modal por su ID (definido en upload_files.php) y lo mostramos
+            // Buscamos el modal por su ID (asumo que 'modal_resultados' está definido en upload_files.php) y lo mostramos
             var myModal = new bootstrap.Modal(document.getElementById('modal_resultados'), {
                 keyboard: false
             });
             myModal.show();
             
-            // NOTA: Si usas Bootstrap 4 o anterior y el código de arriba falla, 
-            // intenta descomentar la siguiente línea y comentar las 3 anteriores:
-            // $('#modal_resultados').modal('show');
         <?php } ?>
     });
-</script>
-
-<script>
-    // Tu código JS actual puede fallar si el formulario no existe (ej. estado Pendiente)
-    // Reemplaza tu bloque de "formularioFacturas" con este más seguro:
-    var formFacturas = document.querySelector('#formularioFacturas');
-    if (formFacturas) {
-        if(formFacturas.ordenCompra) {
-            formFacturas.ordenCompra.addEventListener('keypress', function (e){
-                if (!soloNumeros(event)){ e.preventDefault(); }
-            });
-        }
-        if(formFacturas.folioFactura) {
-            formFacturas.folioFactura.addEventListener('keypress', function (e){
-                if (!soloLetras(event)){ e.preventDefault(); }
-            });
-        }
-    }
 </script>
 
 <?php
