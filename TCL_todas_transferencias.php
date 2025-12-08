@@ -271,16 +271,14 @@ if (isset($_GET['msg'])) {
         $stmt_facturas->close();
 
         // 2. OBTENER CONTEO DE COMPROBANTES (Asumiendo tabla 'comprobantes_tcl' con campo 'NO_TRANSFERENCIA')
-        $sql_comprobantes = "SELECT 
-                                NO_TRANSFERENCIA, 
-                                COUNT(id) AS count_comprobantes
-                             FROM comprobantes_tcl 
-                             WHERE NO_TRANSFERENCIA IN ($placeholders) 
-                             GROUP BY NO_TRANSFERENCIA";
-        
-        $stmt_comprobantes = $conn->prepare($sql_comprobantes);
-        $stmt_comprobantes->bind_param($types_docs, ...$folios_a_buscar);
-        $stmt_comprobantes->execute();
+        $sql_total_comprobantes = "SELECT folio, SUM(importe) AS total_comprobantes
+                        FROM comprobantes_tcl
+                        WHERE folio IN ($placeholders)
+                        GROUP BY folio";
+                        $stmt_comprobantes = $conn->prepare($sql_total_comprobantes);
+                        $types_comp = str_repeat('s', count($folios_a_buscar));
+                        $stmt_comprobantes->bind_param($types_comp, ...$folios_a_buscar);
+                        $stmt_comprobantes->execute();
         $result_comprobantes = $stmt_comprobantes->get_result();
         
         while ($row = $result_comprobantes->fetch_assoc()) {
