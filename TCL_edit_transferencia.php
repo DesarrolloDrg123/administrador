@@ -2,8 +2,12 @@
 
 session_start();
 header('Content-Type: text/html; charset=utf-8');
+// Asegúrate de que las rutas a los includes sean correctas
 include("src/templates/adminheader.php");
 require("config/db.php");
+
+// Configuración de reportes para MySQLi (buena práctica)
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
     header("Location: index.php");
@@ -11,7 +15,9 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 }
 
 if (!isset($_GET['id'])) {
-    echo "Id no proporcionado.";
+    // Usar un mensaje más amigable o redirigir
+    $_SESSION['error_message'] = "ID de solicitud no proporcionado.";
+    header("Location: TCL_todas_transferencias.php");
     exit();
 }
 
@@ -28,14 +34,16 @@ try {
     $stmt_folio->bind_param('i', $solicitud_id);
     $stmt_folio->execute();
     $result_folio = $stmt_folio->get_result();
+    
     if ($result_folio->num_rows === 0) {
-        throw new Exception("No se encontró la solicitud.");
+        throw new Exception("No se encontró la solicitud con el ID proporcionado.");
     }
+    
     $folio_a_buscar = $result_folio->fetch_assoc()['folio'];
     $stmt_folio->close();
 
     // PASO 2: Obtener TODOS los registros que comparten ese folio
-    $sql = 'SELECT t.id, t.folio, s.sucursal AS sucursal,  b.nombre AS nombre_beneficiario, t.fecha_solicitud, t.fecha_vencimiento, t.importe,t.importe_letra, t.importedls, t.importedls_letra, t.descripcion, t.estado, t.documento_adjunto, t.no_cuenta,
+    $sql = 'SELECT t.id, t.folio, s.sucursal AS sucursal, b.nombre AS nombre_beneficiario, t.fecha_solicitud, t.fecha_vencimiento, t.importe, t.importe_letra, t.importedls, t.importedls_letra, t.descripcion, t.estado, t.documento_adjunto, t.no_cuenta,
     t.observaciones, t.categoria_id, t.departamento_id, t.usuario_solicitante_id, t.autorizacion_id AS autoriza, t.motivo, u1.nombre AS nombre_usuario, u2.nombre AS nombre_autoriza, d.departamento, c.categoria
     FROM transferencias_clara_tcl t 
     JOIN categorias c ON t.categoria_id = c.id
@@ -43,12 +51,12 @@ try {
     JOIN usuarios u1 ON t.usuario_solicitante_id = u1.id
     JOIN sucursales s ON t.sucursal_id = s.id
     JOIN usuarios b ON t.beneficiario_id = b.id
-    JOIN usuarios u2 ON t.autorizacion_id = u2.id
+    LEFT JOIN usuarios u2 ON t.autorizacion_id = u2.id -- Usar LEFT JOIN ya que autorizacion_id podría ser NULL
     WHERE t.folio = ?';
     
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
-        throw new Exception($conn->error);
+        throw new Exception("Error en la preparación de la consulta: " . $conn->error);
     }
     $stmt->bind_param('s', $folio_a_buscar);
     $stmt->execute();
@@ -58,18 +66,21 @@ try {
     $transferencias_del_folio = $result->fetch_all(MYSQLI_ASSOC);
 
     if (empty($transferencias_del_folio)) {
-        echo "No se encontró la solicitud o no tienes permiso para verla.";
-        exit();
+        throw new Exception("No se encontró la solicitud o no tienes permiso para verla.");
     }
     
     // Usamos la primera fila para los datos comunes
     $solicitud = $transferencias_del_folio[0];
+    $stmt->close();
 } catch (Exception $e) {
-    echo "Error: " . $e->getMessage();
+    echo '<div class="alert alert-danger container mt-5" role="alert">Error al cargar la solicitud: ' . $e->getMessage() . '</div>';
+    include("src/templates/adminfooter.php");
     exit();
 }
 
-// Extraer la fecha de la base de datos
+// --- Lógica de cálculo y formato ---
+
+// Extracción de fechas y formato
 $fecha = new DateTime($solicitud['fecha_solicitud']);
 $fecha1 = new DateTime($solicitud['fecha_vencimiento']);
 
@@ -81,7 +92,6 @@ $dia = $fecha->format('j');
 $mes = $meses_espanol[(int)$fecha->format('n') - 1];
 $año = $fecha->format('Y');
 
-// Obtener el día, el mes (como índice) y el año
 $dia1 = $fecha1->format('j');
 $mes1 = $meses_espanol[(int)$fecha1->format('n') - 1];
 $año1 = $fecha1->format('Y');
@@ -97,17 +107,19 @@ $importe_total_pesos = 0;
 $importe_total_dolares = 0;
 
 foreach ($transferencias_del_folio as $trans) {
+    // Asegurar que los valores son numéricos para la suma
     $importe_total_pesos += floatval($trans['importe']);
     $importe_total_dolares += floatval($trans['importedls']);
 }
 
+// Determinar si la transferencia es en USD o MXN para el importe principal (usando el total)
+$es_dolares = $importe_total_dolares > 0;
+$importe_total_transferencia = $es_dolares ? $importe_total_dolares : $importe_total_pesos;
 
-// Consulta para obtener todos los registros de las facturas
-$sql_facturas = "SELECT * FROM facturas_tcl WHERE NO_ORDEN_COMPRA = ?";
-$stmt2 = $conn->prepare($sql_facturas);
-$stmt2->bind_param('s', $folio);
-$stmt2->execute();
-$result_facturas = $stmt2->get_result();
+// Determinar el beneficiario para la tabla de detalles (si es un folio multi-ítem)
+$beneficiarios_unicos = array_unique(array_column($transferencias_del_folio, 'nombre_beneficiario'));
+$beneficiario_display = count($beneficiarios_unicos) === 1 ? $beneficiarios_unicos[0] : 'Varios Beneficiarios';
+
 
 // Consulta para obtener la suma de los totales de las facturas
 $sql_total_facturas = "SELECT SUM(TOTAL) AS total_facturas FROM facturas_tcl WHERE NO_ORDEN_COMPRA = ?";
@@ -119,14 +131,17 @@ $result_total_facturas = $stmt3->get_result();
 // Obtener el total de las facturas
 $row_total_facturas = $result_total_facturas->fetch_assoc();
 $total_facturas = $row_total_facturas['total_facturas'] ?? 0; // Si no hay resultados, asigna 0
+$stmt3->close();
 
-if ($solicitud['importe'] == '0.00' || $solicitud['importe'] == null || $solicitud['importe'] == '') {
-    $importe_transferencia = $solicitud['importedls'];
-} else {
-    $importe_transferencia = $solicitud['importe'];
-}
+// Consulta para obtener todos los registros de las facturas
+$sql_facturas = "SELECT * FROM facturas_tcl WHERE NO_ORDEN_COMPRA = ?";
+$stmt2 = $conn->prepare($sql_facturas);
+$stmt2->bind_param('s', $folio);
+$stmt2->execute();
+$result_facturas = $stmt2->get_result();
+$stmt2->close();
 
-$importe_total_transferencia = ($importe_total_dolares > 0) ? $importe_total_dolares : $importe_total_pesos;
+
 $pendiente = $importe_total_transferencia - $total_facturas;
 
 ?>
@@ -169,7 +184,8 @@ td {
                             <tr><th>Folio</th><td class="text-danger fw-bold"><?= htmlspecialchars($solicitud['folio']) ?></td></tr>
                             <tr><th>Sucursal</th><td><?= htmlspecialchars($solicitud['sucursal']) ?></td></tr>
                             <tr><th>Solicitante</th><td><?= htmlspecialchars($solicitud['nombre_usuario']) ?></td></tr>
-                            <tr><th>Beneficiario</th><td><?= htmlspecialchars($solicitud['nombre_beneficiario']) ?></td></tr>
+                            <!-- CAMBIO: Muestra 'Varios Beneficiarios' si aplica -->
+                            <tr><th>Beneficiario</th><td><?= htmlspecialchars($beneficiario_display) ?></td></tr>
                             <tr><th>No. de Cuenta</th><td><?= !empty($solicitud['no_cuenta']) ? htmlspecialchars($solicitud['no_cuenta']) : 'N/A' ?></td></tr>
                             <tr><th>Departamento</th><td><?= htmlspecialchars($solicitud['departamento']) ?></td></tr>
                             <tr><th>Categoría</th><td><?= htmlspecialchars($solicitud['categoria']) ?></td></tr>
@@ -180,20 +196,27 @@ td {
                             <tr><th>Estado</th><td><?= htmlspecialchars($solicitud['estado']) ?></td></tr>
                             <?php if ($solicitud['estado'] == "Cancelada" || $solicitud['estado'] == "Rechazado"): ?>
                                 <tr>
-                                    <tr><th>Motivo</th>
-                                    <td><?= htmlspecialchars($solicitud['motivo']) ?></td></tr>
+                                    <th>Motivo</th>
+                                    <td><?= htmlspecialchars($solicitud['motivo']) ?></td>
                                 </tr>
                             <?php endif; ?>
-                            <tr><th>Autoriza</th><td><?= htmlspecialchars($solicitud['nombre_autoriza']) ?></td></tr>
-                            <?php if (empty($solicitud['importe']) || $solicitud['importe'] == '0.00'): ?>
-                                <tr><th>Importe en Dólares</th><td>US$<?= number_format($importe_total_dolares, 2, ".", ",") ?></td></tr>
+                            <tr><th>Autoriza</th><td><?= htmlspecialchars($solicitud['nombre_autoriza'] ?? 'N/A') ?></td></tr>
+                            <?php if ($es_dolares): ?>
+                                <tr><th>Importe Total en Dólares</th><td>US$<?= number_format($importe_total_dolares, 2, ".", ",") ?></td></tr>
                                 <tr><th>Importe en Letra</th><td><?= htmlspecialchars($solicitud['importedls_letra']) ?></td></tr>
                             <?php else: ?>
-                                <tr><th>Importe en Pesos</th><td>$<?= number_format($importe_total_pesos, 2, ".", ",") ?></td></tr>
+                                <tr><th>Importe Total en Pesos</th><td>$<?= number_format($importe_total_pesos, 2, ".", ",") ?></td></tr>
                                 <tr><th>Importe en Letra</th><td><?= htmlspecialchars($solicitud['importe_letra']) ?></td></tr>
                             <?php endif; ?>
-                            <tr><th>Total de Facturas</th><td><?= $importe_factura = ($solicitud['estado'] != "Cancelada" && $solicitud['estado'] != "Rechazado") ? '$' . number_format($total_facturas, 2, ".", ",") : '$0.00'; ?></td></tr>
-                            <tr><th>Pendiente por Subir</th><td><?= $importe_pendiente = ($solicitud['estado'] != "Cancelada" && $solicitud['estado'] != "Rechazado") ? '$' . number_format($pendiente, 2, ".", ",") : '$0.00'; ?></td></tr>
+                            
+                            <?php 
+                            $estado_valido = ($solicitud['estado'] != "Cancelada" && $solicitud['estado'] != "Rechazado");
+                            $importe_factura = $estado_valido ? '$' . number_format($total_facturas, 2, ".", ",") : '$0.00';
+                            $importe_pendiente = $estado_valido ? '$' . number_format($pendiente, 2, ".", ",") : '$0.00';
+                            ?>
+                            
+                            <tr><th>Total de Facturas</th><td><?= $importe_factura ?></td></tr>
+                            <tr><th>Pendiente por Subir</th><td><?= $importe_pendiente ?></td></tr>
                             <?php if (!empty($solicitud['documento_adjunto'])): ?>
                                 <tr>
                                     <th>Documento</th>
@@ -204,7 +227,7 @@ td {
                     </table>
                 </div>
             </div>
-            <div class="d-flex gap-2">
+            <div class="d-flex gap-2 mb-4">
                 <?php if ($CTParam === 'true'): ?>
                     <a href="TCL_cancelar_transferencias.php" class="btn btn-secondary">Volver</a>
                 <?php endif; ?>
@@ -214,44 +237,91 @@ td {
                 <?php if ($PTParam === 'true'): ?>
                     <a href="TCL_pendiente_pago.php" class="btn btn-secondary">Volver</a>
                 <?php endif; ?>
+                <?php if ($CTParam !== 'true' && $TTParam !== 'true' && $PTParam !== 'true'): ?>
+                    <!-- Fallback o botón por defecto si no viene de una lista específica -->
+                    <a href="javascript:history.back()" class="btn btn-secondary">Volver</a>
+                <?php endif; ?>
             </div>
         </div>
 
-        <!-- Columna de Facturas -->
-        <?php if ($result_facturas->num_rows > 0): ?>
+        <!-- CAMBIO: Columna de Detalle de Ítems (Solo si es corporativo) -->
+        <?php if ($es_corporativo): ?>
             <div class="col-md-6">
-                <h2 class="section-title"><i class="fas fa-receipt"></i> Facturas</h2>
-                <div class="card">
+                <h2 class="section-title"><i class="fas fa-list-ul"></i> Ítems de la Transferencia (Corporativo)</h2>
+                <div class="card mb-4">
                     <div class="card-body">
                         <table class="table table-sm table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>Fecha</th>
-                                    <th>RFC</th>
-                                    <th>Total</th>
-                                    <th>UUID</th>
-                                    <th>Ver</th>
-                                    <th>Descargar XML</th>
+                                    <th>Beneficiario</th>
+                                    <th>Importe</th>
+                                    <th>Descripción</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                $fmt = new IntlDateFormatter('es_ES', IntlDateFormatter::LONG, IntlDateFormatter::NONE);
-                                while ($row_factura = $result_facturas->fetch_assoc()):
-                                    $fecha_factura = new DateTime($row_factura['FECHA_FACTURA']);
-                                    $fecha_factura_formateada = $fmt->format($fecha_factura);
-                                ?>
+                                <?php foreach ($transferencias_del_folio as $trans): ?>
                                     <tr>
-                                        <td><?= htmlspecialchars($fecha_factura_formateada) ?></td>
-                                        <td><?= htmlspecialchars($row_factura['RFC_EMISOR']) ?></td>
-                                        <td>$<?= number_format($row_factura['TOTAL'], 2, ".", ",") ?></td>
-                                        <td><?= htmlspecialchars($row_factura['UUID']) ?></td>
-                                        <td><a href="view_pdf.php?RFC=<?= $row_factura["RFC_EMISOR"] ?>&UUID=<?= $row_factura["UUID"] ?>" target="_blank"><i class="fas fa-file-invoice fa-2x"></i></a></td>
-                                        <td><a href="download_zip.php?RFC=<?= $row_factura["RFC_EMISOR"] ?>&UUID=<?= $row_factura["UUID"] ?>" target="_blank"><i class="fas fa-file-archive fa-2x"></i></a></td>
+                                        <td><?= htmlspecialchars($trans['nombre_beneficiario']) ?></td>
+                                        <td>
+                                            <?php if (floatval($trans['importedls']) > 0): ?>
+                                                US$<?= number_format(floatval($trans['importedls']), 2, ".", ",") ?>
+                                            <?php else: ?>
+                                                $<?= number_format(floatval($trans['importe']), 2, ".", ",") ?>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><?= htmlspecialchars($trans['descripcion']) ?></td>
                                     </tr>
-                                <?php endwhile; ?>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
+
+    </div>
+
+    <!-- Columna de Facturas - Se mueve abajo si solo hay una columna de detalle (no corporativo) -->
+    <div class="row">
+        <?php if ($result_facturas->num_rows > 0): ?>
+            <div class="col-md-12">
+                <h2 class="section-title"><i class="fas fa-receipt"></i> Facturas Asociadas (Total: <?= '$' . number_format($total_facturas, 2, ".", ",") ?>)</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>RFC</th>
+                                        <th>UUID</th>
+                                        <th>Total Factura</th>
+                                        <th>Ver PDF</th>
+                                        <th>Descargar XML</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    // Crear el formateador una sola vez
+                                    $fmt = new IntlDateFormatter('es_ES', IntlDateFormatter::LONG, IntlDateFormatter::NONE);
+                                    $result_facturas->data_seek(0); // Volver al inicio para iterar
+                                    while ($row_factura = $result_facturas->fetch_assoc()):
+                                        $fecha_factura = new DateTime($row_factura['FECHA_FACTURA']);
+                                        $fecha_factura_formateada = $fmt->format($fecha_factura);
+                                    ?>
+                                        <tr>
+                                            <td><?= htmlspecialchars($fecha_factura_formateada) ?></td>
+                                            <td><?= htmlspecialchars($row_factura['RFC_EMISOR']) ?></td>
+                                            <td><?= htmlspecialchars($row_factura['UUID']) ?></td>
+                                            <td>$<?= number_format($row_factura['TOTAL'], 2, ".", ",") ?></td>
+                                            <td><a href="view_pdf.php?RFC=<?= urlencode($row_factura["RFC_EMISOR"]) ?>&UUID=<?= urlencode($row_factura["UUID"]) ?>" target="_blank" class="text-primary"><i class="fas fa-file-invoice fa-2x"></i></a></td>
+                                            <td><a href="download_zip.php?RFC=<?= urlencode($row_factura["RFC_EMISOR"]) ?>&UUID=<?= urlencode($row_factura["UUID"]) ?>" target="_blank" class="text-success"><i class="fas fa-file-archive fa-2x"></i></a></td>
+                                        </tr>
+                                    <?php endwhile; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
