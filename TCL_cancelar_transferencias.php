@@ -554,6 +554,70 @@ if (isset($_GET['msg'])) {
             }
         });
     });
+function cancelarTransferencia(folio) {
+    Swal.fire({
+        title: 'Cancelar transferencia',
+        text: 'Por favor, escribe el motivo de la cancelación:',
+        input: 'textarea',
+        inputPlaceholder: 'Ej. Error en el monto, solicitud duplicada, etc.',
+        inputAttributes: {
+            'aria-label': 'Motivo de cancelación'
+        },
+        inputValidator: (value) => {
+            if (!value) {
+                return 'Debes escribir un motivo';
+            }
+        },
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Cancelar transferencia',
+        cancelButtonText: 'Salir'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const motivo = result.value;
+
+            Swal.fire({
+                title: 'Procesando...',
+                text: 'Cancelando transferencia',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            $.ajax({
+                url: 'TCL_controller/cancelar_transferencia.php',
+                type: 'POST',
+                data: { 
+                    folio: folio,
+                    motivo: motivo
+                },
+                success: function(resp) {
+                    if (resp.trim() === 'success') {
+                        Swal.fire(
+                            'Cancelada',
+                            'La transferencia fue cancelada correctamente.',
+                            'success'
+                        ).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire('Error', resp, 'error');
+                    }
+                },
+                error: function() {
+                    Swal.fire(
+                        'Error',
+                        'No se pudo contactar al servidor.',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
+}
+
 </script>
 
 
