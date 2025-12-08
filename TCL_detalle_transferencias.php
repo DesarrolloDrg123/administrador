@@ -1,7 +1,6 @@
 <?php
 include("src/templates/adminheader.php");
 require("config/db.php");
-// Se asume que estos controladores están definidos en otro lugar
 include('TCL_controller/upload_files.php');
 include('TCL_controller/upload_comprobantes.php');
 
@@ -45,7 +44,7 @@ try {
     $solicitud = $result->fetch_assoc();
 
     if (!$solicitud) {
-        echo "No se encontró la solicitud o no tienes permiso para verla.";
+        echo "No se encontr�� la solicitud o no tienes permiso para verla.";
         exit();
     }
 } catch (Exception $e) {
@@ -57,22 +56,22 @@ try {
 $fecha = new DateTime($solicitud['fecha_solicitud']);
 $fecha1 = new DateTime($solicitud['fecha_vencimiento']);
 
-// Meses en español abreviados
+// Meses en espa�0�9ol abreviados
 $meses_espanol = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
 
-// Obtener el día, el mes (como índice) y el año
+// Obtener el d��a, el mes (como ��ndice) y el a�0�9o
 $dia = $fecha->format('j');
 $mes = $meses_espanol[(int)$fecha->format('n') - 1];
-$anio = $fecha->format('Y');
+$a�0�9o = $fecha->format('Y');
 
-// Obtener el día, el mes (como índice) y el año
+// Obtener el d��a, el mes (como ��ndice) y el a�0�9o
 $dia1 = $fecha1->format('j');
 $mes1 = $meses_espanol[(int)$fecha1->format('n') - 1];
-$anio1 = $fecha1->format('Y');
+$a�0�9o1 = $fecha1->format('Y');
 
 // Concatenar en el formato deseado
-$fecha_formateada = "{$dia}/{$mes}/{$anio}";
-$fecha_formateada1 = "{$dia1}/{$mes1}/{$anio1}";
+$fecha_formateada = "{$dia}/{$mes}/{$a�0�9o}";
+$fecha_formateada1 = "{$dia1}/{$mes1}/{$a�0�9o1}";
 ?>
 
 <?php
@@ -96,6 +95,12 @@ $result_total_facturas = $stmt3->get_result();
 $row_total_facturas = $result_total_facturas->fetch_assoc();
 $total_facturas = $row_total_facturas['total_facturas'] ?? 0; // Si no hay resultados, asigna 0
 
+if ($solicitud['importe'] == '0.00' || $solicitud['importe'] == null || $solicitud['importe'] == '') {
+    $importe_transferencia = $solicitud['importedls'];
+} else {
+    $importe_transferencia = $solicitud['importe'];
+}
+
 // =================================================================
 // 1. NUEVA CONSULTA: Suma de los totales de los comprobantes (recibos)
 // =================================================================
@@ -115,7 +120,8 @@ $stmt_comp_total->close();
 // Calcular el total COMPROBADO (Facturas + Comprobantes)
 $total_comprobado = $total_facturas + $total_comprobantes;
 
-// Define el importe de la transferencia (Pesos o Dólares)
+// ... (Tu código existente para definir $importe_transferencia)
+
 if ($solicitud['importe'] == '0.00' || $solicitud['importe'] == null || $solicitud['importe'] == '') {
     $importe_transferencia = $solicitud['importedls'];
 } else {
@@ -166,10 +172,6 @@ td {
     background-color: #f0f8ff;
     font-weight: bold;
 }
-/* Estilos para el campo de archivo en el formulario de facturas */
-.file-upload-row .col-md-5, .file-upload-row .col-md-2 {
-    margin-bottom: 15px; /* Espacio entre los bloques de archivo */
-}
 </style>
 
 <div class="container">
@@ -202,7 +204,7 @@ td {
                             <?php endif; ?>
                             <tr><th>Autoriza</th><td><?= htmlspecialchars($solicitud['nombre_autoriza']) ?></td></tr>
                             <?php if (empty($solicitud['importe']) || $solicitud['importe'] == '0.00'): ?>
-                                <tr><th>Importe en Dólares</th><td>US$<?= number_format($solicitud['importedls'], 2, ".", ",") ?></td></tr>
+                                <tr><th>Importe en D��lares</th><td>US$<?= number_format($solicitud['importedls'], 2, ".", ",") ?></td></tr>
                                 <tr><th>Importe en Letra</th><td><?= htmlspecialchars($solicitud['importedls_letra']) ?></td></tr>
                             <?php else: ?>
                                 <tr><th>Importe en Pesos</th><td>$<?= number_format($solicitud['importe'], 2, ".", ",") ?></td></tr>
@@ -221,7 +223,7 @@ td {
                         </tbody>
                     </table>
 
-                    <!-- Botones de Acción -->
+                    <!-- Botones de Acci��n -->
                     <div class="d-flex gap-2 mt-3">
                         <?php if ($solicitud['estado'] === 'Pendiente' && $usuario_ses === $solicitud['nombre_usuario']) : ?>
                             <a href="TCL_edit_transfer.php?id=<?= $solicitud_id ?>&MT=true" class="btn btn-warning">Editar Transferencia</a>
@@ -239,111 +241,93 @@ td {
 
         <!-- FACTURAS Y FORMULARIO DE CARGA -->
         <?php if ($solicitud['estado'] != "Pendiente" && $solicitud['estado'] != "Rechazado" && $solicitud['estado'] != "Cancelado"): ?>
-            <div class="col-md-6">
+          <div class="col-md-6">
 
-                <h2 class="section-title"><i class="fas fa-receipt"></i> Cargar Facturas</h2>
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <!-- FORMULARIO DE FACTURAS (CFDI) -->
-                        <form action="" method="POST" name="formularioFacturas" id="formularioFacturas" enctype="multipart/form-data">
-                            <!-- Títulos de los campos - Modificados para incluir Acciones -->
-                            <div class='row g-2 mb-3'>
-                                <div class='col-md-5'>
-                                    <h5 class='mb-0'>Archivo PDF: </h5>
-                                </div>
-                                <div class='col-md-5'>
-                                    <h5 class='mb-0'>Archivo XML: </h5>
-                                </div>
-                                <div class='col-md-2'>
-                                    <h5 class='mb-0'>Acciones: </h5>
-                                </div>
-                            </div>
-                            <!-- Contenedor donde JS agregará los campos de archivo -->
-                            <div class="nuevosCampos">
-                            </div>
-                            <button type="submit" name="submit_facturas" class="btn btn-warning mt-3">Cargar Factura(s)</button>
-                        </form>
-                    </div>
-                </div>
-                
-                <?php if ($result_facturas->num_rows > 0): ?>
-                    <h2 class="section-title"><i class="fas fa-file-alt"></i> Facturas Subidas</h2>
-                    <!-- Aquí iría la tabla de facturas subidas -->
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <p>Tabla de facturas subidas va aquí...</p>
-                        </div>
-                    </div>
-                <?php endif; ?>
-                
-                <hr>
-                
-                <!-- FORMULARIO DE COMPROBANTES/RECIBOS -->
-                <h2 class="section-title"><i class="fas fa-file-invoice-dollar"></i> Cargar Comprobantes/Recibos</h2>
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <form action="" method="POST" name="formularioComprobantes" id="formularioComprobantes" enctype="multipart/form-data">
-                            
-                            <div class="form-group mb-3">
-                                <label for="importe_comprobante">Monto/Importe del Comprobante: *</label>
-                                <input type="number" step="0.01" class="form-control" id="importe_comprobante" name="importe_comprobante" required>
-                            </div>
-                            
-                            <div class="form-group mb-3">
-                                <label for="descripcion_comprobante">Descripción del Recibo/Gasto: *</label>
-                                <textarea class="form-control" id="descripcion_comprobante" name="descripcion_comprobante" rows="2" required></textarea>
-                            </div>
-                            
-                            <div class="form-group mb-3">
-                                <label for="evidencia_comprobante">Evidencia (Imagen, Foto, PDF): *</label>
-                                <input type="file" class="form-control-file" id="evidencia_comprobante" name="evidencia_comprobante" accept="image/*,.pdf" required>
-                            </div>
-                            
-                            <input type="hidden" name="folio_solicitud" value="<?= htmlspecialchars($solicitud['folio']) ?>">
-                            <input type="hidden" name="submit_comprobante" value="1">
-                            
-                            <button type="submit" name="submit_comprobantes" class="btn btn-primary mt-3">Subir Comprobante</button>
-                        </form>
-                    </div>
-                </div>
-                
-                <?php if (isset($result_comprobantes) && $result_comprobantes->num_rows > 0): ?>
-                    <h2 class="section-title"><i class="fas fa-clipboard-list"></i> Comprobantes/Recibos Subidos</h2>
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <table class="table table-sm table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Importe</th>
-                                        <th>Descripción</th>
-                                        <th>Evidencia</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php while ($row_comprobante = $result_comprobantes->fetch_assoc()): ?>
-                                    <tr>
-                                        <td>$<?= number_format($row_comprobante['importe'], 2, ".", ",") ?></td>
-                                        <td><?= htmlspecialchars($row_comprobante['descripcion']) ?></td>
-                                        <td>
-                                            <!-- Asumo que view_evidencia.php maneja la visualización del archivo -->
-                                            <a href="view_evidencia.php?id=<?= $row_comprobante['id'] ?>" target="_blank"><i class="fas fa-image fa-2x"></i></a>
-                                        </td>
-                                    </tr>
-                                    <?php endwhile; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                <?php endif; ?>
+              <h2 class="section-title"><i class="fas fa-receipt"></i> Cargar Facturas</h2>
+              <div class="card mb-4">
+                  <div class="card-body">
+                      <form action="" method="POST" name="formularioFacturas" id="formularioFacturas" enctype="multipart/form-data">
+                          <div class='form-row'>
+                              <h5 class='form-group col-md-6' >Archivo PDF: </h5>
+                              <h5 class='form-group col-md-6' >Archivo XML: </h5>
+                          </div>
+                          <div class="nuevosCampos">
+                              </div>
+                          <button type="submit" name="submit_facturas" class="btn btn-warning mt-3">Cargar Factura(s)</button>
+                      </form>
+                  </div>
+              </div>
+              
+              <?php if ($result_facturas->num_rows > 0): ?>
+                  <h2 class="section-title"><i class="fas fa-file-alt"></i> Facturas Subidas</h2>
+                  <?php endif; ?>
+              
+              <hr>
+              
+              <h2 class="section-title"><i class="fas fa-file-invoice-dollar"></i> Cargar Comprobantes/Recibos</h2>
+              <div class="card mb-4">
+                  <div class="card-body">
+                      <form action="" method="POST" name="formularioComprobantes" id="formularioComprobantes" enctype="multipart/form-data">
+                          
+                          <div class="form-group">
+                              <label for="importe_comprobante">Monto/Importe del Comprobante: *</label>
+                              <input type="number" step="0.01" class="form-control" id="importe_comprobante" name="importe_comprobante" required>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="descripcion_comprobante">Descripción del Recibo/Gasto: *</label>
+                              <textarea class="form-control" id="descripcion_comprobante" name="descripcion_comprobante" rows="2" required></textarea>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="evidencia_comprobante">Evidencia (Imagen, Foto, PDF): *</label>
+                              <input type="file" class="form-control-file" id="evidencia_comprobante" name="evidencia_comprobante" accept="image/*,.pdf" required>
+                          </div>
+                          
+                          <input type="hidden" name="folio_solicitud" value="<?= htmlspecialchars($solicitud['folio']) ?>">
+                          <input type="hidden" name="submit_comprobante" value="1">
+                          
+                          <button type="submit" name="submit_comprobantes" class="btn btn-primary mt-3">Subir Comprobante</button>
+                      </form>
+                  </div>
+              </div>
+              
+              <?php if (isset($result_comprobantes) && $result_comprobantes->num_rows > 0): ?>
+                  <h2 class="section-title"><i class="fas fa-clipboard-list"></i> Comprobantes/Recibos Subidos</h2>
+                  <div class="card mb-4">
+                      <div class="card-body">
+                          <table class="table table-sm table-striped table-hover">
+                              <thead>
+                                  <tr>
+                                      <th>Importe</th>
+                                      <th>Descripción</th>
+                                      <th>Evidencia</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <?php while ($row_comprobante = $result_comprobantes->fetch_assoc()): ?>
+                                  <tr>
+                                      <td>$<?= number_format($row_comprobante['importe'], 2, ".", ",") ?></td>
+                                      <td><?= htmlspecialchars($row_comprobante['descripcion']) ?></td>
+                                      <td>
+                                          <a href="view_evidencia.php?id=<?= $row_comprobante['id'] ?>" target="_blank"><i class="fas fa-image fa-2x"></i></a>
+                                      </td>
+                                  </tr>
+                                  <?php endwhile; ?>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              <?php endif; ?>
 
-            </div>
-        <?php endif; ?>
+          </div>
+          <?php endif; ?>
     </div>
 </div>
 
 
 
-<!-- Modal de Confirmación para Reset -->
+<!-- Modal de Confirmaci��n para Reset -->
 <div class="modal fade" id="modalResetFactura" tabindex="-1" role="dialog" aria-labelledby="modalResetLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -370,167 +354,149 @@ td {
 </div>
 
 <script>
-    // Contador para generar IDs únicos en las filas
-    let rowCounter = 0; 
-    
-    // Función para eliminar un bloque de campos de archivo
-    function eliminarBloqueHTML(rowId) {
-        const rowToRemove = document.getElementById(rowId);
-        if (rowToRemove) {
-            const fileSection = document.querySelector('.nuevosCampos');
-            rowToRemove.remove();
-            
-            // Si el usuario elimina la última fila, volvemos a añadir una fila vacía
-            // para que siempre haya una opción visible para subir archivos.
-            if (fileSection.querySelectorAll('.file-upload-row').length === 0) {
-                agregarBloqueHTML();
-            }
+  function abrirModalReset(uuid) {
+    $('#uuidInput').val(uuid);
+    $('#descripcionInput').val('');
+    $('#respuestaReset').text('');
+    $('#modalResetFactura').modal('show');
+  }
+
+  function confirmarReset() {
+    const uuid = $('#uuidInput').val();
+    const descripcion = $('#descripcionInput').val();
+
+    if (descripcion.trim() === '') {
+      $('#respuestaReset').text('Por favor escribe un motivo.');
+      return;
+    }
+
+    $.ajax({
+      url: 'TCL_controller/factura_reset.php',
+      method: 'POST',
+      data: {
+        UUID: uuid,
+        descripcion: descripcion
+      },
+      success: function (respuesta) {
+        if (respuesta.trim() === 'success') {
+          $('#modalResetFactura').modal('hide');
+          alert('Factura reiniciada correctamente.');
+          location.reload(); // Opcional: recarga tabla para ver cambios
+        } else {
+          $('#respuestaReset').text('Ocurri�� un error al reiniciar.');
         }
-    }
-
-    // =================================================================
-    // FUNCIÓN CORREGIDA para agregar dinámicamente el bloque de HTML
-    // Se eliminó el atributo 'required' para hacerlo opcional y se añadió 
-    // la lógica de eliminación y autogeneración.
-    // =================================================================
-    function agregarBloqueHTML(triggerInput = null) {
-        var fileSection = document.querySelector('.nuevosCampos');
-        const folio = "<?php echo $solicitud['folio']; ?>";
-        
-        // --- Lógica para evitar duplicados vacíos ---
-        // Chequea si ya existe una fila vacía (ambos archivos no seleccionados)
-        var existingRows = fileSection.querySelectorAll('.file-upload-row');
-        let hasEmptyRow = false;
-        existingRows.forEach(row => {
-            var pdfInput = row.querySelector('input[name="file_pdf[]"]');
-            var xmlInput = row.querySelector('input[name="file_xml[]"]');
-            
-            if ((!pdfInput || pdfInput.files.length === 0) && (!xmlInput || xmlInput.files.length === 0)) {
-                hasEmptyRow = true;
-            }
-        });
-
-        // 1. Si la llamada es automática (sin trigger) y ya hay una fila vacía, no hacemos nada.
-        if (triggerInput === null && hasEmptyRow && existingRows.length > 0) {
-            return;
-        }
-
-        // 2. Si la llamada es por un cambio (change), revisamos si la fila está completa.
-        if (triggerInput) {
-            let currentRow = triggerInput.closest('.file-upload-row');
-            let pdfInput = currentRow.querySelector('input[name="file_pdf[]"]');
-            let xmlInput = currentRow.querySelector('input[name="file_xml[]"]');
-
-            // Si ambos campos están llenos en la fila actual, continuamos para generar la siguiente.
-            if (!(pdfInput.files.length > 0 && xmlInput.files.length > 0)) {
-                return; // Si no están llenos, no generamos la siguiente fila.
-            }
-        }
-        
-        // --- Generación de la nueva fila ---
-        rowCounter++;
-        const rowId = 'file-row-' + rowCounter;
-
-        var div = document.createElement('div');
-        // Usamos 'row g-2 mb-3' para la cuadrícula y una clase única para la fila
-        div.classList.add('row', 'g-2', 'mb-3', 'file-upload-row'); 
-        div.id = rowId;
-
-        // 3. Agregar el contenido al bloque (QUITANDO EL ATRIBUTO REQUIRED)
-        div.innerHTML = `
-            <div class="col-md-5">
-                <!-- Se ha quitado 'required' para que esta fila sea opcional -->
-                <input type="file" name="file_pdf[]" class="form-control" accept=".pdf" />
-            </div>
-            <div class="col-md-5">
-                <!-- Se ha quitado 'required' para que esta fila sea opcional -->
-                <input type="file" name="file_xml[]" class="form-control" accept=".xml" />
-                <input type="hidden" name="ordenCompra[]" value="${folio}">
-            </div>
-            <div class="col-md-2 d-flex align-items-center">
-                <button type="button" class="btn btn-danger btn-sm w-100" onclick="eliminarBloqueHTML('${rowId}')">
-                    <i class="fas fa-trash"></i> Eliminar
-                </button>
-            </div>
-        `;
-
-        fileSection.appendChild(div);
-
-        // 5. Obtener el último bloque de formulario agregado para escuchar eventos
-        var lastFormRow = document.getElementById(rowId);
-        var fileInputs = lastFormRow.querySelectorAll('input[type="file"]');
-
-        // 6. Escuchar el evento change para autogenerar la siguiente fila
-        fileInputs.forEach(function(input) {
-            input.addEventListener('change', function() {
-                // Pasamos el input que disparó el evento para la lógica de chequeo
-                agregarBloqueHTML(this);
-            });
-        });
-    }
-
-    // Llamar a la función para agregar el bloque de HTML inicial
-    var formFacturas = document.querySelector('#formularioFacturas');
-    if (formFacturas) {
-        agregarBloqueHTML(null);
-    }
-
-    function abrirModalReset(uuid) {
-        $('#uuidInput').val(uuid);
-        $('#descripcionInput').val('');
-        $('#respuestaReset').text('');
-        // Asumo que tienes Bootstrap JS cargado
-        var modalReset = new bootstrap.Modal(document.getElementById('modalResetFactura'));
-        modalReset.show();
-    }
-
-    function confirmarReset() {
-        const uuid = $('#uuidInput').val();
-        const descripcion = $('#descripcionInput').val();
-
-        if (descripcion.trim() === '') {
-            $('#respuestaReset').text('Por favor escribe un motivo.');
-            return;
-        }
-
-        $.ajax({
-            url: 'TCL_controller/factura_reset.php',
-            method: 'POST',
-            data: {
-                UUID: uuid,
-                descripcion: descripcion
-            },
-            success: function (respuesta) {
-                if (respuesta.trim() === 'success') {
-                    // Usamos la función nativa de Bootstrap para ocultar el modal
-                    var modalReset = bootstrap.Modal.getInstance(document.getElementById('modalResetFactura'));
-                    if (modalReset) {
-                        modalReset.hide();
-                    }
-                    // IMPORTANTE: Eliminada la llamada a alert()
-                    location.reload(); // Recarga para ver cambios
-                } else {
-                    $('#respuestaReset').text('Ocurrió un error al reiniciar. Respuesta: ' + respuesta);
-                }
-            },
-            error: function () {
-                $('#respuestaReset').text('Error de comunicación con el servidor.');
-            }
-        });
-    }
+      },
+      error: function () {
+        $('#respuestaReset').text('Error de comunicaci��n con el servidor.');
+      }
+    });
+  }
 </script>
 
 <script type="text/javascript">
-    // Tu lógica de validación de formulario, corregida para evitar errores si los campos no existen
-    var formularioFacturas = document.querySelector('#formularioFacturas');
-    
-    // Bloque de timeouts para limpieza de mensajes
+     formularioFacturas = document.querySelector('#formularioFacturas');
+     formularioFacturas.ordenCompra.addEventListener('keypress', function (e){
+        if (!soloNumeros(event)){
+        e.preventDefault();
+
+      }
+    });
+     formularioFacturas.folioFactura.addEventListener('keypress', function (e){
+        if (!soloLetras(event)){
+        e.preventDefault();
+
+      }
+    });
     setTimeout(function(){
-        if ($('#mensajes_globales').length > 0) {
-            $('#mensajes_globales').remove();
-            $("#mensajes_globales").html('');
+	  if ($('#mensajes_globales').length > 0) {
+	    $('#mensajes_globales').remove();
+	    $("#mensajes_globales").html('');
+	  }
+	}, 5000);
+	setTimeout(function(){
+	  if ($('#mensajes_pdf').length > 0 && $('#mensajes_pdf').text()!="Seleccione el archivo pdf:") {
+	    //$('#mensajes_pdf').remove();
+	    $("#mensajes_pdf").html('<h5>Seleccione el archivo pdf:</h5>');
+	  }
+	}, 5000);
+	setTimeout(function(){
+	  if ($('#mensajes_xml').length > 0 && $('#mensajes_xml').text()!="Seleccione el archivo xml:") {
+	    //$('#mensajes_xml').remove();
+	    $("#mensajes_xml").html('<h5>Seleccione el archivo xml:</h5>');
+	  }
+	}, 5000);
+    //mensaje_global = document.byid('#mensajes_globales');
+    //alert($( "#mensajes_globales" ).text());
+//          $('mensajes_globales').contentchanged() {
+	//   alert('changed');
+	// }
+</script>
+
+<script>
+// Funci��n para agregar din��micamente el bloque de HTML
+function agregarBloqueHTML() {
+var fileSection = document.querySelector('.nuevosCampos');
+
+// Verificar si ya existen campos vac��os
+var existingRows = fileSection.querySelectorAll('.form-row');
+for (var i = 0; i < existingRows.length; i++) {
+    var pdfInput = existingRows[i].querySelector('input[name="file_pdf[]"]');
+    var xmlInput = existingRows[i].querySelector('input[name="file_xml[]"]');
+    if (pdfInput.files.length === 0 || xmlInput.files.length === 0) {
+        // Ya existe un bloque con campos vac��os, no agregar otro
+        return;
+    }
+}
+
+// Crear el bloque de HTML
+var div = document.createElement('div');
+div.classList.add('form-row');
+
+const folio = "<?php echo $solicitud['folio']; ?>";
+
+
+// Agregar el contenido al bloque
+div.innerHTML += `
+  <input type="file" name="file_pdf[]" class=" form-control col-md-6" accept=".pdf" />
+  <input type="file" name="file_xml[]" class=" form-control col-md-6" accept=".xml" />
+  <input type="hidden" name="ordenCompra[]" value="${folio}">
+`;
+
+
+// Agregar el bloque al formulario
+fileSection.appendChild(div);
+
+// Obtener el ��ltimo bloque de formulario agregado
+var lastFormRow = fileSection.lastElementChild;
+
+// Obtener los campos de archivo dentro del ��ltimo bloque de formulario
+var fileInputs = lastFormRow.querySelectorAll('input[type="file"]');
+
+// Escuchar el evento change en los campos de archivo dentro del ��ltimo bloque de formulario
+fileInputs.forEach(function(input) {
+    input.addEventListener('change', function() {
+        // Verificar si ambos campos de archivo tienen archivos seleccionados
+        var pdfInput = lastFormRow.querySelector('input[name="file_pdf[]"]');
+        var xmlInput = lastFormRow.querySelector('input[name="file_xml[]"]');
+        if (pdfInput.files.length > 0 && xmlInput.files.length > 0) {
+            // Agregar otro bloque de formulario
+            agregarBloqueHTML();
         }
-    }, 5000);
+    });
+});
+}
+
+// Llamar a la funci��n para agregar el bloque de HTML inicial
+agregarBloqueHTML();
+setTimeout(function(){
+	  if ($('#mensajes_globales').length > 0) {
+	    $('#mensajes_globales').remove();
+	    $("#mensajes_globales").html('');
+	    $('#file_pdf_cp').value = '';
+	    $('#file_xml_cp').value = '';
+	    // document.querySelector('#file_xml_cp').value = '';
+	  }
+	}, 5000);
 </script>
 
 <script>
@@ -541,14 +507,35 @@ td {
         if ((isset($mostrar_modal_errores) && $mostrar_modal_errores) || 
             (isset($mostrar_modal_exito) && $mostrar_modal_exito)) { 
         ?>
-            // Buscamos el modal por su ID (asumo que 'modal_resultados' está definido en upload_files.php) y lo mostramos
+            // Buscamos el modal por su ID (definido en upload_files.php) y lo mostramos
             var myModal = new bootstrap.Modal(document.getElementById('modal_resultados'), {
                 keyboard: false
             });
             myModal.show();
             
+            // NOTA: Si usas Bootstrap 4 o anterior y el código de arriba falla, 
+            // intenta descomentar la siguiente línea y comentar las 3 anteriores:
+            // $('#modal_resultados').modal('show');
         <?php } ?>
     });
+</script>
+
+<script>
+    // Tu código JS actual puede fallar si el formulario no existe (ej. estado Pendiente)
+    // Reemplaza tu bloque de "formularioFacturas" con este más seguro:
+    var formFacturas = document.querySelector('#formularioFacturas');
+    if (formFacturas) {
+        if(formFacturas.ordenCompra) {
+            formFacturas.ordenCompra.addEventListener('keypress', function (e){
+                if (!soloNumeros(event)){ e.preventDefault(); }
+            });
+        }
+        if(formFacturas.folioFactura) {
+            formFacturas.folioFactura.addEventListener('keypress', function (e){
+                if (!soloLetras(event)){ e.preventDefault(); }
+            });
+        }
+    }
 </script>
 
 <?php
