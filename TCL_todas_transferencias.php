@@ -133,10 +133,6 @@ if (isset($_GET['msg'])) {
         // Filtros
         $where = [];
         
-        $params[] = $usuario_id;
-        $params[] = $usuario_id;
-        $params[] = $usuario_id;
-        
         if (!empty($_GET['departamento'])) {
             $where[] = "t.departamento_id = ?";
             $params[] = intval($_GET['departamento']);
@@ -215,10 +211,6 @@ if (isset($_GET['msg'])) {
         
         $stmt = $conn->prepare($sql);
         
-        // Agregar el usuario a los parámetros
-        $params[] = $usuario_id;
-        $params[] = $usuario_id;
-        $params[] = $usuario_id;
         
         // Verificar si hay parámetros antes de hacer bind_param
         if (!empty($params)) {
