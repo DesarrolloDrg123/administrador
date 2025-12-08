@@ -592,21 +592,25 @@ function solicitarCancelacion(folio) {
             $.ajax({
                 url: 'TCL_controller/solicitar_cancelacion.php',
                 type: 'POST',
+                dataType: 'json',
                 data: { folio: folio, motivo: motivo },
                 success: function(resp) {
-                    if (resp.trim() === 'success') {
-                        Swal.fire('Enviado', 'La solicitud fue enviada correctamente', 'success');
+                    if (resp.success) {
+                        Swal.fire('Enviado', resp.message, 'success').then(() => {
+                            location.reload();
+                        });
                     } else {
-                        Swal.fire('Error', resp, 'error');
+                        Swal.fire('Error', resp.message, 'error');
                     }
                 },
-                error: function() {
-                    Swal.fire('Error', 'No se pudo contactar al servidor', 'error');
+                error: function(xhr) {
+                    Swal.fire('Error', 'Error del servidor: ' + xhr.responseText, 'error');
                 }
             });
         }
     });
 }
+
 function cancelarTransferencia(folio) {
     Swal.fire({
         title: 'Cancelar transferencia',
