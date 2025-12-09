@@ -2,11 +2,7 @@
 
 if (isset($_POST['submit_comprobantes'])) {
 
-    require_once("../config/db.php");
-
-    if (!file_exists(__DIR__ . '/../config/db.php')) {
-        die('No se encontró db.php');
-    }
+    require_once(__DIR__ . "/../config/db.php");
 
     $folio = $_POST['folio_solicitud'] ?? '';
 
