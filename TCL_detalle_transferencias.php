@@ -150,7 +150,10 @@ $total_comprobado = (float)$total_facturas + (float)$total_comprobantes;
 $pendiente = $importe_transferencia - $total_comprobado;
 
 // F. Consulta para obtener los comprobantes detallados (para la tabla)
-$sql_comprobantes = "SELECT id, importe, descripcion, evidencia FROM comprobantes_tcl WHERE folio = ?";
+$sql_comprobantes = "SELECT id, tipo_comprobante, importe, descripcion, evidencia 
+                     FROM comprobantes_tcl 
+                     WHERE folio = ?";
+
 
 $stmt_comp = $conn->prepare($sql_comprobantes);
 if ($stmt_comp) {
@@ -306,16 +309,16 @@ h2.section-title {
                             <!-- Bloque inicial -->
                             <div class="row g-2 align-items-end comprobante-row mb-2">
                                 <div class="col-md-4">
-                                    <label class="form-label">Tipo</label>
+                                    <label class="form-label">Tipo *</label>
                                     <select name="tipo_comprobante[]" class="form-control tipo-comprobante" required>
                                         <option value="">Selecciona</option>
-                                        <option value="No comprobable">No comprobable</option>
+                                        <option value="No Deducible">No comprobable</option>
                                         <option value="Transferencia">Transferencia</option>
                                     </select>
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label class="form-label">Monto</label>
+                                    <label class="form-label">Monto *</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><?= $moneda_simbolo ?></span>
                                         <input type="number" name="importe_comprobante[]" class="form-control" step="0.01" min="0.01" required>
@@ -323,7 +326,7 @@ h2.section-title {
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label class="form-label">Archivos</label>
+                                    <label class="form-label">Archivos *</label>
                                     <input type="file" name="archivo_comprobante[]" class="form-control" multiple>
                                 </div>
 
@@ -338,7 +341,7 @@ h2.section-title {
                         </div>
 
                         <input type="hidden" name="folio_solicitud" value="<?= htmlspecialchars($solicitud['folio']) ?>">
-                        <input type="hidden" name="submit_comprobante" value="1">
+                        <input type="hidden" name="submit_comprobantes" value="1">
 
                         <button type="button" id="btnAgregarFila" class="btn btn-secondary mt-3">
                             <i class="fas fa-plus"></i> Agregar otro
@@ -372,7 +375,7 @@ h2.section-title {
                             <tbody>
                                 <!-- FACTURAS -->
                                 <?php foreach ($facturas_array as $f): 
-                                    $fecha = isset($f['FECHA']) ? $f['FECHA'] : 'N/A';
+                                    $fecha = isset($f['FECHA_ARCHIVADO']) ? $f['FECHA_ARCHIVADO'] : 'N/A';
                                 ?>
                                 <tr>
                                     <td><span class="badge bg-primary">Factura</span></td>
@@ -396,7 +399,11 @@ h2.section-title {
                                 <!-- COMPROBANTES -->
                                 <?php foreach ($comprobantes_array as $c): ?>
                                 <tr>
-                                    <td><span class="badge bg-success">Comprobante</span></td>
+                                    <td>
+                                        <span class="badge bg-success">
+                                            <?= htmlspecialchars($c['tipo_comprobante']) ?>
+                                        </span>
+                                    </td>
                                     <td>N/A</td>
                                     <td><?= htmlspecialchars($c['descripcion']) ?></td>
                                     <td><?= format_currency($c['importe'], $moneda_simbolo) ?></td>
@@ -645,34 +652,6 @@ function eliminarComprobante(id) {
         }
     });
 }
-// Lógica para agregar nuevos campos de comprobantes dinámicamente
-$(document).on('change', '.tipo-comprobante', function () {
-    const container = $('#contenedor-comprobantes-dinamicos');
-
-    let hayVacio = false;
-
-    container.find('.tipo-comprobante').each(function () {
-        if ($(this).val() === '') {
-            hayVacio = true;
-        }
-    });
-
-    if (!hayVacio) {
-        container.append(`
-            <div class="mb-3 comprobante-item">
-                <label class="form-label">Tipo de comprobante (opcional)</label>
-                <select class="form-control tipo-comprobante" name="tipo_comprobante[]">
-                    <option value="">-- Selecciona una opción --</option>
-                    <option value="No comprobable">No comprobable</option>
-                    <option value="Transferencia">Transferencia</option>
-                </select>
-
-                <label class="form-label mt-2">Archivo del comprobante</label>
-                <input type="file" class="form-control" name="archivo_comprobante[]">
-            </div>
-        `);
-    }
-});
 
 $(document).on('click', '#btnAgregarFila', function () {
     let fila = `
