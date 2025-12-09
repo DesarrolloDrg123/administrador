@@ -298,40 +298,57 @@ h2.section-title {
             <h2 class="section-title"><i class="fas fa-receipt"></i> Cargar Comprobantes/Recibos</h2>
             <div class="card mb-4">
                 <div class="card-body">
-                    <form action="" method="POST" name="formularioComprobantes" id="formularioComprobantes" enctype="multipart/form-data">
-                        
-                        <div class="mb-3">
-                            <label for="importe_comprobante" class="form-label">Monto/Importe del Comprobante: *</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><?= $moneda_simbolo ?></span>
-                                <input type="number" step="0.01" class="form-control" id="importe_comprobante" name="importe_comprobante" min="0.01" required>
+
+                    <form action="" method="POST" enctype="multipart/form-data" id="formularioComprobantes">
+
+                        <div id="lista-comprobantes">
+
+                            <!-- Bloque inicial -->
+                            <div class="row g-2 align-items-end comprobante-row mb-2">
+                                <div class="col-md-4">
+                                    <label class="form-label">Tipo</label>
+                                    <select name="tipo_comprobante[]" class="form-control tipo-comprobante" required>
+                                        <option value="">Selecciona</option>
+                                        <option value="No comprobable">No comprobable</option>
+                                        <option value="Transferencia">Transferencia</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label">Monto</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><?= $moneda_simbolo ?></span>
+                                        <input type="number" name="importe_comprobante[]" class="form-control" step="0.01" min="0.01" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Archivos</label>
+                                    <input type="file" name="archivo_comprobante[]" class="form-control" multiple>
+                                </div>
+
+                                <div class="col-md-1 text-center">
+                                    <label class="form-label d-block">&nbsp;</label>
+                                    <button type="button" class="btn btn-outline-danger btn-sm btn-eliminar-fila">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="descripcion_comprobante" class="form-label">Descripción del Recibo/Gasto: *</label>
-                            <textarea class="form-control" id="descripcion_comprobante" name="descripcion_comprobante" rows="2" required></textarea>
-                        </div>
-                        
-                        <div class="mb-3 comprobante-item">
-                            <label class="form-label">Tipo de comprobante *</label>
-                            <select class="form-control tipo-comprobante" name="tipo_comprobante[]" required>
-                                <option value="">-- Selecciona una opción --</option>
-                                <option value="No comprobable">No comprobable</option>
-                                <option value="Transferencia">Transferencia</option>
-                            </select>
 
-                            <label class="form-label mt-2">Archivo del comprobante</label>
-                            <input type="file" class="form-control" name="archivo_comprobante[]">
                         </div>
 
-                        <div id="contenedor-comprobantes-dinamicos"></div>
-                        
                         <input type="hidden" name="folio_solicitud" value="<?= htmlspecialchars($solicitud['folio']) ?>">
                         <input type="hidden" name="submit_comprobante" value="1">
-                        
-                        <button type="submit" name="submit_comprobantes" class="btn btn-success mt-3"><i class="fas fa-save"></i> Subir Comprobante</button>
+
+                        <button type="button" id="btnAgregarFila" class="btn btn-secondary mt-3">
+                            <i class="fas fa-plus"></i> Agregar otro
+                        </button>
+
+                        <button type="submit" name="submit_comprobantes" class="btn btn-success mt-3">
+                            <i class="fas fa-cloud-upload-alt"></i> Subir comprobantes
+                        </button>
                     </form>
+
                 </div>
             </div>
 
@@ -656,6 +673,43 @@ $(document).on('change', '.tipo-comprobante', function () {
         `);
     }
 });
+
+$(document).on('click', '#btnAgregarFila', function () {
+    let fila = `
+    <div class="row g-2 align-items-end comprobante-row mb-2">
+        <div class="col-md-4">
+            <select name="tipo_comprobante[]" class="form-control" required>
+                <option value="">Selecciona</option>
+                <option value="No comprobable">No comprobable</option>
+                <option value="Transferencia">Transferencia</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" name="importe_comprobante[]" class="form-control" step="0.01" min="0.01" required>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <input type="file" name="archivo_comprobante[]" class="form-control" multiple>
+        </div>
+
+        <div class="col-md-1 text-center">
+            <button type="button" class="btn btn-outline-danger btn-sm btn-eliminar-fila">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    </div>`;
+    
+    $('#lista-comprobantes').append(fila);
+});
+
+$(document).on('click', '.btn-eliminar-fila', function () {
+    $(this).closest('.comprobante-row').remove();
+});
+
 
 
 </script>
