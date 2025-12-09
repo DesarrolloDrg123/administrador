@@ -404,8 +404,8 @@ h2.section-title {
                                             <?= htmlspecialchars($c['tipo_comprobante']) ?>
                                         </span>
                                     </td>
+                                    <td><?= htmlspecialchars($c['fecha']) ?></td>
                                     <td>N/A</td>
-                                    <td><?= htmlspecialchars($c['descripcion']) ?></td>
                                     <td><?= format_currency($c['importe'], $moneda_simbolo) ?></td>
                                     <td>
                                         <a href="view_evidencia.php?id=<?= $c['id'] ?>" target="_blank">
