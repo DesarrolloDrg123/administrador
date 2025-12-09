@@ -11,14 +11,17 @@ if (isset($_POST['submit_comprobantes'])) {
         return;
     }
 
-    // Validar que existan los arrays
-    if (!isset($_POST['tipo_comprobante']) || !isset($_POST['importe_comprobante'])) {
-        $GLOBALS["mensaje_global"] = '<div class="alert alert-danger">Error: No se recibieron comprobantes.</div>';
+    if (!isset($_POST['tipo_comprobante']) || 
+        !isset($_POST['importe_comprobante']) || 
+        !isset($_POST['fecha_comprobante'])) {
+
+        $GLOBALS["mensaje_global"] = '<div class="alert alert-danger">Error: Faltan datos.</div>';
         return;
     }
 
-    $tipos   = $_POST['tipo_comprobante'];
+    $tipos    = $_POST['tipo_comprobante'];
     $importes = $_POST['importe_comprobante'];
+    $fechas   = $_POST['fecha_comprobante'];
     $archivos = $_FILES['archivo_comprobante'];
 
     $target_dir_base = "uploads/comprobantes/" . htmlspecialchars($folio) . "/";
@@ -31,11 +34,11 @@ if (isset($_POST['submit_comprobantes'])) {
 
     for ($i = 0; $i < $total; $i++) {
 
-        $tipo   = trim($tipos[$i]);
+        $tipo    = trim($tipos[$i]);
         $importe = floatval($importes[$i]);
+        $fecha   = $fechas[$i] ?? null;
 
-        // Validaciones
-        if (empty($tipo) || $importe <= 0) {
+        if (empty($tipo) || $importe <= 0 || empty($fecha)) {
             continue;
         }
 
@@ -52,8 +55,9 @@ if (isset($_POST['submit_comprobantes'])) {
 
         if (move_uploaded_file($tmp_name, $ruta_final)) {
 
-            $sql = "INSERT INTO comprobantes_tcl (folio, tipo_comprobante, importe, evidencia) 
-                    VALUES (?, ?, ?, ?)";
+            $sql = "INSERT INTO comprobantes_tcl 
+                    (folio, tipo_comprobante, importe, fecha_comprobante, evidencia) 
+                    VALUES (?, ?, ?, NOW(), ?)";
 
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("ssds", $folio, $tipo, $importe, $ruta_final);
