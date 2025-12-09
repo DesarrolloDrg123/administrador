@@ -35,7 +35,7 @@ if (isset($_POST['submit_comprobantes'])) {
         $tipo    = trim($tipos[$i]);
         $importe = floatval($importes[$i]);
 
-        if (empty($tipo) || $importe <= 0 || empty($fecha)) {
+        if (empty($tipo) || $importe <= 0) {
             continue;
         }
 
