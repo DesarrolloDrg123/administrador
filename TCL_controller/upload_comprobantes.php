@@ -2,7 +2,7 @@
 
 if (isset($_POST['submit_comprobantes'])) {
 
-    require_once("../config/db.php");
+    require ("../config/db.php");
 
     $folio = $_POST['folio_solicitud'] ?? '';
 
