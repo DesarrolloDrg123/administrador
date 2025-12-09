@@ -155,7 +155,6 @@ $htmlBeneficiario = "
 <body style='font-family:Arial;'>
     <img src='https://administrador.intranetdrg.com.mx/img/logo-drg.png' alt='Logo' class='logo'>
     <h2>Transferencia Cancelada</h2>
-    <h2>Transferencia Cancelada</h2>
     <p>Hola <strong>{$info['nombre_beneficiario']}</strong>,</p>
     <p>La transferencia asociada fue <strong>cancelada</strong>.</p>
 
