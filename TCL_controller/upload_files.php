@@ -55,6 +55,7 @@
                 if(count($valid_indices) > 0){
                     
                     // Iterar solo sobre los índices válidos
+                    $procesadosEnEsteRequest = [];
                     foreach ($valid_indices as $i) {
                         $is_correct_pdf=false;
                         $is_correct_xml=false;
@@ -131,12 +132,11 @@
                                         # Leer XML
                                         list($emisor_nombre, $folioFactura, $receptor_uso_cfdi,$emisor_rfc, $receptor_rfc, $total, $sat_uuid, $total_impuestos_trasladados, $regimen_fiscal_receptor, $subtotal,
                                         $tipo_moneda, $tipo_cambio, $descuento, $tipo_comprobante, $fecha_factura, $concepto_claveprov, $metodo_pago, $forma_pago) = LeerXMLv1($facturas_path,$xml_file_name,$ordenCompra);
-                                        static $uuidProcesados = [];
-                                        if (in_array($sat_uuid, $uuidProcesados)) {
-                                            continue; // Ya se procesó en esta misma carga
+                                        if (in_array($sat_uuid, $procesadosEnEsteRequest)) {
+                                            continue;
                                         }
-                                        $uuidProcesados[] = $sat_uuid;
-                                        
+                                        $procesadosEnEsteRequest[] = $sat_uuid;
+                                                                                
                                         $full_pdf_path=$facturas_path.$pdf_file_name;
                                         $full_xml_path=$facturas_path.$xml_file_name;
         
