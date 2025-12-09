@@ -15,7 +15,7 @@ if (isset($_POST['submit_comprobantes'])) {
     $tipo_comprobante = "Recibo No Deducible"; // Valor fijo
     
     // --- Validación Básica ---
-    if (empty($folio) || $importe === false || $importe <= 0 || empty($descripcion) || $evidencia_file['error'] != UPLOAD_ERR_OK) {
+    if (empty($folio) || $importe === false || $importe <= 0 || $evidencia_file['error'] != UPLOAD_ERR_OK) {
         $GLOBALS["mensaje_global"] = '<div class="alert alert-danger">Error: Faltan datos obligatorios o el importe es inválido.</div>';
     } else {
         
