@@ -62,7 +62,7 @@ try {
 
     // --- PASO 3: VERIFICAR ESTADOS ---
     foreach ($transferencias_a_pagar as $solicitud) {
-        if ($solicitud['estado'] !== 'Subido a pago') {
+        if ($solicitud['estado'] !== 'Subido a Pago') {
             throw new Exception("El folio {$folio_a_pagar} no está listo para ser pagado.");
         }
     }
