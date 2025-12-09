@@ -53,7 +53,7 @@ if (isset($_POST['submit_comprobantes'])) {
         if (move_uploaded_file($tmp_name, $ruta_final)) {
 
             $sql = "INSERT INTO comprobantes_tcl 
-                    (folio, tipo_comprobante, importe, fecha_comprobante, evidencia) 
+                    (folio, tipo_comprobante, importe, fecha, evidencia) 
                     VALUES (?, ?, ?, NOW(), ?)";
 
             $stmt = $conn->prepare($sql);
