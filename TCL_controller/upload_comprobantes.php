@@ -12,8 +12,7 @@ if (isset($_POST['submit_comprobantes'])) {
     }
 
     if (!isset($_POST['tipo_comprobante']) || 
-        !isset($_POST['importe_comprobante']) || 
-        !isset($_POST['fecha_comprobante'])) {
+        !isset($_POST['importe_comprobante'])) {
 
         $GLOBALS["mensaje_global"] = '<div class="alert alert-danger">Error: Faltan datos.</div>';
         return;
