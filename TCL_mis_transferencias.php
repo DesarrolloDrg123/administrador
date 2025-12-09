@@ -465,7 +465,7 @@ if (isset($_GET['msg'])) {
                                         onclick="solicitarCancelacion('<?= htmlspecialchars($filas['folio']) ?>')">
                                         Solicitar cancelación
                                     </button>
-                                <?php else: ?>
+                                <?php elseif ($filas['estado'] != 'Pagado' && $filas['estado'] != 'Rechazado'): ?>
                                     <button class="btn btn-danger btn-sm"
                                         onclick="cancelarTransferencia('<?= htmlspecialchars($filas['folio']) ?>')">
                                         Cancelar
