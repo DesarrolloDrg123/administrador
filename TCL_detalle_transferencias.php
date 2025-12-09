@@ -275,7 +275,7 @@ h2.section-title {
         </div>
 
         <!-- FORMULARIOS DE CARGA DE COMPROBANTES Y TABLAS -->
-        <?php if ($solicitud['estado'] != "Pendiente" && $solicitud['estado'] != "Rechazado" && $solicitud['estado'] != "Cancelado"): ?>
+        <?php if ($solicitud['estado'] != "Pendiente" && $solicitud['estado'] != "Rechazado" && $solicitud['estado'] != "Cancelada"): ?>
         <div class="col-md-6">
 
             <!-- Cargar Facturas (PDF/XML) -->
