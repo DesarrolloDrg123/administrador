@@ -291,56 +291,6 @@ h2.section-title {
                     </form>
                 </div>
             </div>
-
-            <!-- Tabla de Facturas Subidas -->
-            <?php if (!empty($facturas_array)): ?>
-            <h2 class="section-title"><i class="fas fa-file-alt"></i> Facturas Subidas</h2>
-            <div class="card">
-                <div class="card-body p-0">
-                    <table class="table table-sm table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>RFC</th>
-                                    <th>Total</th>
-                                    <th>UUID</th>
-                                    <th>Ver</th>
-                                    <th>Descargar</th>
-                                    <th>Reiniciar</th>
-                                </tr>
-                            </thead>
-                        <tbody>
-                            <?php foreach ($facturas_array as $row_factura): 
-                                // Formato de fecha para la tabla si existe el campo FECHA
-                                $factura_fecha_display = isset($row_factura['FECHA']) 
-                                    ? (new DateTime($row_factura['FECHA']))->format('Y-m-d') 
-                                    : 'N/A';
-                            ?>
-                            <tr>
-                                <!-- Fecha -->
-                                <td><?= htmlspecialchars($factura_fecha_display) ?></td>
-                                <!-- RFC -->
-                                <td><?= htmlspecialchars($row_factura['RFC'] ?? 'N/A') ?></td>
-                                <!-- Total -->
-                                <td><?= format_currency($row_factura['TOTAL'], $moneda_simbolo) ?></td>
-                                <!-- UUID -->
-                                <td><?= htmlspecialchars($row_factura['UUID']) ?></td>
-                                <!-- Ver (Asumo enlace para ver el PDF/XML) -->
-                                <td><a href="view_pdf.php?RFC=<?= $row_factura["RFC_EMISOR"] ?>&UUID=<?= $row_factura["UUID"] ?>" target="_blank"><i class="fas fa-file-invoice fa-2x"></i></a></td>
-                                    <td><a href="download_zip.php?RFC=<?= $row_factura["RFC_EMISOR"] ?>&UUID=<?= $row_factura["UUID"] ?>" target="_blank"><i class="fas fa-file-archive fa-2x"></i></a></td>
-                                <!-- Reiniciar (Mantiene el botón de Reiniciar) -->
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="abrirModalReset('<?= htmlspecialchars($row_factura['UUID']) ?>')">
-                                        <i class="fas fa-redo fa-2x"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <?php endif; ?>
             
             <hr class="my-4">
             
@@ -363,10 +313,19 @@ h2.section-title {
                             <textarea class="form-control" id="descripcion_comprobante" name="descripcion_comprobante" rows="2" required></textarea>
                         </div>
                         
-                        <div class="mb-3">
-                            <label for="evidencia_comprobante" class="form-label">Evidencia (Imagen, Foto, PDF): *</label>
-                            <input type="file" class="form-control" id="evidencia_comprobante" name="evidencia_comprobante" accept="image/*,.pdf" required>
+                        <div class="mb-3 comprobante-item">
+                            <label class="form-label">Tipo de comprobante *</label>
+                            <select class="form-control tipo-comprobante" name="tipo_comprobante[]" required>
+                                <option value="">-- Selecciona una opción --</option>
+                                <option value="No comprobable">No comprobable</option>
+                                <option value="Transferencia">Transferencia</option>
+                            </select>
+
+                            <label class="form-label mt-2">Archivo del comprobante</label>
+                            <input type="file" class="form-control" name="archivo_comprobante[]">
                         </div>
+
+                        <div id="contenedor-comprobantes-dinamicos"></div>
                         
                         <input type="hidden" name="folio_solicitud" value="<?= htmlspecialchars($solicitud['folio']) ?>">
                         <input type="hidden" name="submit_comprobante" value="1">
@@ -375,34 +334,63 @@ h2.section-title {
                     </form>
                 </div>
             </div>
+
+            <hr class="my-4">
             
             <!-- Tabla de Comprobantes/Recibos Subidos -->
-            <?php if (!empty($comprobantes_array)): ?>
-                <h2 class="section-title"><i class="fas fa-clipboard-list"></i> Recibos/Comprobantes Subidos</h2>
+            <h2 class="section-title"><i class="fas fa-layer-group"></i> Comprobación (Facturas y Comprobantes)</h2>
                 <div class="card mb-4">
                     <div class="card-body p-0">
                         <table class="table table-sm table-striped table-hover mb-0">
                             <thead>
                                 <tr>
-                                    <th>Importe</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha</th>
                                     <th>Descripción</th>
-                                    <th>Evidencia</th>
+                                    <th>Importe</th>
+                                    <th>Ver</th>
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($comprobantes_array as $row_comprobante): ?>
+                                <!-- FACTURAS -->
+                                <?php foreach ($facturas_array as $f): 
+                                    $fecha = isset($f['FECHA']) ? $f['FECHA'] : 'N/A';
+                                ?>
                                 <tr>
-                                    <td><?= format_currency($row_comprobante['importe'], $moneda_simbolo) ?></td>
-                                    <td><?= htmlspecialchars($row_comprobante['descripcion']) ?></td>
+                                    <td><span class="badge bg-primary">Factura</span></td>
+                                    <td><?= htmlspecialchars($fecha) ?></td>
+                                    <td><?= htmlspecialchars($f['UUID']) ?></td>
+                                    <td><?= format_currency($f['TOTAL'], $moneda_simbolo) ?></td>
                                     <td>
-                                        <a href="view_evidencia.php?id=<?= $row_comprobante['id'] ?>" target="_blank" class="text-primary me-2" title="Ver Evidencia">
-                                            <i class="fas fa-image fa-2x"></i>
+                                        <a href="view_pdf.php?RFC=<?= $f["RFC_EMISOR"] ?>&UUID=<?= $f["UUID"] ?>" target="_blank">
+                                            <i class="fas fa-file-invoice"></i>
                                         </a>
                                     </td>
                                     <td>
-                                        <button class="btn btn-danger btn-sm"
-                                            onclick="eliminarComprobante(<?= (int)$row_comprobante['id'] ?>)">
+                                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                            onclick="abrirModalReset('<?= htmlspecialchars($f['UUID']) ?>')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+
+                                <!-- COMPROBANTES -->
+                                <?php foreach ($comprobantes_array as $c): ?>
+                                <tr>
+                                    <td><span class="badge bg-success">Comprobante</span></td>
+                                    <td>N/A</td>
+                                    <td><?= htmlspecialchars($c['descripcion']) ?></td>
+                                    <td><?= format_currency($c['importe'], $moneda_simbolo) ?></td>
+                                    <td>
+                                        <a href="view_evidencia.php?id=<?= $c['id'] ?>" target="_blank">
+                                            <i class="fas fa-image"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-danger"
+                                            onclick="eliminarComprobante(<?= (int)$c['id'] ?>)">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </td>
@@ -412,7 +400,7 @@ h2.section-title {
                         </table>
                     </div>
                 </div>
-            <?php endif; ?>
+
 
         </div>
         <?php endif; ?>
@@ -640,6 +628,35 @@ function eliminarComprobante(id) {
         }
     });
 }
+// Lógica para agregar nuevos campos de comprobantes dinámicamente
+$(document).on('change', '.tipo-comprobante', function () {
+    const container = $('#contenedor-comprobantes-dinamicos');
+
+    let hayVacio = false;
+
+    container.find('.tipo-comprobante').each(function () {
+        if ($(this).val() === '') {
+            hayVacio = true;
+        }
+    });
+
+    if (!hayVacio) {
+        container.append(`
+            <div class="mb-3 comprobante-item">
+                <label class="form-label">Tipo de comprobante (opcional)</label>
+                <select class="form-control tipo-comprobante" name="tipo_comprobante[]">
+                    <option value="">-- Selecciona una opción --</option>
+                    <option value="No comprobable">No comprobable</option>
+                    <option value="Transferencia">Transferencia</option>
+                </select>
+
+                <label class="form-label mt-2">Archivo del comprobante</label>
+                <input type="file" class="form-control" name="archivo_comprobante[]">
+            </div>
+        `);
+    }
+});
+
 
 </script>
 
