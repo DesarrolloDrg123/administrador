@@ -320,8 +320,8 @@ function limitarCaracteres() {
     
     document.querySelectorAll('input[name="sku[]"]').forEach(function (input) {
         input.addEventListener('input', function () {
-            if (this.value.length > 15) {
-                this.value = this.value.slice(0, 15); // Limitar a 15 caracteres
+            if (this.value.length > 20) {
+                this.value = this.value.slice(0, 20); // Limitar a 20 caracteres
             }
         });
     });

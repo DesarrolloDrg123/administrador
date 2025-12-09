@@ -34,7 +34,7 @@
         if ($result->num_rows > 0) {
             return $result->fetch_assoc(); // Retorna el primer registro encontrado
         } else {
-            return null; // Retorna null si no se encontró ningún registro
+            return null; // Retorna null si no se encontr锟斤拷 ning锟斤拷n registro
         }
     }
     
@@ -149,7 +149,7 @@
     </table>
     
     <div class="alert alert-success alert-dismissible fade show" role="alert" id="mensajeAlertaE" style="display:none;">
-        <strong>¡Exito!</strong> Pedido guardado exitosamente.
+        <strong>锟�0锟�3Exito!</strong> Pedido guardado exitosamente.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         <br>
     </div>
@@ -176,7 +176,7 @@
             $cantidades = explode(';', $pedido['cantidad']);
             $notas = explode(';', $pedido['nota']);
     
-            // Asegura que todos los arrays tengan el mismo número de elementos
+            // Asegura que todos los arrays tengan el mismo n锟斤拷mero de elementos
             $numItems = count($skus);
             for ($i = 0; $i < $numItems; $i++):
             ?>
@@ -241,7 +241,7 @@
         celdaNota.innerHTML = '<input class="form-control" type="text" name="nota[]">';
         celdaAcciones.innerHTML = '<button class="btn btn-danger" type="button" onclick="eliminarFila(this)">Eliminar</button>';
     
-        // Aplicar la validación de caracteres a los nuevos campos
+        // Aplicar la validaci锟斤拷n de caracteres a los nuevos campos
         limitarCaracteres();
         // Recalcular si se debe agregar una nueva fila
         verificarCampos();
@@ -250,8 +250,8 @@
     function limitarCaracteres() {
         document.querySelectorAll('input[name="sku[]"]').forEach(function (input) {
             input.addEventListener('input', function () {
-                if (this.value.length > 15) {
-                    this.value = this.value.slice(0, 15); // Limitar a 15 caracteres
+                if (this.value.length > 20) {
+                    this.value = this.value.slice(0, 20); // Limitar a 20 caracteres
                 }
             });
         });
@@ -278,32 +278,32 @@
         });
     }
     
-    // Función para eliminar una fila
+    // Funci锟斤拷n para eliminar una fila
     function eliminarFila(boton) {
         var fila = boton.parentNode.parentNode;
         fila.parentNode.removeChild(fila);
     }
     
     function verificarCampos(input) {
-        // Obtener la fila en la que está el input
+        // Obtener la fila en la que est锟斤拷 el input
         var fila = input.parentNode.parentNode;
         
-        // Obtener los campos SKU, Descripción y Cantidad de la misma fila
+        // Obtener los campos SKU, Descripci锟斤拷n y Cantidad de la misma fila
         var sku = fila.querySelector('input[name="sku[]"]').value;
         var descripcion = fila.querySelector('input[name="descripcion[]"]').value;
         var cantidad = fila.querySelector('input[name="cantidad[]"]').value;
     
         // Verificar si los tres campos tienen datos
         if (sku && descripcion && cantidad) {
-            // Verificar si ya existe una fila vacía
+            // Verificar si ya existe una fila vac锟斤拷a
             if (!existeFilaVacia()) {
-                // Si no existe una fila vacía, agregar una nueva fila
+                // Si no existe una fila vac锟斤拷a, agregar una nueva fila
                 agregarFila();
             }
         }
     }
     
-    // Función para verificar si ya existe una fila vacía
+    // Funci锟斤拷n para verificar si ya existe una fila vac锟斤拷a
     function existeFilaVacia() {
         var filas = document.querySelectorAll("#tabla tbody tr");
         for (var i = 0; i < filas.length; i++) {
@@ -311,7 +311,7 @@
             var descripcion = filas[i].querySelector('input[name="descripcion[]"]').value;
             var cantidad = filas[i].querySelector('input[name="cantidad[]"]').value;
     
-            // Si hay una fila con SKU, Descripción o Cantidad vacíos, retornar true
+            // Si hay una fila con SKU, Descripci锟斤拷n o Cantidad vac锟斤拷os, retornar true
             if (!sku || !descripcion || !cantidad) {
                 return true;
             }
@@ -324,10 +324,10 @@
     });
     </script>
     <script>
-        // Manejador del envío del formulario
+        // Manejador del env锟斤拷o del formulario
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById("editar_pedido").addEventListener("submit", function(event) {
-                event.preventDefault(); // Prevenir recargar la página
+                event.preventDefault(); // Prevenir recargar la p锟斤拷gina
         
                 var formData = new FormData(this); // Crear el objeto FormData con los datos del formulario
         
@@ -357,7 +357,7 @@
         
                     setTimeout(function() {
                         window.location = 'PE_mis_pedidos.php'; // Cambia la URL a la que desees redirigir
-                    }, 3000); // Redirigir después de 5 segundos
+                    }, 3000); // Redirigir despu锟斤拷s de 5 segundos
                 })
                 .catch(error => {
                     console.error('Error al enviar el pedido:', error);
