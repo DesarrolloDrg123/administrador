@@ -58,13 +58,18 @@ if (isset($_POST['submit_comprobantes'])) {
         if (move_uploaded_file($tmp_name, $ruta_final)) {
 
             $sql = "INSERT INTO comprobantes_tcl 
-                    (folio, tipo_comprobante, importe, fecha, evidencia) 
-                    VALUES (?, ?, ?, NOW(), ?)";
+                (folio, tipo_comprobante, importe, evidencia, fecha) 
+                VALUES (?, ?, ?, ?, NOW())";
 
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssds", $folio, $tipo, $importe, $ruta_final);
-            $stmt->execute();
-            $stmt->close();
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssds", $folio, $tipo, $importe, $ruta_final);
+
+        if (!$stmt->execute()) {
+            error_log("Error al insertar comprobante: " . $stmt->error);
+        }
+
+        $stmt->close();
+
         }
     }
 

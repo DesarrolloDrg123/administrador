@@ -150,7 +150,7 @@ $total_comprobado = (float)$total_facturas + (float)$total_comprobantes;
 $pendiente = $importe_transferencia - $total_comprobado;
 
 // F. Consulta para obtener los comprobantes detallados (para la tabla)
-$sql_comprobantes = "SELECT id, tipo_comprobante, importe, descripcion, evidencia 
+$sql_comprobantes = "SELECT id, tipo_comprobante, importe, descripcion, fecha, evidencia 
                      FROM comprobantes_tcl 
                      WHERE folio = ?";
 
@@ -682,7 +682,7 @@ $(document).on('click', '#btnAgregarFila', function () {
         </div>
 
         <div class="col-md-4">
-            <input type="file" name="archivo_comprobante[]" class="form-control" multiple>
+            <input type="file" name="archivo_comprobante[]" class="form-control" required>
         </div>
 
         <div class="col-md-1 text-center">
