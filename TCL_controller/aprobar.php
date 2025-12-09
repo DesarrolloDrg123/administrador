@@ -21,7 +21,7 @@ $usuario_id = $_SESSION['usuario_id'];
 
 try {
     // Verificar que la solicitud pertenece al usuario
-    $sql = 'SELECT b.beneficiario AS nombre_beneficiario, c.categoria AS nombre_categoria, t.id, t.autorizacion_id, t.sucursal_id, t.estado, 
+    $sql = 'SELECT b.nombre AS nombre_beneficiario, c.categoria AS nombre_categoria, t.id, t.autorizacion_id, t.sucursal_id, t.estado, 
             t.usuario_solicitante_id, t.fecha_solicitud, t.no_cuenta, t.fecha_vencimiento, t.importe, t.importe_letra, t.importedls, t.importedls_letra, 
             t.departamento_id, d.departamento AS departamento, t.categoria_id, t.descripcion, t.observaciones, t.beneficiario_id, 
             s.sucursal AS sucursal_nombre, 
