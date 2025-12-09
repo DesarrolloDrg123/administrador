@@ -327,7 +327,7 @@ h2.section-title {
 
                                 <div class="col-md-4">
                                     <label class="form-label">Archivos *</label>
-                                    <input type="file" name="archivo_comprobante[]" class="form-control" multiple>
+                                    <input type="file" name="archivo_comprobante[]" class="form-control" required>
                                 </div>
 
                                 <div class="col-md-1 text-center">

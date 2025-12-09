@@ -11,6 +11,11 @@ if (isset($_POST['submit_comprobantes'])) {
         return;
     }
 
+    if (!isset($_FILES['archivo_comprobante'])) {
+        $GLOBALS["mensaje_global"] = '<div class="alert alert-danger">No se recibieron archivos.</div>';
+        return;
+    }
+
     if (!isset($_POST['tipo_comprobante']) || 
         !isset($_POST['importe_comprobante'])) {
 
