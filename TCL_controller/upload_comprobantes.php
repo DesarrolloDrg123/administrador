@@ -20,7 +20,6 @@ if (isset($_POST['submit_comprobantes'])) {
 
     $tipos    = $_POST['tipo_comprobante'];
     $importes = $_POST['importe_comprobante'];
-    $fechas   = $_POST['fecha_comprobante'];
     $archivos = $_FILES['archivo_comprobante'];
 
     $target_dir_base = "uploads/comprobantes/" . htmlspecialchars($folio) . "/";
@@ -35,7 +34,6 @@ if (isset($_POST['submit_comprobantes'])) {
 
         $tipo    = trim($tipos[$i]);
         $importe = floatval($importes[$i]);
-        $fecha   = $fechas[$i] ?? null;
 
         if (empty($tipo) || $importe <= 0 || empty($fecha)) {
             continue;
@@ -65,6 +63,6 @@ if (isset($_POST['submit_comprobantes'])) {
         }
     }
 
-    $GLOBALS["mensaje_global"] = '<div class="alert alert-success">Comprobantes cargados correctamente.</div>';
+    $comprobantes_exito = true;
 }
 ?>

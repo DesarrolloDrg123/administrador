@@ -457,13 +457,26 @@ h2.section-title {
     </div>
 </div>
 
+<?php
+$mostrarSwal = isset($comprobantes_exito) && $comprobantes_exito;
+?>
+
+
 <script>
 // --- Funciones para el Modal de Reinicio (Reemplazo de alert()) ---
+document.addEventListener('DOMContentLoaded', function () {
+    const mostrarSwal = <?= $mostrarSwal ? 'true' : 'false' ?>;
 
-/**
- * Abre el modal para confirmar el reinicio de una factura.
- * @param {string} uuid - El UUID de la factura a reiniciar.
- */
+    if (mostrarSwal) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Comprobantes cargados',
+            text: 'Los comprobantes se subieron correctamente.',
+            confirmButtonText: 'Ok'
+        });
+    }
+});
+
 function abrirModalReset(uuid) {
     // Se asume que jQuery y Bootstrap 5 están cargados (por la estructura del modal)
     $('#uuidInput').val(uuid);
@@ -473,9 +486,6 @@ function abrirModalReset(uuid) {
     resetModal.show();
 }
 
-/**
- * Envía la solicitud AJAX para reiniciar la factura.
- */
 function confirmarReset() {
     const uuid = $('#uuidInput').val();
     const descripcion = $('#descripcionInput').val();
