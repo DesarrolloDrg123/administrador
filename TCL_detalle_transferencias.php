@@ -275,7 +275,7 @@ h2.section-title {
         </div>
 
         <!-- FORMULARIOS DE CARGA DE COMPROBANTES Y TABLAS -->
-        <?php if ($solicitud['estado'] != "Pendiente" && $solicitud['estado'] != "Rechazado" && $solicitud['estado'] != "Cancelada"): ?>
+        <?php if ($solicitud['estado'] != "Pendiente" && $solicitud['estado'] != "Rechazado" && $solicitud['estado'] != "Cancelada" && $solicitud['estado'] != "Subido a Pago" && $solicitud['estado'] != "Aprobado"): ?>
         <div class="col-md-6">
 
             <!-- Cargar Facturas (PDF/XML) -->
@@ -307,10 +307,11 @@ h2.section-title {
                         <div id="lista-comprobantes">
 
                             <!-- Bloque inicial -->
-                            <div class="row g-2 align-items-end comprobante-row mb-2">
+                            <div class="row g-2 align-items-end mb-2">
+
                                 <div class="col-md-4">
                                     <label class="form-label">Tipo *</label>
-                                    <select name="tipo_comprobante[]" class="form-control tipo-comprobante" required>
+                                    <select name="tipo_comprobante" class="form-control" required>
                                         <option value="">Selecciona</option>
                                         <option value="No Deducible">No Deducible</option>
                                         <option value="Devolucion">Devolución</option>
@@ -321,31 +322,22 @@ h2.section-title {
                                     <label class="form-label">Monto *</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><?= $moneda_simbolo ?></span>
-                                        <input type="number" name="importe_comprobante[]" class="form-control" step="0.01" min="0.01" required>
+                                        <input type="number" name="importe_comprobante" class="form-control" step="0.01" required>
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <label class="form-label">Archivos *</label>
-                                    <input type="file" name="archivo_comprobante[]" class="form-control" required>
+                                    <input type="file" name="archivos_zip[]" class="form-control" multiple required>
+                                    <small class="text-muted">Puedes seleccionar varios archivos</small>
                                 </div>
 
-                                <div class="col-md-1 text-center">
-                                    <label class="form-label d-block">&nbsp;</label>
-                                    <button type="button" class="btn btn-outline-danger btn-sm btn-eliminar-fila">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
                             </div>
 
                         </div>
 
                         <input type="hidden" name="folio_solicitud" value="<?= htmlspecialchars($solicitud['folio']) ?>">
                         <input type="hidden" name="submit_comprobantes" value="1">
-
-                        <button type="button" id="btnAgregarFila" class="btn btn-secondary mt-3">
-                            <i class="fas fa-plus"></i> Agregar otro
-                        </button>
 
                         <button type="submit" name="submit_comprobantes" class="btn btn-success mt-3">
                             <i class="fas fa-cloud-upload-alt"></i> Subir comprobantes
@@ -408,8 +400,8 @@ h2.section-title {
                                     <td>N/A</td>
                                     <td><?= format_currency($c['importe'], $moneda_simbolo) ?></td>
                                     <td>
-                                        <a href="view_evidencia.php?id=<?= $c['id'] ?>" target="_blank">
-                                            <i class="fas fa-image"></i>
+                                        <a href="download_comprobante.php?id=<?= $c['id'] ?>">
+                                            <i class="fas fa-file-archive"></i>
                                         </a>
                                     </td>
                                     <td>

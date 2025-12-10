@@ -23,55 +23,53 @@ if (isset($_POST['submit_comprobantes'])) {
         return;
     }
 
-    $tipos    = $_POST['tipo_comprobante'];
-    $importes = $_POST['importe_comprobante'];
+    // === Datos
+    $tipo    = trim($_POST['tipo_comprobante']);
+    $importe = floatval($_POST['importe_comprobante']);
     $archivos = $_FILES['archivo_comprobante'];
 
-    $target_dir_base = "uploads/comprobantes/" . htmlspecialchars($folio) . "/";
-
-    if (!is_dir($target_dir_base)) {
-        mkdir($target_dir_base, 0777, true);
+    if (empty($tipo) || $importe <= 0) {
+        $GLOBALS["mensaje_global"] = '<div class="alert alert-danger">Tipo o importe inválidos.</div>';
+        return;
     }
 
-    $total = count($importes);
+    $target_dir = "uploads/comprobantes/" . $folio . "/";
+    if (!is_dir($target_dir)) {
+        mkdir($target_dir, 0777, true);
+    }
 
-    for ($i = 0; $i < $total; $i++) {
+    // === Crear ZIP
+    $zip_name = "comprobantes_" . $folio . "_" . time() . ".zip";
+    $zip_path = $target_dir . $zip_name;
 
-        $tipo    = trim($tipos[$i]);
-        $importe = floatval($importes[$i]);
+    $zip = new ZipArchive();
+    if ($zip->open($zip_path, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE) {
+        $GLOBALS["mensaje_global"] = '<div class="alert alert-danger">No se pudo crear el ZIP.</div>';
+        return;
+    }
 
-        if (empty($tipo) || $importe <= 0) {
-            continue;
-        }
-
-        if (!isset($archivos['name'][$i]) || $archivos['error'][$i] != UPLOAD_ERR_OK) {
-            continue;
-        }
-
-        $nombre_original = $archivos['name'][$i];
-        $tmp_name        = $archivos['tmp_name'][$i];
-
-        $extension = pathinfo($nombre_original, PATHINFO_EXTENSION);
-        $nombre_archivo = time() . "_" . uniqid() . "." . $extension;
-        $ruta_final = $target_dir_base . $nombre_archivo;
-
-        if (move_uploaded_file($tmp_name, $ruta_final)) {
-
-            $sql = "INSERT INTO comprobantes_tcl 
-                (folio, tipo_comprobante, importe, evidencia, fecha) 
-                VALUES (?, ?, ?, ?, NOW())";
-
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssds", $folio, $tipo, $importe, $ruta_final);
-
-        if (!$stmt->execute()) {
-            error_log("Error al insertar comprobante: " . $stmt->error);
-        }
-
-        $stmt->close();
-
+    foreach ($archivos['tmp_name'] as $key => $tmp_name) {
+        if ($archivos['error'][$key] === UPLOAD_ERR_OK) {
+            $original_name = basename($archivos['name'][$key]);
+            $zip->addFile($tmp_name, $original_name);
         }
     }
+
+    $zip->close();
+
+    // === Guardar en BD la ruta del ZIP
+    $sql = "INSERT INTO comprobantes_tcl 
+            (folio, tipo_comprobante, importe, evidencia, fecha) 
+            VALUES (?, ?, ?, ?, NOW())";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssds", $folio, $tipo, $importe, $zip_path);
+
+    if (!$stmt->execute()) {
+        error_log("Error al insertar comprobante ZIP: " . $stmt->error);
+    }
+
+    $stmt->close();
 
     $comprobantes_exito = true;
 }
