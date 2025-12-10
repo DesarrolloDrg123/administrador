@@ -453,7 +453,10 @@ if (isset($_GET['msg'])) {
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <?php if ($filas['estado'] != 'Cancelada' && $filas['estado'] != 'Rechazado' && $total_comprobantes == 0): ?>
+                                <?php if (
+                                    !in_array($filas['estado'], ['Cancelada', 'Rechazado']) 
+                                    && $total_comprobantes == 0
+                                ): ?>
                                     <button 
                                         class="btn btn-danger btn-sm btn-cancelar"
                                         data-folio="<?= htmlspecialchars($filas['folio']) ?>"
