@@ -129,7 +129,7 @@ if (isset($_GET['msg'])) {
     </h6>
     
         <?php
-        
+
         // Filtros
         $where = [];
         
@@ -185,6 +185,7 @@ if (isset($_GET['msg'])) {
         
                 -- Para los demás campos, tomamos un valor representativo del grupo
                 MAX(b.nombre) AS beneficiario,
+                MAX(t.beneficiario_id) AS beneficiario_id,
                 MAX(d.departamento) AS departamento,
                 MAX(c.categoria) AS categoria,
                 MAX(u2.nombre) AS usuario,
@@ -391,6 +392,11 @@ if (isset($_GET['msg'])) {
                     
                     // Ahora, recorremos las transferencias.
                     foreach ($transferencias as $filas):
+
+                        $soy_beneficiario = ($filas['beneficiario'] ?? null) != null 
+                        && ($filas['beneficiario'] !== '') 
+                        && ($filas['beneficiario'] !== false)
+                        && ($filas['beneficiario_id'] ?? null) == $usuario_id;
                         
                         $fecha = new DateTime($filas['fecha_solicitud']);
                         $fecha_formateada = $fecha->format('d/m/Y');
@@ -408,7 +414,16 @@ if (isset($_GET['msg'])) {
                         
                         $importe_num = ($filas['importedls'] && $filas['importedls'] != "0.00") ? $filas['importedls'] : $filas['importe'];
                         $moneda = ($filas['importedls'] && $filas['importedls'] != "0.00") ? 'USD' : 'MXN';
-                    ?>
+
+                        // ✅ Calcular pendiente ANTES de imprimir la fila
+                        $importe_transferencia = $importe_num;
+                        $pendiente = $importe_transferencia - $total_comprobado;
+
+                        // ✅ Si es beneficiario Y ya no tiene nada pendiente, NO mostrarlo
+                        if ($soy_beneficiario && $filas['estado'] == 'Pagado' && $pendiente <= 0) {
+                            continue;
+                        }
+                        ?>
                         <tr class="text-center align-middle">
                             <td><a href="TCL_detalle_transferencias.php?id=<?= htmlspecialchars($filas['id']) ?>&MT=true" class="<?= $folio_class ?>"><?= htmlspecialchars($filas['folio']) ?></a></td>
                             <td><?= htmlspecialchars($filas['beneficiario']) ?></td>
@@ -427,8 +442,7 @@ if (isset($_GET['msg'])) {
                                 if ($filas['folio'] !== $folio_anterior):
                                     $importe_transferencia = $importe_num;
                                     
-                                    $pendiente = $importe_transferencia - $total_comprobado;
-                                    
+                                    $pendiente = $importe_transferencia - $total_comprobado;     
                                     // Formateamos los valores y los dejamos en $0.00 si está Cancelada o Rechazada
                                     $importe_comprobado_str = ($filas['estado'] != "Cancelada" && $filas['estado'] != "Rechazado") ? '$' . number_format($total_comprobado, 2) : '$0.00';
                                     $importe_pendiente_str = ($filas['estado'] != "Cancelada" && $filas['estado'] != "Rechazado") ? '$' . number_format($pendiente, 2) : '$0.00';
