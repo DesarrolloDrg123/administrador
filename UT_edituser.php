@@ -210,7 +210,7 @@ $stmt_user->close();
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="tarjeta" class="form-label">Numero de tarjeta:</label>
-                                <input type="text" id="tarjeta" name="tarjeta" class="form-control" value="<?= htmlspecialchars($user['tarjeta_clara'] ?? ''); ?>" >
+                                <input type="number" id="tarjeta" name="tarjeta" class="form-control" value="<?= htmlspecialchars($user['tarjeta_clara'] ?? ''); ?>" >
                             </div>
                         </div>
                         

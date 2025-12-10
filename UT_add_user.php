@@ -164,7 +164,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="tarjeta" class="form-label">Numero de tarjeta:</label>
-                                <input type="text" id="tarjeta" name="tarjeta" class="form-control" >
+                                <input type="number" id="tarjeta" name="tarjeta" class="form-control" >
                             </div>
                         </div>
 
