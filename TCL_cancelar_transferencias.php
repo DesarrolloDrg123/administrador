@@ -132,7 +132,7 @@ if (isset($_GET['msg'])) {
         
         // Filtros
         $where = [];
-        $where[] = "t.estado IN ('Subido a Pago', 'Pendiente', 'Aprobado', 'Subido a Pago', 'Pagado')";
+        $where[] = "t.estado IN ('Subido a Pago', 'Pendiente', 'Aprobado', 'Subido a Pago', 'Pagado', 'Cancelacion Solicitada')";
         
         if (!empty($_GET['departamento'])) {
             $where[] = "t.departamento_id = ?";
@@ -195,7 +195,8 @@ if (isset($_GET['msg'])) {
                 MAX(t.observaciones) AS observaciones, 
                 MAX(t.estado) AS estado, 
                 MAX(t.documento_adjunto) AS documento_adjunto,
-                MAX(t.recibo) AS recibo
+                MAX(t.recibo) AS recibo,
+                MAX(t.motivo) AS motivo
             FROM 
                 transferencias_clara_tcl t
             JOIN usuarios b ON t.beneficiario_id = b.id
@@ -454,7 +455,10 @@ if (isset($_GET['msg'])) {
                             <td>
                                 <?php if ($filas['estado'] != 'Cancelada'): ?>
                                     <button class="btn btn-danger btn-sm"
-                                        onclick="cancelarTransferencia('<?= htmlspecialchars($filas['folio']) ?>')">
+                                        onclick="cancelarTransferencia(
+                                            '<?= htmlspecialchars($filas['folio']) ?>',
+                                            <?= json_encode($filas['motivo'] ?? '') ?>
+                                        )">
                                         <i class="fas fa-times-circle"></i> Cancelar
                                     </button>
                                 <?php else: ?>
@@ -554,12 +558,13 @@ if (isset($_GET['msg'])) {
             }
         });
     });
-function cancelarTransferencia(folio) {
+function cancelarTransferencia(folio, motivoBD = '') {
     Swal.fire({
         title: 'Cancelar transferencia',
         text: 'Por favor, escribe el motivo de la cancelación:',
         input: 'textarea',
         inputPlaceholder: 'Ej. Error en el monto, solicitud duplicada, etc.',
+        inputValue: motivoBD,
         inputAttributes: {
             'aria-label': 'Motivo de cancelación'
         },
@@ -617,6 +622,7 @@ function cancelarTransferencia(folio) {
         }
     });
 }
+
 
 </script>
 

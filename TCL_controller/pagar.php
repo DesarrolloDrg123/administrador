@@ -38,6 +38,7 @@ try {
             t.*,
             s.sucursal,
             b.nombre AS beneficiario,
+            b.email AS email_beneficiario,
             u_sol.nombre AS nombre_solicitante,
             u_sol.email AS email_solicitante,
             u_aut.nombre AS nombre_autoriza
@@ -87,7 +88,8 @@ try {
         $mail->Port = 465;
 
         $mail->setFrom('administrador@intranetdrg.com.mx', 'Transferencia Pagada');
-        $mail->addAddress($info['email_solicitante']); // ✅ Corregido
+        $mail->addAddress($info['email_solicitante']); 
+        $mail->addAddress($info['email_beneficiario']);
 
         $fechaSolicitud = new DateTime($info['fecha_solicitud']);
         $fechaSolicitudFormateada = $fechaSolicitud->format('d/m/Y');
@@ -107,7 +109,7 @@ try {
             <p><strong>Importe:</strong> $ {$info['importe']}</p>
             <p><strong>Descripción:</strong> {$info['descripcion']}</p>
             <p><strong>Autoriza:</strong> {$info['nombre_autoriza']}</p>
-            <p style='color:red'><strong>No olvides subir las facturas correspondientes.</strong></p>
+            <p style='color:red'><strong>No olvides subir tus evidencias correspondientes.</strong></p>
         </body>
         </html>
         ";

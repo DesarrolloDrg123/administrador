@@ -312,8 +312,8 @@ h2.section-title {
                                     <label class="form-label">Tipo *</label>
                                     <select name="tipo_comprobante[]" class="form-control tipo-comprobante" required>
                                         <option value="">Selecciona</option>
-                                        <option value="No Deducible">No comprobable</option>
-                                        <option value="Transferencia">Transferencia</option>
+                                        <option value="No Deducible">No Deducible</option>
+                                        <option value="Devolucion">Devolución</option>
                                     </select>
                                 </div>
 

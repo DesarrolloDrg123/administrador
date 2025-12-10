@@ -4,7 +4,7 @@ require("../config/db.php");
 header('Content-Type: application/json');
 
 try {
-    $programa = 17;
+    $programa = 45;
     $acceso = 1;
     $stmt = $conn->prepare("SELECT u.id, u.nombre FROM usuarios u INNER JOIN permisos p ON u.id = p.id_usuario WHERE p.id_programa = ? 
     AND p.acceso = ? ORDER BY u.nombre ASC ");

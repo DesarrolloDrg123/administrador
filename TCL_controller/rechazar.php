@@ -45,7 +45,7 @@ try {
 
     // --- PASO 2: OBTENER TODOS LOS DATOS (CON JOINS) DE LAS TRANSFERENCIAS DE ESE FOLIO ---
     $sql_transferencias = 'SELECT
-            t.*, s.sucursal, b.nombre AS nombre_beneficiario, d.departamento, c.categoria,
+            t.*, s.sucursal, b.nombre AS nombre_beneficiario, b.email AS email_beneficiario, d.departamento, c.categoria,
             u_sol.nombre AS nombre_solicitante, u_sol.email AS email_solicitante,
             u_aut.nombre AS nombre_autoriza
         FROM transferencias_clara_tcl t
@@ -128,7 +128,14 @@ try {
         $mail->CharSet = 'UTF-8';
     
         $mail->setFrom('administrador@intranetdrg.com.mx', 'Sistema de Transferencias');
-        $mail->addAddress($info_para_correo['email_solicitante']);
+        if (!empty($info_para_correo['email_solicitante'])) {
+            $mail->addAddress($info_para_correo['email_solicitante']);
+        }
+        if (!empty($info_para_correo['email_beneficiario'])) {
+            $mail->addAddress($info_para_correo['email_beneficiario']);
+        }
+
+        
     
         $fechaSolicitudFormateada = (new DateTime($info_para_correo['fecha_solicitud']))->format('d/m/Y');
         $fechaVencimientoFormateada = (new DateTime($info_para_correo['fecha_vencimiento']))->format('d/m/Y');

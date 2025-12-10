@@ -49,6 +49,21 @@ try {
     }
 
     $solicitud = $result->fetch_assoc();
+
+    //Traer los correos de los que tienen el permiso de autorizar
+    $programa = 47;
+    $acceso = 1;
+    $stmta = $conn->prepare("SELECT u.id, u.nombre, u.email FROM usuarios u INNER JOIN permisos p ON u.id = p.id_usuario WHERE p.id_programa = ? 
+    AND p.acceso = ? ORDER BY u.nombre ASC ");
+    $stmta->bind_param('ii', $programa, $acceso);
+    $stmta->execute();
+    $result = $stmta->get_result();
+
+    $autorizadores = [];
+    while ($row = $result->fetch_assoc()) {
+        $autorizadores[] = $row;
+    }
+
     $id = $solicitud['id'];
     $autorizacion_id = $solicitud['autorizacion_id'];
     $sucursal_id = $solicitud['sucursal_id'];
@@ -88,11 +103,18 @@ try {
         $mail->setFrom('administrador@intranetdrg.com.mx', 'Solicitudes Electronicas');
         
         // Agregar direcciones de correo del autorizador y del solicitante
-        //$mail->addAddress('ebetancourt@drg.mx');
-        $mail->addAddress('msalas@drg.mx');
-        $mail->addAddress('jpauda@drg.mx');
-        $mail->addAddress($autorizador_email);
-        $mail->addAddress($solicitante_email);
+        // Correos de autorizadores
+        foreach ($autorizadores as $auth) {
+            if (!empty($auth['email'])) {
+                $mail->addAddress($auth['email'], $auth['nombre']);
+            }
+        }
+
+        // Correo del solicitante
+        if (!empty($solicitante_email)) {
+            $mail->addAddress($solicitante_email, $nombre_solicitante);
+        }
+
         
         $fechaSolicitud = new DateTime($solicitud['fecha_solicitud']);
         $fmt = new IntlDateFormatter('es_ES', IntlDateFormatter::LONG, IntlDateFormatter::NONE);

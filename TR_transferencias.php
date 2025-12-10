@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const selectedDepartamentoText = departamentoSelect.options[departamentoSelect.selectedIndex].text;
         
-        if (selectedDepartamentoText === 'VENTAS' || selectedDepartamentoText === 'SERVICIO TECNICO') {
+        if (selectedDepartamentoText === 'SERVICIO TECNICO') {
             autorizacionSelect.value = '2'; // Asegúrate que el ID '2' corresponde al autorizador correcto
             autorizacionSelect.disabled = true;
             autorizacionHidden.value = '2';

@@ -91,7 +91,7 @@ if (empty($_POST['folio']) || empty($_POST['motivo'])) {
 }
 
 $folio  = $_POST['folio'];
-$motivo = $_POST['motivo'];
+$motivo = trim($_POST['motivo']);
 $usuario_solicita = $_SESSION['nombre'] ?? 'Usuario';
 
 // ===============================
@@ -119,6 +119,16 @@ if ($result->num_rows == 0) {
 }
 
 $transferencia = $result->fetch_assoc();
+$stmt->close();
+
+$stmt = $conn->prepare("
+    UPDATE transferencias_clara_tcl 
+    SET motivo = ?,
+    estado = 'Cancelacion Solicitada'
+    WHERE folio = ?
+");
+$stmt->bind_param("ss", $motivo, $folio);
+$stmt->execute();
 $stmt->close();
 
 // ===============================

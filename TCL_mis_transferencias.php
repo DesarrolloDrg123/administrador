@@ -199,7 +199,8 @@ if (isset($_GET['msg'])) {
                 MAX(t.observaciones) AS observaciones, 
                 MAX(t.estado) AS estado, 
                 MAX(t.documento_adjunto) AS documento_adjunto,
-                MAX(t.recibo) AS recibo
+                MAX(t.recibo) AS recibo,
+                MAX(t.motivo) AS motivo
             FROM 
                 transferencias_clara_tcl t
             JOIN usuarios b ON t.beneficiario_id = b.id
@@ -460,12 +461,12 @@ if (isset($_GET['msg'])) {
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <?php if ($filas['estado'] == 'Pagado' ): ?>
+                                <?php if ($filas['estado'] == 'Pagado'): ?>
                                     <button class="btn btn-warning btn-sm"
                                         onclick="solicitarCancelacion('<?= htmlspecialchars($filas['folio']) ?>')">
                                         Solicitar cancelación
                                     </button>
-                                <?php elseif ($filas['estado'] != 'Pagado' && $filas['estado'] != 'Rechazado'): ?>
+                                <?php elseif ($filas['estado'] != 'Pendiente' && $filas['estado'] != 'Aprobado' && $filas['Subir a Pago'] != 'Cancelada') : ?>
                                     <button class="btn btn-danger btn-sm"
                                         onclick="cancelarTransferencia('<?= htmlspecialchars($filas['folio']) ?>')">
                                         Cancelar
