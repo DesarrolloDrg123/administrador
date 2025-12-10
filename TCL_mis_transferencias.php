@@ -461,7 +461,7 @@ if (isset($_GET['msg'])) {
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <?php if ($filas['estado'] == 'Pagado'): ?>
+                                <?php if ($filas['estado'] == 'Pagado' && $importe_pendiente_str == 0): ?>
                                     <button class="btn btn-warning btn-sm"
                                         onclick="solicitarCancelacion('<?= htmlspecialchars($filas['folio']) ?>')">
                                         Solicitar cancelación
