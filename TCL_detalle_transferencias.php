@@ -415,8 +415,6 @@ h2.section-title {
                         </table>
                     </div>
                 </div>
-
-
         </div>
         <?php endif; ?>
     </div>

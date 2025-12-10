@@ -274,79 +274,49 @@ h2.section-title {
         <?php if ($solicitud['estado'] != "Pendiente" && $solicitud['estado'] != "Rechazado" && $solicitud['estado'] != "Cancelada"): ?>
         <div class="col-md-6">
 
-            <?php if (!empty($facturas_array)): ?>
-            <h2 class="section-title"><i class="fas fa-receipt"></i> Facturas Subidas</h2>
+            <!-- Tabla de Comprobantes/Recibos (Solo Lectura) -->
+            <h2 class="section-title"><i class="fas fa-layer-group"></i> Comprobación (Comprobantes)</h2>
             <div class="card mb-4">
                 <div class="card-body p-0">
-                    <table class="table table-sm table-striped table-hover table-facturas">
+                    <table class="table table-sm table-striped table-hover mb-0">
                         <thead>
                             <tr>
+                                <th>Tipo</th>
                                 <th>Fecha</th>
-                                <th>RFC</th>
-                                <th>Total</th>
-                                <th>UUID</th>
-                                <th>Ver PDF</th>
-                                <th>Descargar XML</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($facturas_array as $row_factura): 
-                                // Formato de fecha para la tabla
-                                $fecha_factura_display = isset($row_factura['FECHA_FACTURA']) 
-                                    ? (new DateTime($row_factura['FECHA_FACTURA']))->format('Y-m-d') 
-                                    : 'N/A';
-                            ?>
-                            <tr>
-                                <td><?= htmlspecialchars($fecha_factura_display) ?></td>
-                                <td><?= htmlspecialchars($row_factura['RFC_EMISOR'] ?? 'N/A') ?></td>
-                                <td><?= format_currency($row_factura['TOTAL'], $moneda_simbolo) ?></td>
-                                <td><?= htmlspecialchars($row_factura['UUID']) ?></td>
-                                <!-- Descargar (Asumo enlace para descargar el PDF/XML. Usaremos el XML por defecto) -->
-                                <td><a href="view_pdf.php?RFC=<?= $row_factura["RFC_EMISOR"] ?>&UUID=<?= $row_factura["UUID"] ?>" target="_blank"><i class="fas fa-file-invoice fa-2x"></i></a></td>
-                                    <td><a href="download_zip.php?RFC=<?= $row_factura["RFC_EMISOR"] ?>&UUID=<?= $row_factura["UUID"] ?>" target="_blank"><i class="fas fa-file-archive fa-2x"></i></a></td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <?php endif; ?>
-            
-            <hr class="my-4">
-            
-            <?php if (!empty($comprobantes_array)): ?>
-            <h2 class="section-title"><i class="fas fa-paperclip"></i> Comprobantes / Recibos Subidos</h2>
-            <div class="card mb-4">
-                <div class="card-body p-0">
-                    <table class="table table-sm table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>Importe</th>
                                 <th>Descripción</th>
-                                <th>Ver Archivo</th>
+                                <th>Importe</th>
+                                <th>Ver</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($comprobantes_array as $row_comprobante): ?>
+
+                            <?php foreach ($comprobantes_array as $c): ?>
                             <tr>
-                                <td><?= format_currency($row_comprobante['importe'], $moneda_simbolo) ?></td>
-                                <td><?= htmlspecialchars($row_comprobante['descripcion']) ?></td>
                                 <td>
-                                    <?php if (!empty($row_comprobante['evidencia'])): ?>
-                                        <a href="<?= htmlspecialchars($row_comprobante['evidencia']) ?>" target="_blank" class="text-success" title="Ver Comprobante">
-                                            <i class="fas fa-file-alt fa-2x"></i>
-                                        </a>
-                                    <?php else: ?>
-                                        <span class="text-muted">N/A</span>
-                                    <?php endif; ?>
+                                    <span class="badge bg-success">
+                                        <?= htmlspecialchars($c['tipo_comprobante'] ?? 'Comprobante') ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <?= htmlspecialchars($c['fecha'] ?? 'N/A') ?>
+                                </td>
+                                <td>N/A</td>
+                                <td>
+                                    <?= format_currency($c['importe'], $moneda_simbolo) ?>
+                                </td>
+                                <td>
+                                    <a href="TCL_controller/download_comprobante.php?id=<?= (int)$c['id'] ?>" target="_blank">
+                                        <i class="fas fa-file-archive"></i>
+                                    </a>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
+
                         </tbody>
                     </table>
                 </div>
             </div>
-            <?php endif; ?>
+
 
         </div>
         <?php endif; ?>
