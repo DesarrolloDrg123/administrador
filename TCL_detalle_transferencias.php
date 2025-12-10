@@ -399,7 +399,7 @@ h2.section-title {
                                     <td>N/A</td>
                                     <td><?= format_currency($c['importe'], $moneda_simbolo) ?></td>
                                     <td>
-                                        <a href="download_comprobante.php?id=<?= $c['id'] ?>">
+                                        <a href="TCL_controller/download_comprobante.php?id=<?= $c['id'] ?>">
                                             <i class="fas fa-file-archive"></i>
                                         </a>
                                     </td>
