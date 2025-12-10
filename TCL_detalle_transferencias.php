@@ -329,7 +329,6 @@ h2.section-title {
                                 <div class="col-md-5">
                                     <label class="form-label">Archivos *</label>
                                     <input type="file" name="archivos_zip[]" class="form-control" multiple required>
-                                    <small class="text-muted">Puedes seleccionar varios archivos</small>
                                 </div>
 
                             </div>
