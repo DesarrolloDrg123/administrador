@@ -455,7 +455,7 @@ if (isset($_GET['msg'])) {
                             <td>
                                 <?php if (
                                     !in_array($filas['estado'], ['Cancelada', 'Rechazado']) 
-                                    && $total_comprobantes == 0
+                                    && $total_comprobado <= 0
                                 ): ?>
                                     <button 
                                         class="btn btn-danger btn-sm btn-cancelar"
