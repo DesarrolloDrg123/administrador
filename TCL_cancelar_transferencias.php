@@ -133,6 +133,16 @@ if (isset($_GET['msg'])) {
         // Filtros
         $where = [];
         $where[] = "t.estado IN ('Subido a Pago', 'Pendiente', 'Aprobado', 'Subido a Pago', 'Pagado', 'Cancelacion Solicitada')";
+        $where[] = "NOT EXISTS (
+            SELECT 1 
+            FROM comprobantes_tcl c 
+            WHERE c.folio = t.folio
+        )";
+        $where[] = "NOT EXISTS (
+            SELECT 1 
+            FROM facturas_tcl f 
+            WHERE f.NO_ORDEN_COMPRA = t.folio
+        )";
         
         if (!empty($_GET['departamento'])) {
             $where[] = "t.departamento_id = ?";
