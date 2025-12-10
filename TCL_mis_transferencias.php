@@ -461,12 +461,12 @@ if (isset($_GET['msg'])) {
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <?php if ($filas['estado'] == 'Pagado' && $importe_pendiente_str == 0): ?>
+                                <?php if ($filas['estado'] == 'Pagado' && $pendiente <= 0) : ?>
                                     <button class="btn btn-warning btn-sm"
                                         onclick="solicitarCancelacion('<?= htmlspecialchars($filas['folio']) ?>')">
                                         Solicitar cancelación
                                     </button>
-                                <?php elseif ($filas['estado'] == 'Pendiente' || $filas['estado'] == 'Aprobado' || $filas['Subir a Pago'] == 'Cancelada') : ?>
+                                <?php elseif ($filas['estado'] == 'Pendiente' || $filas['estado'] == 'Aprobado' || $filas['estado'] == 'Cancelada') : ?>
                                     <button class="btn btn-danger btn-sm"
                                         onclick="cancelarTransferencia('<?= htmlspecialchars($filas['folio']) ?>')">
                                         Cancelar
