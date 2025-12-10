@@ -453,7 +453,7 @@ if (isset($_GET['msg'])) {
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <?php if ($filas['estado'] != 'Cancelada'): ?>
+                                <?php if ($filas['estado'] != 'Cancelada' && $filas['estado'] != 'Rechazado' && $total_comprobantes == 0): ?>
                                     <button 
                                         class="btn btn-danger btn-sm btn-cancelar"
                                         data-folio="<?= htmlspecialchars($filas['folio']) ?>"
@@ -557,7 +557,7 @@ if (isset($_GET['msg'])) {
             }
         });
     });
-    
+
 $(document).on('click', '.btn-cancelar', function() {
     const folio = $(this).data('folio');
     const motivoActual = $(this).data('motivo');
