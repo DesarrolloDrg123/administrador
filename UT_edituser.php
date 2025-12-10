@@ -38,6 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
     $fechaingreso = $_POST['fechaingreso'];
     $sucursal = $_POST['sucursal'];
     $jefe = $_POST['jefe'];
+    $tarjeta_clara = $_POST['tarjeta'] ?? '';
 
     if (!empty($password) && $password !== $password_repeat) {
         $message = "Las contraseñas no coinciden.";
@@ -55,10 +56,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
             'num_empleado' => $no_empleado,
             'sucursal' => $sucursal, 
             'jefe_directo' => $jefe,
-            'estatus' => $estatus
+            'estatus' => $estatus,
+            'tarjeta_clara' => $tarjeta_clara
         ];
         // CORRECCIÓN: La cadena de tipos ahora corresponde al nuevo orden
-        $types = 'ssssssiiii';
+        $types = 'ssssssiiiii';
 
         if (!empty($password)) {
             $fields['password'] = password_hash($password, PASSWORD_DEFAULT);
@@ -202,6 +204,13 @@ $stmt_user->close();
                                     <option value="1" <?= ($user['estatus'] ?? '') == '1' ? 'selected' : ''; ?>>Activo</option>
                                     <option value="2" <?= ($user['estatus'] ?? '') == '2' ? 'selected' : ''; ?>>Inactivo</option>
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="tarjeta" class="form-label">Numero de tarjeta:</label>
+                                <input type="text" id="tarjeta" name="tarjeta" class="form-control" value="<?= htmlspecialchars($user['tarjeta_clara'] ?? ''); ?>" >
                             </div>
                         </div>
                         

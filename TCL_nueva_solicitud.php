@@ -115,7 +115,7 @@ try {
                 <!-- Cuenta y Vencimiento -->
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
-                        <label for="noCuenta" class="form-label">No. de Cuenta</label>
+                        <label for="noCuenta" class="form-label">No. de Tarjeta</label>
                         <input type="text" name="noCuenta" id="noCuenta" class="form-control" placeholder="No. de Cuenta" oninput="this.value = this.value.toUpperCase()">
                     </div>
                     <div class="col-md-6">
@@ -197,6 +197,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const autorizacionSelect = document.getElementById('autorizar');
     const autorizacionHidden = document.getElementById('autorizacion_hidden');
     const beneficiarioSelect = document.getElementById('beneficiario');
+    const noCuentaInput = document.getElementById('noCuenta');
+    beneficiarioSelect.addEventListener('change', function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const tarjeta = selectedOption.dataset.tarjeta || '';
+
+        if (tarjeta) {
+            noCuentaInput.value = tarjeta;
+            noCuentaInput.disabled = true;
+        } else {
+            noCuentaInput.value = '';
+            noCuentaInput.disabled = false;
+        }
+    });
+
 
     // --- 2. FUNCIONES DE CARGA AJAX (Genérica) ---
     
@@ -223,6 +237,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         const { value, text } = mapFunc(item);
                         option.value = value;
                         option.textContent = text;
+
+                        // Guardar tarjeta en el option si existe
+                        if (item.tarjeta_clara) {
+                            option.dataset.tarjeta = item.tarjeta_clara;
+                        }
+
                         selectElement.appendChild(option);
                     });
                 }
@@ -241,8 +261,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // 3.1 Beneficiarios
     cargarOpciones('TCL_controller/get_beneficiarios.php', beneficiarioSelect, 'Selecciona un Beneficiario', (item) => ({
         value: item.id,
-        text: item.nombre
+        text: item.nombre,
+        tarjeta: item.tarjeta_clara
     }));
+
 
     // 3.2 Sucursales
     cargarOpciones('TCL_controller/get_sucursales.php', sucursalSelect, 'Selecciona una Sucursal', (item) => ({
@@ -270,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // --- 4. LOGICA DE NEGOCIO (Autorización y Bloqueos) ---
-    function updateAutorizacion() {
+    /*function updateAutorizacion() {
         if (!departamentoSelect || !autorizacionSelect || !autorizacionHidden) return; 
         
         // Verificamos si hay algo seleccionado
@@ -299,7 +321,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cambio manual en autorización
     autorizacionSelect.addEventListener('change', function() {
         autorizacionHidden.value = this.value;
-    });
+    });*/
 
     // Envío del formulario
     if (miFormulario) {

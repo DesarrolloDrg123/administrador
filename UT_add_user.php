@@ -32,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
     $sucursal = $_POST['sucursal'];
     $jefe = $_POST['jefe'];
     $estatus = '1';
+    $tarjeta_clara = $_POST['tarjeta_clara'] ?? '';
 
     // Validación de contraseñas
     if ($password !== $repetir_password) {
@@ -41,12 +42,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
         // Uso de Sentencias Preparadas (más seguro)
-        $sql = "INSERT INTO usuarios (nombre, email, password, rol, num_empleado, departamento, fecha_ingreso, puesto, estatus, sucursal, jefe_directo) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO usuarios (nombre, email, password, rol, num_empleado, departamento, fecha_ingreso, puesto, estatus, sucursal, jefe_directo, tarjeta_clara) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         $stmt = $conn->prepare($sql);
         // 'ssssisssiii' define los tipos de datos: s=string, i=integer
-        $stmt->bind_param('ssssisssiii', $nombre, $email, $passwordHash, $rol, $noempleado, $departamento, $fechaingreso, $puesto, $estatus, $sucursal, $jefe);
+        $stmt->bind_param('ssssisssiiii', $nombre, $email, $passwordHash, $rol, $noempleado, $departamento, $fechaingreso, $puesto, $estatus, $sucursal, $jefe, $tarjeta_clara);
 
         if ($stmt->execute()) {
             $message = "Nuevo Registro Agregado Correctamente";
@@ -157,6 +158,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
                                         <option value="<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['nombre']) ?></option>
                                     <?php endwhile; ?>
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="tarjeta" class="form-label">Numero de tarjeta:</label>
+                                <input type="text" id="tarjeta" name="tarjeta" class="form-control" >
                             </div>
                         </div>
 
