@@ -455,11 +455,9 @@ if (isset($_GET['msg'])) {
                             <td>
                                 <?php if ($filas['estado'] != 'Cancelada'): ?>
                                     <button 
-                                        class="btn btn-danger btn-sm"
-                                        onclick="cancelarTransferencia(
-                                            '<?= htmlspecialchars($filas['folio']) ?>',
-                                            <?= json_encode($filas['motivo']) ?>
-                                        )">
+                                        class="btn btn-danger btn-sm btn-cancelar"
+                                        data-folio="<?= htmlspecialchars($filas['folio']) ?>"
+                                        data-motivo="<?= htmlspecialchars($filas['motivo'] ?? '', ENT_QUOTES) ?>">
                                         <i class="fas fa-times-circle"></i> Cancelar
                                     </button>
                                 <?php else: ?>
@@ -559,12 +557,16 @@ if (isset($_GET['msg'])) {
             }
         });
     });
-function cancelarTransferencia(folio, motivoActual) {
+    
+$(document).on('click', '.btn-cancelar', function() {
+    const folio = $(this).data('folio');
+    const motivoActual = $(this).data('motivo');
+
     Swal.fire({
         title: 'Cancelar transferencia',
         text: 'Por favor, escribe el motivo de la cancelación:',
         input: 'textarea',
-        inputValue: motivoActual || '',   // 👈 Aquí cargamos el texto
+        inputValue: motivoActual || '',
         inputPlaceholder: 'Ej. Error en el monto, solicitud duplicada, etc.',
         inputValidator: (value) => {
             if (!value) return 'Debes escribir un motivo';
@@ -593,7 +595,8 @@ function cancelarTransferencia(folio, motivoActual) {
             });
         }
     });
-}
+});
+
 
 </script>
 
