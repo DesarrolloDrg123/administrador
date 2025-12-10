@@ -454,11 +454,9 @@ if (isset($_GET['msg'])) {
                             </td>
                             <td>
                                 <?php if ($filas['estado'] != 'Cancelada'): ?>
-                                    <button class="btn btn-danger btn-sm"
-                                        onclick="cancelarTransferencia(
-                                            '<?= htmlspecialchars($filas['folio']) ?>',
-                                            <?= json_encode($filas['motivo'] ?? '') ?>
-                                        )">
+                                    <button 
+                                        class="btn btn-danger btn-sm"
+                                        onclick="cancelarTransferencia('<?= htmlspecialchars($filas['folio']) ?>')">
                                         <i class="fas fa-times-circle"></i> Cancelar
                                     </button>
                                 <?php else: ?>
@@ -558,20 +556,14 @@ if (isset($_GET['msg'])) {
             }
         });
     });
-function cancelarTransferencia(folio, motivoBD = '') {
+function cancelarTransferencia(folio) {
     Swal.fire({
         title: 'Cancelar transferencia',
         text: 'Por favor, escribe el motivo de la cancelación:',
         input: 'textarea',
         inputPlaceholder: 'Ej. Error en el monto, solicitud duplicada, etc.',
-        inputValue: motivoBD,
-        inputAttributes: {
-            'aria-label': 'Motivo de cancelación'
-        },
         inputValidator: (value) => {
-            if (!value) {
-                return 'Debes escribir un motivo';
-            }
+            if (!value) return 'Debes escribir un motivo';
         },
         showCancelButton: true,
         confirmButtonColor: '#d33',
@@ -582,46 +574,23 @@ function cancelarTransferencia(folio, motivoBD = '') {
         if (result.isConfirmed) {
             const motivo = result.value;
 
-            Swal.fire({
-                title: 'Procesando...',
-                text: 'Cancelando transferencia',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
             $.ajax({
                 url: 'TCL_controller/cancelar_transferencia.php',
                 type: 'POST',
-                data: { 
-                    folio: folio,
-                    motivo: motivo
-                },
+                data: { folio: folio, motivo: motivo },
                 success: function(resp) {
                     if (resp.trim() === 'success') {
-                        Swal.fire(
-                            'Cancelada',
-                            'La transferencia fue cancelada correctamente.',
-                            'success'
-                        ).then(() => {
-                            location.reload();
-                        });
+                        Swal.fire('Cancelada', 'La transferencia fue cancelada.', 'success')
+                            .then(() => location.reload());
                     } else {
                         Swal.fire('Error', resp, 'error');
                     }
-                },
-                error: function() {
-                    Swal.fire(
-                        'Error',
-                        'No se pudo contactar al servidor.',
-                        'error'
-                    );
                 }
             });
         }
     });
 }
+
 
 
 </script>
