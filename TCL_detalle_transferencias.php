@@ -517,6 +517,70 @@ function confirmarReset() {
     });
 }
 
+
+// --- Lógica de Manejo de Formularios Dinámicos y Mensajes ---
+
+// Inicialización de campos de archivo dinámicos
+document.addEventListener('DOMContentLoaded', function() {
+    // Función auxiliar para agregar dinámicamente el bloque de HTML
+    function agregarBloqueHTML() {
+        const fileSection = document.querySelector('.nuevosCampos');
+        const folio = "<?php echo htmlspecialchars($solicitud['folio']); ?>";
+        
+        // Verificar si ya existen campos vacíos (al menos uno de los inputs sin archivo)
+        const existingInputs = fileSection.querySelectorAll('input[type="file"]');
+        let hasEmptyPair = false;
+
+        // Itera sobre los inputs de dos en dos (PDF y XML)
+        for (let i = 0; i < existingInputs.length; i += 2) {
+            const pdfInput = existingInputs[i];
+            const xmlInput = existingInputs[i + 1];
+            
+            // Si una pareja existe y tiene al menos un campo vacío, no agregamos más.
+            if (pdfInput && xmlInput && (pdfInput.files.length === 0 || xmlInput.files.length === 0)) {
+                hasEmptyPair = true;
+                break;
+            }
+        }
+        
+        // Si no hay una pareja vacía, crea una nueva
+        if (fileSection.children.length === 0 || !hasEmptyPair) {
+            const div = document.createElement('div');
+            div.classList.add('row', 'mb-3', 'g-2'); // Uso de row y g-2 para espaciado en Bootstrap
+            
+            div.innerHTML = `
+                <div class="col-md-6">
+                    <input type="file" name="file_pdf[]" class="form-control" accept=".pdf" />
+                </div>
+                <div class="col-md-6">
+                    <input type="file" name="file_xml[]" class="form-control" accept=".xml" />
+                    <input type="hidden" name="ordenCompra[]" value="${folio}">
+                </div>
+            `;
+            
+            fileSection.appendChild(div);
+
+            // Escuchar el evento change en los nuevos campos de archivo para agregar el siguiente bloque
+            const newFileInputs = div.querySelectorAll('input[type="file"]');
+            let bloqueCreado = false;
+            newFileInputs.forEach(function(input) {
+                input.addEventListener('change', function () {
+                    const pdfInput = div.querySelector('input[name="file_pdf[]"]');
+                    const xmlInput = div.querySelector('input[name="file_xml[]"]');
+
+                    if (!bloqueCreado && pdfInput.files.length > 0 && xmlInput.files.length > 0) {
+                        bloqueCreado = true;
+                        agregarBloqueHTML();
+                    }
+                });
+            });
+        }
+    }
+
+    // Llama a la función para agregar el bloque de HTML inicial
+    agregarBloqueHTML();
+});
+
 // Ocultar mensajes globales después de 5 segundos
 $(document).ready(function() {
     setTimeout(function() {
@@ -589,6 +653,38 @@ function eliminarComprobante(id) {
         }
     });
 }
+
+$(document).on('click', '#btnAgregarFila', function () {
+    let fila = `
+    <div class="row g-2 align-items-end comprobante-row mb-2">
+        <div class="col-md-4">
+            <select name="tipo_comprobante[]" class="form-control" required>
+                <option value="">Selecciona</option>
+                <option value="No comprobable">No comprobable</option>
+                <option value="Transferencia">Transferencia</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" name="importe_comprobante[]" class="form-control" step="0.01" min="0.01" required>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <input type="file" name="archivo_comprobante[]" class="form-control" required>
+        </div>
+
+        <div class="col-md-1 text-center">
+            <button type="button" class="btn btn-outline-danger btn-sm btn-eliminar-fila">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    </div>`;
+    
+    $('#lista-comprobantes').append(fila);
+});
 
 $(document).on('click', '.btn-eliminar-fila', function () {
     $(this).closest('.comprobante-row').remove();
