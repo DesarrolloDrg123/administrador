@@ -11,29 +11,34 @@ if (isset($_POST['submit_comprobantes'])) {
         return;
     }
 
-    if (!isset($_FILES['archivo_comprobante'])) {
-        $GLOBALS["mensaje_global"] = '<div class="alert alert-danger">No se recibieron archivos.</div>';
+    // === Validar datos
+    if (
+        !isset($_POST['tipo_comprobante']) ||
+        !isset($_POST['importe_comprobante'])
+    ) {
+        $GLOBALS["mensaje_global"] = '<div class="alert alert-danger">Faltan datos.</div>';
         return;
     }
 
-    if (!isset($_POST['tipo_comprobante']) || 
-        !isset($_POST['importe_comprobante'])) {
-
-        $GLOBALS["mensaje_global"] = '<div class="alert alert-danger">Error: Faltan datos.</div>';
-        return;
-    }
-
-    // === Datos
     $tipo    = trim($_POST['tipo_comprobante']);
     $importe = floatval($_POST['importe_comprobante']);
-    $archivos = $_FILES['archivo_comprobante'];
 
     if (empty($tipo) || $importe <= 0) {
         $GLOBALS["mensaje_global"] = '<div class="alert alert-danger">Tipo o importe inválidos.</div>';
         return;
     }
 
+    // === Archivos
+    $archivos = $_FILES['archivos_zip'] ?? null;
+
+    if (!$archivos || empty($archivos['name'][0])) {
+        $GLOBALS["mensaje_global"] = '<div class="alert alert-danger">No se recibieron archivos.</div>';
+        return;
+    }
+
+    // === Crear carpeta
     $target_dir = "uploads/comprobantes/" . $folio . "/";
+
     if (!is_dir($target_dir)) {
         mkdir($target_dir, 0777, true);
     }
@@ -44,10 +49,11 @@ if (isset($_POST['submit_comprobantes'])) {
 
     $zip = new ZipArchive();
     if ($zip->open($zip_path, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE) {
-        $GLOBALS["mensaje_global"] = '<div class="alert alert-danger">No se pudo crear el ZIP.</div>';
+        $GLOBALS["mensaje_global"] = '<div class="alert alert-danger">No se pudo crear el archivo ZIP.</div>';
         return;
     }
 
+    // === Agregar archivos al ZIP
     foreach ($archivos['tmp_name'] as $key => $tmp_name) {
         if ($archivos['error'][$key] === UPLOAD_ERR_OK) {
             $original_name = basename($archivos['name'][$key]);
@@ -57,16 +63,16 @@ if (isset($_POST['submit_comprobantes'])) {
 
     $zip->close();
 
-    // === Guardar en BD la ruta del ZIP
+    // === Guardar en BD
     $sql = "INSERT INTO comprobantes_tcl 
-            (folio, tipo_comprobante, importe, evidencia, fecha) 
-            VALUES (?, ?, ?, ?, NOW())";
+        (folio, tipo_comprobante, importe, evidencia, fecha) 
+        VALUES (?, ?, ?, ?, NOW())";
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssds", $folio, $tipo, $importe, $zip_path);
 
     if (!$stmt->execute()) {
-        error_log("Error al insertar comprobante ZIP: " . $stmt->error);
+        error_log("Error al insertar comprobante: " . $stmt->error);
     }
 
     $stmt->close();
