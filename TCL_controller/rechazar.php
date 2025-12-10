@@ -128,12 +128,26 @@ try {
         $mail->CharSet = 'UTF-8';
     
         $mail->setFrom('administrador@intranetdrg.com.mx', 'Sistema de Transferencias');
+        $destinatarios = [];
         if (!empty($info_para_correo['email_solicitante'])) {
-            $mail->addAddress($info_para_correo['email_solicitante']);
+            $destinatarios[] = $info_para_correo['email_solicitante'];
         }
+
         if (!empty($info_para_correo['email_beneficiario'])) {
-            $mail->addAddress($info_para_correo['email_beneficiario']);
+            $destinatarios[] = $info_para_correo['email_beneficiario'];
         }
+
+        // Elimina duplicados por si son iguales
+        $destinatarios = array_unique($destinatarios);
+
+        // Limpia destinatarios previos (por seguridad)
+        $mail->clearAddresses();
+
+        // Agrega todos los correos
+        foreach ($destinatarios as $correo) {
+            $mail->addAddress($correo);
+        }
+
 
         
     
