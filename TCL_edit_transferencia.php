@@ -289,35 +289,42 @@ h2.section-title {
                             </tr>
                         </thead>
                         <tbody>
-
-                            <?php foreach ($comprobantes_array as $c): ?>
-                            <tr>
-                                <td>
-                                    <span class="badge bg-success">
-                                        <?= htmlspecialchars($c['tipo_comprobante'] ?? 'Comprobante') ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <?= htmlspecialchars($c['fecha'] ?? 'N/A') ?>
-                                </td>
-                                <td>N/A</td>
-                                <td>
-                                    <?= format_currency($c['importe'], $moneda_simbolo) ?>
-                                </td>
-                                <td>
-                                    <a href="TCL_controller/download_comprobante.php?id=<?= (int)$c['id'] ?>" target="_blank">
-                                        <i class="fas fa-file-archive"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-
+                        <!-- FACTURAS -->
+                        <?php foreach ($facturas_array as $f): ?>
+                        <tr>
+                            <td><span class="badge bg-primary">Factura</span></td>
+                            <td><?= htmlspecialchars($f['FECHA_FACTURA'] ?? 'N/A') ?></td>
+                            <td><?= htmlspecialchars($f['UUID']) ?></td>
+                            <td><?= format_currency($f['TOTAL'], $moneda_simbolo) ?></td>
+                            <td>
+                                <a href="view_pdf.php?RFC=<?= $f['RFC_EMISOR'] ?>&UUID=<?= $f['UUID'] ?>" target="_blank">
+                                    <i class="fas fa-file-invoice"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <!-- COMPROBANTES -->
+                        <?php foreach ($comprobantes_array as $c): ?>
+                        <tr>
+                            <td>
+                                <span class="badge bg-success">
+                                    <?= htmlspecialchars($c['tipo_comprobante'] ?? 'Comprobante') ?>
+                                </span>
+                            </td>
+                            <td><?= htmlspecialchars($c['fecha'] ?? 'N/A') ?></td>
+                            <td>N/A</td>
+                            <td><?= format_currency($c['importe'], $moneda_simbolo) ?></td>
+                            <td>
+                                <a href="TCL_controller/download_comprobante.php?id=<?= (int)$c['id'] ?>" target="_blank">
+                                    <i class="fas fa-file-archive"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
-
-
         </div>
         <?php endif; ?>
     </div>
