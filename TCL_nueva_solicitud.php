@@ -202,13 +202,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedOption = this.options[this.selectedIndex];
         const tarjeta = selectedOption.dataset.tarjeta || '';
 
-        if (tarjeta) {
-            noCuentaInput.value = tarjeta;
-            noCuentaInput.disabled = true;
-        } else {
-            noCuentaInput.value = '';
-            noCuentaInput.disabled = false;
-        }
+        noCuentaInput.value = tarjeta;
+        noCuentaInput.disabled = true;
     });
 
 
