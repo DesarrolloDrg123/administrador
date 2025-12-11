@@ -475,12 +475,12 @@ if (isset($_GET['msg'])) {
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <?php if ($filas['estado'] == 'Pagado' && $total_comprobado == 0) : ?>
+                                <?php if ($filas['estado'] == 'Pagado' && $total_comprobado == 0 || $filas['estado'] == 'Subido a Pago') : ?>
                                     <button class="btn btn-warning btn-sm"
                                         onclick="solicitarCancelacion('<?= htmlspecialchars($filas['folio']) ?>')">
                                         Solicitar cancelación
                                     </button>
-                                <?php elseif ($filas['estado'] == 'Pendiente' || $filas['estado'] == 'Aprobado' || $filas['estado'] == 'Cancelada') : ?>
+                                <?php elseif ($filas['estado'] == 'Pendiente' || $filas['estado'] == 'Aprobado') : ?>
                                     <button class="btn btn-danger btn-sm"
                                         onclick="cancelarTransferencia('<?= htmlspecialchars($filas['folio']) ?>')">
                                         Cancelar
