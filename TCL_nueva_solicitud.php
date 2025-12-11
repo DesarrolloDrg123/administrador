@@ -202,8 +202,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedOption = this.options[this.selectedIndex];
         const tarjeta = selectedOption.dataset.tarjeta || '';
 
-        noCuentaInput.value = tarjeta;
-        noCuentaInput.disabled = true;
+        if (tarjeta) {
+            noCuentaInput.value = tarjeta;
+            noCuentaInput.readOnly = true;   // 🔥 ESTE CAMBIO
+        } else {
+            noCuentaInput.value = '';
+            noCuentaInput.readOnly = false;  // 🔥 ESTE CAMBIO
+        }
+
     });
 
 

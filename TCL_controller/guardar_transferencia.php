@@ -219,11 +219,13 @@ function MandarCorreo($nombreSolicitante, $folio_formateado,$no_cuenta,$importe,
         <body>
             <div class='container'>
                 <h1>Nueva Solicitud de Transferencia Clara TCL.</h1>
+                
+                <h2>Beneficiario: <strong>{$row['beneficiario']}</strong></h2>
                 <h2>Solicitante: <strong>{$nombreSolicitante}</strong></h2>
+                
                 
                 <div class='info-row'><span class='label'>Folio: </span><span>{$folio_formateado}</span></div>
                 <div class='info-row'><span class='label'>Sucursal: </span><span>{$row['sucursal']}</span></div>
-                <div class='info-row'><span class='label'>Beneficiario: </span><span>{$row['beneficiario']}</span></div>
                 <div class='info-row'><span class='label'>Fecha de Solicitud: </span><span>$fechaSolicitudFormateada</span></div>
                 <div class='info-row'><span class='label'>Fecha de Vencimiento: </span><span>$fechaVencimientoFormateada</span></div>
                 <div class='info-row'><span class='label'>No. de Tarjeta: </span><span>$no_cuenta</span></div>
@@ -236,7 +238,7 @@ function MandarCorreo($nombreSolicitante, $folio_formateado,$no_cuenta,$importe,
                 <div class='info-row'><span class='label'>Descripción: </span><span>$descripcion</span></div>
                 <div class='info-row'><span class='label'>Observaciones: </span><span>$observaciones</span></div>
                 
-                <div class='info-row'><span class='label'>Autoriza Pendiente: </span><span>{$row['usuario_autoriza']}</span></div>
+                <div class='info-row'><span class='label'>Autorización Pendiente: </span><span>{$row['usuario_autoriza']}</span></div>
                 <h1>Autorizar Transferencia en el Portal.</h1>
             </div>
         </body>
