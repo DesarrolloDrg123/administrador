@@ -95,12 +95,12 @@ try {
         $fechaSolicitudFormateada = $fechaSolicitud->format('d/m/Y');
 
         $mail->isHTML(true);
-        $mail->Subject = 'Transferencia Clara Pagada';
+        $mail->Subject = 'Deposito en Clara Procesado';
 
         $mail->Body = "
         <html>
         <body style='font-family: Arial, sans-serif;'>
-            <h2>Transferencia Electrónica Pagada</h2>
+            <h2>Deposito en Clara Procesado</h2>
             <p><strong>Solicitante:</strong> {$info['nombre_solicitante']}</p>
             <p><strong>Sucursal:</strong> {$info['sucursal']}</p>
             <p><strong>Beneficiario:</strong> {$info['beneficiario']}</p>

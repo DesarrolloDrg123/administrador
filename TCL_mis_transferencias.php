@@ -420,8 +420,16 @@ if (isset($_GET['msg'])) {
                         $pendiente = $importe_transferencia - $total_comprobado;
 
                         // ✅ Si es beneficiario Y ya no tiene nada pendiente, NO mostrarlo
-                        if ($soy_beneficiario && $filas['estado'] == 'Pagado' && $pendiente <= 0) {
-                            continue;
+                        if ($soy_beneficiario) {
+                            // Ocultar TODO lo que NO esté pagado
+                            if ($filas['estado'] != 'Pagado') {
+                                continue;
+                            }
+
+                            // Ocultar pagados que ya no tienen nada pendiente
+                            if ($pendiente <= 0) {
+                                continue;
+                            }
                         }
                         ?>
                         <tr class="text-center align-middle">
@@ -475,17 +483,23 @@ if (isset($_GET['msg'])) {
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <?php if ($filas['estado'] == 'Pagado' && $total_comprobado == 0 || $filas['estado'] == 'Subido a Pago') : ?>
+                            <?php if (!$soy_beneficiario): ?>
+
+                                <?php if (($filas['estado'] == 'Pagado' && $total_comprobado == 0) || $filas['estado'] == 'Subido a Pago') : ?>
                                     <button class="btn btn-warning btn-sm"
                                         onclick="solicitarCancelacion('<?= htmlspecialchars($filas['folio']) ?>')">
                                         Solicitar cancelación
                                     </button>
+
                                 <?php elseif ($filas['estado'] == 'Pendiente' || $filas['estado'] == 'Aprobado') : ?>
                                     <button class="btn btn-danger btn-sm"
                                         onclick="cancelarTransferencia('<?= htmlspecialchars($filas['folio']) ?>')">
                                         Cancelar
                                     </button>
                                 <?php endif; ?>
+
+                            <?php endif; ?>
+
                             </td>
                         </tr>
                     <?php
