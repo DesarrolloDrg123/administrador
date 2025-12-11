@@ -316,12 +316,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cambio en departamento afecta autorización
     departamentoSelect.addEventListener('change', function() {
         updateAutorizacion(); 
-    });
+    });*/
     
     // Cambio manual en autorización
     autorizacionSelect.addEventListener('change', function() {
         autorizacionHidden.value = this.value;
-    });*/
+    });
 
     // Envío del formulario
     if (miFormulario) {
