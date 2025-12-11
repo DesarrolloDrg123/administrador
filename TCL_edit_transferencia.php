@@ -144,7 +144,7 @@ $total_comprobado = (float)$total_facturas + (float)$total_comprobantes;
 $pendiente = $importe_transferencia - $total_comprobado;
 
 // F. Consulta para obtener los comprobantes detallados (para la tabla)
-$sql_comprobantes = "SELECT id, importe, descripcion, evidencia FROM comprobantes_tcl WHERE folio = ?";
+$sql_comprobantes = "SELECT id, importe, descripcion, evidencia, fecha FROM comprobantes_tcl WHERE folio = ?";
 $stmt_comp = $conn->prepare($sql_comprobantes);
 if ($stmt_comp) {
     $stmt_comp->bind_param('s', $folio);
