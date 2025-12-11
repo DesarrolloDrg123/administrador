@@ -95,7 +95,7 @@ try {
         $fechaSolicitudFormateada = $fechaSolicitud->format('d/m/Y');
 
         $mail->isHTML(true);
-        $mail->Subject = 'Transferencia Electrónica Pagada';
+        $mail->Subject = 'Transferencia Clara Pagada';
 
         $mail->Body = "
         <html>

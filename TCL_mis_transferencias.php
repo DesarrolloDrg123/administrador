@@ -38,7 +38,7 @@ if (isset($_GET['msg'])) {
     }
 
     .container {
-        max-width: 1200px;
+        max-width: auto;
         margin-top: 30px;
     }
 

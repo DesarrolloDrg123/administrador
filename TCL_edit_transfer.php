@@ -192,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
-                        <label for="noCuenta" class="form-label">No. de Cuenta</label>
+                        <label for="noCuenta" class="form-label">No. de Tarjeta</label>
                         <input type="text" name="noCuenta" id="noCuenta" class="form-control" value="<?php echo htmlspecialchars($solicitud['no_cuenta']); ?>">
                     </div>
                     <div class="col-md-6">
