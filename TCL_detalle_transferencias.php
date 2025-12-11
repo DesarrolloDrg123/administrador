@@ -6,13 +6,13 @@ require("config/db.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['submit_facturas'])) {
         include_once('TCL_controller/upload_files.php');
-        header("Location: TCL_detalles_transfer.php?id=".$_GET['id']."&MT=".$MTParam."&AT=".$ATParam);
+        header("Location: TCL_detalles_transfer.php?id=".$_GET['id']."&MT=true");
         exit();
     }
 
     if (isset($_POST['submit_comprobantes'])) {
         include_once('TCL_controller/upload_comprobantes.php');
-        header("Location: TCL_detalles_transfer.php?id=".$_GET['id']."&MT=".$MTParam."&AT=".$ATParam);
+        header("Location: TCL_detalles_transfer.php?id=".$_GET['id']."&MT=true");
         exit();
     }
 }
