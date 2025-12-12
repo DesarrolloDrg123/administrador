@@ -132,121 +132,83 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
         display: none !important;
     }
     </style>
-<style>
-/* SIDEBAR LATERAL */
-.sidebar {
-    width: 250px;
-    height: 100vh;
-    position: fixed;
-    left: 0;
-    top: 0;
-    background: #343a40;
-    padding-top: 20px;
-    overflow-y: auto;
-}
-
-.sidebar .nav-link {
-    color: #fff;
-    padding: 10px 20px;
-}
-
-.sidebar .nav-link:hover {
-    background: #495057;
-    color: #fff;
-}
-
-.sidebar .dropdown-menu {
-    background: #343a40;
-    border: none;
-}
-
-.sidebar .dropdown-item {
-    color: #fff;
-}
-
-.sidebar .dropdown-item:hover {
-    background: #495057;
-    color: #fff;
-}
-
-/* Contenido movido para no quedar debajo del menú */
-.content-wrapper {
-    margin-left: 260px;
-    padding: 20px;
-}
-</style>
-
 </head>
 
 <body>
     <header>
         <!-- Barra de navegacion -->
-        <div class="sidebar">
-            <div class="text-center mb-4">
-                <img src="../img/logo-drg.png" width="150">
-            </div>
-
-            <ul class="nav flex-column">
-
-                <!-- INICIO -->
-                <li class="nav-item">
-                    <a class="nav-link" href="inicio.php">
-                        <i class="fas fa-home"></i> Inicio
-                    </a>
-                </li>
-
-                <!-- MENÚ DINÁMICO POR PERMISOS -->
-                <?php 
-                if (!empty($_SESSION['permisos']) && is_array($_SESSION['permisos'])) {
-                    foreach ($_SESSION['permisos'] as $categoria => $programas) {
-                        ?>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">
+                <img src="../img/logo-drg.png" alt="Logo" width="200" height="90">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) : ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="inicio.php">Inicio</a>
+                            </li>
+            
+                            <?php 
+                            if (!empty($_SESSION['permisos']) && is_array($_SESSION['permisos'])) {
+                                foreach ($_SESSION['permisos'] as $categoria => $programas) {
+                                    ?>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" id="<?php echo htmlspecialchars($categoria); ?>Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <?php echo htmlspecialchars($categoria); ?>
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="<?php echo htmlspecialchars($categoria); ?>Dropdown">
+                                            <?php 
+                                            foreach ($programas as $permiso) {
+                                                echo '<li><a class="dropdown-item" href="' . htmlspecialchars($permiso['url']) . '">' . htmlspecialchars($permiso['nombre_programa']) . '</a></li>';
+                                            }
+                                            ?>
+                                        </ul>
+                                    </li>
+                                    <?php
+                                }
+                            } else {
+                                echo '<li><a class="nav-link" href="#">No tienes permisos</a></li>';
+                            }
+                            ?>
+                    <?php endif; ?>
+                </ul>
+                <!-- Mueve el usuario al extremo derecho -->
+                <ul class="navbar-nav ms-auto">
+                        <!-- 🔔 Botón de Notificaciones -->
+                        <!--
                         <li class="nav-item dropdown">
-
-                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#drop_<?php echo $categoria; ?>">
-                                <i class="fas fa-folder"></i> <?php echo htmlspecialchars($categoria); ?>
+                            <a class="nav-link dropdown-toggle" href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-bell"></i> 
+                                <span id="notificacionContador" class="badge bg-danger"></span>
                             </a>
-
-                            <div class="collapse" id="drop_<?php echo $categoria; ?>">
-                                <ul class="nav flex-column ms-3">
-                                    <?php foreach ($programas as $permiso): ?>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="<?= htmlspecialchars($permiso['url']) ?>">
-                                                - <?= htmlspecialchars($permiso['nombre_programa']) ?>
-                                            </a>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown" id="notificacionesDropdownContent">
+                                <p class="dropdown-item text-muted">Cargando...</p>
                             </div>
-
+                        </li> 
+                        -->
+                    
+                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) : ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-user"></i> <?php echo htmlspecialchars($_SESSION['nombre']); ?>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="logout.php">
+                                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                                </a>
+                            </div>
                         </li>
-                        <?php
-                    }
-                } else {
-                    echo '<li class="nav-item"><a class="nav-link">Sin permisos</a></li>';
-                }
-                ?>
-
-                <hr class="bg-light">
-
-                <!-- USUARIO -->
-                <li class="nav-item dropdown mt-3">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#userMenu">
-                        <i class="fa fa-user"></i> <?= htmlspecialchars($_SESSION['nombre']) ?>
-                    </a>
-
-                    <div class="collapse" id="userMenu">
-                        <ul class="nav flex-column ms-3">
-                            <li><a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-            </ul>
-        </div>
-
-<!-- CONTENIDO GENERAL -->
-<div class="content-wrapper">
-
+                    <?php else : ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.php">Iniciar Sesión</a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </nav>
     </header>
 <!-- Dropdown donde se cargar��n las notificaciones -->
 <div class="dropdown-menu" id="notificacionesDropdownContent">
