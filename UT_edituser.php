@@ -165,6 +165,7 @@ $stmt_user->close();
                              <div class="col-md-6">
                                 <label for="puesto" class="form-label">Puesto:*</label>
                                 <select class="form-select" id="puesto" name="puesto" required>
+                                    <option value="" disabled selected>Selecciona un Puesto</option>
                                     <?php mysqli_data_seek($resultPuestos, 0); // Reiniciar puntero ?>
                                     <?php while ($row = $resultPuestos->fetch_assoc()): ?>
                                         <option value="<?= htmlspecialchars($row['puesto']) ?>" <?= ($user['puesto'] ?? '') == $row['puesto'] ? 'selected' : ''; ?>>
@@ -176,6 +177,7 @@ $stmt_user->close();
                             <div class="col-md-6">
                                 <label for="sucursal" class="form-label">Sucursal:*</label>
                                 <select class="form-select" id="sucursal" name="sucursal" required>
+                                    <option value="" disabled selected>Selecciona una Sucursal</option>
                                     <?php mysqli_data_seek($resultSucu, 0); // Reiniciar puntero ?>
                                     <?php while ($row = $resultSucu->fetch_assoc()): ?>
                                         <option value="<?= htmlspecialchars($row['id']) ?>" <?= ($user['sucursal'] ?? '') == $row['id'] ? 'selected' : ''; ?>>
@@ -190,6 +192,7 @@ $stmt_user->close();
                             <div class="col-md-6">
                                 <label for="jefe" class="form-label">Jefe Directo:*</label>
                                 <select class="form-select" id="jefe" name="jefe" required>
+                                    <option value="" disabled selected>Selecciona un Jefe</option>
                                     <?php mysqli_data_seek($resultJefes, 0); // Reiniciar puntero ?>
                                     <?php while ($row = $resultJefes->fetch_assoc()): ?>
                                         <option value="<?= htmlspecialchars($row['id']) ?>" <?= ($user['jefe_directo'] ?? '') == $row['id'] ? 'selected' : ''; ?>>
