@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
 
         // Uso de Sentencias Preparadas (más seguro)
         $sql = "INSERT INTO usuarios (nombre, email, password, num_empleado, departamento, fecha_ingreso, puesto, estatus, sucursal, jefe_directo, tarjeta_clara) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         $stmt = $conn->prepare($sql);
         // 'ssssisssiii' define los tipos de datos: s=string, i=integer
