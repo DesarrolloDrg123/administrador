@@ -132,7 +132,7 @@ if (isset($_GET['msg'])) {
         
         // Filtros
         $where = [];
-        $where[] = "t.estado IN ('Subido a Pago', 'Pendiente', 'Aprobado', 'Subido a Pago', 'Pagado', 'Cancelacion Solicitada')";
+        $where[] = "t.estado IN ('Subido a Pago', 'Pendiente', 'Aprobado', 'Subido a Pago', 'Cancelacion Solicitada')";
         $where[] = "NOT EXISTS (
             SELECT 1 
             FROM comprobantes_tcl c 
