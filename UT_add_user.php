@@ -41,6 +41,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
         // Hash de la contraseña
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
+        $stmtCorreo = $conn->prepare("SELECT 1 FROM usuarios WHERE email = ?");
+        $stmtCorreo->bind_param("s", $email);
+        $stmtCorreo->execute();
+        $stmtCorreo->store_result();
+
+        if ($stmtCorreo->num_rows > 0) {
+            $message = "El correo electrónico ya está registrado.";
+            exit();
+        }
+        $stmtCorreo->close();
+
+        $stmtEmpleado = $conn->prepare("SELECT 1 FROM usuarios WHERE num_empleado = ?");
+        $stmtEmpleado->bind_param("i", $noempleado);
+        $stmtEmpleado->execute();
+        $stmtEmpleado->store_result();
+
+        if ($stmtEmpleado->num_rows > 0) {
+            $message = "El número de empleado ya está registrado.";
+            exit();
+        }
+        $stmtEmpleado->close();
+
         // Uso de Sentencias Preparadas (más seguro)
         $sql = "INSERT INTO usuarios (nombre, email, password, num_empleado, departamento, fecha_ingreso, puesto, estatus, sucursal, jefe_directo, tarjeta_clara) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
