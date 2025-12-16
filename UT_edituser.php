@@ -52,63 +52,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
 
         if ($stmtCorreo->num_rows > 0) {
             $message = "El correo electrónico ya está registrado.";
-            exit();
-        }
-        $stmtCorreo->close();
-
-        $stmtEmpleado = $conn->prepare("SELECT 1 FROM usuarios WHERE num_empleado = ?");
-        $stmtEmpleado->bind_param("i", $no_empleado);
-        $stmtEmpleado->execute();
-        $stmtEmpleado->store_result();
-
-        if ($stmtEmpleado->num_rows > 0) {
-            $message = "El número de empleado ya está registrado.";
-            exit();
-        }
-        $stmtEmpleado->close();
-
-        // CORRECCIÓN: Reordenamos los campos para que coincidan con los tipos
-        $fields = [
-            // --- Campos de tipo String (s) ---
-            'nombre' => $nombre, 
-            'email' => $email, 
-            //'rol' => $rol, 
-            'departamento' => $departamento, 
-            'puesto' => $puesto,
-            'fecha_ingreso' => $fechaingreso,
-            // --- Campos de tipo Integer (i) ---
-            'num_empleado' => $no_empleado,
-            'sucursal' => $sucursal, 
-            'jefe_directo' => $jefe,
-            'estatus' => $estatus,
-            'tarjeta_clara' => $tarjeta_clara
-        ];
-        // CORRECCIÓN: La cadena de tipos ahora corresponde al nuevo orden
-        $types = 'sssssiiiii';
-
-        if (!empty($password)) {
-            $fields['password'] = password_hash($password, PASSWORD_DEFAULT);
-            $types .= 's';
-        }
-
-        $set_clause = [];
-        foreach ($fields as $key => $value) {
-            $set_clause[] = "$key = ?";
-        }
-        $sql = "UPDATE usuarios SET " . implode(', ', $set_clause) . " WHERE id = ?";
-        $types .= 'i';
-        $params = array_values($fields);
-        $params[] = $userId;
-
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param($types, ...$params);
-
-        if ($stmt->execute()) {
-            $message = "Usuario actualizado correctamente.";
+            $stmtCorreo->close();
         } else {
-            $message = "Error al actualizar el usuario: " . $stmt->error;
+            $stmtEmpleado = $conn->prepare("SELECT 1 FROM usuarios WHERE num_empleado = ?");
+            $stmtEmpleado->bind_param("i", $no_empleado);
+            $stmtEmpleado->execute();
+            $stmtEmpleado->store_result();
+
+            if ($stmtEmpleado->num_rows > 0) {
+                $message = "El número de empleado ya está registrado.";
+                $stmtEmpleado->close();
+
+            } else {
+                // CORRECCIÓN: Reordenamos los campos para que coincidan con los tipos
+                $fields = [
+                    // --- Campos de tipo String (s) ---
+                    'nombre' => $nombre, 
+                    'email' => $email, 
+                    //'rol' => $rol, 
+                    'departamento' => $departamento, 
+                    'puesto' => $puesto,
+                    'fecha_ingreso' => $fechaingreso,
+                    // --- Campos de tipo Integer (i) ---
+                    'num_empleado' => $no_empleado,
+                    'sucursal' => $sucursal, 
+                    'jefe_directo' => $jefe,
+                    'estatus' => $estatus,
+                    'tarjeta_clara' => $tarjeta_clara
+                ];
+                // CORRECCIÓN: La cadena de tipos ahora corresponde al nuevo orden
+                $types = 'sssssiiiii';
+
+                if (!empty($password)) {
+                    $fields['password'] = password_hash($password, PASSWORD_DEFAULT);
+                    $types .= 's';
+                }
+
+                $set_clause = [];
+                foreach ($fields as $key => $value) {
+                    $set_clause[] = "$key = ?";
+                }
+                $sql = "UPDATE usuarios SET " . implode(', ', $set_clause) . " WHERE id = ?";
+                $types .= 'i';
+                $params = array_values($fields);
+                $params[] = $userId;
+
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param($types, ...$params);
+
+                if ($stmt->execute()) {
+                    $message = "Usuario actualizado correctamente.";
+                } else {
+                    $message = "Error al actualizar el usuario: " . $stmt->error;
+                }
+                $stmt->close();
+            }
         }
-        $stmt->close();
     }
 }
 

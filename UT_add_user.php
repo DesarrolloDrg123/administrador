@@ -48,35 +48,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
 
         if ($stmtCorreo->num_rows > 0) {
             $message = "El correo electrónico ya está registrado.";
-            exit();
+        } else {
+            $stmtEmpleado = $conn->prepare("SELECT 1 FROM usuarios WHERE num_empleado = ?");
+            $stmtEmpleado->bind_param("i", $noempleado);
+            $stmtEmpleado->execute();
+            $stmtEmpleado->store_result();
+
+            if ($stmtEmpleado->num_rows > 0) {
+                $message = "El número de empleado ya está registrado.";
+            } else {
+                 // Uso de Sentencias Preparadas (más seguro)
+                $sql = "INSERT INTO usuarios (nombre, email, password, num_empleado, departamento, fecha_ingreso, puesto, estatus, sucursal, jefe_directo, tarjeta_clara) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                
+                $stmt = $conn->prepare($sql);
+                // 'ssssisssiii' define los tipos de datos: s=string, i=integer
+                $stmt->bind_param('sssisssiiii', $nombre, $email, $passwordHash, $noempleado, $departamento, $fechaingreso, $puesto, $estatus, $sucursal, $jefe, $tarjeta_clara);
+
+                if ($stmt->execute()) {
+                    $message = "Nuevo Registro Agregado Correctamente";
+                } else {
+                    $message = "Error al agregar registro: " . $stmt->error;
+                }
+                $stmt->close();
+            }
+            $stmtEmpleado->close(); 
         }
         $stmtCorreo->close();
-
-        $stmtEmpleado = $conn->prepare("SELECT 1 FROM usuarios WHERE num_empleado = ?");
-        $stmtEmpleado->bind_param("i", $noempleado);
-        $stmtEmpleado->execute();
-        $stmtEmpleado->store_result();
-
-        if ($stmtEmpleado->num_rows > 0) {
-            $message = "El número de empleado ya está registrado.";
-            exit();
-        }
-        $stmtEmpleado->close();
-
-        // Uso de Sentencias Preparadas (más seguro)
-        $sql = "INSERT INTO usuarios (nombre, email, password, num_empleado, departamento, fecha_ingreso, puesto, estatus, sucursal, jefe_directo, tarjeta_clara) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
-        $stmt = $conn->prepare($sql);
-        // 'ssssisssiii' define los tipos de datos: s=string, i=integer
-        $stmt->bind_param('sssisssiiii', $nombre, $email, $passwordHash, $noempleado, $departamento, $fechaingreso, $puesto, $estatus, $sucursal, $jefe, $tarjeta_clara);
-
-        if ($stmt->execute()) {
-            $message = "Nuevo Registro Agregado Correctamente";
-        } else {
-            $message = "Error al agregar registro: " . $stmt->error;
-        }
-        $stmt->close();
     }
 }
 ?>
