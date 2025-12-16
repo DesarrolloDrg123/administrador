@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
     // Recolección de datos
     $nombre = $_POST['nombre'];
     $email = $_POST['email'];
-    $rol = $_POST['rol'];
+    //$rol = $_POST['rol'];
     $departamento = $_POST['departamento'];
     $puesto = $_POST['puesto'];
     $no_empleado = $_POST['noempleado'];
@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
             // --- Campos de tipo String (s) ---
             'nombre' => $nombre, 
             'email' => $email, 
-            'rol' => $rol, 
+            //'rol' => $rol, 
             'departamento' => $departamento, 
             'puesto' => $puesto,
             'fecha_ingreso' => $fechaingreso,
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
             'tarjeta_clara' => $tarjeta_clara
         ];
         // CORRECCIÓN: La cadena de tipos ahora corresponde al nuevo orden
-        $types = 'ssssssiiiii';
+        $types = 'sssssiiiii';
 
         if (!empty($password)) {
             $fields['password'] = password_hash($password, PASSWORD_DEFAULT);
@@ -140,15 +140,15 @@ $stmt_user->close();
                         </div>
                         
                         <div class="row mb-3">
-                            <div class="col-md-6">
+                            <!--<div class="col-md-6">
                                 <label for="rol" class="form-label">Rol:*</label>
                                 <select class="form-select" id="rol" name="rol" required>
-                                    <option value="admin" <?= ($user['rol'] ?? '') == 'admin' ? 'selected' : ''; ?>>Admin</option>
+                                    <option value="admin" <?/* = ($user['rol'] ?? '') == 'admin' ? 'selected' : ''; ?>>Admin</option>
                                     <option value="usuario" <?= ($user['rol'] ?? '') == 'usuario' ? 'selected' : ''; ?>>Usuario</option>
                                     <option value="autorizador" <?= ($user['rol'] ?? '') == 'autorizador' ? 'selected' : ''; ?>>Autorizador</option>
-                                    <option value="cuentas" <?= ($user['rol'] ?? '') == 'cuentas' ? 'selected' : ''; ?>>Cuentas</option>
+                                    <option value="cuentas" <?= ($user['rol'] ?? '') == 'cuentas' ? 'selected' : ''; */?>>Cuentas</option>
                                 </select>
-                            </div>
+                            </div>-->
                             <div class="col-md-6">
                                 <label for="departamento" class="form-label">Departamento:*</label>
                                 <select class="form-select" id="departamento" name="departamento" required>

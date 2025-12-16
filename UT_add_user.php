@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
     $email = $_POST['email'];
     $password = $_POST['contraseña'];
     $repetir_password = $_POST['repetir_contraseña'];
-    $rol = $_POST['rol'];
+    //$rol = $_POST['rol'];
     $departamento = $_POST['departamento'];
     $noempleado = $_POST['noempleado'];
     $puesto = $_POST['puesto'];
@@ -42,12 +42,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
         // Uso de Sentencias Preparadas (más seguro)
-        $sql = "INSERT INTO usuarios (nombre, email, password, rol, num_empleado, departamento, fecha_ingreso, puesto, estatus, sucursal, jefe_directo, tarjeta_clara) 
+        $sql = "INSERT INTO usuarios (nombre, email, password, num_empleado, departamento, fecha_ingreso, puesto, estatus, sucursal, jefe_directo, tarjeta_clara) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         $stmt = $conn->prepare($sql);
         // 'ssssisssiii' define los tipos de datos: s=string, i=integer
-        $stmt->bind_param('ssssisssiiii', $nombre, $email, $passwordHash, $rol, $noempleado, $departamento, $fechaingreso, $puesto, $estatus, $sucursal, $jefe, $tarjeta_clara);
+        $stmt->bind_param('sssisssiiii', $nombre, $email, $passwordHash, $noempleado, $departamento, $fechaingreso, $puesto, $estatus, $sucursal, $jefe, $tarjeta_clara);
 
         if ($stmt->execute()) {
             $message = "Nuevo Registro Agregado Correctamente";
@@ -85,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
                         </div>
 
                         <div class="row mb-3">
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <label for="rol" class="form-label">Rol:*</label>
                                 <select class="form-select" id="rol" name="rol" required>
                                     <option value="" selected disabled>Selecciona un Rol</option>
@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
                                     <option value="autorizador">Autorizador</option>
                                     <option value="cuentas">Cuentas</option>
                                 </select>
-                            </div>
+                            </div> -->
                             <div class="col-md-6">
                                 <label for="departamento" class="form-label">Departamento:*</label>
                                 <select class="form-select" id="departamento" name="departamento" required>
