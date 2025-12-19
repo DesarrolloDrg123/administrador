@@ -61,6 +61,9 @@ $result = $conn->query($sql);
         font-size: 0.9em;
         padding: 0.5em 0.75em;
     }
+    .container {
+        max-width: 1200px;
+    }
 </style>
 
 <div class="container mt-4 mb-5">

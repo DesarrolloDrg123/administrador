@@ -79,6 +79,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param($types, ...$params);
 
+        if($estatus == 2){
+            //borrar permisos cuando se desactiva un usuario
+            $stmt_permiso = $conn->prepare("DELETE FROM permisos WHERE id_usuario = ?");
+            $stmt_permiso->bind_param("i", $userId);
+            $stmt_permiso->execute();
+            $stmt_permiso->close();
+        }
+
         if ($stmt->execute()) {
             $message = "Usuario actualizado correctamente.";
         } else {
