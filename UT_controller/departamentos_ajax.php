@@ -17,58 +17,58 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 $accion = $_POST['accion'] ?? '';
 
 switch ($accion) {
-    // --- CASO: AGREGAR UN NUEVO PUESTO ---
+    // --- CASO: AGREGAR UN NUEVO DEPARTAMENTO ---
     case 'agregar':
-        $puesto = trim($_POST['puesto'] ?? '');
-        if (!empty($puesto)) {
-            $sql = "INSERT INTO puestos (puesto) VALUES (?)";
+        $departamento = trim($_POST['departamento'] ?? '');
+        if (!empty($departamento)) {
+            $sql = "INSERT INTO departamentos (departamento) VALUES (?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("s", $puesto);
+            $stmt->bind_param("s", $departamento);
             if ($stmt->execute()) {
-                $response = ['success' => true, 'message' => 'Puesto agregado correctamente.'];
+                $response = ['success' => true, 'message' => 'Departamento agregado correctamente.'];
             } else {
-                $response['message'] = 'Error al guardar el puesto.';
+                $response['message'] = 'Error al guardar el departamento.';
             }
         } else {
-            $response['message'] = 'El nombre del puesto no puede estar vacío.';
+            $response['message'] = 'El nombre del departamento no puede estar vacío.';
         }
         break;
 
-    // --- CASO: EDITAR UN PUESTO EXISTENTE ---
+    // --- CASO: EDITAR UN DEPARTAMENTO EXISTENTE ---
     case 'editar':
         $id = intval($_POST['id'] ?? 0);
-        $puesto = trim($_POST['puesto'] ?? '');
-        if ($id > 0 && !empty($puesto)) {
-            $sql = "UPDATE puestos SET puesto = ? WHERE id = ?";
+        $departamento = trim($_POST['departamento'] ?? '');
+        if ($id > 0 && !empty($departamento)) {
+            $sql = "UPDATE departamentos SET departamento = ? WHERE id = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("si", $puesto, $id);
+            $stmt->bind_param("si", $departamento, $id);
             if ($stmt->execute()) {
-                $response = ['success' => true, 'message' => 'Puesto actualizado correctamente.'];
+                $response = ['success' => true, 'message' => 'Departamento actualizado correctamente.'];
             } else {
-                $response['message'] = 'Error al actualizar el puesto.';
+                $response['message'] = 'Error al actualizar el departamento.';
             }
         } else {
             $response['message'] = 'Datos inválidos para la actualización.';
         }
         break;
 
-    // --- CASO: ELIMINAR UN PUESTO ---
+    // --- CASO: ELIMINAR UN DEPARTAMENTO ---
     case 'eliminar':
         $id = intval($_POST['id'] ?? 0);
         if ($id > 0) {
-            $sql = "DELETE FROM puestos WHERE id = ?";
+            $sql = "DELETE FROM departamentos WHERE id = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $id);
             if ($stmt->execute()) {
-                $response = ['success' => true, 'message' => 'El puesto ha sido eliminado.'];
+                $response = ['success' => true, 'message' => 'El departamento ha sido eliminado.'];
             } else {
-                // Manejar error de llave foránea (si el puesto está en uso)
+                // Manejar error de llave foránea (si el departamento está en uso)
                 $response['message'] = ($conn->errno == 1451) 
                     ? 'Error: No se puede eliminar porque está asignado a usuarios.' 
-                    : 'Error al eliminar el puesto.';
+                    : 'Error al eliminar el departamento.';
             }
         } else {
-            $response['message'] = 'ID de puesto no válido.';
+            $response['message'] = 'ID de departamento no válido.';
         }
         break;
 }
