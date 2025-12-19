@@ -105,22 +105,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
                         </div>
 
                         <div class="row mb-3">
-                            <!-- <div class="col-md-6">
-                                <label for="rol" class="form-label">Rol:*</label>
-                                <select class="form-select" id="rol" name="rol" required>
-                                    <option value="" selected disabled>Selecciona un Rol</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="usuario">Usuario</option>
-                                    <option value="autorizador">Autorizador</option>
-                                    <option value="cuentas">Cuentas</option>
-                                </select>
-                            </div> -->
                             <div class="col-md-6">
-                                <label for="departamento" class="form-label">Departamento:*</label>
-                                <select class="form-select" id="departamento" name="departamento" required>
-                                    <option value="" selected disabled>Selecciona un Departamento</option>
-                                    <?php while ($row = $resultDepartamentos->fetch_assoc()): ?>
-                                        <option value="<?= htmlspecialchars($row['departamento']) ?>"><?= htmlspecialchars($row['departamento']) ?></option>
+                                <label for="puesto" class="form-label">Puesto:*</label>
+                                <select class="form-select" id="puesto" name="puesto" required>
+                                    <option value="" selected disabled>Selecciona un Puesto</option>
+                                    <?php while ($row = $resultPuestos->fetch_assoc()): ?>
+                                        <option value="<?= htmlspecialchars($row['puesto']) ?>"><?= htmlspecialchars($row['puesto']) ?></option>
                                     <?php endwhile; ?>
                                 </select>
                             </div>
@@ -128,11 +118,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
 
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="puesto" class="form-label">Puesto:*</label>
-                                <select class="form-select" id="puesto" name="puesto" required>
-                                    <option value="" selected disabled>Selecciona un Puesto</option>
-                                    <?php while ($row = $resultPuestos->fetch_assoc()): ?>
-                                        <option value="<?= htmlspecialchars($row['puesto']) ?>"><?= htmlspecialchars($row['puesto']) ?></option>
+                                <label for="departamento" class="form-label">Departamento:*</label>
+                                <select class="form-select" id="departamento" name="departamento" required>
+                                    <option value="" selected disabled>Selecciona un Departamento</option>
+                                    <?php while ($row = $resultDepartamentos->fetch_assoc()): ?>
+                                        <option value="<?= htmlspecialchars($row['departamento']) ?>"><?= htmlspecialchars($row['departamento']) ?></option>
                                     <?php endwhile; ?>
                                 </select>
                             </div>

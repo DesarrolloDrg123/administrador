@@ -32,7 +32,7 @@ $result_departamentos = $conn->query("SELECT * FROM departamentos ORDER BY depar
                 <div class="mb-3">
                     <label for="departamento-nombre" class="form-label">Nombre del Departamento:*</label>
                     <input type="text" id="departamento-nombre" name="departamento" class="form-control"
-                           placeholder="Ej. Gerente de Ventas" required>
+                           placeholder="Ej. ADMINISTRACION" required>
                 </div>
                 
                 <div class="text-end">

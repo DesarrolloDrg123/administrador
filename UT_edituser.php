@@ -148,29 +148,7 @@ $stmt_user->close();
                         </div>
                         
                         <div class="row mb-3">
-                            <!--<div class="col-md-6">
-                                <label for="rol" class="form-label">Rol:*</label>
-                                <select class="form-select" id="rol" name="rol" required>
-                                    <option value="admin" <?/* = ($user['rol'] ?? '') == 'admin' ? 'selected' : ''; ?>>Admin</option>
-                                    <option value="usuario" <?= ($user['rol'] ?? '') == 'usuario' ? 'selected' : ''; ?>>Usuario</option>
-                                    <option value="autorizador" <?= ($user['rol'] ?? '') == 'autorizador' ? 'selected' : ''; ?>>Autorizador</option>
-                                    <option value="cuentas" <?= ($user['rol'] ?? '') == 'cuentas' ? 'selected' : ''; */?>>Cuentas</option>
-                                </select>
-                            </div>-->
-                            <div class="col-md-6">
-                                <label for="departamento" class="form-label">Departamento:*</label>
-                                <select class="form-select" id="departamento" name="departamento" required>
-                                    <?php while ($row = $resultDepartamentos->fetch_assoc()): ?>
-                                        <option value="<?= htmlspecialchars($row['departamento']) ?>" <?= ($user['departamento'] ?? '') == $row['departamento'] ? 'selected' : ''; ?>>
-                                            <?= htmlspecialchars($row['departamento']) ?>
-                                        </option>
-                                    <?php endwhile; ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                             <div class="col-md-6">
+                            <div class="col-md-12">
                                 <label for="puesto" class="form-label">Puesto:*</label>
                                 <select class="form-select" id="puesto" name="puesto" required>
                                     <option value="" disabled selected>Selecciona un Puesto</option>
@@ -178,6 +156,18 @@ $stmt_user->close();
                                     <?php while ($row = $resultPuestos->fetch_assoc()): ?>
                                         <option value="<?= htmlspecialchars($row['puesto']) ?>" <?= ($user['puesto'] ?? '') == $row['puesto'] ? 'selected' : ''; ?>>
                                             <?= htmlspecialchars($row['puesto']) ?>
+                                        </option>
+                                    <?php endwhile; ?>
+                                </select>
+                            </div>                            
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="departamento" class="form-label">Departamento:*</label>
+                                <select class="form-select" id="departamento" name="departamento" required>
+                                    <?php while ($row = $resultDepartamentos->fetch_assoc()): ?>
+                                        <option value="<?= htmlspecialchars($row['departamento']) ?>" <?= ($user['departamento'] ?? '') == $row['departamento'] ? 'selected' : ''; ?>>
+                                            <?= htmlspecialchars($row['departamento']) ?>
                                         </option>
                                     <?php endwhile; ?>
                                 </select>

@@ -138,9 +138,12 @@ $result = $conn->query($sql);
                                             <a href="UT_edituser.php?id=<?= $row['user_id'] ?>" class="btn btn-warning btn-sm" title="Modificar Usuario">
                                                 <i class="fas fa-user-edit"></i>
                                             </a>
+                                            <?php if ($row['estado'] == 'Activo'): ?>
                                             <a href="UT_permisos.php?id=<?= $row['user_id'] ?>" class="btn btn-primary btn-sm" title="Asignar Permisos">
                                                 <i class="fas fa-user-lock"></i>
                                             </a>
+                                            <?php else: ?>
+                                            <?php endif; ?>
                                             <form method="POST" action="" class="d-inline" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">
                                                 <input type="hidden" name="id" value="<?= $row['user_id'] ?>">
                                                 <button type="submit" class="btn btn-danger btn-sm" name="delete" title="Eliminar Usuario">
