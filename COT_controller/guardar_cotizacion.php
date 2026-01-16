@@ -23,12 +23,12 @@ function obtenerCorreosCotizadores($conn, $es_rfid) {
     if ($es_rfid == 1) {
         $sql = "SELECT u.email FROM usuarios u 
                 JOIN permisos p ON u.id = p.id_usuario 
-                WHERE p.id_programa = ? AND p.acceso = 1 AND (u.puesto = 'Líder de Etiquetado y Codificado' OR u.puesto = 'Ingeniero de Preventa')";
+                WHERE p.id_programa = ? AND p.acceso = 1 AND (u.puesto = 'Líder de Etiquetado y Codificado' OR u.puesto = 'Ingeniero de Preventa')  AND u.estatus = 1";
     } else {
         // Si no, se busca a todos los que tengan acceso EXCEPTO al líder de RFID
         $sql = "SELECT u.email FROM usuarios u 
                 JOIN permisos p ON u.id = p.id_usuario 
-                WHERE p.id_programa = ? AND p.acceso = 1 AND (u.puesto != 'Líder de Etiquetado y Codificado' OR u.puesto != 'Ingeniero de Preventa')";
+                WHERE p.id_programa = ? AND p.acceso = 1 AND (u.puesto != 'Líder de Etiquetado y Codificado' OR u.puesto != 'Ingeniero de Preventa') AND u.estatus = 1";
     }
         
     $stmt = $conn->prepare($sql);

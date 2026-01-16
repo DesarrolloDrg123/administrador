@@ -21,7 +21,7 @@ try {
         SUM(t.importe) AS importe, 
         SUM(t.importedls) AS importedls,
     
-        -- Para los dem¨¢s campos, tomamos el valor de una de las filas del grupo (usualmente el primero o el ¨²ltimo)
+        -- Para los demï¿½ï¿½s campos, tomamos el valor de una de las filas del grupo (usualmente el primero o el ï¿½ï¿½ltimo)
         MAX(b.beneficiario) AS beneficiario,
         MAX(u.nombre) AS nombre,
         MAX(t.fecha_solicitud) AS fecha_solicitud,
@@ -30,7 +30,7 @@ try {
         MAX(t.descripcion) AS descripcion,
         MAX(t.importe_letra) AS importe_letra,
         MAX(t.importedls_letra) AS importedls_letra,
-        MAX(s.sucursal) AS sucursal, -- OJO: Mostrar¨¢ solo el nombre de una de las sucursales
+        MAX(s.sucursal) AS sucursal, -- OJO: Mostrarï¿½ï¿½ solo el nombre de una de las sucursales
         MAX(t.documento_adjunto) AS documento_adjunto,
         MAX(t.notas) AS notas,
         MAX(t.recibo) AS recibo,
@@ -46,7 +46,7 @@ try {
     WHERE 
         t.estado NOT IN ("Pagado", "Pendiente", "Rechazado", "Cancelada")
     GROUP BY 
-        t.folio -- La instrucci¨®n clave para agrupar
+        t.folio -- La instrucciï¿½ï¿½n clave para agrupar
     ORDER BY 
         t.fecha_autorizacion ASC';
         

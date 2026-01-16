@@ -184,7 +184,7 @@ function Usuario($conn, $id) {
 }
 
 function UsuariosAutorizadores($conn) {
-    $sql = "SELECT email FROM usuarios WHERE rol = 'Autorizador'";
+    $sql = "SELECT email FROM usuarios WHERE rol = 'Autorizador' ";
     $result = $conn->query($sql);
 
     $emails = [];
@@ -266,7 +266,7 @@ function obtenerCorreo($conn, $folio) {
         SELECT u.email
         FROM pedidos_especiales p
         JOIN usuarios u ON p.solicitante = u.nombre
-        WHERE p.folio = '$folio'
+        WHERE p.folio = '$folio'  AND u.estatus = 1
     ";
 
     $result = $conn->query($sql);

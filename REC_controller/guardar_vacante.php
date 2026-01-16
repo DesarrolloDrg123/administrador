@@ -118,7 +118,7 @@ try {
         $sql = "SELECT u.email 
                 FROM usuarios u
                 JOIN permisos p ON u.id = p.id_usuario
-                WHERE p.id_programa = ? AND p.acceso = 1 ";
+                WHERE p.id_programa = ? AND p.acceso = 1  AND u.estatus = 1 ";
         
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id_programa_reclutamiento);

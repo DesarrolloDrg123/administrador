@@ -283,7 +283,7 @@ try {
         // Obtener correos de los usuarios a notificar (ej. usuarios activos)
         
         $id_programa = 36; //Id del programa para procesar pedidos
-        $sql = "SELECT u.email FROM usuarios u JOIN permisos p ON u.id = p.id_usuario WHERE id_programa = $id_programa AND acceso = 1";
+        $sql = "SELECT u.email FROM usuarios u JOIN permisos p ON u.id = p.id_usuario WHERE id_programa = $id_programa AND acceso = 1 AND u.estatus = 1";
         $result = $conn->query($sql);
     
         $destinatarios = [];

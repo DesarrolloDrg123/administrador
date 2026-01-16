@@ -54,7 +54,7 @@ try {
     $programa = 47;
     $acceso = 1;
     $stmta = $conn->prepare("SELECT u.id, u.nombre, u.email FROM usuarios u INNER JOIN permisos p ON u.id = p.id_usuario WHERE p.id_programa = ? 
-    AND p.acceso = ? ORDER BY u.nombre ASC ");
+    AND p.acceso = ? AND u.estatus = 1 ORDER BY u.nombre ASC ");
     $stmta->bind_param('ii', $programa, $acceso);
     $stmta->execute();
     $result = $stmta->get_result();

@@ -130,7 +130,7 @@ function GuardarPedido($conn, $fecha, $solicitante, $no_cliente, $nombre_cliente
 //Funcion para traer los Autorizadores de Pedidos
 function UsuariosAutorizadores($conn) {
     $id_programa = 14; //Id del programa para procesar pedidos
-    $sql = "SELECT u.email FROM usuarios u JOIN permisos p ON u.id = p.id_usuario WHERE id_programa = $id_programa AND acceso = 1";
+    $sql = "SELECT u.email FROM usuarios u JOIN permisos p ON u.id = p.id_usuario WHERE id_programa = $id_programa AND acceso = 1  AND u.estatus = 1";
     $result = $conn->query($sql);
 
     $emails = [];
