@@ -104,6 +104,44 @@ require("config/db.php");
 </div>
 
 <script>
+// Suponiendo que tu input tiene el id="no_serie"
+document.getElementById('no_serie').addEventListener('blur', async function() {
+    const serie = this.value.trim();
+    if (serie === '') return; // No validar si está vacío
+
+    try {
+        const response = await fetch(`AUD_controller/verificar_serie.php?no_serie=${encodeURIComponent(serie)}`);
+        const data = await response.json();
+
+        if (data.exists) {
+            // 1. Ponemos el borde en rojo (clase de Bootstrap)
+            this.classList.add('is-invalid');
+            this.classList.remove('is-valid');
+
+            // 2. Mostramos una alerta rápida
+            Swal.fire({
+                title: 'Serie Duplicada',
+                text: `El número de serie ${serie} ya está registrado.`,
+                icon: 'warning',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000
+            });
+            
+            // 3. Opcional: Bloquear el botón de guardado
+            document.getElementById('btnGuardarVehiculo').disabled = true;
+        } else {
+            // Todo bien, ponemos el borde en verde
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+            document.getElementById('btnGuardarVehiculo').disabled = false;
+        }
+    } catch (error) {
+        console.error("Error validando serie:", error);
+    }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     // Cargar sucursales
     fetch('AUD_controller/get_sucursales.php')

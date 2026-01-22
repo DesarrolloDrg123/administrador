@@ -33,6 +33,20 @@ if (!$no_serie || !$marca || !$modelo || !$fecha_alta) {
 $conn->begin_transaction();
 
 try {
+    // --- NUEVO: VERIFICADOR DE EXISTENCIA PREVIA ---
+    $check_sql = "SELECT id FROM vehiculos_aud WHERE no_serie = ? LIMIT 1";
+    $check_stmt = $conn->prepare($check_sql);
+    $check_stmt->bind_param("s", $no_serie);
+    $check_stmt->execute();
+    $res_check = $check_stmt->get_result();
+
+    if ($res_check->num_rows > 0) {
+        // Si ya existe, lanzamos una excepción personalizada
+        throw new Exception("El Número de Serie '$no_serie' ya se encuentra registrado en el catálogo.", 999);
+    }
+    $check_stmt->close();
+    // -----------------------------------------------
+
     $sql = "INSERT INTO vehiculos_aud (
                 no_serie, fecha_alta, marca, modelo, anio, 
                 sucursal_id, responsable_id, gerente_reportar_id, 
@@ -42,8 +56,6 @@ try {
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
-    
-    // 17 parámetros: 5 s, 3 i, 9 s
     $stmt->bind_param("sssssiiisssssssss", 
         $no_serie, $fecha_alta, $marca, $modelo, $anio, 
         $sucursal_id, $responsable_id, $gerente_reportar_id, 
@@ -78,10 +90,13 @@ try {
     ]);
 
 } catch (Exception $e) {
-    $conn->rollback(); // Cancelar cambios si algo falla
+    $conn->rollback(); 
     
-    if ($e->getCode() == 1062) {
-        $mensaje = "El Número de Serie '$no_serie' ya existe.";
+    // Si es nuestro código de error personalizado (999) o el de SQL (1062)
+    if ($e->getCode() == 999 || $e->getCode() == 1062) {
+        $mensaje = $e->getMessage();
+        // Limpiamos el mensaje por si viene de SQL directamente
+        if($e->getCode() == 1062) $mensaje = "Error: El Número de Serie ya existe.";
     } else {
         $mensaje = "Error al guardar: " . $e->getMessage();
     }
