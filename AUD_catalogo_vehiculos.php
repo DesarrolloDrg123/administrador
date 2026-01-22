@@ -263,7 +263,7 @@ async function cargarSelectsEdicion() {
         let opcionesSucursal = '<option value="">Seleccione Sucursal...</option>';
         sucursales.forEach(s => {
             // Ajusta 's.id' y 's.nombre' si en tu BD se llaman diferente
-            opcionesSucursal += `<option value="${s.id}">${s.nombre}</option>`;
+            opcionesSucursal += `<option value="${s.id}">${s.sucursal}</option>`;
         });
         document.getElementById('edit_sucursal_id').innerHTML = opcionesSucursal;
 
