@@ -158,47 +158,74 @@ async function cargarDatosVehiculo(id) {
 // CARGAR CHECKLIST (SEGMENTOS 2, 3, 4)
 async function cargarChecklist(tipo, containerId) {
     const container = document.querySelector(`#${containerId} .checklist-container`);
-    container.innerHTML = '<div class="text-center p-3"><div class="spinner-border text-primary" role="status"></div><p>Cargando conceptos...</p></div>';
+    if (!container) return;
+
+    container.innerHTML = '<div class="text-center p-3">Cargando...</div>';
 
     try {
         const res = await fetch('AUD_controller/get_conceptos_auditoria.php');
         const conceptos = await res.json();
         
-        // ¡IMPORTANTE! Verificamos si el filtro coincide con tu BD
-        const items = conceptos.filter(c => c.tipo.trim() === tipo && c.activo === 'S');
-        
-        if(items.length === 0) {
-            container.innerHTML = `<div class="alert alert-warning">No se encontraron conceptos para: ${tipo}</div>`;
+        // Filtramos y limpiamos espacios o diferencias de mayúsculas
+        const items = conceptos.filter(c => 
+            c.tipo.trim().toLowerCase() === tipo.trim().toLowerCase()
+        );
+
+        console.log(`Buscando: ${tipo}. Encontrados: ${items.length}`);
+
+        if (items.length === 0) {
+            container.innerHTML = `
+                <div class="alert alert-info">
+                    No se encontraron conceptos tipo "${tipo}" en la base de datos.<br>
+                    <small>Tipos encontrados en BD: ${[...new Set(conceptos.map(c => c.tipo))].join(', ')}</small>
+                </div>`;
             return;
         }
 
-        let html = `<table class="table table-sm align-middle">
+        let html = `
+        <table class="table table-bordered table-hover align-middle shadow-sm">
             <thead class="table-dark">
                 <tr>
-                    <th>Descripción</th>
-                    <th class="text-center">Si / Bueno</th>
-                    <th class="text-center">No / Reg</th>
-                    <th class="text-center">N.A / Malo</th>
-                    <th class="text-center">Calif.</th>
+                    <th style="width: 40%;">Descripción</th>
+                    <th class="text-center">Bueno / Si</th>
+                    <th class="text-center">Regular / No</th>
+                    <th class="text-center">Malo / N.A</th>
+                    <th class="text-center" style="width: 100px;">Calif.</th>
                 </tr>
             </thead>
             <tbody>`;
-        
+
         items.forEach(c => {
             html += `
                 <tr>
-                    <td>${c.descripcion}</td>
-                    <td class="text-center"><input type="radio" name="check_${c.id}" value="C1" class="form-check-input" onclick="calcularPuntos(${c.id}, ${c.c1})" required></td>
-                    <td class="text-center"><input type="radio" name="check_${c.id}" value="C2" class="form-check-input" onclick="calcularPuntos(${c.id}, ${c.c2})"></td>
-                    <td class="text-center"><input type="radio" name="check_${c.id}" value="C3" class="form-check-input" onclick="calcularPuntos(${c.id}, ${c.c3})"></td>
-                    <td id="pts_${c.id}" class="fw-bold text-center text-primary">0</td>
+                    <td class="fw-bold">${c.descripcion}</td>
+                    <td class="text-center">
+                        <input type="radio" name="check_${c.id}" value="C1" class="form-check-input" 
+                        onclick="calcularPuntos(${c.id}, ${c.c1})" required>
+                        <br><small class="text-muted">+${c.c1}</small>
+                    </td>
+                    <td class="text-center">
+                        <input type="radio" name="check_${c.id}" value="C2" class="form-check-input" 
+                        onclick="calcularPuntos(${c.id}, ${c.c2})">
+                        <br><small class="text-muted">+${c.c2}</small>
+                    </td>
+                    <td class="text-center">
+                        <input type="radio" name="check_${c.id}" value="C3" class="form-check-input" 
+                        onclick="calcularPuntos(${c.id}, ${c.c3})">
+                        <br><small class="text-muted">+${c.c3}</small>
+                    </td>
+                    <td class="text-center bg-light">
+                        <span id="pts_${c.id}" class="h6 fw-bold text-primary">0</span>
+                    </td>
                 </tr>`;
         });
+
         html += `</tbody></table>`;
         container.innerHTML = html;
-    } catch (e) { 
-        console.error("Error en cargarChecklist:", e);
-        container.innerHTML = '<div class="alert alert-danger">Error al cargar la lista.</div>';
+
+    } catch (error) {
+        console.error("Error:", error);
+        container.innerHTML = '<div class="alert alert-danger">Error de conexión al cargar conceptos.</div>';
     }
 }
 
