@@ -91,9 +91,9 @@ async function cargarIncidencias() {
 
         incidencias.forEach(i => {
             let badge = '';
-            if(i.estatus === 'Pendiente') badge = '<span class="badge bg-danger">Pendiente</span>';
-            if(i.estatus === 'Proceso') badge = '<span class="badge bg-warning text-dark">Proceso</span>';
-            if(i.estatus === 'Terminada') badge = '<span class="badge bg-success">Terminada</span>';
+            if(i.estatus === 'Pendiente') badge = '<span class="badge bg-danger p-1 fs-6">Pendiente</span>';
+            if(i.estatus === 'Proceso') badge = '<span class="badge bg-warning text-dark p-1 fs-6">Proceso</span>';
+            if(i.estatus === 'Terminada') badge = '<span class="badge bg-success p-1 fs-6">Terminada</span>';
 
             html += `
                 <tr>
