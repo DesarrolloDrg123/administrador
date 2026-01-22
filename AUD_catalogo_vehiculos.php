@@ -309,10 +309,10 @@ async function prepararEdicion(id) {
 
         // 3. DATOS MODIFICABLES
         // Al haberse ejecutado 'cargarSelectsEdicion', estos valores se seleccionarán correctamente
-        document.getElementById('edit_sucursal_id').value = v.sucursal_nombre;
-        document.getElementById('edit_responsable_id').value = v.responsable_nombre;
-        document.getElementById('edit_gerente_reportar_id').value = v.gerente_nombre;
-
+        document.getElementById('edit_sucursal_id').value = v.sucursal_id;
+        document.getElementById('edit_responsable_id').value = v.responsable_id;
+        document.getElementById('edit_gerente_reportar_id').value = v.gerente_reportar_id;
+        
         document.getElementById('edit_no_licencia').value = v.no_licencia;
         document.getElementById('edit_vigencia_licencia').value = v.fecha_vencimiento_licencia;
         document.getElementById('edit_placas').value = v.placas;
@@ -474,9 +474,9 @@ async function verDetalles(id) {
         document.getElementById('det_marca').innerText = v.marca;
         document.getElementById('det_modelo').innerText = v.modelo;
         document.getElementById('det_anio').innerText = v.anio;
-        document.getElementById('det_sucursal').innerText = v.sucursal_id; 
-        document.getElementById('det_responsable').innerText = v.responsable_id;
-        document.getElementById('det_gerente').innerText = v.gerente_reportar_id;
+        document.getElementById('det_sucursal').innerText = v.sucursal_nombre; 
+        document.getElementById('det_responsable').innerText = v.responsable_nombre;
+        document.getElementById('det_gerente').innerText = v.gerente_nombre;
         document.getElementById('det_placas').innerText = v.placas;
         document.getElementById('det_tarjeta').innerText = v.tarjeta_circulacion;
         document.getElementById('det_licencia').innerText = v.no_licencia;
