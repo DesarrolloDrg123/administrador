@@ -205,7 +205,7 @@ async function cargarCatalogo() {
                             <button class="btn btn-sm btn-outline-primary" onclick="verDetalles(${v.id})">Detalles</button>
                             <button class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown"></button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#" onclick="verHistorial(${v.id})">Historial</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="verHistorial(${v.id})">Historial</a></li>a
                                 ${btnBaja}
                             </ul>
                         </div>
