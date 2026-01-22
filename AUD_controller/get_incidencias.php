@@ -14,7 +14,7 @@ if(!empty($data['f_inicio']) && !empty($data['f_fin'])) {
 $sql = "SELECT i.*, v.no_serie, a.folio 
         FROM auditorias_incidencias_aud i
         JOIN auditorias_vehiculos_aud a ON i.auditoria_id = a.id
-        JOIN vehiculos v ON i.vehiculo_id = v.id
+        JOIN vehiculos_aud v ON i.vehiculo_id = v.id
         $where ORDER BY i.fecha_incidencia DESC";
 
 $res = $conn->query($sql);
