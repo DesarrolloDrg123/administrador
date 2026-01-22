@@ -1,6 +1,8 @@
 <?php
+session_start();
 require("../config/db.php");
-$data = json_decode(file_get_contents("php://input"), true);
+
+header('Content-Type: application/json');
 
 $where = "WHERE 1=1 ";
 if(!empty($data['serie'])) $where .= " AND v.no_serie LIKE '%".$data['serie']."%' ";
