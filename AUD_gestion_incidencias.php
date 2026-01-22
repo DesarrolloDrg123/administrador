@@ -8,62 +8,32 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 $usuario_id = $_SESSION['usuario_id'];
 include("src/templates/adminheader.php");
 require("config/db.php");
-
 ?>
 
 <div class="container-fluid mt-4">
     <div class="card shadow mb-4">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0"><i class="bi bi-gear-fill"></i> Gestión de Tareas (Incidencias) Pendientes</h5>
+            <button class="btn btn-sm btn-light" onclick="cargarIncidencias()"><i class="bi bi-arrow-clockwise"></i> Actualizar</button>
         </div>
-        <div class="card-body bg-light">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="fw-bold">Serie / Vehículo</label>
-                    <input type="text" id="filtroSerie" class="form-control" placeholder="Buscar por serie...">
-                </div>
-                <div class="col-md-3">
-                    <label class="fw-bold">Estatus</label>
-                    <select id="filtroEstatus" class="form-select">
-                        <option value="">Todos</option>
-                        <option value="Pendiente">Pendiente</option>
-                        <option value="Proceso">Proceso</option>
-                        <option value="Terminada">Terminada</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label class="fw-bold">Rango de Fechas (Incidencia)</label>
-                    <div class="input-group">
-                        <input type="date" id="fechaInicio" class="form-control">
-                        <input type="date" id="fechaFin" class="form-control">
-                    </div>
-                </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button class="btn btn-primary w-100" onclick="cargarIncidencias()">
-                        <i class="bi bi-search"></i> Filtrar
-                    </button>
-                </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0" id="tablaIncidencias">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Serie</th>
+                            <th>Folio</th>
+                            <th>F. Incidencia</th>
+                            <th>Descripción</th>
+                            <th>F. Finalización</th>
+                            <th>Estatus</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaIncidenciasBody">
+                        </tbody>
+                </table>
             </div>
-        </div>
-    </div>
-
-    <div class="card shadow">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Serie</th>
-                        <th>Folio</th>
-                        <th>F. Incidencia</th>
-                        <th>Descripción</th>
-                        <th>F. Finalización</th>
-                        <th>Estatus</th>
-                        <th class="text-center">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="tablaIncidenciasBody">
-                    </tbody>
-            </table>
         </div>
     </div>
 </div>
@@ -99,20 +69,22 @@ require("config/db.php");
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', cargarIncidencias);
+let tablaIncidenciasDT;
+
+document.addEventListener('DOMContentLoaded', () => {
+    cargarIncidencias();
+});
 
 async function cargarIncidencias() {
-    const filtros = {
-        serie: document.getElementById('filtroSerie').value,
-        estatus: document.getElementById('filtroEstatus').value,
-        f_inicio: document.getElementById('fechaInicio').value,
-        f_fin: document.getElementById('fechaFin').value
-    };
-
     try {
+        // Si la tabla ya existe, la destruimos para reinicializarla con nuevos datos
+        if ($.fn.DataTable.isDataTable('#tablaIncidencias')) {
+            $('#tablaIncidencias').DataTable().destroy();
+        }
+
         const res = await fetch('AUD_controller/get_incidencias.php', {
             method: 'POST',
-            body: JSON.stringify(filtros)
+            body: JSON.stringify({}) // Enviamos vacío ya que quitamos filtros manuales
         });
         const incidencias = await res.json();
         let html = '';
@@ -141,8 +113,29 @@ async function cargarIncidencias() {
                     </td>
                 </tr>`;
         });
-        document.getElementById('tablaIncidenciasBody').innerHTML = html || '<tr><td colspan="7" class="text-center">No se encontraron incidencias</td></tr>';
-    } catch (e) { console.error(e); }
+        
+        document.getElementById('tablaIncidenciasBody').innerHTML = html;
+        
+        // Inicializar DataTables después de cargar el HTML
+        inicializarDataTable();
+
+    } catch (e) { 
+        console.error(e); 
+    }
+}
+
+function inicializarDataTable() {
+    tablaIncidenciasDT = $('#tablaIncidencias').DataTable({
+        "pageLength": 10,
+        "order": [[2, "desc"]], // Ordenar por Fecha de Incidencia por defecto
+        "language": {
+            "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+        },
+        "columnDefs": [
+            { "orderable": false, "targets": 6 }
+        ],
+        "responsive": true
+    });
 }
 
 function abrirModal(id, estatus) {
