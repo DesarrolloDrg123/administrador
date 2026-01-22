@@ -90,6 +90,18 @@ try {
                     </div>
                 </div>
 
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <div id="presupuesto-container" style="display: none; width: 100%;">
+                            <label for="presupuesto-disponible" class="form-label">Presupuesto Disponible</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="text" id="presupuesto-disponible" class="form-control" readonly style="background-color: #e9ecef; font-weight: bold;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Beneficiario y Fecha -->
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
@@ -192,12 +204,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- 1. ELEMENTOS DOM ---
     const miFormulario = document.getElementById('form-transferencia');
     const sucursalSelect = document.getElementById('sucursal');
+    const sucursalPrincipalSelect = document.getElementById('sucursal');
     const departamentoSelect = document.getElementById('departamento');
     const categoriaSelect = document.getElementById('categoria');
     const autorizacionSelect = document.getElementById('autorizar');
     const autorizacionHidden = document.getElementById('autorizacion_hidden');
     const beneficiarioSelect = document.getElementById('beneficiario');
     const noCuentaInput = document.getElementById('noCuenta');
+    const presupuestoInput = document.getElementById('presupuesto-disponible');
     beneficiarioSelect.addEventListener('change', function () {
         const selectedOption = this.options[this.selectedIndex];
         const tarjeta = selectedOption.dataset.tarjeta || '';
@@ -291,6 +305,34 @@ document.addEventListener('DOMContentLoaded', function() {
         text: item.nombre
     }));
 
+    function actualizarPresupuestoPrincipal() {
+        const sucursalId = sucursalPrincipalSelect.value; 
+        const deptoId = departamentoSelect.value; 
+        if (sucursalId && sucursalId !== 'varias' && deptoId) { 
+            presupuestoContainer.style.display = 'block'; 
+            presupuestoInput.value = 'Consultando...'; 
+            fetch(`TCL_controller/get_presupuesto.php?sucursal_id=${sucursalId}&depto_id=${deptoId}`)
+            .then(r => r.json())
+            .then(data => { presupuestoInput.value = data.success ? data.presupuesto.toLocaleString('es-MX', { minimumFractionDigits: 2 }) : data.presupuesto; }).catch(() => presupuestoInput.value = 'Error'); 
+        } else { 
+            presupuestoContainer.style.display = 'none'; 
+        } }
+
+    sucursalPrincipalSelect.addEventListener('change', function() {
+        if (this.value === 'varias') {
+            contenedorMultiple.style.display = 'block';
+            if (listaSucursalesDinamicas.children.length === 0) agregarFilaSucursal();
+        } else {
+            contenedorMultiple.style.display = 'none';
+        }
+        actualizarPresupuestoPrincipal();
+    });
+
+    departamentoSelect.addEventListener('change', function() {
+        actualizarPresupuestoPrincipal();
+        listaSucursalesDinamicas.querySelectorAll('.sucursal-select').forEach(select => mostrarPresupuestoFila(select));
+        updateAutorizacion(); // <-- Se añade la llamada aquí
+    });
 
     // --- 4. LOGICA DE NEGOCIO (Autorización y Bloqueos) ---
     /*function updateAutorizacion() {

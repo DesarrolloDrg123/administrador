@@ -420,7 +420,7 @@ if (isset($_GET['msg'])) {
                         $pendiente = $importe_transferencia - $total_comprobado;
 
                         // ✅ Si es beneficiario Y ya no tiene nada pendiente, NO mostrarlo
-                        if ($soy_beneficiario) {
+                        /*if ($soy_beneficiario) {
                             // Ocultar TODO lo que NO esté pagado
                             if ($filas['estado'] != 'Pagado') {
                                 continue;
@@ -430,7 +430,7 @@ if (isset($_GET['msg'])) {
                             if ($pendiente <= 0) {
                                 continue;
                             }
-                        }
+                        }*/
                         ?>
                         <tr class="text-center align-middle">
                             <td><a href="TCL_detalle_transferencias.php?id=<?= htmlspecialchars($filas['id']) ?>&MT=true" class="<?= $folio_class ?>"><?= htmlspecialchars($filas['folio']) ?></a></td>
