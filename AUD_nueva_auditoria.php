@@ -103,103 +103,131 @@ require("config/db.php");
 
 
 <script>
-// Inicialización
+// UN SOLO LISTENER PARA TODO
 document.addEventListener('DOMContentLoaded', () => {
     initForm();
-    // Si usas Select2
-    $('.select2').select2({ theme: 'bootstrap-5' });
+    consultarFolio();
+    
+    // Inicializar Select2 si existe
+    if (typeof $.fn.select2 !== 'undefined') {
+        $('.select2').select2({ theme: 'bootstrap-5' });
+    }
 });
 
 async function initForm() {
-    const res = await fetch('AUD_controller/get_vehiculos.php');
-    const vehiculos = await res.json();
-    const select = document.getElementById('selectVehiculo');
-    vehiculos.filter(v => v.estatus !== 'Baja').forEach(v => {
-        select.innerHTML += `<option value="${v.id}">${v.no_serie} - ${v.marca} (${v.placas})</option>`;
-    });
+    try {
+        const res = await fetch('AUD_controller/get_vehiculos.php');
+        const vehiculos = await res.json();
+        const select = document.getElementById('selectVehiculo');
+        
+        // Limpiar y cargar
+        select.innerHTML = '<option value="">Seleccione una serie activa...</option>';
+        vehiculos.filter(v => v.estatus !== 'Baja').forEach(v => {
+            select.innerHTML += `<option value="${v.id}">${v.no_serie} - ${v.marca} (${v.placas})</option>`;
+        });
+    } catch (e) { console.error("Error en initForm:", e); }
 }
 
-// Actualiza los puntos en la fila y el total global
+async function consultarFolio() {
+    try {
+        const response = await fetch('AUD_controller/obtener_folio.php');
+        const data = await response.json();
+        if (data.status === 'success') {
+            document.getElementById('txtFolio').innerText = `FOLIO: ${data.folio}`;
+            document.getElementById('folio_final').value = data.folio;
+        }
+    } catch (error) { console.error("Error en consultarFolio:", error); }
+}
+
+// CARGAR DATOS DEL VEHÍCULO (SEGMENTO 1)
+async function cargarDatosVehiculo(id) {
+    if(!id) return;
+    try {
+        const res = await fetch(`AUD_controller/get_detalle_vehiculo.php?id=${id}`);
+        const v = await res.json();
+        
+        document.getElementById('infoVehiculo').innerHTML = `
+            <div class="col-md-3 border-end"><strong>Sucursal</strong><p class="text-primary">${v.sucursal_nombre || 'N/A'}</p></div>
+            <div class="col-md-3 border-end"><strong>Responsable</strong><p class="text-primary">${v.responsable_nombre || 'N/A'}</p></div>
+            <div class="col-md-3 border-end"><strong>Licencia</strong><p class="text-primary">${v.no_licencia || 'N/A'}<br><small>(Vence: ${v.fecha_vencimiento_licencia || 'N/A'})</small></p></div>
+            <div class="col-md-3"><strong>Vehículo</strong><p class="text-primary">${v.marca} ${v.modelo} ${v.anio}<br>Placas: ${v.placas}</p></div>
+        `;
+    } catch (e) { console.error("Error en cargarDatosVehiculo:", e); }
+}
+
+// CARGAR CHECKLIST (SEGMENTOS 2, 3, 4)
+async function cargarChecklist(tipo, containerId) {
+    const container = document.querySelector(`#${containerId} .checklist-container`);
+    container.innerHTML = '<div class="text-center p-3"><div class="spinner-border text-primary" role="status"></div><p>Cargando conceptos...</p></div>';
+
+    try {
+        const res = await fetch('AUD_controller/get_conceptos_auditoria.php');
+        const conceptos = await res.json();
+        
+        // ¡IMPORTANTE! Verificamos si el filtro coincide con tu BD
+        const items = conceptos.filter(c => c.tipo.trim() === tipo && c.activo === 'S');
+        
+        if(items.length === 0) {
+            container.innerHTML = `<div class="alert alert-warning">No se encontraron conceptos para: ${tipo}</div>`;
+            return;
+        }
+
+        let html = `<table class="table table-sm align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Descripción</th>
+                    <th class="text-center">Si / Bueno</th>
+                    <th class="text-center">No / Reg</th>
+                    <th class="text-center">N.A / Malo</th>
+                    <th class="text-center">Calif.</th>
+                </tr>
+            </thead>
+            <tbody>`;
+        
+        items.forEach(c => {
+            html += `
+                <tr>
+                    <td>${c.descripcion}</td>
+                    <td class="text-center"><input type="radio" name="check_${c.id}" value="C1" class="form-check-input" onclick="calcularPuntos(${c.id}, ${c.c1})" required></td>
+                    <td class="text-center"><input type="radio" name="check_${c.id}" value="C2" class="form-check-input" onclick="calcularPuntos(${c.id}, ${c.c2})"></td>
+                    <td class="text-center"><input type="radio" name="check_${c.id}" value="C3" class="form-check-input" onclick="calcularPuntos(${c.id}, ${c.c3})"></td>
+                    <td id="pts_${c.id}" class="fw-bold text-center text-primary">0</td>
+                </tr>`;
+        });
+        html += `</tbody></table>`;
+        container.innerHTML = html;
+    } catch (e) { 
+        console.error("Error en cargarChecklist:", e);
+        container.innerHTML = '<div class="alert alert-danger">Error al cargar la lista.</div>';
+    }
+}
+
 function calcularPuntos(id, puntos) {
-    document.getElementById(`pts_${id}`).innerText = puntos;
+    const span = document.getElementById(`pts_${id}`);
+    if(span) span.innerText = puntos;
     
-    // Suma global de todos los spans de puntos
     let total = 0;
-    document.querySelectorAll('[id^="pts_"]').forEach(span => {
-        total += parseInt(span.innerText) || 0;
+    document.querySelectorAll('[id^="pts_"]').forEach(s => {
+        total += parseInt(s.innerText) || 0;
     });
     document.getElementById('puntosTotales').innerText = total;
 }
 
-async function cargarDatosVehiculo(id) {
-    if(!id) return;
-    const res = await fetch(`AUD_controller/get_detalle_vehiculo.php?id=${id}`);
-    const v = await res.json();
-    
-    document.getElementById('infoVehiculo').innerHTML = `
-        <div class="col-md-3 border-end"><strong>Sucursal</strong><p class="text-primary">${v.sucursal_nombre}</p></div>
-        <div class="col-md-3 border-end"><strong>Responsable</strong><p class="text-primary">${v.responsable_nombre}</p></div>
-        <div class="col-md-3 border-end"><strong>Licencia</strong><p class="text-primary">${v.no_licencia}<br><small>(Vence: ${v.fecha_vencimiento_licencia})</small></p></div>
-        <div class="col-md-3"><strong>Vehículo</strong><p class="text-primary">${v.marca} ${v.modelo} ${v.anio}<br>Placas: ${v.placas}</p></div>
-    `;
-}
-
-async function cargarChecklist(tipo, containerId) {
-    const res = await fetch('AUD_controller/get_conceptos_auditoria.php');
-    const conceptos = await res.json();
-    const items = conceptos.filter(c => c.tipo === tipo && c.activo === 'S');
-    
-    let html = `<table class="table table-sm align-middle">
-        <thead class="table-dark">
-            <tr>
-                <th>Descripción</th>
-                <th class="text-center">Si / Bueno</th>
-                <th class="text-center">No / Reg</th>
-                <th class="text-center">N.A / Malo</th>
-                <th class="text-center">Calif.</th>
-            </tr>
-        </thead>
-        <tbody>`;
-    
-    items.forEach(c => {
-        html += `
-            <tr>
-                <td>${c.descripcion}</td>
-                <td class="text-center"><input type="radio" name="check_${c.id}" value="C1" class="form-check-input" onclick="calcularPuntos(${c.id}, ${c.c1})" required></td>
-                <td class="text-center"><input type="radio" name="check_${c.id}" value="C2" class="form-check-input" onclick="calcularPuntos(${c.id}, ${c.c2})"></td>
-                <td class="text-center"><input type="radio" name="check_${c.id}" value="C3" class="form-check-input" onclick="calcularPuntos(${c.id}, ${c.c3})"></td>
-                <td id="pts_${c.id}" class="fw-bold text-center text-primary">0</td>
-            </tr>`;
-    });
-    html += `</tbody></table>`;
-    document.querySelector(`#${containerId} .checklist-container`).innerHTML = html;
-}
-
-// ENVÍO DE FORMULARIO
+// GUARDAR AUDITORÍA
 document.getElementById('formNuevaAuditoria').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    // Confirmación inicial
     const confirmacion = await Swal.fire({
         title: '¿Finalizar Auditoría?',
-        text: "Una vez guardada no podrá modificar los valores del folio.",
-        icon: 'warning',
+        icon: 'question',
         showCancelButton: true,
-        confirmButtonText: 'Sí, Guardar',
-        cancelButtonText: 'Revisar'
+        confirmButtonText: 'Sí, Guardar'
     });
 
     if (!confirmacion.isConfirmed) return;
 
-    // Mostrar cargando
-    Swal.fire({
-        title: 'Procesando...',
-        text: 'Guardando datos y actualizando folio',
-        allowOutsideClick: false,
-        didOpen: () => { Swal.showLoading(); }
-    });
+    Swal.fire({ title: 'Procesando...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); }});
 
-    // 1. Recoger respuestas de checklist
     const respuestas = [];
     document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
         const id = input.name.replace('check_', '');
@@ -210,16 +238,18 @@ document.getElementById('formNuevaAuditoria').addEventListener('submit', async f
         });
     });
 
-    // 2. Recoger datos de mantenimiento
     const mantenimientos = [];
     document.querySelectorAll('#tablaMantenimiento tbody tr').forEach(tr => {
-        mantenimientos.push({
-            fecha: tr.querySelector('.m_fecha').value,
-            km: tr.querySelector('.m_km').value,
-            servicio: tr.querySelector('.m_servicio').value,
-            taller: tr.querySelector('.m_taller').value,
-            obs: tr.querySelector('.m_obs').value
-        });
+        const servicio = tr.querySelector('.m_servicio').value;
+        if(servicio) {
+            mantenimientos.push({
+                fecha: tr.querySelector('.m_fecha').value,
+                km: tr.querySelector('.m_km').value,
+                servicio: servicio,
+                taller: tr.querySelector('.m_taller').value,
+                obs: tr.querySelector('.m_obs').value
+            });
+        }
     });
 
     const payload = {
@@ -238,42 +268,12 @@ document.getElementById('formNuevaAuditoria').addEventListener('submit', async f
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
-
         const result = await response.json();
-
         if (result.status === 'success') {
-            await Swal.fire('¡Éxito!', result.message, 'success');
-            // Redirigir o limpiar
-            location.reload(); 
+            Swal.fire('¡Éxito!', result.message, 'success').then(() => location.reload());
         } else {
             Swal.fire('Error', result.message, 'error');
         }
-    } catch (error) {
-        Swal.fire('Error crítico', 'No se pudo conectar con el servidor', 'error');
-    }
-});
-// Agrega esta función a tu script existente
-async function consultarFolio() {
-    try {
-        const response = await fetch('AUD_controller/obtener_folio.php');
-        const data = await response.json();
-
-        if (data.status === 'success') {
-            // Actualizamos la vista y el campo oculto
-            document.getElementById('txtFolio').innerText = `FOLIO: ${data.folio}`;
-            document.getElementById('folio_final').value = data.folio;
-        } else {
-            console.error("Error al obtener folio:", data.message);
-            document.getElementById('txtFolio').innerText = "FOLIO: Error";
-        }
-    } catch (error) {
-        console.error("Error de conexión:", error);
-    }
-}
-
-// Llama a la función cuando cargue el documento
-document.addEventListener('DOMContentLoaded', () => {
-    initForm();       // Tu función de vehículos
-    consultarFolio(); // La nueva función de folio
+    } catch (error) { Swal.fire('Error', 'No se pudo conectar', 'error'); }
 });
 </script>
