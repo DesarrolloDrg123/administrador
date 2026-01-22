@@ -136,12 +136,12 @@ async function cargarConceptos() {
             tbody.innerHTML += `
                 <tr>
                     <td>${c.id}</td>
-                    <td><span class="badge bg-info text-dark">${c.tipo}</span></td>
+                    <td><span class="badge bg-info text-dark p-1 fs-6">${c.tipo}</span></td>
                     <td>${c.descripcion}</td>
                     <td>${c.c1}</td>
                     <td>${c.c2}</td>
                     <td>${c.c3}</td>
-                    <td><span class="badge ${badgeClass}">${estatusTexto}</span></td>
+                    <td><span class="badge ${badgeClass} p-1 fs-6">${estatusTexto}</span></td>
                     <td class="text-center">
                         <div class="btn-group">
                             <button class="btn btn-sm btn-outline-warning" onclick="prepararEdicionConcepto('${conceptoData}')" title="Editar">

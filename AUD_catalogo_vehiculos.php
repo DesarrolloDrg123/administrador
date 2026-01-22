@@ -196,10 +196,10 @@ async function cargarCatalogo() {
                 <tr>
                     <td><strong>${v.no_serie}</strong></td>
                     <td>${v.marca} ${v.modelo} ${v.anio}</td>
-                    <td><span class="badge bg-secondary">${v.placas}</span></td>
+                    <td><span class="badge bg-secondary p-1 fs-6">${v.placas}</span></td>
                     <td>${v.sucursal_nombre}</td> 
                     <td>${v.responsable_nombre}</td>
-                    <td><span class="badge ${v.estatus === 'Baja' ? 'bg-danger' : 'bg-success'}">${v.estatus}</span></td>
+                    <td><span class="badge ${v.estatus === 'Baja' ? 'bg-danger' : 'bg-success'} p-1 fs-6">${v.estatus}</span></td>
                     <td class="text-center">
                         <div class="btn-group">
                             <button class="btn btn-sm btn-outline-primary" onclick="verDetalles(${v.id})">Detalles</button>
@@ -407,7 +407,7 @@ async function verHistorial(id) {
                 <tr>
                     <td>${h.fecha_cambio}</td>
                     <td>${h.nombre_usuario || 'Sistema'}</td>
-                    <td><span class="badge bg-info text-dark">${h.campo_modificado}</span></td>
+                    <td><span class="badge bg-info text-dark p-1 fs-6">${h.campo_modificado}</span></td>
                     <td>${h.valor_nuevo}</td>
                 </tr>`;
         });
