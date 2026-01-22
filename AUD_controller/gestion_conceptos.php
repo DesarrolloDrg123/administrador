@@ -17,7 +17,7 @@ $nuevo_status = $data['nuevo_status'] ?? 'N';
 
 // --- LOGICA PARA CAMBIAR ESTATUS (BORRADO LÓGICO) ---
 if ($action === 'delete') {
-    $sql = "UPDATE cat_items_auditoria SET activo = ? WHERE id = ?";
+    $sql = "UPDATE cat_items_auditoria_aud SET activo = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("si", $nuevo_status, $id);
     
@@ -51,12 +51,12 @@ if ($action === 'save') {
 
     if ($id > 0) {
         // UPDATE
-        $sql = "UPDATE cat_items_auditoria SET tipo=?, descripcion=?, c1=?, c2=?, c3=? WHERE id=?";
+        $sql = "UPDATE cat_items_auditoria_aud SET tipo=?, descripcion=?, c1=?, c2=?, c3=? WHERE id=?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssiiii", $tipo, $descripcion, $c1, $c2, $c3, $id);
     } else {
         // INSERT
-        $sql = "INSERT INTO cat_items_auditoria (tipo, descripcion, c1, c2, c3, activo) VALUES (?, ?, ?, ?, ?, 'S')";
+        $sql = "INSERT INTO cat_items_auditoria_aud (tipo, descripcion, c1, c2, c3, activo) VALUES (?, ?, ?, ?, ?, 'S')";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssiii", $tipo, $descripcion, $c1, $c2, $c3);
     }
