@@ -1,5 +1,5 @@
 <?php
-require("<div class="">config/db.php");
+require("../config/db.php");
 $folio = $_GET['folio'] ?? '';
 
 // Obtener las fotos de la tabla de evidencias
