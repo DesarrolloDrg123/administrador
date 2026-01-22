@@ -6,8 +6,12 @@ header('Content-Type: application/json');
 
 // Consulta para traer los datos del catálogo
 // Se recomienda un JOIN si tienes tablas de sucursales y usuarios
-$sql = "SELECT id, no_serie, marca, modelo, anio, placas, sucursal_id, responsable_id, estatus 
+$sql = "SELECT id, no_serie, marca, modelo, anio, placas, sucursal_id, responsable_id, estatus,
+                sucursales.sucursal AS sucursal_nombre,
+                usuarios.nombre AS responsable_nombre
         FROM vehiculos_aud 
+        INNER JOIN sucursales ON vehiculos_aud.sucursal_id = sucursales.id
+        INNER JOIN usuarios ON vehiculos_aud.responsable_id = usuarios.id
         ORDER BY id DESC";
 
 $result = $conn->query($sql);
