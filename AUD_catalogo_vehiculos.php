@@ -15,7 +15,7 @@ require("config/db.php");
     <div class="card shadow">
         <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Catálogo de Flotilla</h5>
-            <button class="btn btn-success btn-sm" onclick="nuevoVehiculo()">+ Agregar Unidad</button>
+            <button class="btn btn-success btn-sm"><a href="AUD_agregar_vehiculo.php">+ Agregar Unidad</a></button>
         </div>
         <div class="card-body">
             <div class="table-responsive">
