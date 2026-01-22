@@ -102,6 +102,98 @@ require("config/db.php");
     </div>
 </div>
 
+<div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form id="formEditarVehiculo">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title" id="modalEditarLabel"><i class="bi bi-pencil-square"></i> Editar Información de Unidad</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="edit_id">
+
+                    <div class="row g-3">
+                        <div class="col-12"><h6 class="text-muted border-bottom small fw-bold">DATOS GENERALES (NO EDITABLES)</h6></div>
+                        
+                        <div class="col-md-4">
+                            <label class="form-label small">No. de Serie</label>
+                            <input type="text" id="edit_no_serie" name="no_serie" class="form-control form-control-sm bg-light" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small">Fecha de Alta</label>
+                            <input type="text" id="edit_fecha_alta" name="fecha_alta" class="form-control form-control-sm bg-light" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small">Marca / Modelo / Año</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" id="edit_marca" class="form-control bg-light" readonly>
+                                <input type="text" id="edit_modelo" class="form-control bg-light" readonly>
+                                <input type="text" id="edit_anio" class="form-control bg-light" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-12 mt-4"><h6 class="text-primary border-bottom small fw-bold">DATOS MODIFICABLES (GENERAN HISTORIAL)</h6></div>
+
+                        <div class="col-md-4">
+                            <label class="form-label small">Sucursal Actual</label>
+                            <select id="edit_sucursal_id" name="sucursal_id" class="form-select form-select-sm" required></select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small">Responsable</label>
+                            <select id="edit_responsable_id" name="responsable_id" class="form-select form-select-sm" required></select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small">Gerente a Reportar</label>
+                            <select id="edit_gerente_reportar_id" name="gerente_reportar_id" class="form-select form-select-sm" required></select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label small">Placas</label>
+                            <input type="text" id="edit_placas" name="placas" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">No. Licencia</label>
+                            <input type="text" id="edit_no_licencia" name="no_licencia" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Vigencia Licencia</label>
+                            <input type="date" id="edit_vigencia_licencia" name="fecha_vencimiento_licencia" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Tarjeta Circulación</label>
+                            <input type="text" id="edit_tarjeta_circulacion" name="tarjeta_circulacion" class="form-control form-control-sm">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label small">Aseguradora</label>
+                            <input type="text" id="edit_aseguradora" name="aseguradora" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">No. Póliza</label>
+                            <input type="text" id="edit_no_poliza" name="no_poliza" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small">Vigencia Póliza</label>
+                            <input type="date" id="edit_vigencia_poliza" name="vigencia_poliza" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Tel. Siniestro</label>
+                            <input type="text" id="edit_telefono_siniestro" name="telefono_siniestro" class="form-control form-control-sm">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <i class="bi bi-save"></i> Guardar Cambios
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 <script>
 // Variable global para la tabla
@@ -139,6 +231,7 @@ async function cargarCatalogo() {
                             <button class="btn btn-sm btn-outline-primary" onclick="verDetalles(${v.id})">Detalles</button>
                             <button class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown"></button>
                             <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="prepararEdicion(${v.id})"><i class="bi bi-pencil"></i> Editar</a></li>
                                 <li><a class="dropdown-item" href="#" onclick="verHistorial(${v.id})">Historial</a></li>
                                 ${btnBaja}
                             </ul>
@@ -184,6 +277,99 @@ function inicializarDataTable() {
 
 // Única llamada al inicio
 document.addEventListener('DOMContentLoaded', cargarCatalogo);
+
+async function prepararEdicion(id) {
+    try {
+        const response = await fetch(`AUD_controller/get_detalle_vehiculo.php?id=${id}`);
+        const v = await response.json();
+
+        if (v.status === 'error') throw new Error(v.message);
+
+        // 1. Identificador interno
+        document.getElementById('edit_id').value = v.id;
+        document.getElementById('edit_no_serie_label').innerText = v.no_serie;
+
+        // 2. DATOS FIJOS (Solo lectura / No editables)
+        // Les asignamos el valor pero el HTML debe tener el atributo 'readonly'
+        document.getElementById('edit_no_serie').value = v.no_serie;
+        document.getElementById('edit_fecha_alta').value = v.fecha_alta;
+        document.getElementById('edit_marca').value = v.marca;
+        document.getElementById('edit_modelo').value = v.modelo;
+        document.getElementById('edit_anio').value = v.anio;
+
+        // 3. DATOS MODIFICABLES (Los que generan historial de cambios)
+        document.getElementById('edit_sucursal_id').value = v.sucursal_id;
+        document.getElementById('edit_responsable_id').value = v.responsable_id;
+        document.getElementById('edit_gerente_reportar_id').value = v.gerente_reportar_id;
+        document.getElementById('edit_no_licencia').value = v.no_licencia;
+        document.getElementById('edit_vigencia_licencia').value = v.fecha_vencimiento_licencia;
+        document.getElementById('edit_placas').value = v.placas;
+        document.getElementById('edit_tarjeta_circulacion').value = v.tarjeta_circulacion;
+        document.getElementById('edit_aseguradora').value = v.aseguradora;
+        document.getElementById('edit_no_poliza').value = v.no_poliza;
+        document.getElementById('edit_vigencia_poliza').value = v.vigencia_poliza;
+        document.getElementById('edit_telefono_siniestro').value = v.telefono_siniestro;
+
+        // Mostramos el modal
+        const modalEdit = new bootstrap.Modal(document.getElementById('modalEditar'));
+        modalEdit.show();
+
+    } catch (error) {
+        console.error("Error:", error);
+        Swal.fire('Error', 'No se pudo cargar la información', 'error');
+    }
+}
+
+document.getElementById('formEditarVehiculo').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // Confirmación antes de guardar
+    const confirmacion = await Swal.fire({
+        title: '¿Guardar cambios?',
+        text: "Se registrarán los cambios en el historial de la unidad.",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, actualizar',
+        cancelButtonText: 'Revisar'
+    });
+
+    if (!confirmacion.isConfirmed) return;
+
+    // Mostrar estado de carga
+    Swal.showLoading();
+
+    const formData = new FormData(this);
+
+    try {
+        const response = await fetch('AUD_controller/actualizar_vehiculo.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const res = await response.json();
+
+        if (res.status === 'success' || res.status === 'info') {
+            Swal.fire({
+                title: '¡Actualizado!',
+                text: res.message,
+                icon: 'success',
+                timer: 2000
+            });
+            
+            // Cerrar modal y refrescar la tabla
+            const modalElement = document.getElementById('modalEditar');
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            modalInstance.hide();
+            
+            cargarCatalogo(); // Tu función que refresca la tabla
+        } else {
+            Swal.fire('Error', res.message, 'error');
+        }
+    } catch (error) {
+        console.error("Error al actualizar:", error);
+        Swal.fire('Error', 'No se pudo comunicar con el servidor', 'error');
+    }
+});
 
 async function verHistorial(id) {
     try {
