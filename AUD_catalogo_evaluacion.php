@@ -127,8 +127,8 @@ async function cargarConceptos() {
             const badgeClass = c.activo === 'S' ? 'bg-success' : 'bg-secondary';
             const estatusTexto = c.activo === 'S' ? 'Activo' : 'Inactivo';
             const btnEstatus = c.activo === 'S' 
-                ? `<button class="btn btn-sm btn-outline-danger" onclick="cambiarEstatusConcepto(${c.id}, 'N')"><i class="bi bi-trash"></i></button>`
-                : `<button class="btn btn-sm btn-outline-success" onclick="cambiarEstatusConcepto(${c.id}, 'S')"><i class="bi bi-check-circle"></i></button>`;
+                ? `<button class="btn btn-sm btn-outline-danger" onclick="cambiarEstatusConcepto(${c.id}, 'N')"><i class="fas fa-trash"></i></button>`
+                : `<button class="btn btn-sm btn-outline-success" onclick="cambiarEstatusConcepto(${c.id}, 'S')"><i class="fas fa-check-circle"></i></button>`;
 
             const conceptoData = btoa(JSON.stringify(c));
 
