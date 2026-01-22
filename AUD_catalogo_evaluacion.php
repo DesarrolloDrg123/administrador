@@ -143,7 +143,7 @@ async function cargarConceptos() {
                     <td class="text-center">
                         <div class="btn-group">
                             <button class="btn btn-sm btn-outline-warning" onclick="prepararEdicionConcepto('${conceptoData}')">
-                                <i class="bi bi-pencil"></i>
+                                <i class="fa-solid fa-pen-to-square"></i>
                             </button>
                             ${btnEstatus}
                         </div>
