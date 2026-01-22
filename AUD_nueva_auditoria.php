@@ -216,7 +216,7 @@ function agregarFilaIncidencia() {
         <td><input type="text" class="form-control form-control-sm row-incidencia" placeholder="Ej. Limpiaparabrisas dañados, Falta llanta de refacción..." required></td>
         <td class="text-center">
             <button type="button" class="btn btn-link text-danger p-0" onclick="this.closest('tr').remove()">
-                <i class="fas fa-trash fa-2x">
+                <i class="fas fa-trash fa-2x"></i>
             </button>
         </td>
     `;
