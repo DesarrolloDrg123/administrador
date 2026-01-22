@@ -80,11 +80,11 @@ async function cargarHistorial() {
 
 function verReporte(id) {
     // Aquí rediriges a la página que genera el reporte (que haremos después)
-    window.open(`reporte_auditoria.php?id=${id}`, '_blank');
+    window.open(`AUD_controller/reporte_auditoria.php?id=${id}`, '_blank');
 }
 
 function verGaleria(folio) {
     // Abrir la carpeta de fotos o una vista de galería
-    window.location.href = `AUD_ver_evidencias.php?folio=${folio}`;
+    window.location.href = `AUD_controller/ver_evidencias.php?folio=${folio}`;
 }
 </script>
