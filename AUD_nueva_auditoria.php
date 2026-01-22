@@ -43,11 +43,21 @@ require("config/db.php");
         </div>
 
         <ul class="nav nav-pills nav-fill mb-3 shadow-sm" id="auditTabs" role="tablist">
-            <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#seg1">1. Datos Generales</a></li>
-            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#seg2" onclick="cargarChecklist('Documento', 'seg2')">2. Documentos</a></li>
-            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#seg3" onclick="cargarChecklist('Inventario', 'seg3')">3. Herramientas</a></li>
-            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#seg4" onclick="cargarChecklist('Estado', 'seg4')">4. Estado Físico</a></li>
-            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#seg5">5. Mantenimiento</a></li>
+            <li class="nav-item">
+                <a class="nav-link active" data-bs-toggle="tab" data-toggle="tab" href="#seg1">1. Datos Generales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg2" onclick="cargarChecklist('Documento', 'seg2')">2. Documentos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg3" onclick="cargarChecklist('Inventario', 'seg3')">3. Herramientas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg4" onclick="cargarChecklist('Estado', 'seg4')">4. Estado Físico</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg5">5. Mantenimiento</a>
+            </li>
         </ul>
 
         <div class="tab-content border p-4 bg-white shadow-sm rounded">
@@ -112,6 +122,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof $.fn.select2 !== 'undefined') {
         $('.select2').select2({ theme: 'bootstrap-5' });
     }
+});
+
+// Detectar cambio de pestaña para Bootstrap 4 o 5
+$(document).on('shown.bs.tab', 'a[data-toggle="tab"], a[data-bs-toggle="tab"]', function (e) {
+    const targetId = $(e.target).attr('href').replace('#', ''); // seg2, seg3, etc.
+    
+    if (targetId === 'seg2') cargarChecklist('Documento', 'seg2');
+    if (targetId === 'seg3') cargarChecklist('Inventario', 'seg3');
+    if (targetId === 'seg4') cargarChecklist('Estado', 'seg4');
 });
 
 async function initForm() {
