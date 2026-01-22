@@ -60,10 +60,10 @@ async function cargarHistorial() {
                     <td class="text-center">
                         <div class="btn-group">
                             <button class="btn btn-sm btn-outline-primary" onclick="verReporte(${a.id})" title="Ver PDF/Detalle">
-                                <i class="bi bi-file-earmark-pdf"></i>
+                                <i class="fas fa-file-pdf"></i>
                             </button>
                             <button class="btn btn-sm btn-outline-info" onclick="verGaleria('${a.folio}')" title="Ver Fotos">
-                                <i class="bi bi-images"></i>
+                                <i class="fas fa-images"></i>
                             </button>
                         </div>
                     </td>
