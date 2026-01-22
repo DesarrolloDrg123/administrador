@@ -128,8 +128,8 @@ async function cargarConceptos() {
             const badgeClass = c.activo === 'S' ? 'bg-success' : 'bg-secondary';
             const estatusTexto = c.activo === 'S' ? 'Activo' : 'Inactivo';
             const btnEstatus = c.activo === 'S' 
-                ? `<button class="btn btn-sm btn-outline-danger" onclick="cambiarEstatusConcepto(${c.id}, 'N')"><i class="fas fa-trash"></i></button>`
-                : `<button class="btn btn-sm btn-outline-success" onclick="cambiarEstatusConcepto(${c.id}, 'S')"><i class="fas fa-check-circle"></i></button>`;
+                ? `<button class="btn btn-sm btn-outline-danger" onclick="cambiarEstatusConcepto(${c.id}, 'N')" title="Desactivar"><i class="fas fa-trash fa-2x"></i></button>`
+                : `<button class="btn btn-sm btn-outline-success" onclick="cambiarEstatusConcepto(${c.id}, 'S')" title="Activar"><i class="fas fa-check-circle fa-2x"></i></button>`;
 
             const conceptoData = btoa(JSON.stringify(c));
 
@@ -138,14 +138,14 @@ async function cargarConceptos() {
                     <td>${c.id}</td>
                     <td><span class="badge bg-info text-dark">${c.tipo}</span></td>
                     <td>${c.descripcion}</td>
-                    <td class="fw-bold text-primary">${c.c1}</td>
+                    <td>${c.c1}</td>
                     <td>${c.c2}</td>
                     <td>${c.c3}</td>
                     <td><span class="badge ${badgeClass}">${estatusTexto}</span></td>
                     <td class="text-center">
                         <div class="btn-group">
-                            <button class="btn btn-sm btn-outline-warning" onclick="prepararEdicionConcepto('${conceptoData}')">
-                                <i class="fas fa-edit"></i>
+                            <button class="btn btn-sm btn-outline-warning" onclick="prepararEdicionConcepto('${conceptoData}')" title="Editar">
+                                <i class="fas fa-edit fa-2x"></i>
                             </button>
                             ${btnEstatus}
                         </div>
