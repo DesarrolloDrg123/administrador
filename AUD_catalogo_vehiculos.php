@@ -8,7 +8,6 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 $usuario_id = $_SESSION['usuario_id'];
 include("src/templates/adminheader.php");
 require("config/db.php");
-
 ?>
 
 <div class="container-fluid mt-4">
@@ -26,39 +25,7 @@ require("config/db.php");
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><strong>SN-987654321</strong></td>
-                            <td>Toyota Hilux 2023</td>
-                            <td><span class="badge bg-secondary">ABC-123-D</span></td>
-                            <td>Sucursal Norte</td>
-                            <td>Juan Pérez</td>
-                            <td><span class="badge bg-success">Activo</span></td>
-                            <td class="text-center">
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="verDetalles(1)">
-                                        <i class="bi bi-eye"></i> Detalles
-                                    </button>
-                                    
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                                        <ul class="dropdown-menu dropdown-menu-end shadow">
-                                            <li>
-                                                <a class="dropdown-item" href="#" onclick="verHistorial(1)">
-                                                    <i class="bi bi-clock-history"></i> Ver Historial
-                                                </a>
-                                            </li>
-                                            <li><hr class="dropdown-divider"></li>
-                                            <li>
-                                                <a class="dropdown-item text-danger" href="#" onclick="confirmarBaja(1, 'SN-987654321')">
-                                                    <i class="bi bi-trash"></i> Dar de Baja
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </div>
@@ -137,15 +104,21 @@ require("config/db.php");
 
                         <div class="col-md-4">
                             <label class="form-label small">Sucursal Actual</label>
-                            <select id="edit_sucursal_id" name="sucursal_id" class="form-select form-select-sm" required></select>
+                            <select id="edit_sucursal_id" name="sucursal_id" class="form-select form-select-sm" required>
+                                <option value="">Cargando...</option>
+                            </select>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label small">Responsable</label>
-                            <select id="edit_responsable_id" name="responsable_id" class="form-select form-select-sm" required></select>
+                            <select id="edit_responsable_id" name="responsable_id" class="form-select form-select-sm" required>
+                                <option value="">Cargando...</option>
+                            </select>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label small">Gerente a Reportar</label>
-                            <select id="edit_gerente_reportar_id" name="gerente_reportar_id" class="form-select form-select-sm" required></select>
+                            <select id="edit_gerente_reportar_id" name="gerente_reportar_id" class="form-select form-select-sm" required>
+                                <option value="">Cargando...</option>
+                            </select>
                         </div>
 
                         <div class="col-md-3">
@@ -196,8 +169,8 @@ require("config/db.php");
 
 
 <script>
-// Variable global para la tabla
-let tablaVehiculos;
+// Bandera para cargar los selects una sola vez
+let selectsCargados = false;
 
 async function cargarCatalogo() {
     try {
@@ -240,7 +213,6 @@ async function cargarCatalogo() {
                 </tr>`;
         });
 
-        // Inicializar DataTable DESPUÉS de llenar el HTML
         inicializarDataTable();
 
     } catch (error) {
@@ -251,8 +223,6 @@ async function cargarCatalogo() {
 function nuevoVehiculo() {
     window.location.href = 'AUD_agregar_vehiculo.php';
 }
-
-
 
 function inicializarDataTable() {
     $('#tablaVehiculos').DataTable({
@@ -275,32 +245,74 @@ function inicializarDataTable() {
     });
 }
 
-// Única llamada al inicio
-document.addEventListener('DOMContentLoaded', cargarCatalogo);
+// --- MODIFICACIÓN CLAVE: Cargar desde tus archivos existentes ---
+async function cargarSelectsEdicion() {
+    if (selectsCargados) return; 
+
+    try {
+        // Ejecutamos ambas peticiones en paralelo para mayor velocidad
+        const [resSuc, resUsr] = await Promise.all([
+            fetch('AUD_controller/get_sucursales.php'),      // Tu archivo existente
+            fetch('AUD_controller/get_usuarios_activos.php') // Tu archivo existente
+        ]);
+
+        const sucursales = await resSuc.json();
+        const usuarios = await resUsr.json();
+
+        // 1. Llenar Sucursales
+        let opcionesSucursal = '<option value="">Seleccione Sucursal...</option>';
+        sucursales.forEach(s => {
+            // Ajusta 's.id' y 's.nombre' si en tu BD se llaman diferente
+            opcionesSucursal += `<option value="${s.id}">${s.nombre}</option>`;
+        });
+        document.getElementById('edit_sucursal_id').innerHTML = opcionesSucursal;
+
+        // 2. Llenar Usuarios (Responsable y Gerente)
+        let opcionesUsuario = '<option value="">Seleccione Usuario...</option>';
+        usuarios.forEach(u => {
+            opcionesUsuario += `<option value="${u.id}">${u.nombre}</option>`;
+        });
+
+        document.getElementById('edit_responsable_id').innerHTML = opcionesUsuario;
+        document.getElementById('edit_gerente_reportar_id').innerHTML = opcionesUsuario;
+
+        selectsCargados = true; 
+
+    } catch (error) {
+        console.error("Error cargando selects (Revisa las rutas):", error);
+    }
+}
 
 async function prepararEdicion(id) {
     try {
+        Swal.showLoading();
+
+        // Llamamos a la función corregida antes de llenar los datos
+        await cargarSelectsEdicion();
+
         const response = await fetch(`AUD_controller/get_detalle_vehiculo.php?id=${id}`);
         const v = await response.json();
 
         if (v.status === 'error') throw new Error(v.message);
 
-        // 1. Identificador interno
-        document.getElementById('edit_id').value = v.id;
-        document.getElementById('edit_no_serie_label').innerText = v.no_serie;
+        Swal.close(); 
 
-        // 2. DATOS FIJOS (Solo lectura / No editables)
-        // Les asignamos el valor pero el HTML debe tener el atributo 'readonly'
+        // 1. IDs
+        document.getElementById('edit_id').value = v.id;
+
+        // 2. DATOS FIJOS
         document.getElementById('edit_no_serie').value = v.no_serie;
         document.getElementById('edit_fecha_alta').value = v.fecha_alta;
         document.getElementById('edit_marca').value = v.marca;
         document.getElementById('edit_modelo').value = v.modelo;
         document.getElementById('edit_anio').value = v.anio;
 
-        // 3. DATOS MODIFICABLES (Los que generan historial de cambios)
+        // 3. DATOS MODIFICABLES
+        // Al haberse ejecutado 'cargarSelectsEdicion', estos valores se seleccionarán correctamente
         document.getElementById('edit_sucursal_id').value = v.sucursal_id;
         document.getElementById('edit_responsable_id').value = v.responsable_id;
         document.getElementById('edit_gerente_reportar_id').value = v.gerente_reportar_id;
+        
         document.getElementById('edit_no_licencia').value = v.no_licencia;
         document.getElementById('edit_vigencia_licencia').value = v.fecha_vencimiento_licencia;
         document.getElementById('edit_placas').value = v.placas;
@@ -310,7 +322,6 @@ async function prepararEdicion(id) {
         document.getElementById('edit_vigencia_poliza').value = v.vigencia_poliza;
         document.getElementById('edit_telefono_siniestro').value = v.telefono_siniestro;
 
-        // Mostramos el modal
         const modalEdit = new bootstrap.Modal(document.getElementById('modalEditar'));
         modalEdit.show();
 
@@ -323,7 +334,6 @@ async function prepararEdicion(id) {
 document.getElementById('formEditarVehiculo').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    // Confirmación antes de guardar
     const confirmacion = await Swal.fire({
         title: '¿Guardar cambios?',
         text: "Se registrarán los cambios en el historial de la unidad.",
@@ -335,7 +345,6 @@ document.getElementById('formEditarVehiculo').addEventListener('submit', async f
 
     if (!confirmacion.isConfirmed) return;
 
-    // Mostrar estado de carga
     Swal.showLoading();
 
     const formData = new FormData(this);
@@ -356,12 +365,11 @@ document.getElementById('formEditarVehiculo').addEventListener('submit', async f
                 timer: 2000
             });
             
-            // Cerrar modal y refrescar la tabla
             const modalElement = document.getElementById('modalEditar');
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide();
             
-            cargarCatalogo(); // Tu función que refresca la tabla
+            cargarCatalogo(); 
         } else {
             Swal.fire('Error', res.message, 'error');
         }
@@ -381,7 +389,6 @@ async function verHistorial(id) {
             return;
         }
 
-        // Construimos una tabla HTML para el SweetAlert
         let tablaHtml = `
             <div class="table-responsive">
                 <table class="table table-sm table-striped small">
@@ -434,7 +441,6 @@ function confirmarBaja(id, serie) {
         }
     }).then((result) => {
         if (result.isConfirmed) {
-            // Enviamos al controlador que creamos antes
             const formData = new FormData();
             formData.append('id', id);
             formData.append('motivo', result.value);
@@ -447,7 +453,7 @@ function confirmarBaja(id, serie) {
             .then(data => {
                 if(data.status === 'success') {
                     Swal.fire('¡Baja exitosa!', data.message, 'success');
-                    cargarCatalogo(); // Recargamos la tabla para ver el cambio de color
+                    cargarCatalogo();
                 } else {
                     Swal.fire('Error', data.message, 'error');
                 }
@@ -455,6 +461,7 @@ function confirmarBaja(id, serie) {
         }
     });
 }
+
 async function verDetalles(id) {
     try {
         const response = await fetch(`AUD_controller/get_detalle_vehiculo.php?id=${id}`);
@@ -462,13 +469,12 @@ async function verDetalles(id) {
 
         if (v.status === 'error') throw new Error(v.message);
 
-        // Mapeo masivo de datos
         document.getElementById('det_serie').innerText = v.no_serie;
         document.getElementById('det_alta').innerText = v.fecha_alta;
         document.getElementById('det_marca').innerText = v.marca;
         document.getElementById('det_modelo').innerText = v.modelo;
         document.getElementById('det_anio').innerText = v.anio;
-        document.getElementById('det_sucursal').innerText = v.sucursal_id; // Aquí idealmente el nombre
+        document.getElementById('det_sucursal').innerText = v.sucursal_id; 
         document.getElementById('det_responsable').innerText = v.responsable_id;
         document.getElementById('det_gerente').innerText = v.gerente_reportar_id;
         document.getElementById('det_placas').innerText = v.placas;
@@ -489,7 +495,11 @@ async function verDetalles(id) {
         Swal.fire('Error', 'No se pudieron cargar los detalles', 'error');
     }
 }
+
+// Llamada inicial
+document.addEventListener('DOMContentLoaded', cargarCatalogo);
 </script>
+
 <?php 
 include("src/templates/adminfooter.php");
 ?>
