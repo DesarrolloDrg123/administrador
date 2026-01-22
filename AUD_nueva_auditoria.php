@@ -8,31 +8,51 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 $usuario_id = $_SESSION['usuario_id'];
 include("src/templates/adminheader.php");
 require("config/db.php");
-
 ?>
+
+<style>
+    /* Hace los Radio Buttons un 50% más grandes */
+    .radio-touch {
+        transform: scale(1.5); 
+        margin: 5px;
+        cursor: pointer;
+    }
+    
+    /* Aumenta la zona de clic en las celdas de la tabla */
+    .table-touch tbody td {
+        vertical-align: middle;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    /* Mejora la lectura en pantallas medianas */
+    .concepto-texto {
+        font-size: 1.1rem; /* Un poco más grande que el estándar */
+        line-height: 1.4;
+    }
+</style>
 
 <div class="container-fluid mt-4">
     <form id="formNuevaAuditoria">
         <div class="card shadow mb-4">
-            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                <h5 class="mb-0"><i class="bi bi-file-earmark-check"></i> Formato de Auditoría</h5>
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center flex-wrap">
+                <h5 class="mb-2 mb-md-0"><i class="bi bi-file-earmark-check"></i> Formato de Auditoría</h5>
                 <h4 class="mb-0 text-warning" id="txtFolio">FOLIO: Cargando...</h4>
                 <input type="hidden" id="folio_final" name="folio" value="">
             </div>
             <div class="card-body bg-light">
-                <div class="row">
-                    <div class="col-md-4">
+                <div class="row g-3"> <div class="col-md-4 col-12">
                         <label class="fw-bold">Seleccionar Unidad (Serie)</label>
                         <select id="selectVehiculo" name="vehiculo_id" class="form-select select2" required onchange="cargarDatosVehiculo(this.value)">
                             <option value="">Seleccione una serie activa...</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
-                        <label class="fw-bold">Fecha de Auditoría</label>
+                    <div class="col-md-4 col-6">
+                        <label class="fw-bold">Fecha</label>
                         <input type="date" class="form-control" name="fecha_auditoria" value="<?= date('Y-m-d') ?>" required>
                     </div>
-                    <div class="col-md-3">
-                        <label class="fw-bold">Kilometraje Actual</label>
+                    <div class="col-md-4 col-6">
+                        <label class="fw-bold">Kilometraje</label>
                         <div class="input-group">
                             <input type="number" class="form-control" name="kilometraje" placeholder="00000" required>
                             <span class="input-group-text">KM</span>
@@ -42,30 +62,40 @@ require("config/db.php");
             </div>
         </div>
 
-        <ul class="nav nav-pills nav-fill mb-3 shadow-sm" id="auditTabs" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" data-toggle="tab" href="#seg1">1. Datos Generales</a>
+        <ul class="nav nav-pills nav-fill mb-3 shadow-sm flex-column flex-sm-row" id="auditTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active py-3" id="tab-seg1" data-bs-toggle="tab" data-bs-target="#seg1" type="button" role="tab">
+                    1. Datos
+                </button>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg2">2. Documentos</a>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link py-3" id="tab-seg2" data-bs-toggle="tab" data-bs-target="#seg2" type="button" role="tab" onclick="cargarChecklist('Documento', 'seg2')">
+                    2. Documentos
+                </button>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg3">3. Herramientas</a>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link py-3" id="tab-seg3" data-bs-toggle="tab" data-bs-target="#seg3" type="button" role="tab" onclick="cargarChecklist('Inventario', 'seg3')">
+                    3. Herramientas
+                </button>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg4">4. Estado Físico</a>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link py-3" id="tab-seg4" data-bs-toggle="tab" data-bs-target="#seg4" type="button" role="tab" onclick="cargarChecklist('Estado', 'seg4')">
+                    4. Estado Físico
+                </button>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg5">5. Mantenimiento</a>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link py-3" id="tab-seg5" data-bs-toggle="tab" data-bs-target="#seg5" type="button" role="tab">
+                    5. Mtto.
+                </button>
             </li>
         </ul>
 
-        <div class="tab-content border p-4 bg-white shadow-sm rounded">
+        <div class="tab-content border p-3 p-md-4 bg-white shadow-sm rounded">
             <div class="tab-pane fade show active" id="seg1">
                 <div id="infoVehiculo" class="row text-center py-4">
                     <div class="col-12 text-muted">
                         <i class="bi bi-car-front fs-1"></i>
-                        <p>Seleccione un vehículo arriba para cargar la información técnica.</p>
+                        <p>Seleccione un vehículo arriba para cargar la información.</p>
                     </div>
                 </div>
             </div>
@@ -75,188 +105,130 @@ require("config/db.php");
             <div class="tab-pane fade" id="seg4"> <div class="checklist-container"></div> </div>
             
             <div class="tab-pane fade" id="seg5">
-                <h6 class="text-primary mb-3">Últimos dos servicios de mantenimiento</h6>
-                <table class="table table-bordered align-middle" id="tablaMantenimiento">
-                    <thead class="table-secondary">
-                        <tr>
-                            <th>Fecha</th><th>Kilometraje</th><th>Tipo de Servicio</th><th>Taller</th><th>Observaciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php for($i=1; $i<=2; $i++): ?>
-                        <tr>
-                            <td><input type="date" class="form-control form-control-sm m_fecha"></td>
-                            <td><input type="number" class="form-control form-control-sm m_km"></td>
-                            <td><input type="text" class="form-control form-control-sm m_servicio"></td>
-                            <td><input type="text" class="form-control form-control-sm m_taller"></td>
-                            <td><input type="text" class="form-control form-control-sm m_obs"></td>
-                        </tr>
-                        <?php endfor; ?>
-                    </tbody>
-                </table>
+                <h6 class="text-primary mb-3">Últimos dos servicios</h6>
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle" id="tablaMantenimiento" style="min-width: 800px;">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th style="width:15%">Fecha</th>
+                                <th style="width:15%">Km</th>
+                                <th>Servicio</th>
+                                <th>Taller</th>
+                                <th>Notas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php for($i=1; $i<=2; $i++): ?>
+                            <tr>
+                                <td><input type="date" class="form-control m_fecha"></td>
+                                <td><input type="number" class="form-control m_km" placeholder="KM"></td>
+                                <td><input type="text" class="form-control m_servicio" placeholder="Aceite, frenos..."></td>
+                                <td><input type="text" class="form-control m_taller"></td>
+                                <td><input type="text" class="form-control m_obs"></td>
+                            </tr>
+                            <?php endfor; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <div class="mt-4 mb-5 p-3 bg-light rounded border">
-            <label class="fw-bold">Observaciones del Auditor (Opcional)</label>
-            <textarea name="observaciones" class="form-control" rows="2" placeholder="Escriba aquí hallazgos generales..."></textarea>
-            <hr>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="h5 mb-0 text-primary">Puntuación Total Estimada: <span id="puntosTotales">0</span> pts</div>
-                <button type="submit" class="btn btn-success btn-lg">
-                    <i class="bi bi-cloud-arrow-up"></i> Finalizar y Guardar Auditoría
+        <div class="mt-4 mb-5 p-3 bg-light rounded border sticky-bottom shadow-lg" style="bottom: 0; z-index: 100;">
+            <label class="fw-bold">Observaciones Generales</label>
+            <textarea name="observaciones" class="form-control mb-3" rows="2" placeholder="Escriba aquí hallazgos..."></textarea>
+            
+            <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+                <div class="h4 mb-0 text-primary fw-bold text-center text-md-start">
+                    Total: <span id="puntosTotales">0</span> pts
+                </div>
+                <button type="submit" class="btn btn-success btn-lg py-3 px-5">
+                    <i class="bi bi-check-circle-fill"></i> GUARDAR AUDITORÍA
                 </button>
             </div>
         </div>
     </form>
 </div>
 
-
 <script>
-// UN SOLO LISTENER PARA TODO
 document.addEventListener('DOMContentLoaded', () => {
     initForm();
     consultarFolio();
-    
-    // Inicializar Select2 si existe
     if (typeof $.fn.select2 !== 'undefined') {
-        $('.select2').select2({ theme: 'bootstrap-5' });
+        $('.select2').select2({ theme: 'bootstrap-5', width: '100%' });
     }
 });
 
-// Detectar cambio de pestaña para Bootstrap 4 o 5
-$(document).on('shown.bs.tab', 'a[data-toggle="tab"], a[data-bs-toggle="tab"]', function (e) {
-    const targetId = $(e.target).attr('href').replace('#', ''); // seg2, seg3, etc.
-    
-    if (targetId === 'seg2') cargarChecklist('Documento', 'seg2');
-    if (targetId === 'seg3') cargarChecklist('Inventario', 'seg3');
-    if (targetId === 'seg4') cargarChecklist('Estado', 'seg4');
-});
+// --- FUNCIONES ---
 
 async function initForm() {
     try {
         const res = await fetch('AUD_controller/get_vehiculos.php');
         const vehiculos = await res.json();
         const select = document.getElementById('selectVehiculo');
-        
-        // Limpiar y cargar
-        select.innerHTML = '<option value="">Seleccione una serie activa...</option>';
+        select.innerHTML = '<option value="">Seleccione vehículo...</option>';
         vehiculos.filter(v => v.estatus !== 'Baja').forEach(v => {
             select.innerHTML += `<option value="${v.id}">${v.no_serie} - ${v.marca} (${v.placas})</option>`;
         });
-    } catch (e) { console.error("Error en initForm:", e); }
+    } catch (e) { console.error(e); }
 }
 
 async function consultarFolio() {
     try {
-        const response = await fetch('AUD_controller/obtener_folio.php');
-        const data = await response.json();
+        const res = await fetch('AUD_controller/obtener_folio.php');
+        const data = await res.json();
         if (data.status === 'success') {
             document.getElementById('txtFolio').innerText = `FOLIO: ${data.folio}`;
             document.getElementById('folio_final').value = data.folio;
         }
-    } catch (error) { console.error("Error en consultarFolio:", error); }
+    } catch (e) { console.error(e); }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    initForm();
-    consultarFolio();
-
-    // ESCUCHADOR UNIVERSAL PARA TABS (Bootstrap 4 y 5)
-    const tabLinks = document.querySelectorAll('#auditTabs a');
-    tabLinks.forEach(link => {
-        link.addEventListener('shown.bs.tab', function (e) {
-            const targetId = e.target.getAttribute('href').replace('#', '');
-            ejecutarCargaPorTab(targetId);
-        });
-        
-        // Soporte extra para versiones viejas si el evento anterior no dispara
-        link.addEventListener('click', function (e) {
-            const targetId = this.getAttribute('href').replace('#', '');
-            ejecutarCargaPorTab(targetId);
-        });
-    });
-
-    if (typeof $.fn.select2 !== 'undefined') {
-        $('.select2').select2({ theme: 'bootstrap-5' });
-    }
-});
-
-// Función auxiliar para decidir qué cargar
-function ejecutarCargaPorTab(id) {
-    if (id === 'seg2') cargarChecklist('Documento', 'seg2');
-    if (id === 'seg3') cargarChecklist('Inventario', 'seg3');
-    if (id === 'seg4') cargarChecklist('Estado', 'seg4');
-}
-
-// CARGAR DATOS DEL VEHÍCULO (SEGMENTO 1)
 async function cargarDatosVehiculo(id) {
     if(!id) return;
     try {
         const res = await fetch(`AUD_controller/get_detalle_vehiculo.php?id=${id}`);
         const v = await res.json();
         
+        // Layout adaptado a móvil/tablet (stacked)
         document.getElementById('infoVehiculo').innerHTML = `
-            <div class="col-md-3 border-end"><strong>Sucursal</strong><p class="text-primary">${v.sucursal_nombre || 'N/A'}</p></div>
-            <div class="col-md-3 border-end"><strong>Responsable</strong><p class="text-primary">${v.responsable_nombre || 'N/A'}</p></div>
-            <div class="col-md-3 border-end"><strong>Licencia</strong><p class="text-primary">${v.no_licencia || 'N/A'}<br><small>(Vence: ${v.fecha_vencimiento_licencia || 'N/A'})</small></p></div>
-            <div class="col-md-3"><strong>Vehículo</strong><p class="text-primary">${v.marca} ${v.modelo} ${v.anio}<br>Placas: ${v.placas}</p></div>
+            <div class="col-md-3 col-6 mb-3 border-end"><strong>Sucursal</strong><br><span class="text-primary">${v.sucursal_nombre || '-'}</span></div>
+            <div class="col-md-3 col-6 mb-3 border-end"><strong>Responsable</strong><br><span class="text-primary">${v.responsable_nombre || '-'}</span></div>
+            <div class="col-md-3 col-6 mb-3 border-end"><strong>Licencia</strong><br><span class="text-primary">${v.no_licencia || '-'}</span></div>
+            <div class="col-md-3 col-6 mb-3"><strong>Placas</strong><br><span class="text-primary">${v.placas}</span></div>
         `;
-    } catch (e) { console.error("Error en cargarDatosVehiculo:", e); }
+    } catch (e) { console.error(e); }
 }
 
-// CARGAR CHECKLIST (SEGMENTOS 2, 3, 4)
 async function cargarChecklist(tipo, containerId) {
     const container = document.querySelector(`#${containerId} .checklist-container`);
-    if (!container) return;
+    if (!container || container.innerHTML.includes('table')) return; // Evita recargas
 
-    container.innerHTML = `
-        <div class="text-center p-4">
-            <div class="spinner-border text-primary" role="status"></div>
-            <p class="mt-2">Cargando conceptos de ${tipo}...</p>
-        </div>`;
+    container.innerHTML = `<div class="text-center p-5"><div class="spinner-border text-primary"></div><br>Cargando...</div>`;
 
     try {
         const res = await fetch('AUD_controller/get_conceptos_auditoria.php?solo_activos=1');
         const conceptos = await res.json();
-        
-        // NORMALIZACIÓN: Quitamos espacios y pasamos a minúsculas para comparar
-        const tipoBusqueda = tipo.trim().toLowerCase();
-
-        const items = conceptos.filter(c => {
-            const tipoBD = c.tipo.trim().toLowerCase();
-            // Esto permite que "Documento" coincida con "Documentos" o "Documentación"
-            return tipoBD.includes(tipoBusqueda) || tipoBusqueda.includes(tipoBD);
-        });
+        const items = conceptos.filter(c => c.tipo.toLowerCase().includes(tipo.toLowerCase()));
 
         if (items.length === 0) {
-            const tiposEnBD = [...new Set(conceptos.map(c => c.tipo))].join(', ');
-            container.innerHTML = `
-                <div class="alert alert-warning m-3 shadow-sm border-start border-warning border-4">
-                    <div class="d-flex">
-                        <i class="bi bi-exclamation-triangle-fill fs-4 me-2"></i>
-                        <div>
-                            <strong>No se encontraron conceptos para "${tipo}"</strong><br>
-                            <small>En la base de datos existen estos tipos: <span class="badge bg-dark">${tiposEnBD || 'Ninguno'}</span></small><br>
-                            <p class="mb-0 mt-2 text-muted" style="font-size: 0.8rem;">Verifica que en el catálogo los tipos estén escritos correctamente.</p>
-                        </div>
-                    </div>
-                </div>`;
+            container.innerHTML = `<div class="alert alert-warning">No se encontraron conceptos.</div>`;
             return;
         }
 
+        // AQUÍ ESTÁ LA MAGIA PARA TABLETAS: table-responsive + estilos custom
         let html = `
-        <table class="table table-bordered table-hover align-middle shadow-sm bg-white">
-            <thead class="table-dark">
-                <tr>
-                    <th style="width: 45%;">Descripción del Concepto</th>
-                    <th class="text-center">Si / Bueno</th>
-                    <th class="text-center">No / Reg</th>
-                    <th class="text-center">N.A / Malo</th>
-                    <th class="text-center" style="width: 100px;">Puntos</th>
-                </tr>
-            </thead>
-            <tbody>`;
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle shadow-sm bg-white table-touch">
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th class="text-start" style="min-width: 200px;">Concepto a Revisar</th>
+                        <th style="min-width: 80px;">Bueno<br>Si</th>
+                        <th style="min-width: 80px;">Reg<br>No</th>
+                        <th style="min-width: 80px;">Malo<br>N.A</th>
+                        <th style="width: 60px;">Pts</th>
+                    </tr>
+                </thead>
+                <tbody>`;
 
         items.forEach(c => {
             const p1 = parseFloat(c.c1) || 0;
@@ -265,34 +237,36 @@ async function cargarChecklist(tipo, containerId) {
 
             html += `
                 <tr>
-                    <td class="fw-bold text-secondary">${c.descripcion}</td>
-                    <td class="text-center">
-                        <input type="radio" name="check_${c.id}" value="C1" class="form-check-input border-success" 
-                        onclick="calcularPuntos(${c.id}, ${p1})" required>
-                        <div class="small text-success fw-bold">+${p1}</div>
-                    </td>
-                    <td class="text-center">
-                        <input type="radio" name="check_${c.id}" value="C2" class="form-check-input border-warning" 
-                        onclick="calcularPuntos(${c.id}, ${p2})">
-                        <div class="small text-warning fw-bold">+${p2}</div>
-                    </td>
-                    <td class="text-center">
-                        <input type="radio" name="check_${c.id}" value="C3" class="form-check-input border-danger" 
-                        onclick="calcularPuntos(${c.id}, ${p3})">
-                        <div class="small text-danger fw-bold">+${p3}</div>
+                    <td>
+                        <span class="concepto-texto fw-bold text-secondary">${c.descripcion}</span>
                     </td>
                     <td class="text-center bg-light">
-                        <span id="pts_${c.id}" class="h5 fw-bold text-primary">0</span>
+                        <input type="radio" name="check_${c.id}" value="C1" class="form-check-input border-success radio-touch" 
+                        onclick="calcularPuntos(${c.id}, ${p1})">
+                        <div class="text-success fw-bold small mt-1">+${p1}</div>
+                    </td>
+                    <td class="text-center">
+                        <input type="radio" name="check_${c.id}" value="C2" class="form-check-input border-warning radio-touch" 
+                        onclick="calcularPuntos(${c.id}, ${p2})">
+                        <div class="text-warning fw-bold small mt-1">+${p2}</div>
+                    </td>
+                    <td class="text-center">
+                        <input type="radio" name="check_${c.id}" value="C3" class="form-check-input border-danger radio-touch" 
+                        onclick="calcularPuntos(${c.id}, ${p3})">
+                        <div class="text-danger fw-bold small mt-1">+${p3}</div>
+                    </td>
+                    <td class="text-center bg-light">
+                        <span id="pts_${c.id}" class="h4 fw-bold text-primary">0</span>
                     </td>
                 </tr>`;
         });
 
-        html += `</tbody></table>`;
+        html += `</tbody></table></div>`;
         container.innerHTML = html;
 
     } catch (error) {
-        console.error("Error:", error);
-        container.innerHTML = '<div class="alert alert-danger m-3">Error crítico al conectar con el servidor.</div>';
+        console.error(error);
+        container.innerHTML = '<div class="alert alert-danger">Error de conexión</div>';
     }
 }
 
@@ -301,26 +275,20 @@ function calcularPuntos(id, puntos) {
     if(span) span.innerText = puntos;
     
     let total = 0;
-    document.querySelectorAll('[id^="pts_"]').forEach(s => {
-        total += parseInt(s.innerText) || 0;
-    });
+    document.querySelectorAll('[id^="pts_"]').forEach(s => total += parseFloat(s.innerText) || 0);
     document.getElementById('puntosTotales').innerText = total;
 }
 
-// GUARDAR AUDITORÍA
 document.getElementById('formNuevaAuditoria').addEventListener('submit', async function(e) {
     e.preventDefault();
+    
+    // Validación básica de radios vacíos (opcional)
+    if(document.querySelectorAll('input[type="radio"]:checked').length === 0){
+        Swal.fire('Atención', 'No has contestado ninguna pregunta.', 'warning');
+        return;
+    }
 
-    const confirmacion = await Swal.fire({
-        title: '¿Finalizar Auditoría?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, Guardar'
-    });
-
-    if (!confirmacion.isConfirmed) return;
-
-    Swal.fire({ title: 'Procesando...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); }});
+    Swal.fire({ title: 'Guardando...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); }});
 
     const respuestas = [];
     document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
@@ -349,25 +317,28 @@ document.getElementById('formNuevaAuditoria').addEventListener('submit', async f
     const payload = {
         folio: document.getElementById('folio_final').value,
         vehiculo_id: document.getElementById('selectVehiculo').value,
-        kilometraje: this.kilometraje.value,
         fecha: this.fecha_auditoria.value,
+        kilometraje: this.kilometraje.value,
         observaciones: this.observaciones.value,
         respuestas: respuestas,
         mantenimiento: mantenimientos
     };
 
     try {
-        const response = await fetch('AUD_controller/guardar_auditoria.php', {
+        const res = await fetch('AUD_controller/guardar_auditoria.php', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(payload)
         });
-        const result = await response.json();
-        if (result.status === 'success') {
-            Swal.fire('¡Éxito!', result.message, 'success').then(() => location.reload());
+        const data = await res.json();
+        
+        if(data.status === 'success') {
+            Swal.fire('Guardado', data.message, 'success').then(() => location.reload());
         } else {
-            Swal.fire('Error', result.message, 'error');
+            Swal.fire('Error', data.message, 'error');
         }
-    } catch (error) { Swal.fire('Error', 'No se pudo conectar', 'error'); }
+    } catch(e) {
+        Swal.fire('Error', 'Error de red', 'error');
+    }
 });
 </script>
