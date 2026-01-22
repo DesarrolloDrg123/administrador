@@ -271,7 +271,7 @@ function confirmarBaja(id, serie) {
 }
 async function verDetalles(id) {
     try {
-        const response = await fetch(`AUD_controller/get_vehiculo_detalle.php?id=${id}`);
+        const response = await fetch(`AUD_controller/get_detalle_vehiculo.php?id=${id}`);
         const v = await response.json();
 
         if (v.status === 'error') throw new Error(v.message);
