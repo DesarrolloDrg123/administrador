@@ -8,8 +8,47 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 $usuario_id = $_SESSION['usuario_id'];
 include("src/templates/adminheader.php");
 require("config/db.php");
-
 ?>
+
+<style>
+    /* Hacemos el radio button más grande */
+    .radio-big {
+        transform: scale(1.6); 
+        margin-bottom: 5px; /* Espacio entre el radio y el número */
+        cursor: pointer;
+    }
+    
+    /* El número del puntaje más grande y visible */
+    .puntaje-big {
+        font-size: 1.2rem; /* Tamaño letra grande (aprox 19px) */
+        font-weight: 800;  /* Muy negrita */
+        display: block;    /* Asegura que ocupe su propia línea si es necesario */
+    }
+
+    /* Hace que toda la celda sea clicable y centra el contenido */
+    .celda-click {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column; /* Uno encima del otro (Radio arriba, Num abajo) */
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        transition: background-color 0.2s;
+    }
+
+    /* Efecto al pasar el dedo/mouse */
+    .celda-click:hover {
+        background-color: #f8f9fa; 
+    }
+    
+    /* Ajuste para que la descripción no se vea apretada */
+    .desc-concepto {
+        font-size: 1.1rem;
+        line-height: 1.4;
+    }
+</style>
 
 <div class="container-fluid mt-4">
     <form id="formNuevaAuditoria">
@@ -21,18 +60,18 @@ require("config/db.php");
             </div>
             <div class="card-body bg-light">
                 <div class="row">
-                    <div class="col-md-4">
-                        <label class="fw-bold">Seleccionar Unidad (Serie)</label>
+                    <div class="col-md-4 mb-3">
+                        <label class="fw-bold">Seleccionar Unidad</label>
                         <select id="selectVehiculo" name="vehiculo_id" class="form-select select2" required onchange="cargarDatosVehiculo(this.value)">
                             <option value="">Seleccione una serie activa...</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
-                        <label class="fw-bold">Fecha de Auditoría</label>
+                    <div class="col-md-4 mb-3">
+                        <label class="fw-bold">Fecha</label>
                         <input type="date" class="form-control" name="fecha_auditoria" value="<?= date('Y-m-d') ?>" required>
                     </div>
-                    <div class="col-md-3">
-                        <label class="fw-bold">Kilometraje Actual</label>
+                    <div class="col-md-4 mb-3">
+                        <label class="fw-bold">Kilometraje</label>
                         <div class="input-group">
                             <input type="number" class="form-control" name="kilometraje" placeholder="00000" required>
                             <span class="input-group-text">KM</span>
@@ -43,29 +82,19 @@ require("config/db.php");
         </div>
 
         <ul class="nav nav-pills nav-fill mb-3 shadow-sm" id="auditTabs" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" data-toggle="tab" href="#seg1">1. Datos Generales</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg2">2. Documentos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg3">3. Herramientas</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg4">4. Estado Físico</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg5">5. Mantenimiento</a>
-            </li>
+            <li class="nav-item"><a class="nav-link active py-3" data-bs-toggle="tab" href="#seg1">1. Datos</a></li>
+            <li class="nav-item"><a class="nav-link py-3" data-bs-toggle="tab" href="#seg2">2. Documentos</a></li>
+            <li class="nav-item"><a class="nav-link py-3" data-bs-toggle="tab" href="#seg3">3. Herramientas</a></li>
+            <li class="nav-item"><a class="nav-link py-3" data-bs-toggle="tab" href="#seg4">4. Estado</a></li>
+            <li class="nav-item"><a class="nav-link py-3" data-bs-toggle="tab" href="#seg5">5. Mtto.</a></li>
         </ul>
 
-        <div class="tab-content border p-4 bg-white shadow-sm rounded">
+        <div class="tab-content border p-3 bg-white shadow-sm rounded">
             <div class="tab-pane fade show active" id="seg1">
                 <div id="infoVehiculo" class="row text-center py-4">
                     <div class="col-12 text-muted">
                         <i class="bi bi-car-front fs-1"></i>
-                        <p>Seleccione un vehículo arriba para cargar la información técnica.</p>
+                        <p>Seleccione un vehículo arriba.</p>
                     </div>
                 </div>
             </div>
@@ -75,76 +104,79 @@ require("config/db.php");
             <div class="tab-pane fade" id="seg4"> <div class="checklist-container"></div> </div>
             
             <div class="tab-pane fade" id="seg5">
-                <h6 class="text-primary mb-3">Últimos dos servicios de mantenimiento</h6>
-                <table class="table table-bordered align-middle" id="tablaMantenimiento">
-                    <thead class="table-secondary">
-                        <tr>
-                            <th>Fecha</th><th>Kilometraje</th><th>Tipo de Servicio</th><th>Taller</th><th>Observaciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php for($i=1; $i<=2; $i++): ?>
-                        <tr>
-                            <td><input type="date" class="form-control form-control-sm m_fecha"></td>
-                            <td><input type="number" class="form-control form-control-sm m_km"></td>
-                            <td><input type="text" class="form-control form-control-sm m_servicio"></td>
-                            <td><input type="text" class="form-control form-control-sm m_taller"></td>
-                            <td><input type="text" class="form-control form-control-sm m_obs"></td>
-                        </tr>
-                        <?php endfor; ?>
-                    </tbody>
-                </table>
+                <h6 class="text-primary mb-3">Mantenimiento (Últimos 2 servicios)</h6>
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle" id="tablaMantenimiento" style="min-width: 600px;">
+                        <thead class="table-secondary">
+                            <tr><th>Fecha</th><th>Km</th><th>Servicio</th><th>Taller</th><th>Obs</th></tr>
+                        </thead>
+                        <tbody>
+                            <?php for($i=1; $i<=2; $i++): ?>
+                            <tr>
+                                <td><input type="date" class="form-control form-control-sm m_fecha"></td>
+                                <td><input type="number" class="form-control form-control-sm m_km"></td>
+                                <td><input type="text" class="form-control form-control-sm m_servicio"></td>
+                                <td><input type="text" class="form-control form-control-sm m_taller"></td>
+                                <td><input type="text" class="form-control form-control-sm m_obs"></td>
+                            </tr>
+                            <?php endfor; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <div class="mt-4 mb-5 p-3 bg-light rounded border">
-            <label class="fw-bold">Observaciones del Auditor (Opcional)</label>
-            <textarea name="observaciones" class="form-control" rows="2" placeholder="Escriba aquí hallazgos generales..."></textarea>
-            <hr>
+        <div class="mt-4 mb-5 p-3 bg-light rounded border sticky-bottom shadow">
+            <label class="fw-bold">Observaciones Generales</label>
+            <textarea name="observaciones" class="form-control mb-3" rows="2"></textarea>
             <div class="d-flex justify-content-between align-items-center">
-                <div class="h5 mb-0 text-primary">Puntuación Total Estimada: <span id="puntosTotales">0</span> pts</div>
-                <button type="submit" class="btn btn-success btn-lg">
-                    <i class="bi bi-cloud-arrow-up"></i> Finalizar y Guardar Auditoría
-                </button>
+                <div class="h4 mb-0 text-primary fw-bold">Total: <span id="puntosTotales">0</span> pts</div>
+                <button type="submit" class="btn btn-success btn-lg px-5">Guardar</button>
             </div>
         </div>
     </form>
 </div>
 
-
 <script>
-// UN SOLO LISTENER PARA TODO
 document.addEventListener('DOMContentLoaded', () => {
     initForm();
     consultarFolio();
     
-    // Inicializar Select2 si existe
+    // Configuración universal de Tabs
+    const tabLinks = document.querySelectorAll('a[data-bs-toggle="tab"], a[data-toggle="tab"]');
+    tabLinks.forEach(link => {
+        link.addEventListener('shown.bs.tab', function (e) {
+            const targetId = e.target.getAttribute('href').replace('#', '');
+            ejecutarCargaPorTab(targetId);
+        });
+        // Fallback click
+        link.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href').replace('#', '');
+            ejecutarCargaPorTab(targetId);
+        });
+    });
+
     if (typeof $.fn.select2 !== 'undefined') {
-        $('.select2').select2({ theme: 'bootstrap-5' });
+        $('.select2').select2({ theme: 'bootstrap-5', width: '100%' });
     }
 });
 
-// Detectar cambio de pestaña para Bootstrap 4 o 5
-$(document).on('shown.bs.tab', 'a[data-toggle="tab"], a[data-bs-toggle="tab"]', function (e) {
-    const targetId = $(e.target).attr('href').replace('#', ''); // seg2, seg3, etc.
-    
-    if (targetId === 'seg2') cargarChecklist('Documento', 'seg2');
-    if (targetId === 'seg3') cargarChecklist('Inventario', 'seg3');
-    if (targetId === 'seg4') cargarChecklist('Estado', 'seg4');
-});
+function ejecutarCargaPorTab(id) {
+    if (id === 'seg2') cargarChecklist('Documento', 'seg2');
+    if (id === 'seg3') cargarChecklist('Inventario', 'seg3');
+    if (id === 'seg4') cargarChecklist('Estado', 'seg4');
+}
 
 async function initForm() {
     try {
         const res = await fetch('AUD_controller/get_vehiculos.php');
         const vehiculos = await res.json();
         const select = document.getElementById('selectVehiculo');
-        
-        // Limpiar y cargar
-        select.innerHTML = '<option value="">Seleccione una serie activa...</option>';
+        select.innerHTML = '<option value="">Seleccione vehículo...</option>';
         vehiculos.filter(v => v.estatus !== 'Baja').forEach(v => {
             select.innerHTML += `<option value="${v.id}">${v.no_serie} - ${v.marca} (${v.placas})</option>`;
         });
-    } catch (e) { console.error("Error en initForm:", e); }
+    } catch (e) { console.error(e); }
 }
 
 async function consultarFolio() {
@@ -155,108 +187,53 @@ async function consultarFolio() {
             document.getElementById('txtFolio').innerText = `FOLIO: ${data.folio}`;
             document.getElementById('folio_final').value = data.folio;
         }
-    } catch (error) { console.error("Error en consultarFolio:", error); }
+    } catch (e) { console.error(e); }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    initForm();
-    consultarFolio();
-
-    // ESCUCHADOR UNIVERSAL PARA TABS (Bootstrap 4 y 5)
-    const tabLinks = document.querySelectorAll('#auditTabs a');
-    tabLinks.forEach(link => {
-        link.addEventListener('shown.bs.tab', function (e) {
-            const targetId = e.target.getAttribute('href').replace('#', '');
-            ejecutarCargaPorTab(targetId);
-        });
-        
-        // Soporte extra para versiones viejas si el evento anterior no dispara
-        link.addEventListener('click', function (e) {
-            const targetId = this.getAttribute('href').replace('#', '');
-            ejecutarCargaPorTab(targetId);
-        });
-    });
-
-    if (typeof $.fn.select2 !== 'undefined') {
-        $('.select2').select2({ theme: 'bootstrap-5' });
-    }
-});
-
-// Función auxiliar para decidir qué cargar
-function ejecutarCargaPorTab(id) {
-    if (id === 'seg2') cargarChecklist('Documento', 'seg2');
-    if (id === 'seg3') cargarChecklist('Inventario', 'seg3');
-    if (id === 'seg4') cargarChecklist('Estado', 'seg4');
-}
-
-// CARGAR DATOS DEL VEHÍCULO (SEGMENTO 1)
 async function cargarDatosVehiculo(id) {
     if(!id) return;
     try {
         const res = await fetch(`AUD_controller/get_detalle_vehiculo.php?id=${id}`);
         const v = await res.json();
-        
         document.getElementById('infoVehiculo').innerHTML = `
-            <div class="col-md-3 border-end"><strong>Sucursal</strong><p class="text-primary">${v.sucursal_nombre || 'N/A'}</p></div>
-            <div class="col-md-3 border-end"><strong>Responsable</strong><p class="text-primary">${v.responsable_nombre || 'N/A'}</p></div>
-            <div class="col-md-3 border-end"><strong>Licencia</strong><p class="text-primary">${v.no_licencia || 'N/A'}<br><small>(Vence: ${v.fecha_vencimiento_licencia || 'N/A'})</small></p></div>
-            <div class="col-md-3"><strong>Vehículo</strong><p class="text-primary">${v.marca} ${v.modelo} ${v.anio}<br>Placas: ${v.placas}</p></div>
+            <div class="col-md-3 border-end"><strong>Sucursal</strong><br>${v.sucursal_nombre || '-'}</div>
+            <div class="col-md-3 border-end"><strong>Responsable</strong><br>${v.responsable_nombre || '-'}</div>
+            <div class="col-md-3 border-end"><strong>Licencia</strong><br>${v.no_licencia || '-'}</div>
+            <div class="col-md-3"><strong>Placas</strong><br>${v.placas}</div>
         `;
-    } catch (e) { console.error("Error en cargarDatosVehiculo:", e); }
+    } catch (e) { console.error(e); }
 }
 
-// CARGAR CHECKLIST (SEGMENTOS 2, 3, 4)
+// --- AQUI ESTA EL CAMBIO IMPORTANTE DEL RADIO BUTTON ---
 async function cargarChecklist(tipo, containerId) {
     const container = document.querySelector(`#${containerId} .checklist-container`);
-    if (!container) return;
+    if (!container || container.innerHTML.includes('table')) return;
 
-    container.innerHTML = `
-        <div class="text-center p-4">
-            <div class="spinner-border text-primary" role="status"></div>
-            <p class="mt-2">Cargando conceptos de ${tipo}...</p>
-        </div>`;
+    container.innerHTML = `<div class="text-center p-5"><div class="spinner-border text-primary"></div></div>`;
 
     try {
         const res = await fetch('AUD_controller/get_conceptos_auditoria.php?solo_activos=1');
         const conceptos = await res.json();
-        
-        // NORMALIZACIÓN: Quitamos espacios y pasamos a minúsculas para comparar
-        const tipoBusqueda = tipo.trim().toLowerCase();
-
-        const items = conceptos.filter(c => {
-            const tipoBD = c.tipo.trim().toLowerCase();
-            // Esto permite que "Documento" coincida con "Documentos" o "Documentación"
-            return tipoBD.includes(tipoBusqueda) || tipoBusqueda.includes(tipoBD);
-        });
+        const items = conceptos.filter(c => c.tipo.toLowerCase().includes(tipo.toLowerCase()));
 
         if (items.length === 0) {
-            const tiposEnBD = [...new Set(conceptos.map(c => c.tipo))].join(', ');
-            container.innerHTML = `
-                <div class="alert alert-warning m-3 shadow-sm border-start border-warning border-4">
-                    <div class="d-flex">
-                        <i class="bi bi-exclamation-triangle-fill fs-4 me-2"></i>
-                        <div>
-                            <strong>No se encontraron conceptos para "${tipo}"</strong><br>
-                            <small>En la base de datos existen estos tipos: <span class="badge bg-dark">${tiposEnBD || 'Ninguno'}</span></small><br>
-                            <p class="mb-0 mt-2 text-muted" style="font-size: 0.8rem;">Verifica que en el catálogo los tipos estén escritos correctamente.</p>
-                        </div>
-                    </div>
-                </div>`;
+            container.innerHTML = `<div class="alert alert-warning">No se encontraron conceptos para ${tipo}.</div>`;
             return;
         }
 
         let html = `
-        <table class="table table-bordered table-hover align-middle shadow-sm bg-white">
-            <thead class="table-dark">
-                <tr>
-                    <th style="width: 45%;">Descripción del Concepto</th>
-                    <th class="text-center">Bueno</th>
-                    <th class="text-center">Reg</th>
-                    <th class="text-center">Malo</th>
-                    <th class="text-center" style="width: 100px;">Puntos</th>
-                </tr>
-            </thead>
-            <tbody>`;
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle shadow-sm bg-white">
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th class="text-start" style="width: 40%;">Concepto</th>
+                        <th style="width: 20%;">Bueno (Si)</th>
+                        <th style="width: 20%;">Regular (No)</th>
+                        <th style="width: 20%;">Malo (N/A)</th>
+                        <th style="width: 80px;">Pts</th>
+                    </tr>
+                </thead>
+                <tbody>`;
 
         items.forEach(c => {
             const p1 = parseFloat(c.c1) || 0;
@@ -265,34 +242,44 @@ async function cargarChecklist(tipo, containerId) {
 
             html += `
                 <tr>
-                    <td class="fw-bold text-secondary">${c.descripcion}</td>
-                    <td class="text-center">
-                        <input type="radio" name="check_${c.id}" value="C1" class="form-check-input border-success" 
-                        onclick="calcularPuntos(${c.id}, ${p1})" required>
-                        <div class="small text-success fw-bold">+${p1}</div>
+                    <td class="desc-concepto fw-bold text-secondary ps-3">${c.descripcion}</td>
+                    
+                    <td class="p-0 border-success" style="background-color: #f0fff4;">
+                        <label class="celda-click text-success">
+                            <input type="radio" name="check_${c.id}" value="C1" class="form-check-input radio-big border-success" 
+                            onclick="calcularPuntos(${c.id}, ${p1})" required>
+                            <span class="puntaje-big">+${p1}</span>
+                        </label>
                     </td>
-                    <td class="text-center">
-                        <input type="radio" name="check_${c.id}" value="C2" class="form-check-input border-warning" 
-                        onclick="calcularPuntos(${c.id}, ${p2})">
-                        <div class="small text-warning fw-bold">+${p2}</div>
+
+                    <td class="p-0 border-warning" style="background-color: #fffbf0;">
+                        <label class="celda-click text-warning">
+                            <input type="radio" name="check_${c.id}" value="C2" class="form-check-input radio-big border-warning" 
+                            onclick="calcularPuntos(${c.id}, ${p2})">
+                            <span class="puntaje-big">+${p2}</span>
+                        </label>
                     </td>
-                    <td class="text-center">
-                        <input type="radio" name="check_${c.id}" value="C3" class="form-check-input border-danger " 
-                        onclick="calcularPuntos(${c.id}, ${p3})">
-                        <div class="small text-danger fw-bold">+${p3}</div>
+
+                    <td class="p-0 border-danger" style="background-color: #fff5f5;">
+                        <label class="celda-click text-danger">
+                            <input type="radio" name="check_${c.id}" value="C3" class="form-check-input radio-big border-danger" 
+                            onclick="calcularPuntos(${c.id}, ${p3})">
+                            <span class="puntaje-big">+${p3}</span>
+                        </label>
                     </td>
+
                     <td class="text-center bg-light">
-                        <span id="pts_${c.id}" class="h5 fw-bold text-primary">0</span>
+                        <span id="pts_${c.id}" class="h4 fw-bold text-dark">0</span>
                     </td>
                 </tr>`;
         });
 
-        html += `</tbody></table>`;
+        html += `</tbody></table></div>`;
         container.innerHTML = html;
 
     } catch (error) {
-        console.error("Error:", error);
-        container.innerHTML = '<div class="alert alert-danger m-3">Error crítico al conectar con el servidor.</div>';
+        console.error(error);
+        container.innerHTML = '<div class="alert alert-danger">Error al cargar datos.</div>';
     }
 }
 
@@ -301,26 +288,14 @@ function calcularPuntos(id, puntos) {
     if(span) span.innerText = puntos;
     
     let total = 0;
-    document.querySelectorAll('[id^="pts_"]').forEach(s => {
-        total += parseInt(s.innerText) || 0;
-    });
+    document.querySelectorAll('[id^="pts_"]').forEach(s => total += parseFloat(s.innerText) || 0);
     document.getElementById('puntosTotales').innerText = total;
 }
 
-// GUARDAR AUDITORÍA
 document.getElementById('formNuevaAuditoria').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const confirmacion = await Swal.fire({
-        title: '¿Finalizar Auditoría?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, Guardar'
-    });
-
-    if (!confirmacion.isConfirmed) return;
-
-    Swal.fire({ title: 'Procesando...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); }});
+    Swal.fire({ title: 'Guardando...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); }});
 
     const respuestas = [];
     document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
