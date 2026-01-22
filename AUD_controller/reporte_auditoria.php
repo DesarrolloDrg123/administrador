@@ -1,5 +1,5 @@
 <?php
-require("config/db.php");
+require("../config/db.php");
 $id = $_GET['id'] ?? 0;
 
 // 1. Obtener Cabecera
