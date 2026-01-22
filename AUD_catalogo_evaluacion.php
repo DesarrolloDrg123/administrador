@@ -19,6 +19,7 @@ require("config/db.php");
         <table class="table table-sm table-hover w-100" id="tablaConceptos">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Tipo</th>
                     <th>Descripción</th>
                     <th>C1</th>
@@ -134,6 +135,7 @@ async function cargarConceptos() {
 
             tbody.innerHTML += `
                 <tr>
+                    <td>${c.id}</td>
                     <td><span class="badge bg-info text-dark">${c.tipo}</span></td>
                     <td>${c.descripcion}</td>
                     <td class="fw-bold text-primary">${c.c1}</td>
@@ -143,7 +145,7 @@ async function cargarConceptos() {
                     <td class="text-center">
                         <div class="btn-group">
                             <button class="btn btn-sm btn-outline-warning" onclick="prepararEdicionConcepto('${conceptoData}')">
-                                <i class="fa-solid fa-pen-to-square"></i>
+                                <i class="fas fa-edit"></i>
                             </button>
                             ${btnEstatus}
                         </div>
