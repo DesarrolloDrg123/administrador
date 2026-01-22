@@ -36,8 +36,8 @@ $sql = "INSERT INTO vehiculos_aud (
             sucursal_id, responsable_id, gerente_reportar_id, 
             no_licencia, fecha_vencimiento_licencia, placas, 
             tarjeta_circulacion, aseguradora, no_poliza, 
-            vigencia_poliza, telefono_siniestro
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            vigencia_poliza, telefono_siniestro, estatus
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
 
@@ -47,12 +47,12 @@ if (!$stmt) {
 }
 
 // Vinculación de los 16 parámetros
-$stmt->bind_param("sssssiiissssssss", 
+$stmt->bind_param("sssssiiisssssssss", 
     $no_serie, $fecha_alta, $marca, $modelo, $anio, 
     $sucursal_id, $responsable_id, $gerente_reportar_id, 
     $no_licencia, $vigencia_licencia, $placas, 
     $tarjeta_circulacion, $aseguradora, $no_poliza, 
-    $vigencia_poliza, $telefono_siniestro
+    $vigencia_poliza, $telefono_siniestro, 'Activo'
 );
 
 if ($stmt->execute()) {
@@ -61,7 +61,7 @@ if ($stmt->execute()) {
     // 4. Registrar en el historial (vehiculos_historial_aud)
     // Usamos el ID del usuario en sesión si está disponible, sino el responsable_id
     $usuario_sesion = $_SESSION['usuario_id'] ?? $responsable_id;
-    $detalle = "Alta inicial de unidad desde tableta";
+    $detalle = "Alta inicial de unidad";
     $campo = "Registro";
     
     $sql_h = "INSERT INTO vehiculos_historial_aud (vehiculo_id, usuario_id, campo_modificado, valor_nuevo) 
