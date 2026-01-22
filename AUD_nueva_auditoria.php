@@ -99,7 +99,7 @@ require("config/db.php");
 
         <div class="mt-4 mb-3 p-3 bg-white rounded border shadow-sm">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="text-danger mb-0 fw-bold"><i class="bi bi-exclamation-octagon"></i> 4. Gestión de Tareas (Incidentes) Pendientes</h6>
+                <h6 class="text-danger mb-0 fw-bold"><i class="bi bi-exclamation-octagon"></i>Gestión de Tareas (Incidentes) Pendientes</h6>
                 <button type="button" class="btn btn-outline-danger btn-sm" onclick="agregarFilaIncidencia()">
                     <i class="bi bi-plus-circle"></i> Agregar Incidencia
                 </button>
@@ -216,7 +216,7 @@ function agregarFilaIncidencia() {
         <td><input type="text" class="form-control form-control-sm row-incidencia" placeholder="Ej. Limpiaparabrisas dañados, Falta llanta de refacción..." required></td>
         <td class="text-center">
             <button type="button" class="btn btn-link text-danger p-0" onclick="this.closest('tr').remove()">
-                <i class="bi bi-trash"></i>
+                <i class="fas fa-trash fa-2x">
             </button>
         </td>
     `;
