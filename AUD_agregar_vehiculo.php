@@ -93,6 +93,7 @@ require("config/db.php");
                         <input type="number" name="telefono_siniestro" class="form-control" min="0000000001" max="9999999999" required>
                     </div>
                     <div class="col-12 mt-4 text-end">
+                        <button type="button" class="btn btn-info" onclick="window.location.href='AUD_catalogo_vehiculos.php'">Regresar</button>
                         <button type="button" class="btn btn-secondary" onclick="this.form.reset()">Limpiar</button>
                         <button type="submit" class="btn btn-success px-5">Guardar Vehículo</button>
                     </div>
