@@ -2,13 +2,18 @@
 require("../config/db.php");
 header('Content-Type: application/json');
 
+// Revisamos si en la URL viene ?solo_activos=1
+$solo_activos = isset($_GET['solo_activos']) && $_GET['solo_activos'] == '1';
+
 try {
-    // Consulta para traer los conceptos y el estatus
-    // Usamos un CASE para que en el front se vea "Activo" o "Inactivo"
-    $sql = "SELECT id, tipo, descripcion, c1, c2, c3, activo,
-            (SELECT SUM(c1) FROM cat_items_auditoria_aud c2 WHERE c2.tipo = cat_items_auditoria_aud.tipo AND c2.activo = 'S') as suma_tipo
-            FROM cat_items_auditoria_aud 
-            ORDER BY tipo ASC, id ASC";
+    $sql = "SELECT id, tipo, descripcion, c1, c2, c3, activo FROM cat_items_auditoria_aud";
+    
+    // Si se solicita, filtramos
+    if ($solo_activos) {
+        $sql .= " WHERE activo = 'S'";
+    }
+    
+    $sql .= " ORDER BY tipo ASC, id ASC";
 
     $result = $conn->query($sql);
     $conceptos = [];
@@ -22,5 +27,4 @@ try {
 } catch (Exception $e) {
     echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
-
 $conn->close();

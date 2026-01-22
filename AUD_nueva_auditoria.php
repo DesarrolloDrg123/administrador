@@ -160,62 +160,79 @@ async function cargarChecklist(tipo, containerId) {
     const container = document.querySelector(`#${containerId} .checklist-container`);
     if (!container) return;
 
-    container.innerHTML = '<div class="text-center p-3">Cargando...</div>';
+    container.innerHTML = `
+        <div class="text-center p-4">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2">Cargando conceptos de ${tipo}...</p>
+        </div>`;
 
     try {
-        const res = await fetch('AUD_controller/get_conceptos_auditoria.php');
+        const res = await fetch('AUD_controller/get_conceptos_auditoria.php?solo_activos=1');
         const conceptos = await res.json();
         
-        // Filtramos y limpiamos espacios o diferencias de mayúsculas
-        const items = conceptos.filter(c => 
-            c.tipo.trim().toLowerCase() === tipo.trim().toLowerCase()
-        );
+        // NORMALIZACIÓN: Quitamos espacios y pasamos a minúsculas para comparar
+        const tipoBusqueda = tipo.trim().toLowerCase();
 
-        console.log(`Buscando: ${tipo}. Encontrados: ${items.length}`);
+        const items = conceptos.filter(c => {
+            const tipoBD = c.tipo.trim().toLowerCase();
+            // Esto permite que "Documento" coincida con "Documentos" o "Documentación"
+            return tipoBD.includes(tipoBusqueda) || tipoBusqueda.includes(tipoBD);
+        });
 
         if (items.length === 0) {
+            const tiposEnBD = [...new Set(conceptos.map(c => c.tipo))].join(', ');
             container.innerHTML = `
-                <div class="alert alert-info">
-                    No se encontraron conceptos tipo "${tipo}" en la base de datos.<br>
-                    <small>Tipos encontrados en BD: ${[...new Set(conceptos.map(c => c.tipo))].join(', ')}</small>
+                <div class="alert alert-warning m-3 shadow-sm border-start border-warning border-4">
+                    <div class="d-flex">
+                        <i class="bi bi-exclamation-triangle-fill fs-4 me-2"></i>
+                        <div>
+                            <strong>No se encontraron conceptos para "${tipo}"</strong><br>
+                            <small>En la base de datos existen estos tipos: <span class="badge bg-dark">${tiposEnBD || 'Ninguno'}</span></small><br>
+                            <p class="mb-0 mt-2 text-muted" style="font-size: 0.8rem;">Verifica que en el catálogo los tipos estén escritos correctamente.</p>
+                        </div>
+                    </div>
                 </div>`;
             return;
         }
 
         let html = `
-        <table class="table table-bordered table-hover align-middle shadow-sm">
+        <table class="table table-bordered table-hover align-middle shadow-sm bg-white">
             <thead class="table-dark">
                 <tr>
-                    <th style="width: 40%;">Descripción</th>
-                    <th class="text-center">Bueno / Si</th>
-                    <th class="text-center">Regular / No</th>
-                    <th class="text-center">Malo / N.A</th>
-                    <th class="text-center" style="width: 100px;">Calif.</th>
+                    <th style="width: 45%;">Descripción del Concepto</th>
+                    <th class="text-center">Si / Bueno</th>
+                    <th class="text-center">No / Reg</th>
+                    <th class="text-center">N.A / Malo</th>
+                    <th class="text-center" style="width: 100px;">Puntos</th>
                 </tr>
             </thead>
             <tbody>`;
 
         items.forEach(c => {
+            const p1 = parseFloat(c.c1) || 0;
+            const p2 = parseFloat(c.c2) || 0;
+            const p3 = parseFloat(c.c3) || 0;
+
             html += `
                 <tr>
-                    <td class="fw-bold">${c.descripcion}</td>
+                    <td class="fw-bold text-secondary">${c.descripcion}</td>
                     <td class="text-center">
-                        <input type="radio" name="check_${c.id}" value="C1" class="form-check-input" 
-                        onclick="calcularPuntos(${c.id}, ${c.c1})" required>
-                        <br><small class="text-muted">+${c.c1}</small>
+                        <input type="radio" name="check_${c.id}" value="C1" class="form-check-input border-success" 
+                        onclick="calcularPuntos(${c.id}, ${p1})" required>
+                        <div class="small text-success fw-bold">+${p1}</div>
                     </td>
                     <td class="text-center">
-                        <input type="radio" name="check_${c.id}" value="C2" class="form-check-input" 
-                        onclick="calcularPuntos(${c.id}, ${c.c2})">
-                        <br><small class="text-muted">+${c.c2}</small>
+                        <input type="radio" name="check_${c.id}" value="C2" class="form-check-input border-warning" 
+                        onclick="calcularPuntos(${c.id}, ${p2})">
+                        <div class="small text-warning fw-bold">+${p2}</div>
                     </td>
                     <td class="text-center">
-                        <input type="radio" name="check_${c.id}" value="C3" class="form-check-input" 
-                        onclick="calcularPuntos(${c.id}, ${c.c3})">
-                        <br><small class="text-muted">+${c.c3}</small>
+                        <input type="radio" name="check_${c.id}" value="C3" class="form-check-input border-danger" 
+                        onclick="calcularPuntos(${c.id}, ${p3})">
+                        <div class="small text-danger fw-bold">+${p3}</div>
                     </td>
                     <td class="text-center bg-light">
-                        <span id="pts_${c.id}" class="h6 fw-bold text-primary">0</span>
+                        <span id="pts_${c.id}" class="h5 fw-bold text-primary">0</span>
                     </td>
                 </tr>`;
         });
@@ -225,7 +242,7 @@ async function cargarChecklist(tipo, containerId) {
 
     } catch (error) {
         console.error("Error:", error);
-        container.innerHTML = '<div class="alert alert-danger">Error de conexión al cargar conceptos.</div>';
+        container.innerHTML = '<div class="alert alert-danger m-3">Error crítico al conectar con el servidor.</div>';
     }
 }
 
