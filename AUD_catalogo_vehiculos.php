@@ -69,25 +69,33 @@ require("config/db.php");
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title">Ficha Técnica de la Unidad</h5>
+                <h5 class="modal-title"><i class="bi bi-truck"></i> Detalle Completo de la Unidad</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body" id="contenidoDetalles">
-                <div class="row">
-                    <div class="col-6"><strong>No. Serie:</strong> <span id="det_serie"></span></div>
-                    <div class="col-6"><strong>Fecha Alta:</strong> <span id="det_alta"></span></div>
-                    <hr>
-                    <div class="col-4"><strong>Marca:</strong> <p id="det_marca"></p></div>
-                    <div class="col-4"><strong>Modelo:</strong> <p id="det_modelo"></p></div>
-                    <div class="col-4"><strong>Año:</strong> <p id="det_anio"></p></div>
-                    <hr>
-                    <div class="col-6"><strong>Placas:</strong> <p id="det_placas"></p></div>
-                    <div class="col-6"><strong>Aseguradora:</strong> <p id="det_seguro"></p></div>
-                    <div class="col-12 mt-2">
-                        <div class="alert alert-info">
-                            <strong>Estatus Actual:</strong> <span id="det_estatus"></span>
-                        </div>
-                    </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-12"><h6 class="text-muted border-bottom">Datos de Identificación</h6></div>
+                    <div class="col-md-4"><strong>No. Serie:</strong><br><span id="det_serie"></span></div>
+                    <div class="col-md-4"><strong>Fecha Alta:</strong><br><span id="det_alta"></span></div>
+                    <div class="col-md-4"><strong>Estatus:</strong><br><span id="det_estatus"></span></div>
+                    <div class="col-md-4"><strong>Marca:</strong><br><span id="det_marca"></span></div>
+                    <div class="col-md-4"><strong>Modelo:</strong><br><span id="det_modelo"></span></div>
+                    <div class="col-md-4"><strong>Año:</strong><br><span id="det_anio"></span></div>
+
+                    <div class="col-12 mt-3"><h6 class="text-muted border-bottom">Asignación y Responsables</h6></div>
+                    <div class="col-md-4"><strong>Sucursal:</strong><br><span id="det_sucursal"></span></div>
+                    <div class="col-md-4"><strong>Responsable:</strong><br><span id="det_responsable"></span></div>
+                    <div class="col-md-4"><strong>Gerente a Reportar:</strong><br><span id="det_gerente"></span></div>
+
+                    <div class="col-12 mt-3"><h6 class="text-muted border-bottom">Documentación y Seguro</h6></div>
+                    <div class="col-md-4"><strong>Placas:</strong><br><span id="det_placas"></span></div>
+                    <div class="col-md-4"><strong>Tarjeta Circulación:</strong><br><span id="det_tarjeta"></span></div>
+                    <div class="col-md-4"><strong>No. Licencia:</strong><br><span id="det_licencia"></span></div>
+                    <div class="col-md-4"><strong>Vigencia Licencia:</strong><br><span id="det_vig_licencia"></span></div>
+                    <div class="col-md-4"><strong>Aseguradora:</strong><br><span id="det_aseguradora"></span></div>
+                    <div class="col-md-4"><strong>No. Póliza:</strong><br><span id="det_poliza"></span></div>
+                    <div class="col-md-4"><strong>Vigencia Póliza:</strong><br><span id="det_vig_poliza"></span></div>
+                    <div class="col-md-4"><strong>Tel. Siniestro:</strong><br><span id="det_tel_siniestro"></span></div>
                 </div>
             </div>
         </div>
@@ -151,6 +159,8 @@ function nuevoVehiculo() {
     window.location.href = 'AUD_agregar_vehiculo.php';
 }
 
+
+
 function inicializarDataTable() {
     $('#tablaVehiculos').DataTable({
         "language": { "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json" },
@@ -174,6 +184,54 @@ function inicializarDataTable() {
 
 // Única llamada al inicio
 document.addEventListener('DOMContentLoaded', cargarCatalogo);
+
+async function verHistorial(id) {
+    try {
+        const response = await fetch(`AUD_controller/get_historial_vehiculo.php?id=${id}`);
+        const data = await response.json();
+
+        if (data.length === 0) {
+            Swal.fire('Sin registros', 'No hay historial para esta unidad aún.', 'info');
+            return;
+        }
+
+        // Construimos una tabla HTML para el SweetAlert
+        let tablaHtml = `
+            <div class="table-responsive">
+                <table class="table table-sm table-striped small">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Usuario</th>
+                            <th>Campo</th>
+                            <th>Valor Nuevo/Detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+        
+        data.forEach(h => {
+            tablaHtml += `
+                <tr>
+                    <td>${h.fecha_cambio}</td>
+                    <td>${h.nombre_usuario || 'Sistema'}</td>
+                    <td><span class="badge bg-info text-dark">${h.campo_modificado}</span></td>
+                    <td>${h.valor_nuevo}</td>
+                </tr>`;
+        });
+
+        tablaHtml += `</tbody></table></div>`;
+
+        Swal.fire({
+            title: 'Historial de Movimientos',
+            html: tablaHtml,
+            width: '800px',
+            confirmButtonText: 'Cerrar'
+        });
+
+    } catch (error) {
+        Swal.fire('Error', 'No se pudo cargar el historial', 'error');
+    }
+}
 
 function confirmarBaja(id, serie) {
     Swal.fire({
@@ -213,23 +271,36 @@ function confirmarBaja(id, serie) {
 }
 async function verDetalles(id) {
     try {
-        const response = await fetch(`AUD_controller/get_detalle_vehiculo.php?id=${id}`);
+        const response = await fetch(`AUD_controller/get_vehiculo_detalle.php?id=${id}`);
         const v = await response.json();
 
-        // Llenamos el modal con los IDs que pusiste en tu HTML
-        document.getElementById('det_serie').textContent = v.no_serie;
-        document.getElementById('det_alta').textContent = v.fecha_alta;
-        document.getElementById('det_marca').textContent = v.marca;
-        document.getElementById('det_modelo').textContent = v.modelo;
-        document.getElementById('det_anio').textContent = v.anio;
-        document.getElementById('det_placas').textContent = v.placas;
-        document.getElementById('det_seguro').textContent = v.aseguradora;
-        document.getElementById('det_estatus').textContent = v.estatus;
+        if (v.status === 'error') throw new Error(v.message);
 
-        // Mostramos el modal
+        // Mapeo masivo de datos
+        document.getElementById('det_serie').innerText = v.no_serie;
+        document.getElementById('det_alta').innerText = v.fecha_alta;
+        document.getElementById('det_marca').innerText = v.marca;
+        document.getElementById('det_modelo').innerText = v.modelo;
+        document.getElementById('det_anio').innerText = v.anio;
+        document.getElementById('det_sucursal').innerText = v.sucursal_id; // Aquí idealmente el nombre
+        document.getElementById('det_responsable').innerText = v.responsable_id;
+        document.getElementById('det_gerente').innerText = v.gerente_reportar_id;
+        document.getElementById('det_placas').innerText = v.placas;
+        document.getElementById('det_tarjeta').innerText = v.tarjeta_circulacion;
+        document.getElementById('det_licencia').innerText = v.no_licencia;
+        document.getElementById('det_vig_licencia').innerText = v.fecha_vencimiento_licencia;
+        document.getElementById('det_aseguradora').innerText = v.aseguradora;
+        document.getElementById('det_poliza').innerText = v.no_poliza;
+        document.getElementById('det_vig_poliza').innerText = v.vigencia_poliza;
+        document.getElementById('det_tel_siniestro').innerText = v.telefono_siniestro;
+
+        const badge = document.getElementById('det_estatus');
+        badge.innerText = v.estatus;
+        badge.className = v.estatus === 'Baja' ? 'badge bg-danger' : 'badge bg-success';
+
         new bootstrap.Modal(document.getElementById('modalDetalles')).show();
     } catch (error) {
-        Swal.fire('Error', 'No se pudo obtener el detalle.', 'error');
+        Swal.fire('Error', 'No se pudieron cargar los detalles', 'error');
     }
 }
 </script>
