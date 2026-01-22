@@ -9,22 +9,6 @@ $usuario_id = $_SESSION['usuario_id'];
 include("src/templates/adminheader.php");
 require("config/db.php");
 
-$folio_formateado = '';
-
-try {
-    // Prepara y ejecuta la consulta para obtener el último folio.
-    $stmt = $conn->prepare("SELECT folio FROM control_folios_aud WHERE id = 1");
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-    // Calcula el siguiente folio y lo formatea a 9 dígitos.
-    $siguiente_folio = ($row ? $row['folio'] : 0) + 1;
-    $folio_formateado = sprintf("%09d", $siguiente_folio);
-} catch (Exception $e) {
-    // En caso de error, muestra un mensaje.
-    $folio_formateado = 'Error';
-}
-
 ?>
 
 <div class="container-fluid mt-4">

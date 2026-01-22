@@ -5,7 +5,7 @@ require '../vendor/autoload.php';
 
 header('Content-Type: application/json');
 
-// 1. Recoger todos los datos del formulario (16 campos)
+// 1. Recoger datos
 $no_serie            = $_POST['no_serie'] ?? null;
 $fecha_alta          = $_POST['fecha_alta'] ?? null;
 $marca               = $_POST['marca'] ?? null;
@@ -22,44 +22,43 @@ $aseguradora         = $_POST['aseguradora'] ?? '';
 $no_poliza           = $_POST['no_poliza'] ?? '';
 $vigencia_poliza     = $_POST['vigencia_poliza'] ?? null;
 $telefono_siniestro  = $_POST['telefono_siniestro'] ?? '';
+$estatus             = 'Activo';
 
-// 2. Validación de campos obligatorios
 if (!$no_serie || !$marca || !$modelo || !$fecha_alta) {
-    echo json_encode(['status' => 'error', 'message' => 'Faltan campos obligatorios marcados con (*).']);
+    echo json_encode(['status' => 'error', 'message' => 'Faltan campos obligatorios.']);
     exit;
 }
 
-// 3. Sentencia Preparada para insertar en vehiculos_aud
-// Total 16 campos. Tipos: sssssiii ssssssss (5 strings, 3 ints, 8 strings)
-$sql = "INSERT INTO vehiculos_aud (
-            no_serie, fecha_alta, marca, modelo, anio, 
-            sucursal_id, responsable_id, gerente_reportar_id, 
-            no_licencia, fecha_vencimiento_licencia, placas, 
-            tarjeta_circulacion, aseguradora, no_poliza, 
-            vigencia_poliza, telefono_siniestro, estatus
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+// INICIAR TRANSACCIÓN
+$conn->begin_transaction();
 
-$stmt = $conn->prepare($sql);
+try {
+    $sql = "INSERT INTO vehiculos_aud (
+                no_serie, fecha_alta, marca, modelo, anio, 
+                sucursal_id, responsable_id, gerente_reportar_id, 
+                no_licencia, fecha_vencimiento_licencia, placas, 
+                tarjeta_circulacion, aseguradora, no_poliza, 
+                vigencia_poliza, telefono_siniestro, estatus
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-if (!$stmt) {
-    echo json_encode(['status' => 'error', 'message' => 'Error en la preparación de la consulta: ' . $conn->error]);
-    exit;
-}
+    $stmt = $conn->prepare($sql);
+    
+    // 17 parámetros: 5 s, 3 i, 9 s
+    $stmt->bind_param("sssssiiisssssssss", 
+        $no_serie, $fecha_alta, $marca, $modelo, $anio, 
+        $sucursal_id, $responsable_id, $gerente_reportar_id, 
+        $no_licencia, $vigencia_licencia, $placas, 
+        $tarjeta_circulacion, $aseguradora, $no_poliza, 
+        $vigencia_poliza, $telefono_siniestro, $estatus
+    );
 
-// Vinculación de los 16 parámetros
-$stmt->bind_param("sssssiiisssssssss", 
-    $no_serie, $fecha_alta, $marca, $modelo, $anio, 
-    $sucursal_id, $responsable_id, $gerente_reportar_id, 
-    $no_licencia, $vigencia_licencia, $placas, 
-    $tarjeta_circulacion, $aseguradora, $no_poliza, 
-    $vigencia_poliza, $telefono_siniestro, 'Activo'
-);
+    if (!$stmt->execute()) {
+        throw new Exception($conn->error, $conn->errno);
+    }
 
-if ($stmt->execute()) {
     $nuevo_id = $conn->insert_id; 
 
-    // 4. Registrar en el historial (vehiculos_historial_aud)
-    // Usamos el ID del usuario en sesión si está disponible, sino el responsable_id
+    // Historial
     $usuario_sesion = $_SESSION['usuario_id'] ?? $responsable_id;
     $detalle = "Alta inicial de unidad";
     $campo = "Registro";
@@ -70,19 +69,24 @@ if ($stmt->execute()) {
     $stmt_h->bind_param("iiss", $nuevo_id, $usuario_sesion, $campo, $detalle);
     $stmt_h->execute();
 
+    // CONFIRMAR TODO
+    $conn->commit();
+
     echo json_encode([
         'status' => 'success', 
-        'message' => 'La unidad ha sido dada de alta correctamente en la flotilla.'
+        'message' => 'La unidad ha sido dada de alta correctamente.'
     ]);
-} else {
-    // Manejo de errores específicos
-    if ($conn->errno == 1062) {
-        $mensaje = "El Número de Serie '$no_serie' ya se encuentra registrado.";
+
+} catch (Exception $e) {
+    $conn->rollback(); // Cancelar cambios si algo falla
+    
+    if ($e->getCode() == 1062) {
+        $mensaje = "El Número de Serie '$no_serie' ya existe.";
     } else {
-        $mensaje = "Error al guardar: " . $conn->error;
+        $mensaje = "Error al guardar: " . $e->getMessage();
     }
+    
     echo json_encode(['status' => 'error', 'message' => $mensaje]);
 }
 
-$stmt->close();
 $conn->close();
