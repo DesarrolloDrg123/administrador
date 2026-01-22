@@ -80,6 +80,11 @@ require("config/db.php");
 </div>
 
 <script>
+document.addEventListener('DOMContentLoaded', () => {
+    cargarConceptos();
+});
+
+
 function eliminarConcepto(id) {
     Swal.fire({
         title: '¿Desactivar concepto?',
@@ -170,7 +175,9 @@ function inicializarDataTableConceptos() {
     });
 }
 
-function prepararEdicionConcepto(concepto) {
+function prepararEdicionConcepto(base64Data) {
+    const concepto = JSON.parse(atob(base64Data)); // Decodifica el string base64
+    
     document.getElementById('tituloModal').innerText = 'Editar Concepto';
     document.getElementById('id_concepto').value = concepto.id;
     document.getElementById('tipo').value = concepto.tipo;
