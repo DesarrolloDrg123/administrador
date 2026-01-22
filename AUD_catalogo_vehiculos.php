@@ -309,10 +309,10 @@ async function prepararEdicion(id) {
 
         // 3. DATOS MODIFICABLES
         // Al haberse ejecutado 'cargarSelectsEdicion', estos valores se seleccionarán correctamente
-        document.getElementById('edit_sucursal_id').value = v.sucursal_id;
-        document.getElementById('edit_responsable_id').value = v.responsable_id;
-        document.getElementById('edit_gerente_reportar_id').value = v.gerente_reportar_id;
-        
+        document.getElementById('edit_sucursal_id').value = v.sucursal_nombre;
+        document.getElementById('edit_responsable_id').value = v.responsable_nombre;
+        document.getElementById('edit_gerente_reportar_id').value = v.gerente_nombre;
+
         document.getElementById('edit_no_licencia').value = v.no_licencia;
         document.getElementById('edit_vigencia_licencia').value = v.fecha_vencimiento_licencia;
         document.getElementById('edit_placas').value = v.placas;

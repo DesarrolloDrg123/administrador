@@ -13,7 +13,15 @@ if ($id <= 0) {
 }
 
 // Consulta preparada para obtener todos los detalles
-$sql = "SELECT * FROM vehiculos_aud WHERE id = ?";
+$sql = "SELECT v.*, 
+               s.sucursal AS sucursal_nombre, 
+               u1.nombre AS responsable_nombre, 
+               u2.nombre AS gerente_nombre
+        FROM vehiculos_aud v
+        LEFT JOIN sucursales s ON v.sucursal_id = s.id
+        LEFT JOIN usuarios u1 ON v.responsable_id = u1.id
+        LEFT JOIN usuarios u2 ON v.gerente_reportar_id = u2.id
+        WHERE v.id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
 $stmt->execute();
