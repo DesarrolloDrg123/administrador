@@ -15,7 +15,7 @@ require("config/db.php");
     <div class="card shadow">
         <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Catálogo de Flotilla</h5>
-            <button class="btn btn-success btn-sm"><a href="AUD_agregar_vehiculo.php">+ Agregar Unidad</a></button>
+            <button class="btn btn-success btn-sm" onclick="nuevoVehiculo()">+ Agregar Unidad</button>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -147,6 +147,10 @@ async function cargarCatalogo() {
     }
 }
 
+function nuevoVehiculo() {
+    window.location.href = 'AUD_agregar_vehiculo.php';
+}
+
 function inicializarDataTable() {
     $('#tablaVehiculos').DataTable({
         "language": { "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json" },
@@ -209,7 +213,7 @@ function confirmarBaja(id, serie) {
 }
 async function verDetalles(id) {
     try {
-        const response = await fetch(`AUD_controller/get_vehiculo_detalle.php?id=${id}`);
+        const response = await fetch(`AUD_controller/get_detalle_vehiculo.php?id=${id}`);
         const v = await response.json();
 
         // Llenamos el modal con los IDs que pusiste en tu HTML
