@@ -196,8 +196,8 @@ async function cargarCatalogo() {
                     <td><strong>${v.no_serie}</strong></td>
                     <td>${v.marca} ${v.modelo} ${v.anio}</td>
                     <td><span class="badge bg-secondary">${v.placas}</span></td>
-                    <td>${v.sucursal_id}</td> 
-                    <td>${v.responsable_id}</td>
+                    <td>${v.sucursal_nombre}</td> 
+                    <td>${v.responsable_nombre}</td>
                     <td><span class="badge ${v.estatus === 'Baja' ? 'bg-danger' : 'bg-success'}">${v.estatus}</span></td>
                     <td class="text-center">
                         <div class="btn-group">
