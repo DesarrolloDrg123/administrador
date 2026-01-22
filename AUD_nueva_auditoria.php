@@ -97,6 +97,30 @@ require("config/db.php");
             </div>
         </div>
 
+        <div class="mt-4 mb-3 p-3 bg-white rounded border shadow-sm">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="text-danger mb-0 fw-bold"><i class="bi bi-exclamation-octagon"></i> 4. Gestión de Tareas (Incidentes) Pendientes</h6>
+                <button type="button" class="btn btn-outline-danger btn-sm" onclick="agregarFilaIncidencia()">
+                    <i class="bi bi-plus-circle"></i> Agregar Incidencia
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered" id="tablaIncidencias">
+                    <thead class="table-danger text-white">
+                        <tr>
+                            <th style="width: 85%;">Descripción del Incidente / Tarea Pendiente</th>
+                            <th class="text-center">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="sinIncidencias">
+                            <td colspan="2" class="text-center text-muted small">No hay incidentes registrados. Haz clic en "Agregar" si detectaste algo pendiente.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <div class="mt-4 mb-5 p-3 bg-light rounded border">
             <label class="fw-bold">Observaciones del Auditor (Opcional)</label>
             <textarea name="observaciones" class="form-control" rows="2" placeholder="Escriba aquí hallazgos generales..."></textarea>
@@ -182,6 +206,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function agregarFilaIncidencia() {
+    const tbody = document.querySelector('#tablaIncidencias tbody');
+    const sinIncidencias = document.getElementById('sinIncidencias');
+    if (sinIncidencias) sinIncidencias.remove(); // Quita el mensaje de "No hay incidentes"
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td><input type="text" class="form-control form-control-sm row-incidencia" placeholder="Ej. Limpiaparabrisas dañados, Falta llanta de refacción..." required></td>
+        <td class="text-center">
+            <button type="button" class="btn btn-link text-danger p-0" onclick="this.closest('tr').remove()">
+                <i class="bi bi-trash"></i>
+            </button>
+        </td>
+    `;
+    tbody.appendChild(tr);
+}
 // Función auxiliar para decidir qué cargar
 function ejecutarCargaPorTab(id) {
     if (id === 'seg2') cargarChecklist('Documento', 'seg2');
@@ -236,9 +276,9 @@ async function cargarChecklist(tipo, containerId) {
             <thead class="table-dark">
                 <tr>
                     <th style="width: 45%;">Descripción del Concepto</th>
-                    <th class="text-center">Bueno</th>
-                    <th class="text-center">Reg</th>
-                    <th class="text-center">Malo</th>
+                    <th class="text-center">Si/Bueno</th>
+                    <th class="text-center">No/Regular</th>
+                    <th class="text-center">No Aplica/Malo</th>
                     <th class="text-center" style="width: 100px;">Puntos</th>
                 </tr>
             </thead>
@@ -340,6 +380,13 @@ document.getElementById('formNuevaAuditoria').addEventListener('submit', async f
         }
     });
 
+    const incidencias = [];
+    document.querySelectorAll('.row-incidencia').forEach(input => {
+        if(input.value.trim() !== "") {
+            incidencias.push({ descripcion: input.value.trim() });
+        }
+    });
+
     const payload = {
         folio: document.getElementById('folio_final').value,
         vehiculo_id: document.getElementById('selectVehiculo').value,
@@ -347,7 +394,8 @@ document.getElementById('formNuevaAuditoria').addEventListener('submit', async f
         fecha: this.fecha_auditoria.value,
         observaciones: this.observaciones.value,
         respuestas: respuestas,
-        mantenimiento: mantenimientos
+        mantenimiento: mantenimientos,
+        incidencias: incidencias
     };
 
     try {
