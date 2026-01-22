@@ -95,6 +95,52 @@ try {
     $update_folio->bind_param("i", $nuevo_folio_num);
     $update_folio->execute();
 
+    // 1. GENERAR TOKEN ÚNICO PARA EL ACCESO DEL RESPONSABLE
+    $token = bin2hex(random_bytes(16));
+    $update_token = $conn->prepare("UPDATE auditorias_vehiculos_aud SET token_evidencia = ? WHERE id = ?");
+    $update_token->bind_param("si", $token, $auditoria_id);
+    $update_token->execute();
+
+    // 2. OBTENER EL CORREO DEL RESPONSABLE
+    // Ajusta los nombres de tablas/columnas según tu DB de vehículos
+    $query_resp = $conn->prepare("
+        SELECT u.email, u.nombre 
+        FROM vehiculos v 
+        JOIN usuarios u ON v.responsable_id = u.id 
+        WHERE v.id = ?
+    ");
+    $query_resp->bind_param("i", $data['vehiculo_id']);
+    $query_resp->execute();
+    $res_resp = $query_resp->get_result()->fetch_assoc();
+
+    if ($res_resp && !empty($res_resp['email'])) {
+        $to = $res_resp['email'];
+        $subject = "Evidencia Requerida - Auditoría Folio: " . $data['folio'];
+        
+        // URL de tu servidor (ajusta esta dirección)
+        $url_evidencia = "https://administrador2.intranetdrg.com.mx/AUD_subir_evidencia.php?t=" . $token;
+
+        $message = "
+        <html>
+        <head><title>Auditoría de Vehículo</title></head>
+        <body>
+            <h2>Hola, " . $res_resp['nombre'] . "</h2>
+            <p>Se ha finalizado la auditoría física para el vehículo con folio <strong>" . $data['folio'] . "</strong>.</p>
+            <p>Es necesario que subas las fotos y documentos (evidencias) correspondientes haciendo clic en el siguiente enlace:</p>
+            <p><a href='" . $url_evidencia . "' style='background: #28a745; color: white; padding: 10px; text-decoration: none; border-radius: 5px;'>Subir Evidencias Aquí</a></p>
+            <br>
+            <small>Este enlace es único para tu vehículo y auditoría.</small>
+        </body>
+        </html>
+        ";
+
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        $headers .= "From: Sistema Auditoría <no-reply@tusistema.com>" . "\r\n";
+
+        mail($to, $subject, $message, $headers);
+    }
+
     $conn->commit();
     echo json_encode(['status' => 'success', 'message' => 'Auditoría guardada correctamente con folio: ' . $data['folio']]);
 
