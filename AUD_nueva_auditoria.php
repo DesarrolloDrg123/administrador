@@ -47,13 +47,13 @@ require("config/db.php");
                 <a class="nav-link active" data-bs-toggle="tab" data-toggle="tab" href="#seg1">1. Datos Generales</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg2" onclick="cargarChecklist('Documento', 'seg2')">2. Documentos</a>
+                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg2">2. Documentos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg3" onclick="cargarChecklist('Inventario', 'seg3')">3. Herramientas</a>
+                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg3">3. Herramientas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg4" onclick="cargarChecklist('Estado', 'seg4')">4. Estado Físico</a>
+                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg4">4. Estado Físico</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg5">5. Mantenimiento</a>
@@ -156,6 +156,37 @@ async function consultarFolio() {
             document.getElementById('folio_final').value = data.folio;
         }
     } catch (error) { console.error("Error en consultarFolio:", error); }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initForm();
+    consultarFolio();
+
+    // ESCUCHADOR UNIVERSAL PARA TABS (Bootstrap 4 y 5)
+    const tabLinks = document.querySelectorAll('#auditTabs a');
+    tabLinks.forEach(link => {
+        link.addEventListener('shown.bs.tab', function (e) {
+            const targetId = e.target.getAttribute('href').replace('#', '');
+            ejecutarCargaPorTab(targetId);
+        });
+        
+        // Soporte extra para versiones viejas si el evento anterior no dispara
+        link.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href').replace('#', '');
+            ejecutarCargaPorTab(targetId);
+        });
+    });
+
+    if (typeof $.fn.select2 !== 'undefined') {
+        $('.select2').select2({ theme: 'bootstrap-5' });
+    }
+});
+
+// Función auxiliar para decidir qué cargar
+function ejecutarCargaPorTab(id) {
+    if (id === 'seg2') cargarChecklist('Documento', 'seg2');
+    if (id === 'seg3') cargarChecklist('Inventario', 'seg3');
+    if (id === 'seg4') cargarChecklist('Estado', 'seg4');
 }
 
 // CARGAR DATOS DEL VEHÍCULO (SEGMENTO 1)
