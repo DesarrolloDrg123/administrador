@@ -46,8 +46,8 @@ async function cargarHistorial() {
             
             // Estado de las evidencias (fotos)
             let statusEvidencia = a.fecha_subida_evidencia 
-                ? `<span class="badge bg-success p-1 fs-6" title="${a.fecha_subida_evidencia}"><i class="fas fa-camera fa-2x"></i> Subidas</span>` 
-                : `<span class="badge bg-secondary p-1 fs-6"><i class="fas fa-clock fa-2x"></i> Pendientes</span>`;
+                ? `<span class="badge bg-success p-1 fs-6" title="${a.fecha_subida_evidencia}"><i class="fas fa-camera"></i> Subidas</span>` 
+                : `<span class="badge bg-secondary p-1 fs-6"><i class="fas fa-clock"></i> Pendientes</span>`;
 
             html += `
                 <tr>
