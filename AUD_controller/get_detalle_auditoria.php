@@ -2,8 +2,8 @@
 require("../config/db.php");
 $id = $_GET['id'];
 
-// 1. Cabecera
-$sql = "SELECT a.*, v.no_serie, v.marca, v.modelo, u.nombre as auditor 
+// 1. Cabecera (Ajustado a vehiculos_aud)
+$sql = "SELECT a.*, v.no_serie, v.marca, v.modelo, v.placas, u.nombre as auditor 
         FROM auditorias_vehiculos_aud a 
         JOIN vehiculos_aud v ON a.vehiculo_id = v.id 
         JOIN usuarios u ON a.usuario_id = u.id 
@@ -13,8 +13,9 @@ $stmt->bind_param("i", $id);
 $stmt->execute();
 $auditoria = $stmt->get_result()->fetch_assoc();
 
-// 2. Checklist
-$sql_det = "SELECT d.*, c.pregunta FROM auditorias_detalle_aud d 
+// 2. Checklist (Ajustado a cat_items_auditoria_aud y campos c1, c2, c3)
+$sql_det = "SELECT d.*, c.descripcion as pregunta, c.tipo as seccion 
+            FROM auditorias_detalle_aud d 
             JOIN cat_items_auditoria_aud c ON d.concepto_id = c.id 
             WHERE d.auditoria_id = ?";
 $stmt_det = $conn->prepare($sql_det);
