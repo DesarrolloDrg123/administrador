@@ -1,5 +1,5 @@
 <?php
-require("../../config/db.php"); // Ajusta la ruta según tu estructura
+require("../config/db.php"); // Ajusta la ruta según tu estructura
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $auditoria_id = (int)$_POST['auditoria_id'];
