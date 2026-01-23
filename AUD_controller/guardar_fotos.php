@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // 3. Configuración de directorio
-    $upload_dir = "../../uploads/evidencias/{$folio}/";
+    $upload_dir = "../uploads/evidencias/{$folio}/";
     if (!file_exists($upload_dir)) {
         mkdir($upload_dir, 0777, true);
     }
