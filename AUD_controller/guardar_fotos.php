@@ -50,8 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $st_status->bind_param("i", $auditoria_id);
         $st_status->execute();
 
-        header("Location: ../../AUD_subir_evidencias.php?status=success&folio=" . $folio . "&t=" . $_POST['token']);
+        header("Location: ../AUD_subir_evidencias.php?status=success&folio=" . $folio . "&t=" . $_POST['token']);
     } else {
-        header("Location: ../../AUD_subir_evidencias.php?status=error&t=" . $_POST['token']);
+        header("Location: ../AUD_subir_evidencias.php?status=error&t=" . $_POST['token']);
     }
 }
