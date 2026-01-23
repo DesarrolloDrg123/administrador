@@ -111,44 +111,22 @@
                     <form id="formEvidencias" action="AUD_controller/guardar_fotos.php" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="auditoria_id" value="<?= $auditoria['id'] ?>">
                         <input type="hidden" name="folio" value="<?= $auditoria['folio'] ?>">
-
-                        <div class="mb-4">
+                        <input type="hidden" name="token" value="<?= $_GET['t'] ?>"> <div class="mb-4">
                             <label class="form-label fw-bold h6 mb-3">
                                 <span class="step-number">1</span>Tomar o Seleccionar Fotos
                             </label>
                             
-                            <div class="upload-zone" onclick="document.getElementById('inputFotos').click()">
+                            <label for="inputFotos" class="upload-zone w-100 text-center">
                                 <i class="bi bi-images fs-1 text-primary mb-2"></i>
-                                <span class="fw-bold text-secondary">Presiona aquí para subir fotos</span>
+                                <span class="fw-bold text-secondary text-center">Presiona aquí para subir fotos</span>
                                 <small class="text-muted">Puedes subir varias a la vez</small>
                                 <input type="file" name="fotos[]" id="inputFotos" class="d-none" multiple accept="image/*" required>
-                            </div>
-                            
-                            <div id="previewFotos" class="mt-3 d-flex flex-wrap gap-2 justify-content-start"></div>
-                        </div>
-
-                        <div class="mb-5">
-                            <label class="form-label fw-bold h6 mb-3">
-                                <span class="step-number">2</span>Documentos (Opcional)
                             </label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-0"><i class="bi bi-file-earmark-text text-secondary"></i></span>
-                                <input type="file" name="documentos[]" class="form-control border-light bg-light" multiple accept=".pdf,.doc,.docx">
-                            </div>
+                            
+                            <div id="previewFotos" class="mt-3 d-flex flex-wrap gap-2 justify-content-center"></div>
                         </div>
-
-                        <div id="progressContainer" class="d-none mb-4 text-center">
-                            <div class="spinner-border text-primary mb-2" role="status"></div>
-                            <p class="small text-muted mb-1">Subiendo archivos...</p>
-                            <div class="progress" style="height: 6px;">
-                                <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" style="width: 100%;"></div>
-                            </div>
-                        </div>
-
-                        <button type="submit" id="btnEnviar" class="btn btn-primary w-100 shadow">
-                            <i class="bi bi-cloud-check-fill me-2"></i>Enviar Evidencias
-                        </button>
-                    </form>
+                        
+                        </form>
                 </div>
             </div>
         </div>
@@ -156,37 +134,36 @@
 </div>
 
 <script>
-// Previsualización mejorada para móviles (ahorra memoria)
-document.getElementById('inputFotos').addEventListener('change', function(e) {
+// El JS de previsualización ahora es más limpio y detecta el cambio de inmediato
+document.getElementById('inputFotos').addEventListener('change', function() {
     const preview = document.getElementById('previewFotos');
     preview.innerHTML = '';
     
-    const files = Array.from(this.files);
-    if (files.length > 8) {
-        Swal.fire('¡Cuidado!', 'Te recomendamos no subir más de 8 fotos a la vez para evitar fallos de conexión.', 'warning');
+    if (this.files) {
+        [...this.files].forEach(file => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'preview-img';
+                preview.appendChild(img);
+            }
+            reader.readAsDataURL(file);
+        });
     }
-
-    files.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = function(r) {
-            const img = document.createElement('img');
-            img.src = r.target.result;
-            img.className = 'preview-img';
-            preview.appendChild(img);
-        }
-        reader.readAsDataURL(file);
-    });
 });
 
-document.getElementById('formEvidencias').onsubmit = function() {
+// Al enviar, mostramos SweetAlert y bloqueamos el botón
+document.getElementById('formEvidencias').addEventListener('submit', function(e) {
+    // No usamos preventDefault para que el formulario se envíe normalmente a PHP
     document.getElementById('btnEnviar').disabled = true;
-    document.getElementById('progressContainer').classList.remove('d-none');
+    document.getElementById('btnEnviar').innerHTML = '<span class="spinner-border spinner-border-sm"></span> Subiendo...';
     
     Swal.fire({
-        title: 'Enviando...',
-        text: 'Estamos procesando tus fotos, por favor espera.',
+        title: 'Subiendo Archivos',
+        text: 'Esto puede tardar dependiendo de tu internet.',
         allowOutsideClick: false,
         didOpen: () => { Swal.showLoading(); }
     });
-};
+});
 </script>
