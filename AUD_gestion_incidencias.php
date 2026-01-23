@@ -7,14 +7,12 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 
 $usuario_id = $_SESSION['usuario_id'];
 include("src/templates/adminheader.php");
-require("config/db.php");
 ?>
 
 <div class="container-fluid mt-4">
     <div class="card shadow mb-4">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0"><i class="bi bi-gear-fill"></i> Gestión de Tareas (Incidencias) Pendientes</h5>
-            <button class="btn btn-sm btn-light" onclick="cargarIncidencias()"><i class="bi bi-arrow-clockwise"></i> Actualizar</button>
         </div>
         <div class="card-body">
             <div class="table-responsive">

@@ -7,7 +7,6 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 
 $usuario_id = $_SESSION['usuario_id'];
 include("src/templates/adminheader.php");
-require("config/db.php");
 
 ?>
 
