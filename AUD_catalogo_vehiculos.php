@@ -81,22 +81,29 @@ require("config/db.php");
                     <input type="hidden" name="id" id="edit_id">
 
                     <div class="row g-3">
-                        <div class="col-12"><h6 class="text-muted border-bottom small fw-bold">DATOS GENERALES (NO EDITABLES)</h6></div>
-                        
-                        <div class="col-md-4">
-                            <label class="form-label small">No. de Serie</label>
-                            <input type="text" id="edit_no_serie" name="no_serie" class="form-control form-control-sm bg-light" readonly>
+                        <div class="col-12 mt-3">
+                            <h6 class="text-primary border-bottom pb-2 small fw-bold text-uppercase">
+                                <i class="bi bi-info-circle-fill me-2"></i>Datos Generales (No Editables)
+                            </h6>
                         </div>
-                        <div class="col-md-4">
-                            <label class="form-label small">Fecha de Alta</label>
-                            <input type="text" id="edit_fecha_alta" name="fecha_alta" class="form-control form-control-sm bg-light" readonly>
+
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted mb-1">No. de Serie</label>
+                            <div class="form-control form-control-sm bg-light fw-bold" id="edit_no_serie_txt">---</div>
+                            <input type="hidden" id="edit_no_serie" name="no_serie">
                         </div>
-                        <div class="col-md-4">
-                            <label class="form-label small">Marca / Modelo / Año</label>
-                            <div class="input-group input-group-sm">
-                                <input type="text" id="edit_marca" class="form-control bg-light" readonly>
-                                <input type="text" id="edit_modelo" class="form-control bg-light" readonly>
-                                <input type="text" id="edit_anio" class="form-control bg-light" readonly>
+
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted mb-1">Fecha de Alta</label>
+                            <div class="form-control form-control-sm bg-light" id="edit_fecha_alta_txt">---</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted mb-1">Vehículo (Marca / Modelo / Año)</label>
+                            <div class="d-flex gap-2">
+                                <div class="form-control form-control-sm bg-light flex-grow-1" id="edit_marca_txt">---</div>
+                                <div class="form-control form-control-sm bg-light flex-grow-1" id="edit_modelo_txt">---</div>
+                                <div class="form-control form-control-sm bg-light" style="width: 80px;" id="edit_anio_txt">---</div>
                             </div>
                         </div>
 
