@@ -1,7 +1,6 @@
 <?php
 session_start();
 include("src/templates/adminheader.php");
-require("config/db.php");
 ?>
 
 <div class="container-fluid mt-4">
@@ -203,3 +202,6 @@ function verGaleria(folio) {
     window.location.href = `AUD_controller/ver_evidencias.php?folio=${folio}`;
 }
 </script>
+<?php 
+include("src/templates/adminfooter.php");
+?>
