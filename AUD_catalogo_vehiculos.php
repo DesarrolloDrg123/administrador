@@ -73,7 +73,7 @@ require("config/db.php");
     <div class="modal-dialog modal-lg">
         <form id="formEditarVehiculo">
             <div class="modal-content">
-                <div class="modal-header bg-warning text-dark">
+                <div class="modal-header bg-primary text-dark">
                     <h5 class="modal-title" id="modalEditarLabel"><i class="bi bi-pencil-square"></i> Editar Información de Unidad</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -188,8 +188,8 @@ async function cargarCatalogo() {
 
         vehiculos.forEach(v => {
             const btnBaja = v.estatus !== 'Baja' 
-                ? `<li><a class="dropdown-item text-danger" href="#" onclick="confirmarBaja(${v.id}, '${v.no_serie}')"><i class="bi bi-trash"></i> Dar de Baja</a></li>
-                   <li><a class="dropdown-item" href="#" onclick="prepararEdicion(${v.id})"><i class="bi bi-pencil"></i> Editar</a></li>`
+                ?   `<li><a class="dropdown-item" href="#" onclick="prepararEdicion(${v.id})"><i class="bi bi-pencil"></i> Editar</a></li>
+                    <li><a class="dropdown-item text-danger" href="#" onclick="confirmarBaja(${v.id}, '${v.no_serie}')"><i class="bi bi-trash"></i> Dar de Baja</a></li>`
                 : `<li><span class="dropdown-item text-muted small">Unidad Inactiva</span></li>`;
 
             tbody.innerHTML += `
@@ -205,7 +205,7 @@ async function cargarCatalogo() {
                             <button class="btn btn-sm btn-outline-primary" onclick="verDetalles(${v.id})">Detalles</button>
                             <button class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown"></button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#" onclick="verHistorial(${v.id})">Historial</a></li>a
+                                <li><a class="dropdown-item" href="#" onclick="verHistorial(${v.id})">Historial</a></li>
                                 ${btnBaja}
                             </ul>
                         </div>
