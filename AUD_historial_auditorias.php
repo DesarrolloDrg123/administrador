@@ -214,7 +214,7 @@ function verGaleria(folio) {
 function confirmarTerminarAuditoria() {
     Swal.fire({
         title: '¿Terminar Auditoría?',
-        text: "Esto borrará el token de acceso. Ya no se podrán subir más evidencias ni hacer cambios.",
+        text: "Ya no se podrán subir más evidencias ni hacer cambios.",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
