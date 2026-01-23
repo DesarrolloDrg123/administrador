@@ -1,3 +1,33 @@
+<?php
+require("config/db.php"); // Asegúrate de que la ruta sea correcta
+
+// 1. Obtenemos el token de la URL
+$token = isset($_GET['t']) ? $_GET['t'] : '';
+
+if (empty($token)) {
+    die("Acceso denegado: Token no proporcionado.");
+}
+
+// 2. Consulta corregida: Pedimos explícitamente el 'id'
+$sql = "SELECT a.id, a.folio, v.no_serie 
+        FROM auditorias_vehiculos_aud a 
+        JOIN vehiculos v ON a.vehiculo_id = v.id 
+        WHERE a.token_evidencia = ?";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $token);
+$stmt->execute();
+$resultado = $stmt->get_result();
+$auditoria = $resultado->fetch_assoc();
+
+// 3. Verificación de seguridad
+if (!$auditoria) {
+    die("Enlace no válido, expirado o auditoría no encontrada.");
+}
+
+// Opcional: Descomenta la siguiente línea para debuguear si sigue fallando
+// echo "ID de Auditoría cargado: " . $auditoria['id']; 
+?>
 <style>
     :root {
         --primary-color: #4361ee;
