@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // 5. SI SE SUBIERON ARCHIVOS, ACTUALIZAR EL ESTATUS
     if ($archivos_guardados > 0) {
         // Redireccionar al usuario de vuelta con éxito
-        header("Location: ../AUD_subir_evidencias.php?status=success&folio=$folio&t=$token");
+        header("Location: ../AUD_subir_evidencia.php?status=success&folio=$folio&t=$token");
     } else {
         echo "No se pudieron procesar las imágenes. Revisa el tamaño de los archivos.";
     }
