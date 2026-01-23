@@ -44,14 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // 5. SI SE SUBIERON ARCHIVOS, ACTUALIZAR EL ESTATUS
     if ($archivos_guardados > 0) {
-        // Cambiamos el estatus de la auditoría principal
-        $sql_update = "UPDATE auditorias_vehiculos_aud SET estatus = 'En Revisión' WHERE id = ?";
-        $stmt_upd = $conn->prepare($sql_update);
-        $stmt_upd->bind_param("i", $auditoria_id);
-        $stmt_upd->execute();
-
         // Redireccionar al usuario de vuelta con éxito
-        header("Location: ../../AUD_subir_evidencias.php?status=success&folio=$folio&t=$token");
+        header("Location: ../AUD_subir_evidencias.php?status=success&folio=$folio&t=$token");
     } else {
         echo "No se pudieron procesar las imágenes. Revisa el tamaño de los archivos.";
     }
