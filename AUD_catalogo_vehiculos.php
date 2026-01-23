@@ -10,6 +10,23 @@ include("src/templates/adminheader.php");
 require("config/db.php");
 ?>
 
+<style>
+.custom-input {
+    padding: 4px 8px !important; /* Reduce el espacio interno arriba/abajo y lados */
+    height: auto !important;      /* Elimina alturas fijas que vienen de Bootstrap */
+    min-height: 30px;             /* Define una altura mínima estética */
+    line-height: 1.2;             /* Ajusta el espacio de la línea de texto */
+    font-size: 0.85rem;           /* Tamaño de fuente adecuado para formularios sm */
+    border-radius: 4px;           /* Bordes ligeramente redondeados */
+}
+
+/* Opcional: Para que el texto se vea más claro */
+.custom-input[readonly] {
+    color: #495057;
+    border: 1px solid #ced4da;
+}
+</style>
+
 <div class="container-fluid mt-4">
     <div class="card shadow">
         <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
@@ -99,10 +116,10 @@ require("config/db.php");
 
                         <div class="col-md-6">
                             <label class="form-label small text-muted mb-1">Vehículo (Marca / Modelo / Año)</label>
-                            <div class="d-flex gap-2">
-                                <input type="text" id="edit_marca" class="form-control form-control-sm bg-light flex-grow-1" readonly>
-                                <input type="text" id="edit_modelo" class="form-control form-control-sm bg-light flex-grow-1" readonly>
-                                <input type="text" id="edit_anio" class="form-control form-control-sm bg-light flex-grow-1" readonly>
+                            <div class="d-flex gap-1">
+                                <input type="text" id="edit_marca" class="form-control form-control-sm custom-input bg-light" readonly>
+                                <input type="text" id="edit_modelo" class="form-control form-control-sm custom-input bg-light" readonly>
+                                <input type="text" id="edit_anio" class="form-control form-control-sm custom-input bg-light text-center" style="width: 70px;" readonly>
                             </div>
                         </div>
 
