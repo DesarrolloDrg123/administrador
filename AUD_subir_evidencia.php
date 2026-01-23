@@ -1,58 +1,59 @@
-<?php
-require("config/db.php");
-$token = $_GET['t'] ?? '';
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-// Validar que el token exista
-$stmt = $conn->prepare("SELECT a.id, a.folio, v.no_serie FROM auditorias_vehiculos_aud a JOIN vehiculos v ON a.vehiculo_id = v.id WHERE a.token_evidencia = ?");
-$stmt->bind_param("s", $token);
-$stmt->execute();
-$auditoria = $stmt->get_result()->fetch_assoc();
-
-if (!$auditoria) {
-    die("Enlace no válido o expirado.");
-}
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Subir Evidencias</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
 <div class="container mt-5">
-    <div class="card shadow">
-        <div class="card-header bg-success text-white">
-            <h5>Subir Evidencia - Folio: <?= $auditoria['folio'] ?> (Serie: <?= $auditoria['no_serie'] ?>)</h5>
+    <div class="card shadow border-0">
+        <div class="card-header bg-success text-white py-3">
+            <h5 class="mb-0"><i class="bi bi-camera-fill me-2"></i>Subir Evidencia - Folio: <?= $auditoria['folio'] ?></h5>
+            <small class="opacity-75">Unidad Serie: <?= $auditoria['no_serie'] ?></small>
         </div>
-        <div class="card-body">
-            <form action="AUD_controller/guardar_fotos.php" method="POST" enctype="multipart/form-data">
+        <div class="card-body p-4">
+            <form id="formEvidencias" action="AUD_controller/guardar_fotos.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="auditoria_id" value="<?= $auditoria['id'] ?>">
-                
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Fotos del Vehículo (Exterior/Interior)</label>
-                    <input type="file" name="fotos[]" class="form-control" multiple accept="image/*" required>
+                <input type="hidden" name="folio" value="<?= $auditoria['folio'] ?>">
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold text-secondary">Fotos de la Unidad</label>
+                    <div class="input-group">
+                        <input type="file" name="fotos[]" class="form-control" multiple accept="image/*" required id="inputFotos">
+                        <span class="input-group-text"><i class="bi bi-images"></i></span>
+                    </div>
+                    <div id="previewFotos" class="mt-2 d-flex flex-wrap gap-2"></div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Documentos Digitales (PDF/Escaneos)</label>
+                <div class="mb-4">
+                    <label class="form-label fw-bold text-secondary">Documentos (PDF/Word)</label>
                     <input type="file" name="documentos[]" class="form-control" multiple accept=".pdf,.doc,.docx">
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100">Enviar Evidencias al Auditor</button>
+                <div class="progress mb-3 d-none" style="height: 25px;">
+                    <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;">0%</div>
+                </div>
+
+                <button type="submit" id="btnEnviar" class="btn btn-primary btn-lg w-100 shadow-sm">
+                    <i class="bi bi-cloud-arrow-up-fill me-2"></i>Enviar Evidencias
+                </button>
             </form>
         </div>
     </div>
 </div>
 
-<?php if (isset($_GET['status']) && $_GET['status'] == 'success'): ?>
-    <div class="container mt-5">
-        <div class="alert alert-success shadow text-center">
-            <i class="bi bi-check-circle-fill fs-1"></i>
-            <h4 class="mt-3">¡Evidencias Subidas con Éxito!</h4>
-            <p>La información del folio <strong><?= $_GET['folio'] ?></strong> ha sido enviada al auditor.</p>
-            <p class="mb-0">Ya puede cerrar esta ventana.</p>
-        </div>
-    </div>
-<?php exit(); endif; ?>
-</body>
-</html>
+<script>
+// Previsualización de imágenes rápido
+document.getElementById('inputFotos').onchange = function(e) {
+    const preview = document.getElementById('previewFotos');
+    preview.innerHTML = '';
+    Array.from(e.target.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(r) {
+            const img = document.createElement('img');
+            img.src = r.target.result;
+            img.style.width = '80px';
+            img.style.height = '80px';
+            img.style.objectFit = 'cover';
+            img.className = 'rounded border';
+            preview.appendChild(img);
+        }
+        reader.readAsDataURL(file);
+    });
+};
+</script>
