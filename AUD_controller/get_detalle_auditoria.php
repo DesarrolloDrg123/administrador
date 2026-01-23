@@ -15,7 +15,7 @@ $auditoria = $stmt->get_result()->fetch_assoc();
 
 // 2. Checklist
 $sql_det = "SELECT d.*, c.pregunta FROM auditorias_detalle_aud d 
-            JOIN auditorias_conceptos_aud c ON d.concepto_id = c.id 
+            JOIN cat_items_auditoria_aud c ON d.concepto_id = c.id 
             WHERE d.auditoria_id = ?";
 $stmt_det = $conn->prepare($sql_det);
 $stmt_det->bind_param("i", $id);

@@ -11,7 +11,7 @@ require("config/db.php");
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover align-middle" id="tablaHistorial" style="width:100%">
+                <table class="table table-hover align-middle" id="tablaHistorial">
                     <thead class="table-secondary">
                         <tr>
                             <th>Folio</th>
@@ -103,54 +103,41 @@ async function cargarHistorial() {
         let html = '';
 
         data.forEach(a => {
-            // Lógica de colores para puntuación
+            // Badge de puntuación (ejemplo: rojo si es baja, verde si es alta)
             let colorPuntos = a.calif_total < 70 ? 'danger' : (a.calif_total < 90 ? 'warning text-dark' : 'success');
             
-            // Estado de las evidencias con diseño más limpio
+            // Estado de las evidencias (fotos)
             let statusEvidencia = a.fecha_subida_evidencia 
-                ? `<span class="badge rounded-pill bg-success px-3"><i class="fas fa-check-circle me-1"></i> Subidas</span>` 
-                : `<span class="badge rounded-pill bg-light text-muted border px-3"><i class="fas fa-clock me-1"></i> Pendientes</span>`;
+                ? `<span class="badge bg-success p-1 fs-6" title="${a.fecha_subida_evidencia}"><i class="fas fa-camera"></i> Subidas</span>` 
+                : `<span class="badge bg-secondary p-1 fs-6"><i class="fas fa-clock"></i> Pendientes</span>`;
 
             html += `
                 <tr>
-                    <td><span class="fw-bold text-primary">${a.folio}</span></td>
+                    <td><strong>${a.folio}</strong></td>
                     <td>${a.fecha_auditoria}</td>
-                    <td>
-                        <div class="d-flex flex-column">
-                            <span>${a.marca} ${a.modelo}</span>
-                            <small class="text-muted">${a.no_serie}</small>
-                        </div>
-                    </td>
-                    <td><small>${a.auditor_nombre}</small></td>
-                    <td><span class="badge bg-${colorPuntos} fs-6 w-100">${a.calif_total} pts</span></td>
+                    <td>${a.no_serie} <br><small class="text-muted">${a.marca} ${a.modelo}</small></td>
+                    <td>${a.auditor_nombre}</td>
+                    <td><span class="badge bg-${colorPuntos} fs-6">${a.calif_total} pts</span></td>
                     <td>${statusEvidencia}</td>
                     <td class="text-center">
-                        <div class="btn-group shadow-sm" role="group">
-                            <button class="btn btn-sm btn-outline-primary px-3" onclick="verReporte(${a.id})" title="Ver PDF del Reporte">
-                                <i class="fas fa-file-pdf"></i>
-                                <span class="d-block small" style="font-size: 0.65rem;">Reporte</span>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-primary" onclick="verReporte(${a.id})" title="Ver PDF/Detalle">
+                                <i class="fas fa-file-pdf fa-2x"></i>
                             </button>
-                            <button class="btn btn-sm btn-outline-info px-3" onclick="verGaleria('${a.folio}')" title="Ver Galería de Fotos">
-                                <i class="fas fa-images"></i>
-                                <span class="d-block small" style="font-size: 0.65rem;">Fotos</span>
+                            <button class="btn btn-sm btn-outline-info" onclick="verGaleria('${a.folio}')" title="Ver Fotos">
+                                <i class="fas fa-images fa-2x"></i>
                             </button>
                         </div>
                     </td>
                 </tr>`;
         });
-        
         document.getElementById('historialBody').innerHTML = html;
         
-        // Inicializar DataTable con configuración en español
         $('#tablaHistorial').DataTable({
             "language": { "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json" },
-            "order": [[1, "desc"]],
-            "responsive": true
+            "order": [[1, "desc"]]
         });
-
-    } catch (e) { 
-        console.error("Error al cargar el historial:", e); 
-    }
+    } catch (e) { console.error(e); }
 }
 
 async function verReporte(id) {
@@ -212,6 +199,7 @@ function imprimirDesdeModal() {
 }
 
 function verGaleria(folio) {
+    // Abrir la carpeta de fotos o una vista de galería
     window.location.href = `AUD_controller/ver_evidencias.php?folio=${folio}`;
 }
 </script>
