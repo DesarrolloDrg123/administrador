@@ -2,9 +2,15 @@
 require("../config/db.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $auditoria_id = (int)$_POST['auditoria_id'];
-    $folio = $_POST['folio'];
-    // Ajusta esta ruta según tu estructura de carpetas
+    // 1. Validar que el ID no sea 0 o vacío
+    $auditoria_id = isset($_POST['auditoria_id']) ? (int)$_POST['auditoria_id'] : 0;
+    $folio = $_POST['folio'] ?? 'SINFOLIO';
+    $token = $_POST['token'] ?? '';
+
+    if ($auditoria_id <= 0) {
+        die("Error: ID de auditoría no válido (Recibido: $auditoria_id).");
+    }
+
     $upload_dir = "../../uploads/evidencias/{$folio}/"; 
 
     if (!file_exists($upload_dir)) {
@@ -13,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $subidos = 0;
 
-    // Función de procesamiento local para evitar problemas de scope
+    // Pasamos el ID directamente a la función
     function guardarArchivo($file_post, $tipo, $dir, $aud_id, $conn, $folio_nombre) {
         $count = 0;
         foreach ($file_post['name'] as $key => $name) {
@@ -24,34 +30,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 if (move_uploaded_file($file_post['tmp_name'][$key], $destino)) {
                     $stmt = $conn->prepare("INSERT INTO auditorias_evidencias_aud (auditoria_id, tipo_archivo, ruta_archivo) VALUES (?, ?, ?)");
+                    // Ruta relativa para la base de datos
                     $ruta_db = "uploads/evidencias/{$folio_nombre}/{$nuevo_nombre}";
                     $stmt->bind_param("iss", $aud_id, $tipo, $ruta_db);
-                    $stmt->execute();
-                    $count++;
+                    
+                    if($stmt->execute()){
+                        $count++;
+                    }
                 }
             }
         }
         return $count;
     }
 
+    // Procesar Fotos
     if (!empty($_FILES['fotos']['name'][0])) {
         $subidos += guardarArchivo($_FILES['fotos'], 'foto', $upload_dir, $auditoria_id, $conn, $folio);
     }
 
+    // Procesar Documentos
     if (!empty($_FILES['documentos']['name'][0])) {
         $subidos += guardarArchivo($_FILES['documentos'], 'documento', $upload_dir, $auditoria_id, $conn, $folio);
     }
 
     if ($subidos > 0) {
-        // ACTUALIZACIÓN DE ESTATUS: Aquí marcas que la auditoría ya recibió archivos
-        // Cambia 'En Revisión' por el nombre o ID de estatus que manejes
+        // Actualizar estatus de la auditoría
         $sql_status = "UPDATE auditorias_vehiculos_aud SET estatus = 'En Revisión' WHERE id = ?";
         $st_status = $conn->prepare($sql_status);
         $st_status->bind_param("i", $auditoria_id);
         $st_status->execute();
 
-        header("Location: ../AUD_subir_evidencias.php?status=success&folio=" . $folio . "&t=" . $_POST['token']);
+        header("Location: ../AUD_subir_evidencias.php?status=success&folio=$folio&t=$token");
     } else {
-        header("Location: ../AUD_subir_evidencias.php?status=error&t=" . $_POST['token']);
+        die("No se pudieron subir los archivos. Verifique permisos de carpeta o tamaño de archivos.");
     }
 }
