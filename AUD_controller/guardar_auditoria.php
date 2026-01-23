@@ -105,7 +105,7 @@ try {
     // Ajusta los nombres de tablas/columnas según tu DB de vehículos
     $query_resp = $conn->prepare("
         SELECT u.email, u.nombre 
-        FROM vehiculos v 
+        FROM vehiculos_aud v 
         JOIN usuarios u ON v.responsable_id = u.id 
         WHERE v.id = ?
     ");

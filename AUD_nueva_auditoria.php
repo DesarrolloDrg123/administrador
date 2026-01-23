@@ -121,7 +121,7 @@ include("src/templates/adminheader.php");
         </div>
 
         <div class="mt-4 mb-5 p-3 bg-light rounded border">
-            <label class="fw-bold">Observaciones del Auditor (Opcional)</label>
+            <label class="fw-bold">Observaciones del Auditor</label>
             <textarea name="observaciones" class="form-control" rows="2" placeholder="Escriba aquí hallazgos generales..."></textarea>
             <hr>
             <div class="d-flex justify-content-between align-items-center">
