@@ -12,7 +12,7 @@ require("config/db.php");
 
 <div class="container-fluid mt-4">
     <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">Configuración de Conceptos de Auditoría</h5>
+        <h5 class="mb-0">Catalogo de Evaluación</h5>
         <button class="btn btn-success btn-sm" onclick="abrirModalConcepto()">+ Nuevo Concepto</button>
     </div>
     <div class="card-body">
