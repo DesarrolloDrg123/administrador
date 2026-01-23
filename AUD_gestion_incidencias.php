@@ -167,3 +167,6 @@ async function guardarCambioEstatus() {
     }
 }
 </script>
+<?php 
+include("src/templates/adminfooter.php");
+?>

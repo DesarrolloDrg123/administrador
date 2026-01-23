@@ -413,3 +413,6 @@ document.getElementById('formNuevaAuditoria').addEventListener('submit', async f
     } catch (error) { Swal.fire('Error', 'No se pudo conectar', 'error'); }
 });
 </script>
+<?php 
+include("src/templates/adminfooter.php");
+?>
