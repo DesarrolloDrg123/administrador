@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 if (move_uploaded_file($_FILES['fotos']['tmp_name'][$key], $ruta_destino)) {
                     // Guardar en la tabla de evidencias
-                    $ruta_db = "uploads/evidencias/{$folio}/{$nuevo_nombre}";
+                    $ruta_db = "uploads/evidencias_aud/{$folio}/{$nuevo_nombre}";
                     $stmt = $conn->prepare("INSERT INTO auditorias_evidencias_aud (auditoria_id, tipo_archivo, ruta_archivo) VALUES (?, 'foto', ?)");
                     $stmt->bind_param("is", $auditoria_id, $ruta_db);
                     $stmt->execute();
