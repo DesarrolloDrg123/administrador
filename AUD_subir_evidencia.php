@@ -11,7 +11,7 @@ if (empty($token)) {
 // 2. Consulta corregida: Pedimos explícitamente el 'id'
 $sql = "SELECT a.id, a.folio, v.no_serie 
         FROM auditorias_vehiculos_aud a 
-        JOIN vehiculos v ON a.vehiculo_id = v.id 
+        JOIN vehiculos_aud v ON a.vehiculo_id = v.id 
         WHERE a.token_evidencia = ?";
 
 $stmt = $conn->prepare($sql);
