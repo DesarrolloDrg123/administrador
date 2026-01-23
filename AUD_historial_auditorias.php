@@ -86,6 +86,10 @@ include("src/templates/adminheader.php");
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" id="btnTerminarAuditoria" class="btn btn-danger me-auto" onclick="confirmarTerminarAuditoria()">
+                    <i class="bi bi-lock-fill"></i> Terminar y Bloquear
+                </button>
+                
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" onclick="imprimirDesdeModal()"><i class="bi bi-printer"></i> Imprimir</button>
             </div>
@@ -178,6 +182,13 @@ async function verReporte(id) {
         }
         document.getElementById('det_fotos').innerHTML = fotosHtml;
 
+        const btnTerminar = document.getElementById('btnTerminarAuditoria');
+        if (!a.token_evidencia) { 
+            btnTerminar.style.display = 'none'; 
+        } else {
+            btnTerminar.style.display = 'block';
+        }
+
         // Mostrar Modal
         new bootstrap.Modal(document.getElementById('modalDetalleAuditoria')).show();
 
@@ -197,6 +208,43 @@ function imprimirDesdeModal() {
 function verGaleria(folio) {
     // Abrir la carpeta de fotos o una vista de galería
     window.location.href = `AUD_controller/ver_evidencias.php?folio=${folio}`;
+}
+
+// Función para confirmar la acción
+function confirmarTerminarAuditoria() {
+    Swal.fire({
+        title: '¿Terminar Auditoría?',
+        text: "Esto borrará el token de acceso. Ya no se podrán subir más evidencias ni hacer cambios.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, terminar y bloquear',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            ejecutarTerminar();
+        }
+    });
+}
+
+async function ejecutarTerminar() {
+    try {
+        const response = await fetch('AUD_controller/terminar_auditoria.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `id=${currentAuditoriaId}`
+        });
+        const res = await response.json();
+
+        if (res.success) {
+            Swal.fire('¡Cerrada!', 'La auditoría ha sido bloqueada correctamente.', 'success');
+            bootstrap.Modal.getInstance(document.getElementById('modalDetalleAuditoria')).hide();
+            cargarHistorial(); // Recargamos la tabla
+        } else {
+            Swal.fire('Error', res.error || 'No se pudo cerrar', 'error');
+        }
+    } catch (e) { console.error(e); }
 }
 </script>
 <?php 
