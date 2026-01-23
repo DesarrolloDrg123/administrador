@@ -5,7 +5,7 @@ $id = $_GET['id'];
 // 1. Cabecera
 $sql = "SELECT a.*, v.no_serie, v.marca, v.modelo, u.nombre as auditor 
         FROM auditorias_vehiculos_aud a 
-        JOIN vehiculos v ON a.vehiculo_id = v.id 
+        JOIN vehiculos_aud v ON a.vehiculo_id = v.id 
         JOIN usuarios u ON a.usuario_id = u.id 
         WHERE a.id = ?";
 $stmt = $conn->prepare($sql);
