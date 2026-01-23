@@ -125,6 +125,18 @@
                             
                             <div id="previewFotos" class="mt-3 d-flex flex-wrap gap-2 justify-content-center"></div>
                         </div>
+
+                        <div id="progressContainer" class="d-none mb-4 text-center">
+                            <div class="spinner-border text-primary mb-2" role="status"></div>
+                            <p class="small text-muted mb-1">Subiendo archivos...</p>
+                            <div class="progress" style="height: 6px;">
+                                <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" style="width: 100%;"></div>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="btnEnviar" class="btn btn-primary w-100 shadow">
+                            <i class="bi bi-cloud-check-fill me-2"></i>Enviar Evidencias
+                        </button>
                         
                         </form>
                 </div>
