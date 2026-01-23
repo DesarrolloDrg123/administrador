@@ -89,21 +89,20 @@ require("config/db.php");
 
                         <div class="col-md-3">
                             <label class="form-label small text-muted mb-1">No. de Serie</label>
-                            <div class="form-control form-control-sm bg-light fw-bold" id="edit_no_serie_txt">---</div>
-                            <input type="hidden" id="edit_no_serie" name="no_serie">
+                            <input type="text" id="edit_no_serie" name="no_serie" class="form-control form-control-sm bg-light fw-bold" readonly>
                         </div>
 
                         <div class="col-md-3">
                             <label class="form-label small text-muted mb-1">Fecha de Alta</label>
-                            <div class="form-control form-control-sm bg-light" id="edit_fecha_alta_txt">---</div>
+                            <input type="text" id="edit_fecha_alta" class="form-control form-control-sm bg-light" readonly>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label small text-muted mb-1">Vehículo (Marca / Modelo / Año)</label>
                             <div class="d-flex gap-2">
-                                <div class="form-control form-control-sm bg-light flex-grow-1" id="edit_marca_txt">---</div>
-                                <div class="form-control form-control-sm bg-light flex-grow-1" id="edit_modelo_txt">---</div>
-                                <div class="form-control form-control-sm bg-light" style="width: 80px;" id="edit_anio_txt">---</div>
+                                <input type="text" id="edit_marca" class="form-control form-control-sm bg-light flex-grow-1" readonly>
+                                <input type="text" id="edit_modelo" class="form-control form-control-sm bg-light flex-grow-1" readonly>
+                                <input type="text" id="edit_anio" class="form-control form-control-sm bg-light" style="width: 80px;" readonly>
                             </div>
                         </div>
 
@@ -292,49 +291,49 @@ async function cargarSelectsEdicion() {
 
 async function prepararEdicion(id) {
     try {
-        Swal.showLoading();
+        Swal.fire({ title: 'Cargando...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
-        // Llamamos a la función corregida antes de llenar los datos
+        // 1. Cargar catálogos primero
         await cargarSelectsEdicion();
 
+        // 2. Obtener datos del vehículo
         const response = await fetch(`AUD_controller/get_detalle_vehiculo.php?id=${id}`);
         const v = await response.json();
 
-        if (v.status === 'error') throw new Error(v.message);
+        if (!v || v.status === 'error') throw new Error(v.message || "Error al obtener datos");
+
+        // 3. IDs y Datos Fijos (Cuidar que el ID exista en el HTML)
+        if(document.getElementById('edit_id')) document.getElementById('edit_id').value = v.id;
+        if(document.getElementById('edit_no_serie')) document.getElementById('edit_no_serie').value = v.no_serie;
+        if(document.getElementById('edit_fecha_alta')) document.getElementById('edit_fecha_alta').value = v.fecha_alta;
+        if(document.getElementById('edit_marca')) document.getElementById('edit_marca').value = v.marca;
+        if(document.getElementById('edit_modelo')) document.getElementById('edit_modelo').value = v.modelo;
+        if(document.getElementById('edit_anio')) document.getElementById('edit_anio').value = v.anio;
+
+        // 4. Datos Modificables (SELECTS)
+        // Importante: Verifica que 'sucursal_id' sea el nombre exacto que devuelve tu JSON
+        document.getElementById('edit_sucursal_id').value = v.sucursal_id || "";
+        document.getElementById('edit_responsable_id').value = v.responsable_id || "";
+        document.getElementById('edit_gerente_reportar_id').value = v.gerente_reportar_id || "";
+        
+        // 5. Otros campos
+        document.getElementById('edit_placas').value = v.placas || "";
+        document.getElementById('edit_no_licencia').value = v.no_licencia || "";
+        document.getElementById('edit_vigencia_licencia').value = v.fecha_vencimiento_licencia || "";
+        document.getElementById('edit_tarjeta_circulacion').value = v.tarjeta_circulacion || "";
+        document.getElementById('edit_aseguradora').value = v.aseguradora || "";
+        document.getElementById('edit_no_poliza').value = v.no_poliza || "";
+        document.getElementById('edit_vigencia_poliza').value = v.vigencia_poliza || "";
+        document.getElementById('edit_telefono_siniestro').value = v.telefono_siniestro || "";
 
         Swal.close(); 
-
-        // 1. IDs
-        document.getElementById('edit_id').value = v.id;
-
-        // 2. DATOS FIJOS
-        document.getElementById('edit_no_serie').value = v.no_serie;
-        document.getElementById('edit_fecha_alta').value = v.fecha_alta;
-        document.getElementById('edit_marca').value = v.marca;
-        document.getElementById('edit_modelo').value = v.modelo;
-        document.getElementById('edit_anio').value = v.anio;
-
-        // 3. DATOS MODIFICABLES
-        // Al haberse ejecutado 'cargarSelectsEdicion', estos valores se seleccionarán correctamente
-        document.getElementById('edit_sucursal_id').value = v.sucursal_id;
-        document.getElementById('edit_responsable_id').value = v.responsable_id;
-        document.getElementById('edit_gerente_reportar_id').value = v.gerente_reportar_id;
-        
-        document.getElementById('edit_no_licencia').value = v.no_licencia;
-        document.getElementById('edit_vigencia_licencia').value = v.fecha_vencimiento_licencia;
-        document.getElementById('edit_placas').value = v.placas;
-        document.getElementById('edit_tarjeta_circulacion').value = v.tarjeta_circulacion;
-        document.getElementById('edit_aseguradora').value = v.aseguradora;
-        document.getElementById('edit_no_poliza').value = v.no_poliza;
-        document.getElementById('edit_vigencia_poliza').value = v.vigencia_poliza;
-        document.getElementById('edit_telefono_siniestro').value = v.telefono_siniestro;
 
         const modalEdit = new bootstrap.Modal(document.getElementById('modalEditar'));
         modalEdit.show();
 
     } catch (error) {
-        console.error("Error:", error);
-        Swal.fire('Error', 'No se pudo cargar la información', 'error');
+        console.error("Error detallado:", error);
+        Swal.fire('Error', 'No se pudo cargar la información: ' + error.message, 'error');
     }
 }
 
