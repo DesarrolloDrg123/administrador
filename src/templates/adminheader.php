@@ -61,15 +61,15 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     
     <style>
-        /* 1. Ajuste del Body para dar espacio al menú */
+        /* 1. Ajustes Base del Body */
         body {
             background-color: #EEF1F2;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin-left: 260px; /* Debe coincidir con el ancho del header */
-            transition: margin-left 0.3s;
+            margin-left: 260px; /* Ancho por defecto del sidebar */
+            transition: all 0.3s ease-in-out;
         }
 
-        /* 2. Configuración del Header como Barra Lateral */
+        /* 2. Configuración del Sidebar */
         header {
             width: 260px;
             height: 100vh;
@@ -77,91 +77,80 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
             top: 0;
             left: 0;
             background-color: #333;
-            border-right: 3px solid #3498db; /* Cambiamos border-bottom por border-right */
-            z-index: 1000;
-            overflow-y: auto; /* Esto permite el "slider" o scroll si hay muchos permisos */
+            border-right: 3px solid #3498db;
+            z-index: 1050; /* Por encima de todo */
+            overflow-y: auto;
             overflow-x: hidden;
+            transition: all 0.3s ease-in-out;
         }
 
-        /* 3. Ajuste de la Navbar para que sea vertical */
+        /* 3. Navbar Vertical */
         .navbar {
             flex-direction: column !important;
             align-items: flex-start !important;
-            padding: 20px 10px !important;
-            background-color: transparent !important; /* El fondo lo da el header */
-            border-bottom: none !important;
+            padding: 15px 0 !important;
         }
 
         .navbar-brand {
-            margin-bottom: 30px;
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 100%;
             text-align: center;
-            width: 100%;
-        }
-
-        .navbar-collapse {
-            width: 100%;
         }
 
         .navbar-nav {
-            flex-direction: column !important;
             width: 100%;
+            flex-direction: column !important;
         }
 
         .nav-item {
             width: 100%;
-            border-bottom: 1px solid #444; /* Separador sutil */
+            position: relative;
         }
 
-        /* 4. Dropdowns estilo acordeón (empujan hacia abajo) */
-        .dropdown-menu {
-            position: static !important;
+        .nav-link {
+            padding: 12px 20px !important;
+            color: #fff !important;
+            display: flex;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .nav-link:hover {
+            background-color: #444;
+            color: #3498db !important;
+        }
+
+        /* 4. FIX DE DROPDOWNS (Para que no se encimen) */
+        header .dropdown-menu {
+            position: static !important; /* IMPORTANTE: Esto hace que empuje hacia abajo */
             float: none !important;
-            background-color: #444 !important;
-            border: none !important;
+            transform: none !important; /* Anula el cálculo de Bootstrap */
+            background-color: #222 !important; /* Color más oscuro para distinguir el submenú */
+            border: none;
             width: 100%;
-            margin: 0 !important;
-            box-shadow: none !important;
+            margin: 0;
+            padding: 0;
+            box-shadow: none;
+            display: none; /* Se controla con la clase .show de Bootstrap */
         }
 
-        .dropdown-item {
-            color: #ddd !important;
-            padding-left: 30px !important;
+        header .dropdown-menu.show {
+            display: block;
         }
 
-        /* 5. Ajuste del contenedor principal de las vistas */
-        .container {
-            max-width: 95% !important; /* Más ancho ya que tenemos menos espacio horizontal */
-            margin-top: 30px;
-            margin-left: auto;
-            margin-right: auto;
+        header .dropdown-item {
+            color: #bbb !important;
+            padding: 10px 10px 10px 50px !important; /* Sangría para el submenú */
+            font-size: 0.9rem;
         }
 
-        /* Scrollbar personalizado para el menú lateral */
-        header::-webkit-scrollbar {
-            width: 6px;
-        }
-        header::-webkit-scrollbar-thumb {
-            background: #555;
-            border-radius: 10px;
+        header .dropdown-item:hover {
+            background-color: #3498db !important;
+            color: white !important;
         }
 
-        /* Responsivo: Si la pantalla es pequeña, vuelve a ser horizontal o se oculta */
-        @media (max-width: 991px) {
-            body { margin-left: 0; }
-            header {
-                width: 100%;
-                height: auto;
-                position: relative;
-                border-right: none;
-                border-bottom: 3px solid #3498db;
-            }
-        }
-        /* Transiciones suaves para todo */
-        body, header, .navbar-brand img, .nav-link span {
-            transition: all 0.3s ease-in-out;
-        }
-
-        /* Estado Colapsado */
+        /* 5. Estado Colapsado */
         body.sidebar-collapsed {
             margin-left: 70px;
         }
@@ -170,40 +159,58 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
             width: 70px;
         }
 
-        /* Ocultar texto y logo grande al colapsar */
-        header.sidebar-collapsed .nav-text, 
+        header.sidebar-collapsed .nav-text,
         header.sidebar-collapsed .navbar-brand span,
         header.sidebar-collapsed .dropdown-toggle::after {
             display: none !important;
         }
 
         header.sidebar-collapsed .navbar-brand img {
-            width: 40px !important;
+            width: 45px !important;
         }
 
-        /* Ajuste de iconos al colapsar */
         header.sidebar-collapsed .nav-link {
-            text-align: center;
-            padding-left: 0;
+            justify-content: center;
+            padding: 15px 0 !important;
         }
 
         header.sidebar-collapsed .nav-link i {
-            margin-right: 0 !important;
-            font-size: 1.2rem;
+            margin: 0 !important;
+            font-size: 1.3rem;
         }
 
-        /* Botón de toggle (Hamburgesa) */
+        /* Ocultar dropdowns abiertos al colapsar para evitar errores visuales */
+        header.sidebar-collapsed .dropdown-menu {
+            display: none !important;
+        }
+
+        /* 6. Botón de Toggle */
         #btn-toggle-sidebar {
             background: #3498db;
             border: none;
             color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
             cursor: pointer;
             position: absolute;
             right: -15px;
-            top: 20px;
-            z-index: 1001;
+            top: 25px;
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+        }
+
+        /* 7. Utilidades para las tablas y contenedores */
+        .container-fluid {
+            padding: 20px;
+        }
+
+        /* Quitar flecha de dropdown si se desea */
+        .dropdown-toggle::after {
+            margin-left: auto;
         }
     </style>
 </head>
@@ -231,9 +238,9 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
                 <?php if (!empty($_SESSION['permisos'])) : ?>
                     <?php foreach ($_SESSION['permisos'] as $categoria => $programas) : ?>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" data-bs-toggle="dropdown">
                                 <i class="fas fa-folder me-2"></i>
-                                <span class="nav-text"><?php echo $categoria; ?></span>
+                                <span class="nav-text text-truncate"><?php echo $categoria; ?></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <?php foreach ($programas as $permiso) : ?>
