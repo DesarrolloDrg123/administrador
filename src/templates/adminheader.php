@@ -59,6 +59,9 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     
     <style>
+        /* =========================================
+        1. ESTRUCTURA PRINCIPAL
+        ========================================= */
         body {
             background-color: #EEF1F2;
             margin-left: 260px;
@@ -76,57 +79,132 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
             flex-direction: column;
             z-index: 1050;
             transition: width 0.3s ease;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Sombra sutil a la derecha */
         }
 
-        /* Ajuste del Logo para que no se deforme */
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            overflow: hidden;
-        }
-
+        /* =========================================
+        2. CABECERA (LOGO Y BOTÓN) - DISEÑO NUEVO
+        ========================================= */
         .sidebar-top {
-            padding: 15px;
+            padding: 0 20px; /* Más aire a los lados */
             display: flex;
             align-items: center;
             justify-content: space-between;
-            min-height: 80px;
+            height: 70px; /* Altura fija elegante */
+            border-bottom: 1px solid rgba(255,255,255,0.05); /* Línea divisora muy sutil */
         }
 
-        /* Centro y Scroll */
+        /* Contenedor del Logo */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            max-width: 170px; /* Evita que choque con el botón */
+            overflow: hidden;
+            transition: opacity 0.3s;
+        }
+
+        #sidebar-logo {
+            max-height: 40px; /* Controla la altura del logo */
+            width: auto;
+        }
+
+        /* BOTÓN HAMBURGUESA (Minimalista) */
+        #btn-toggle-sidebar {
+            background-color: transparent !important; /* Sin fondo */
+            border: none !important;
+            box-shadow: none !important;
+            color: #aebecd; /* Gris azulado suave */
+            font-size: 1.4rem;
+            cursor: pointer;
+            margin-left: 15px; /* Separación del logo */
+            padding: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #btn-toggle-sidebar:hover {
+            color: #ffffff; /* Blanco al pasar el mouse */
+            transform: scale(1.1);
+        }
+
+        /* =========================================
+        3. CUERPO Y PIE DE PÁGINA
+        ========================================= */
         .sidebar-center {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
+            padding-top: 10px;
         }
+        
+        /* Scroll personalizado fino */
+        .sidebar-center::-webkit-scrollbar { width: 4px; }
+        .sidebar-center::-webkit-scrollbar-thumb { background: #4b545c; border-radius: 4px; }
 
         .sidebar-footer {
             padding: 10px 0;
             background-color: #2c343b;
-            border-top: 1px solid #3e474f;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* Links y Iconos */
+        /* =========================================
+        4. ENLACES Y DROPDOWNS
+        ========================================= */
         .nav-link {
             color: #d1d4d7 !important;
             padding: 12px 20px !important;
             display: flex;
             align-items: center;
-            white-space: nowrap;
-            transition: all 0.3s;
+            white-space: nowrap; /* Evita que el texto baje de línea */
+            transition: all 0.2s;
+            border-left: 3px solid transparent; /* Preparado para hover */
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255,255,255,0.05);
+            color: #fff !important;
+            border-left: 3px solid #3498db; /* Línea azul al pasar el mouse */
         }
 
         .nav-link i {
-            min-width: 30px; /* Ancho fijo para el icono */
-            font-size: 1.2rem;
+            min-width: 30px;
+            font-size: 1.1rem;
             text-align: center;
             margin-right: 15px;
         }
 
-        /* Dropdowns en modo expandido */
-        /* Usamos #main-sidebar.sidebar-collapsed para ganar prioridad sobre el ID normal */
+        /* Estilo de Dropdowns abiertos */
+        header .dropdown-menu {
+            position: static !important;
+            float: none !important;
+            background-color: #22282e !important; /* Un poco más oscuro que el fondo */
+            border: none;
+            padding: 0;
+            margin: 0;
+            display: none; /* Controlado por JS de Bootstrap */
+        }
+        
+        header .dropdown-menu.show { display: block; }
+        
+        header .dropdown-item {
+            color: #adb5bd !important;
+            padding: 10px 10px 10px 60px !important; /* Sangría para jerarquía */
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        
+        header .dropdown-item:hover {
+            background-color: rgba(255,255,255,0.05);
+            color: white !important;
+        }
+
+        /* =========================================
+        5. ESTADO COLAPSADO (CERRADO)
+        ========================================= */
+        
+        /* Usamos ID + Clase para máxima prioridad */
         header#main-sidebar.sidebar-collapsed { 
             width: 70px; 
         }
@@ -135,14 +213,20 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
             margin-left: 70px; 
         }
 
-        /* Ocultar texto y logo */
+        /* Ocultar elementos de texto y logo */
         header#main-sidebar.sidebar-collapsed .nav-text, 
         header#main-sidebar.sidebar-collapsed #sidebar-logo,
         header#main-sidebar.sidebar-collapsed .dropdown-toggle::after {
             display: none !important;
         }
 
-        /* Centrar iconos cuando está cerrado */
+        /* Ajustar botón hamburguesa al centro */
+        header#main-sidebar.sidebar-collapsed #btn-toggle-sidebar {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        /* Centrar iconos de navegación */
         header#main-sidebar.sidebar-collapsed .nav-link {
             justify-content: center !important;
             padding: 15px 0 !important;
@@ -152,7 +236,7 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
             margin-right: 0 !important;
         }
 
-        /* Ocultar dropdowns */
+        /* Asegurar que los submenús no molesten */
         header#main-sidebar.sidebar-collapsed .dropdown-menu {
             display: none !important;
         }
