@@ -126,45 +126,34 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
         }
 
         /* Dropdowns en modo expandido */
-        header .dropdown-menu {
-            position: static !important;
-            float: none !important;
-            background-color: #1e2429 !important;
-            border: none;
-            padding: 0;
-            display: none;
-        }
-        header .dropdown-menu.show { display: block; }
-        header .dropdown-item {
-            color: #adb5bd !important;
-            padding: 10px 10px 10px 60px !important; /* Sangría para submenús */
+        /* Usamos #main-sidebar.sidebar-collapsed para ganar prioridad sobre el ID normal */
+        header#main-sidebar.sidebar-collapsed { 
+            width: 70px; 
         }
 
-        /* ==========================================
-        ESTADO COLAPSADO (AQUÍ ESTABA EL ERROR)
-        ========================================== */
-        body.sidebar-collapsed { margin-left: 70px; }
-        header.sidebar-collapsed { width: 70px; }
+        body.sidebar-collapsed { 
+            margin-left: 70px; 
+        }
 
         /* Ocultar texto y logo */
-        header.sidebar-collapsed .nav-text, 
-        header.sidebar-collapsed #sidebar-logo,
-        header.sidebar-collapsed .dropdown-toggle::after {
+        header#main-sidebar.sidebar-collapsed .nav-text, 
+        header#main-sidebar.sidebar-collapsed #sidebar-logo,
+        header#main-sidebar.sidebar-collapsed .dropdown-toggle::after {
             display: none !important;
         }
 
         /* Centrar iconos cuando está cerrado */
-        header.sidebar-collapsed .nav-link {
+        header#main-sidebar.sidebar-collapsed .nav-link {
             justify-content: center !important;
             padding: 15px 0 !important;
         }
 
-        header.sidebar-collapsed .nav-link i {
-            margin-right: 0 !important; /* Quita el margen del icono */
+        header#main-sidebar.sidebar-collapsed .nav-link i {
+            margin-right: 0 !important;
         }
 
-        /* Desactivar dropdowns cuando está colapsado para evitar saltos visuales */
-        header.sidebar-collapsed .dropdown-menu {
+        /* Ocultar dropdowns */
+        header#main-sidebar.sidebar-collapsed .dropdown-menu {
             display: none !important;
         }
     </style>
@@ -251,23 +240,27 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
 </div>
 </body>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const btnToggle = document.getElementById('btn-toggle-sidebar');
-        const sidebar = document.getElementById('main-sidebar');
-        const body = document.body;
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnToggle = document.getElementById('btn-toggle-sidebar');
+            const sidebar = document.getElementById('main-sidebar');
+            const body = document.body;
 
-        btnToggle.addEventListener('click', () => {
-            const isCollapsed = sidebar.classList.toggle('sidebar-collapsed');
-            body.classList.toggle('sidebar-collapsed');
-            
-            // Guardar preferencia del usuario
-            localStorage.setItem('sidebarStatus', isCollapsed ? 'closed' : 'open');
+            // Verificar si el botón existe antes de agregar el evento
+            if (btnToggle) {
+                btnToggle.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevenir comportamientos extraños
+                    const isCollapsed = sidebar.classList.toggle('sidebar-collapsed');
+                    body.classList.toggle('sidebar-collapsed');
+                    
+                    localStorage.setItem('sidebarStatus', isCollapsed ? 'closed' : 'open');
+                });
+            }
+
+            // Cargar estado al iniciar
+            if (localStorage.getItem('sidebarStatus') === 'closed') {
+                sidebar.classList.add('sidebar-collapsed');
+                body.classList.add('sidebar-collapsed');
+            }
         });
-
-        // Cargar estado al iniciar
-        if (localStorage.getItem('sidebarStatus') === 'closed') {
-            sidebar.classList.add('sidebar-collapsed');
-            body.classList.add('sidebar-collapsed');
-        }
-    });
-</script>
+    </script>
+</body> </html>
