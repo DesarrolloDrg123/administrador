@@ -3,7 +3,7 @@ ob_start();
 session_start(); // Asegurarse de que la sesión está iniciada al principio
 include("config/db.php"); // Incluir la configuración de la base de datos
 
-if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
+if(!isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
     header("Location: login.php");
     exit();
 }
@@ -79,44 +79,41 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
             flex-direction: column;
             z-index: 1050;
             transition: width 0.3s ease;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Sombra sutil a la derecha */
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
         }
 
         /* =========================================
-        2. CABECERA (LOGO Y BOTÓN) - DISEÑO NUEVO
+        2. CABECERA (LOGO Y BOTÓN)
         ========================================= */
         .sidebar-top {
-            padding: 0 20px; /* Más aire a los lados */
+            padding: 0 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 70px; /* Altura fija elegante */
-            border-bottom: 1px solid rgba(255,255,255,0.05); /* Línea divisora muy sutil */
+            height: 70px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* Contenedor del Logo */
         .logo-container {
             display: flex;
             align-items: center;
-            max-width: 170px; /* Evita que choque con el botón */
+            max-width: 170px;
             overflow: hidden;
             transition: opacity 0.3s;
         }
 
         #sidebar-logo {
-            max-height: 40px; /* Controla la altura del logo */
+            max-height: 40px;
             width: auto;
         }
 
-        /* BOTÓN HAMBURGUESA (Minimalista) */
         #btn-toggle-sidebar {
-            background-color: transparent !important; /* Sin fondo */
+            background-color: transparent !important;
             border: none !important;
-            box-shadow: none !important;
-            color: #aebecd; /* Gris azulado suave */
+            color: #aebecd;
             font-size: 1.4rem;
             cursor: pointer;
-            margin-left: 15px; /* Separación del logo */
+            margin-left: 15px;
             padding: 5px;
             transition: all 0.3s ease;
             display: flex;
@@ -125,7 +122,7 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
         }
 
         #btn-toggle-sidebar:hover {
-            color: #ffffff; /* Blanco al pasar el mouse */
+            color: #ffffff;
             transform: scale(1.1);
         }
 
@@ -139,7 +136,6 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
             padding-top: 10px;
         }
         
-        /* Scroll personalizado fino */
         .sidebar-center::-webkit-scrollbar { width: 4px; }
         .sidebar-center::-webkit-scrollbar-thumb { background: #4b545c; border-radius: 4px; }
 
@@ -157,40 +153,42 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
             padding: 12px 20px !important;
             display: flex;
             align-items: center;
-            white-space: nowrap; /* Evita que el texto baje de línea */
+            white-space: nowrap;
             transition: all 0.2s;
-            border-left: 3px solid transparent; /* Preparado para hover */
+            border-left: 3px solid transparent;
         }
 
         .nav-link:hover {
             background-color: rgba(255,255,255,0.05);
             color: #fff !important;
-            border-left: 3px solid #3498db; /* Línea azul al pasar el mouse */
+            border-left: 3px solid #3498db;
         }
 
+        /* MEJORA: Alineación consistente de iconos */
         .nav-link i {
-            min-width: 30px;
+            min-width: 30px; 
             font-size: 1.1rem;
             text-align: center;
             margin-right: 15px;
+            display: inline-block;
         }
 
-        /* Estilo de Dropdowns abiertos */
-        header .dropdown-menu {
+        /* Dropdowns del cuerpo (se abren hacia abajo) */
+        header .sidebar-center .dropdown-menu {
             position: static !important;
             float: none !important;
-            background-color: #22282e !important; /* Un poco más oscuro que el fondo */
+            background-color: #22282e !important;
             border: none;
             padding: 0;
             margin: 0;
-            display: none; /* Controlado por JS de Bootstrap */
+            display: none;
         }
         
         header .dropdown-menu.show { display: block; }
         
         header .dropdown-item {
             color: #adb5bd !important;
-            padding: 10px 10px 10px 60px !important; /* Sangría para jerarquía */
+            padding: 10px 10px 10px 60px !important;
             font-size: 0.9rem;
             transition: background 0.2s;
         }
@@ -200,33 +198,43 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
             color: white !important;
         }
 
+        /* MEJORA: Dropup para el Footer (Cerrar Sesión) */
+        .sidebar-footer .dropdown-menu {
+            position: absolute !important;
+            bottom: 100% !important; /* Lo sube por encima del botón */
+            top: auto !important;
+            left: 10px !important;
+            width: 90%;
+            margin-bottom: 10px;
+            background-color: #22282e !important;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 4px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Ajuste de padding para el item de Cerrar Sesión */
+        .sidebar-footer .dropdown-item {
+            padding: 10px 20px !important;
+        }
+
         /* =========================================
         5. ESTADO COLAPSADO (CERRADO)
         ========================================= */
-        
-        /* Usamos ID + Clase para máxima prioridad */
-        header#main-sidebar.sidebar-collapsed { 
-            width: 70px; 
-        }
+        header#main-sidebar.sidebar-collapsed { width: 70px; }
+        body.sidebar-collapsed { margin-left: 70px; }
 
-        body.sidebar-collapsed { 
-            margin-left: 70px; 
-        }
-
-        /* Ocultar elementos de texto y logo */
         header#main-sidebar.sidebar-collapsed .nav-text, 
         header#main-sidebar.sidebar-collapsed #sidebar-logo,
         header#main-sidebar.sidebar-collapsed .dropdown-toggle::after {
             display: none !important;
         }
 
-        /* Ajustar botón hamburguesa al centro */
         header#main-sidebar.sidebar-collapsed #btn-toggle-sidebar {
             margin-left: 0;
             width: 100%;
         }
 
-        /* Centrar iconos de navegación */
+        /* MEJORA: Centrado perfecto de iconos al colapsar */
         header#main-sidebar.sidebar-collapsed .nav-link {
             justify-content: center !important;
             padding: 15px 0 !important;
@@ -234,9 +242,10 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
 
         header#main-sidebar.sidebar-collapsed .nav-link i {
             margin-right: 0 !important;
+            min-width: unset;
         }
 
-        /* Asegurar que los submenús no molesten */
+        /* Ocultar submenús al estar colapsado para evitar bugs visuales */
         header#main-sidebar.sidebar-collapsed .dropdown-menu {
             display: none !important;
         }
@@ -285,16 +294,17 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
 
         <div class="sidebar-footer">
             <ul class="navbar-nav">
-                <li class="nav-item dropdown">
+                <li class="nav-item dropup"> 
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                         <i class="fa fa-user"></i>
                         <span class="nav-text"><?php echo $_SESSION['nombre']; ?></span>
                     </a>
-                    <div class="dropdown-menu dropup-custom">
-                        <a class="dropdown-item" href="logout.php">
-                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                        </a>
-                    </div>
+                    <ul class="dropdown-menu"> <li>
+                            <a class="dropdown-item footer-item" href="logout.php">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
