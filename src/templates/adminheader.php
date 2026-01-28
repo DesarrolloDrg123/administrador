@@ -3,7 +3,7 @@ ob_start();
 session_start(); // Asegurarse de que la sesión está iniciada al principio
 include("config/db.php"); // Incluir la configuración de la base de datos
 
-if(!isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
+if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
     header("Location: login.php");
     exit();
 }
