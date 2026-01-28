@@ -27,10 +27,8 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
     <link rel="stylesheet" href="../css/style.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-  
+    
     
     <!-- jQuery (necesario para DataTables) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -61,10 +59,9 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     
     <style>
-        /* Reset y Body */
         body {
             background-color: #EEF1F2;
-            margin-left: 260px; /* Espacio para el menú abierto */
+            margin-left: 260px;
             transition: margin-left 0.3s ease;
         }
 
@@ -76,94 +73,100 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
             top: 0;
             background-color: #2c343b;
             display: flex;
-            flex-direction: column; /* Organiza Top, Center y Footer verticalmente */
+            flex-direction: column;
             z-index: 1050;
             transition: width 0.3s ease;
         }
 
-        /* Zona Superior */
+        /* Ajuste del Logo para que no se deforme */
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            overflow: hidden;
+        }
+
         .sidebar-top {
             padding: 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid #3e474f;
             min-height: 80px;
         }
-        #sidebar-logo { width: 140px; transition: opacity 0.2s; }
 
-        #btn-toggle-sidebar {
-            background: #3498db;
-            border: none;
-            color: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        /* Zona Central con Scroll (El Slider que pediste) */
+        /* Centro y Scroll */
         .sidebar-center {
-            flex: 1; /* Esto hace que ocupe todo el espacio disponible */
-            overflow-y: auto; /* Habilita el slider/scroll aquí */
-            padding: 10px 0;
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
-        /* Estilo del scroll */
-        .sidebar-center::-webkit-scrollbar { width: 4px; }
-        .sidebar-center::-webkit-scrollbar-thumb { background: #4b545c; border-radius: 10px; }
 
-        /* Zona Inferior Fija */
         .sidebar-footer {
-            border-top: 1px solid #3e474f;
             padding: 10px 0;
             background-color: #2c343b;
+            border-top: 1px solid #3e474f;
         }
 
-        /* Fix Dropdowns: Para que no floten sobre el contenido (Problema image_8ab8df) */
-        header .dropdown-menu {
-            position: static !important; /* IMPORTANTE: Empuja el contenido hacia abajo */
-            float: none !important;
-            background-color: #1e2429 !important;
-            border: none;
-            margin: 0;
-            padding: 0;
-            transform: none !important;
-            display: none;
-        }
-        header .dropdown-menu.show { display: block; }
-        
-        header .dropdown-item {
-            color: #adb5bd !important;
-            padding: 10px 10px 10px 50px !important;
-            font-size: 0.9rem;
-        }
-
-        /* Estilo de los links */
+        /* Links y Iconos */
         .nav-link {
             color: #d1d4d7 !important;
             padding: 12px 20px !important;
             display: flex;
             align-items: center;
-            gap: 15px;
             white-space: nowrap;
+            transition: all 0.3s;
         }
-        .nav-link i { min-width: 25px; text-align: center; font-size: 1.1rem; }
 
-        /* --- ESTADO COLAPSADO (image_8a43bf fix) --- */
+        .nav-link i {
+            min-width: 30px; /* Ancho fijo para el icono */
+            font-size: 1.2rem;
+            text-align: center;
+            margin-right: 15px;
+        }
+
+        /* Dropdowns en modo expandido */
+        header .dropdown-menu {
+            position: static !important;
+            float: none !important;
+            background-color: #1e2429 !important;
+            border: none;
+            padding: 0;
+            display: none;
+        }
+        header .dropdown-menu.show { display: block; }
+        header .dropdown-item {
+            color: #adb5bd !important;
+            padding: 10px 10px 10px 60px !important; /* Sangría para submenús */
+        }
+
+        /* ==========================================
+        ESTADO COLAPSADO (AQUÍ ESTABA EL ERROR)
+        ========================================== */
         body.sidebar-collapsed { margin-left: 70px; }
         header.sidebar-collapsed { width: 70px; }
-        
+
+        /* Ocultar texto y logo */
         header.sidebar-collapsed .nav-text, 
         header.sidebar-collapsed #sidebar-logo,
         header.sidebar-collapsed .dropdown-toggle::after {
-            display: none !important; /* Oculta texto y logo al cerrar */
+            display: none !important;
         }
 
-        header.sidebar-collapsed .nav-link { justify-content: center; padding: 15px 0 !important; }
-        
-        /* Evita que los dropdowns se abran si está colapsado */
-        header.sidebar-collapsed .dropdown-menu { display: none !important; }
+        /* Centrar iconos cuando está cerrado */
+        header.sidebar-collapsed .nav-link {
+            justify-content: center !important;
+            padding: 15px 0 !important;
+        }
 
+        header.sidebar-collapsed .nav-link i {
+            margin-right: 0 !important; /* Quita el margen del icono */
+        }
+
+        /* Desactivar dropdowns cuando está colapsado para evitar saltos visuales */
+        header.sidebar-collapsed .dropdown-menu {
+            display: none !important;
+        }
     </style>
 </head>
 
