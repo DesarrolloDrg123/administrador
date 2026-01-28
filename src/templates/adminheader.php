@@ -61,10 +61,11 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     
     <style>
+        /* Reset y Body */
         body {
             background-color: #EEF1F2;
-            margin-left: 260px;
-            transition: all 0.3s ease;
+            margin-left: 260px; /* Espacio para el menú abierto */
+            transition: margin-left 0.3s ease;
         }
 
         header#main-sidebar {
@@ -73,112 +74,107 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
             position: fixed;
             left: 0;
             top: 0;
-            background-color: #2c343b; /* Color oscuro profesional */
+            background-color: #2c343b;
             display: flex;
-            flex-direction: column; /* Alineación vertical */
+            flex-direction: column; /* Organiza Top, Center y Footer verticalmente */
             z-index: 1050;
-            transition: all 0.3s ease;
+            transition: width 0.3s ease;
         }
 
-        /* --- ZONA SUPERIOR --- */
-        .sidebar-header-top {
-            padding: 20px;
-            text-align: center;
-            position: relative;
+        /* Zona Superior */
+        .sidebar-top {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             border-bottom: 1px solid #3e474f;
+            min-height: 80px;
         }
-        #sidebar-logo { width: 150px; transition: 0.3s; }
+        #sidebar-logo { width: 140px; transition: opacity 0.2s; }
 
         #btn-toggle-sidebar {
-            position: absolute;
-            right: -15px;
-            top: 25px;
             background: #3498db;
             border: none;
             color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 5px;
+            width: 35px;
+            height: 35px;
+            border-radius: 4px;
             cursor: pointer;
-            z-index: 1100;
         }
 
-        /* --- ZONA CENTRAL (SCROLL) --- */
+        /* Zona Central con Scroll (El Slider que pediste) */
         .sidebar-center {
-            flex-grow: 1; /* Ocupa el espacio restante */
-            overflow-y: auto; /* Solo esta parte tiene scroll */
+            flex: 1; /* Esto hace que ocupe todo el espacio disponible */
+            overflow-y: auto; /* Habilita el slider/scroll aquí */
             padding: 10px 0;
         }
-        .sidebar-center::-webkit-scrollbar { width: 5px; }
-        .sidebar-center::-webkit-scrollbar-thumb { background: #4b545c; }
+        /* Estilo del scroll */
+        .sidebar-center::-webkit-scrollbar { width: 4px; }
+        .sidebar-center::-webkit-scrollbar-thumb { background: #4b545c; border-radius: 10px; }
 
-        /* --- DROPDOWNS (FIX PARA QUE NO SE ENCIMEN) --- */
-        header .nav-item .dropdown-menu {
-            position: static !important; /* IMPORTANTE: Empuja el contenido abajo */
-            float: none !important;
-            background-color: #1e2429 !important;
-            border: none;
-            padding: 0;
-            margin: 0;
-            transform: none !important;
-            display: none;
-        }
-        header .nav-item .dropdown-menu.show { display: block; }
-        
-        header .dropdown-item {
-            color: #adb5bd !important;
-            padding: 10px 10px 10px 45px !important;
-            white-space: normal;
-        }
-
-        /* --- ZONA INFERIOR (USUARIO FIJO) --- */
-        .sidebar-footer-bottom {
-            padding: 15px 0;
+        /* Zona Inferior Fija */
+        .sidebar-footer {
             border-top: 1px solid #3e474f;
+            padding: 10px 0;
             background-color: #2c343b;
         }
 
+        /* Fix Dropdowns: Para que no floten sobre el contenido (Problema image_8ab8df) */
+        header .dropdown-menu {
+            position: static !important; /* IMPORTANTE: Empuja el contenido hacia abajo */
+            float: none !important;
+            background-color: #1e2429 !important;
+            border: none;
+            margin: 0;
+            padding: 0;
+            transform: none !important;
+            display: none;
+        }
+        header .dropdown-menu.show { display: block; }
+        
+        header .dropdown-item {
+            color: #adb5bd !important;
+            padding: 10px 10px 10px 50px !important;
+            font-size: 0.9rem;
+        }
+
+        /* Estilo de los links */
         .nav-link {
             color: #d1d4d7 !important;
             padding: 12px 20px !important;
             display: flex;
             align-items: center;
             gap: 15px;
+            white-space: nowrap;
         }
-        .nav-link i { width: 20px; text-align: center; font-size: 1.1rem; }
+        .nav-link i { min-width: 25px; text-align: center; font-size: 1.1rem; }
 
-        /* --- ESTADO COLAPSADO --- */
+        /* --- ESTADO COLAPSADO (image_8a43bf fix) --- */
         body.sidebar-collapsed { margin-left: 70px; }
         header.sidebar-collapsed { width: 70px; }
         
         header.sidebar-collapsed .nav-text, 
         header.sidebar-collapsed #sidebar-logo,
         header.sidebar-collapsed .dropdown-toggle::after {
-            display: none !important;
+            display: none !important; /* Oculta texto y logo al cerrar */
         }
 
         header.sidebar-collapsed .nav-link { justify-content: center; padding: 15px 0 !important; }
-        header.sidebar-collapsed .nav-link i { margin: 0; }
         
-        /* Evitar que se abran dropdowns en modo colapsado para que no se rompa */
+        /* Evita que los dropdowns se abran si está colapsado */
         header.sidebar-collapsed .dropdown-menu { display: none !important; }
 
-        @media (max-width: 991px) {
-            body { margin-left: 0; }
-            header { transform: translateX(-100%); }
-            header.mobile-open { transform: translateX(0); }
-        }
     </style>
 </head>
 
 <body>
     <header id="main-sidebar">
-        <div class="sidebar-header-top">
-            <a class="navbar-brand" href="inicio.php">
+        <div class="sidebar-top">
+            <div class="logo-container">
                 <img src="../img/logo-drg.png" alt="Logo" id="sidebar-logo">
-            </a>
+            </div>
             <button id="btn-toggle-sidebar">
-                <i class="fas fa-bars" id="toggle-icon"></i>
+                <i class="fas fa-bars"></i>
             </button>
         </div>
 
@@ -197,7 +193,7 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                                     <i class="fas fa-folder"></i>
-                                    <span class="nav-text text-truncate"><?php echo $categoria; ?></span>
+                                    <span class="nav-text"><?php echo $categoria; ?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <?php foreach ($programas as $permiso) : ?>
@@ -211,12 +207,12 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
             </nav>
         </div>
 
-        <div class="sidebar-footer-bottom">
+        <div class="sidebar-footer">
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                         <i class="fa fa-user"></i>
-                        <span class="nav-text text-truncate"><?php echo $_SESSION['nombre']; ?></span>
+                        <span class="nav-text"><?php echo $_SESSION['nombre']; ?></span>
                     </a>
                     <div class="dropdown-menu dropup-custom">
                         <a class="dropdown-item" href="logout.php">
@@ -252,28 +248,23 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
 </div>
 </body>
 <script>
-    const btnToggle = document.getElementById('btn-toggle-sidebar');
-    const sidebar = document.getElementById('main-sidebar');
-    const body = document.body;
-    const icon = document.getElementById('toggle-icon');
+    document.addEventListener('DOMContentLoaded', function() {
+        const btnToggle = document.getElementById('btn-toggle-sidebar');
+        const sidebar = document.getElementById('main-sidebar');
+        const body = document.body;
 
-    btnToggle.addEventListener('click', () => {
-        const isCollapsed = sidebar.classList.toggle('sidebar-collapsed');
-        body.classList.toggle('sidebar-collapsed');
-        
-        // Cambiar icono: Si está colapsado dejamos las 3 barras, si no, podemos poner flecha o cruz
-        if (isCollapsed) {
-            icon.classList.replace('fa-bars', 'fa-bars'); // Se mantiene barras
-            localStorage.setItem('sidebarStatus', 'closed');
-        } else {
-            icon.classList.replace('fa-bars', 'fa-bars');
-            localStorage.setItem('sidebarStatus', 'open');
+        btnToggle.addEventListener('click', () => {
+            const isCollapsed = sidebar.classList.toggle('sidebar-collapsed');
+            body.classList.toggle('sidebar-collapsed');
+            
+            // Guardar preferencia del usuario
+            localStorage.setItem('sidebarStatus', isCollapsed ? 'closed' : 'open');
+        });
+
+        // Cargar estado al iniciar
+        if (localStorage.getItem('sidebarStatus') === 'closed') {
+            sidebar.classList.add('sidebar-collapsed');
+            body.classList.add('sidebar-collapsed');
         }
     });
-
-    // Cargar estado guardado
-    if (localStorage.getItem('sidebarStatus') === 'closed') {
-        sidebar.classList.add('sidebar-collapsed');
-        body.classList.add('sidebar-collapsed');
-    }
 </script>
