@@ -61,211 +61,172 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     
     <style>
-        /* 1. Ajustes Base del Body */
         body {
             background-color: #EEF1F2;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin-left: 260px; /* Ancho por defecto del sidebar */
-            transition: all 0.3s ease-in-out;
+            margin-left: 260px;
+            transition: all 0.3s ease;
         }
 
-        /* 2. Configuración del Sidebar */
-        header {
+        header#main-sidebar {
             width: 260px;
             height: 100vh;
             position: fixed;
-            top: 0;
             left: 0;
-            background-color: #333;
-            border-right: 3px solid #3498db;
-            z-index: 1050; /* Por encima de todo */
-            overflow-y: auto;
-            overflow-x: hidden;
-            transition: all 0.3s ease-in-out;
-        }
-
-        /* 3. Navbar Vertical */
-        .navbar {
-            flex-direction: column !important;
-            align-items: flex-start !important;
-            padding: 15px 0 !important;
-        }
-
-        .navbar-brand {
-            padding: 10px;
-            margin-bottom: 20px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .navbar-nav {
-            width: 100%;
-            flex-direction: column !important;
-        }
-
-        .nav-item {
-            width: 100%;
-            position: relative;
-        }
-
-        .nav-link {
-            padding: 12px 20px !important;
-            color: #fff !important;
+            top: 0;
+            background-color: #2c343b; /* Color oscuro profesional */
             display: flex;
-            align-items: center;
-            transition: background 0.2s;
+            flex-direction: column; /* Alineación vertical */
+            z-index: 1050;
+            transition: all 0.3s ease;
         }
 
-        .nav-link:hover {
-            background-color: #444;
-            color: #3498db !important;
+        /* --- ZONA SUPERIOR --- */
+        .sidebar-header-top {
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            border-bottom: 1px solid #3e474f;
         }
+        #sidebar-logo { width: 150px; transition: 0.3s; }
 
-        /* 4. FIX DE DROPDOWNS (Para que no se encimen) */
-        header .dropdown-menu {
-            position: static !important; /* IMPORTANTE: Esto hace que empuje hacia abajo */
-            float: none !important;
-            transform: none !important; /* Anula el cálculo de Bootstrap */
-            background-color: #222 !important; /* Color más oscuro para distinguir el submenú */
-            border: none;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            box-shadow: none;
-            display: none; /* Se controla con la clase .show de Bootstrap */
-        }
-
-        header .dropdown-menu.show {
-            display: block;
-        }
-
-        header .dropdown-item {
-            color: #bbb !important;
-            padding: 10px 10px 10px 50px !important; /* Sangría para el submenú */
-            font-size: 0.9rem;
-        }
-
-        header .dropdown-item:hover {
-            background-color: #3498db !important;
-            color: white !important;
-        }
-
-        /* 5. Estado Colapsado */
-        body.sidebar-collapsed {
-            margin-left: 70px;
-        }
-
-        header.sidebar-collapsed {
-            width: 70px;
-        }
-
-        header.sidebar-collapsed .nav-text,
-        header.sidebar-collapsed .navbar-brand span,
-        header.sidebar-collapsed .dropdown-toggle::after {
-            display: none !important;
-        }
-
-        header.sidebar-collapsed .navbar-brand img {
-            width: 45px !important;
-        }
-
-        header.sidebar-collapsed .nav-link {
-            justify-content: center;
-            padding: 15px 0 !important;
-        }
-
-        header.sidebar-collapsed .nav-link i {
-            margin: 0 !important;
-            font-size: 1.3rem;
-        }
-
-        /* Ocultar dropdowns abiertos al colapsar para evitar errores visuales */
-        header.sidebar-collapsed .dropdown-menu {
-            display: none !important;
-        }
-
-        /* 6. Botón de Toggle */
         #btn-toggle-sidebar {
+            position: absolute;
+            right: -15px;
+            top: 25px;
             background: #3498db;
             border: none;
             color: white;
             width: 30px;
             height: 30px;
-            border-radius: 50%;
+            border-radius: 5px;
             cursor: pointer;
-            position: absolute;
-            right: -15px;
-            top: 25px;
             z-index: 1100;
+        }
+
+        /* --- ZONA CENTRAL (SCROLL) --- */
+        .sidebar-center {
+            flex-grow: 1; /* Ocupa el espacio restante */
+            overflow-y: auto; /* Solo esta parte tiene scroll */
+            padding: 10px 0;
+        }
+        .sidebar-center::-webkit-scrollbar { width: 5px; }
+        .sidebar-center::-webkit-scrollbar-thumb { background: #4b545c; }
+
+        /* --- DROPDOWNS (FIX PARA QUE NO SE ENCIMEN) --- */
+        header .nav-item .dropdown-menu {
+            position: static !important; /* IMPORTANTE: Empuja el contenido abajo */
+            float: none !important;
+            background-color: #1e2429 !important;
+            border: none;
+            padding: 0;
+            margin: 0;
+            transform: none !important;
+            display: none;
+        }
+        header .nav-item .dropdown-menu.show { display: block; }
+        
+        header .dropdown-item {
+            color: #adb5bd !important;
+            padding: 10px 10px 10px 45px !important;
+            white-space: normal;
+        }
+
+        /* --- ZONA INFERIOR (USUARIO FIJO) --- */
+        .sidebar-footer-bottom {
+            padding: 15px 0;
+            border-top: 1px solid #3e474f;
+            background-color: #2c343b;
+        }
+
+        .nav-link {
+            color: #d1d4d7 !important;
+            padding: 12px 20px !important;
             display: flex;
             align-items: center;
-            justify-content: center;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+            gap: 15px;
+        }
+        .nav-link i { width: 20px; text-align: center; font-size: 1.1rem; }
+
+        /* --- ESTADO COLAPSADO --- */
+        body.sidebar-collapsed { margin-left: 70px; }
+        header.sidebar-collapsed { width: 70px; }
+        
+        header.sidebar-collapsed .nav-text, 
+        header.sidebar-collapsed #sidebar-logo,
+        header.sidebar-collapsed .dropdown-toggle::after {
+            display: none !important;
         }
 
-        /* 7. Utilidades para las tablas y contenedores */
-        .container-fluid {
-            padding: 20px;
-        }
+        header.sidebar-collapsed .nav-link { justify-content: center; padding: 15px 0 !important; }
+        header.sidebar-collapsed .nav-link i { margin: 0; }
+        
+        /* Evitar que se abran dropdowns en modo colapsado para que no se rompa */
+        header.sidebar-collapsed .dropdown-menu { display: none !important; }
 
-        /* Quitar flecha de dropdown si se desea */
-        .dropdown-toggle::after {
-            margin-left: auto;
+        @media (max-width: 991px) {
+            body { margin-left: 0; }
+            header { transform: translateX(-100%); }
+            header.mobile-open { transform: translateX(0); }
         }
     </style>
 </head>
 
 <body>
     <header id="main-sidebar">
-    <button id="btn-toggle-sidebar">
-        <i class="fas fa-chevron-left" id="toggle-icon"></i>
-    </button>
+        <div class="sidebar-header-top">
+            <a class="navbar-brand" href="inicio.php">
+                <img src="../img/logo-drg.png" alt="Logo" id="sidebar-logo">
+            </a>
+            <button id="btn-toggle-sidebar">
+                <i class="fas fa-bars" id="toggle-icon"></i>
+            </button>
+        </div>
 
-    <nav class="navbar navbar-dark bg-dark">
-        <a class="navbar-brand text-center" href="inicio.php">
-            <img src="../img/logo-drg.png" alt="Logo" id="sidebar-logo" style="width: 150px;">
-        </a>
+        <div class="sidebar-center">
+            <nav class="navbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="inicio.php">
+                            <i class="fas fa-home"></i>
+                            <span class="nav-text">Inicio</span>
+                        </a>
+                    </li>
 
-        <div class="collapse navbar-collapse show">
-            <ul class="navbar-nav mb-4">
-                <li class="nav-item">
-                    <a class="nav-link" href="inicio.php">
-                        <i class="fas fa-home me-2"></i>
-                        <span class="nav-text">Inicio</span>
-                    </a>
-                </li>
+                    <?php if (!empty($_SESSION['permisos'])) : ?>
+                        <?php foreach ($_SESSION['permisos'] as $categoria => $programas) : ?>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                                    <i class="fas fa-folder"></i>
+                                    <span class="nav-text text-truncate"><?php echo $categoria; ?></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <?php foreach ($programas as $permiso) : ?>
+                                        <li><a class="dropdown-item" href="<?php echo $permiso['url']; ?>"><?php echo $permiso['nombre_programa']; ?></a></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </ul>
+            </nav>
+        </div>
 
-                <?php if (!empty($_SESSION['permisos'])) : ?>
-                    <?php foreach ($_SESSION['permisos'] as $categoria => $programas) : ?>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" data-bs-toggle="dropdown">
-                                <i class="fas fa-folder me-2"></i>
-                                <span class="nav-text text-truncate"><?php echo $categoria; ?></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <?php foreach ($programas as $permiso) : ?>
-                                    <li><a class="dropdown-item" href="<?php echo $permiso['url']; ?>"><?php echo $permiso['nombre_programa']; ?></a></li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </li>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </ul>
-
-            <ul class="navbar-nav mt-auto border-top pt-3">
+        <div class="sidebar-footer-bottom">
+            <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <i class="fa fa-user me-2"></i>
-                        <span class="nav-text"><?php echo $_SESSION['nombre']; ?></span>
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        <i class="fa fa-user"></i>
+                        <span class="nav-text text-truncate"><?php echo $_SESSION['nombre']; ?></span>
                     </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt"></i> Salir</a>
+                    <div class="dropdown-menu dropup-custom">
+                        <a class="dropdown-item" href="logout.php">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </a>
                     </div>
                 </li>
             </ul>
         </div>
-    </nav>
-</header>
+    </header>
 <!-- Dropdown donde se cargar��n las notificaciones -->
 <div class="dropdown-menu" id="notificacionesDropdownContent">
     <!-- Las notificaciones se cargar��n aqu�� -->
@@ -296,25 +257,23 @@ if(isset($_SESSION["usuario"]) || $_SESSION['loggedin'] !== true){
     const body = document.body;
     const icon = document.getElementById('toggle-icon');
 
-    // Al hacer clic, alternar clases
     btnToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('sidebar-collapsed');
+        const isCollapsed = sidebar.classList.toggle('sidebar-collapsed');
         body.classList.toggle('sidebar-collapsed');
         
-        // Cambiar el icono de la flecha
-        if (sidebar.classList.contains('sidebar-collapsed')) {
-            icon.classList.replace('fa-chevron-left', 'fa-chevron-right');
+        // Cambiar icono: Si está colapsado dejamos las 3 barras, si no, podemos poner flecha o cruz
+        if (isCollapsed) {
+            icon.classList.replace('fa-bars', 'fa-bars'); // Se mantiene barras
             localStorage.setItem('sidebarStatus', 'closed');
         } else {
-            icon.classList.replace('fa-chevron-right', 'fa-chevron-left');
+            icon.classList.replace('fa-bars', 'fa-bars');
             localStorage.setItem('sidebarStatus', 'open');
         }
     });
 
-    // Mantener el estado al recargar la página
+    // Cargar estado guardado
     if (localStorage.getItem('sidebarStatus') === 'closed') {
         sidebar.classList.add('sidebar-collapsed');
         body.classList.add('sidebar-collapsed');
-        icon.classList.replace('fa-chevron-left', 'fa-chevron-right');
     }
 </script>
