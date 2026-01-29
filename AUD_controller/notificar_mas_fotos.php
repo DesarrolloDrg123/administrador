@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // 1. Obtener el correo del responsable y el token actual
     $query = "SELECT a.token_evidencia, a.folio, u.correo, u.nombre 
               FROM auditorias_vehiculos_aud a
-              JOIN vehiculos v ON a.vehiculo_id = v.id
+              JOIN vehiculos_aud v ON a.vehiculo_id = v.id
               JOIN usuarios u ON v.responsable_id = u.id 
               WHERE a.id = ?";
     
