@@ -217,7 +217,12 @@ async function cargarDatosVehiculo(id) {
 async function cargarChecklist(tipo, containerId) {
     const container = document.querySelector(`#${containerId} .checklist-container`);
     if (!container) return;
-    container.innerHTML = '<div class="text-center p-3"><div class="spinner-border spinner-border-sm text-primary"></div></div>';
+    
+    container.innerHTML = `
+        <div class="text-center p-4">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2">Cargando conceptos...</p>
+        </div>`;
 
     try {
         const res = await fetch('AUD_controller/get_conceptos_auditoria.php?solo_activos=1');
@@ -225,7 +230,23 @@ async function cargarChecklist(tipo, containerId) {
         const tipoBusqueda = tipo.trim().toLowerCase();
         const items = conceptos.filter(c => c.tipo.trim().toLowerCase().includes(tipoBusqueda));
 
-        let html = '<table class="table table-sm table-bordered align-middle"><thead><tr class="table-dark"><th>Concepto</th><th class="text-center">B</th><th class="text-center">R</th><th class="text-center">M</th><th class="text-center">Pts</th></tr></thead><tbody>';
+        if (items.length === 0) {
+            container.innerHTML = `<div class="alert alert-warning m-3">No hay conceptos para "${tipo}"</div>`;
+            return;
+        }
+
+        let html = `
+        <table class="table table-bordered table-hover align-middle shadow-sm bg-white">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width: 45%;">Descripción del Concepto</th>
+                    <th class="text-center">Bueno</th>
+                    <th class="text-center">Regular</th>
+                    <th class="text-center">Malo</th>
+                    <th class="text-center" style="width: 100px;">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>`;
 
         items.forEach(c => {
             const p1 = parseFloat(c.c1) || 0;
@@ -234,16 +255,44 @@ async function cargarChecklist(tipo, containerId) {
             const previa = memoriaRespuestas[c.id] || null;
             const ptsVal = previa ? previa.puntos : 0;
 
-            html += `<tr>
-                <td class="small">${c.descripcion}</td>
-                <td class="text-center"><input type="radio" name="check_${c.id}" value="C1" ${previa?.opcion==='C1'?'checked':''} onclick="calcularPuntos(${c.id}, ${p1}, 'C1')"></td>
-                <td class="text-center"><input type="radio" name="check_${c.id}" value="C2" ${previa?.opcion==='C2'?'checked':''} onclick="calcularPuntos(${c.id}, ${p2}, 'C2')"></td>
-                <td class="text-center"><input type="radio" name="check_${c.id}" value="C3" ${previa?.opcion==='C3'?'checked':''} onclick="calcularPuntos(${c.id}, ${p3}, 'C3')"></td>
-                <td class="text-center fw-bold text-primary"><span id="pts_${c.id}">${ptsVal}</span></td>
+            html += `
+            <tr>
+                <td class="fw-bold text-secondary small">${c.descripcion}</td>
+                <td class="text-center">
+                    <label class="d-flex align-items-center justify-content-center m-0 cursor-pointer">
+                        <input type="radio" name="check_${c.id}" value="C1" class="form-check-input border-success me-2" 
+                            ${previa?.opcion === 'C1' ? 'checked' : ''} 
+                            onclick="calcularPuntos(${c.id}, ${p1}, 'C1')">
+                        <span class="badge bg-success-subtle text-success">+${p1}</span>
+                    </label>
+                </td>
+                <td class="text-center">
+                    <label class="d-flex align-items-center justify-content-center m-0 cursor-pointer">
+                        <input type="radio" name="check_${c.id}" value="C2" class="form-check-input border-warning me-2" 
+                            ${previa?.opcion === 'C2' ? 'checked' : ''} 
+                            onclick="calcularPuntos(${c.id}, ${p2}, 'C2')">
+                        <span class="badge bg-warning-subtle text-warning">+${p2}</span>
+                    </label>
+                </td>
+                <td class="text-center">
+                    <label class="d-flex align-items-center justify-content-center m-0 cursor-pointer">
+                        <input type="radio" name="check_${c.id}" value="C3" class="form-check-input border-danger me-2" 
+                            ${previa?.opcion === 'C3' ? 'checked' : ''} 
+                            onclick="calcularPuntos(${c.id}, ${p3}, 'C3')">
+                        <span class="badge bg-danger-subtle text-danger">+${p3}</span>
+                    </label>
+                </td>
+                <td class="text-center bg-light">
+                    <span id="pts_${c.id}" class="h6 fw-bold text-primary">${ptsVal}</span>
+                </td>
             </tr>`;
         });
+
         container.innerHTML = html + '</tbody></table>';
-    } catch (e) { container.innerHTML = 'Error de carga'; }
+    } catch (e) { 
+        console.error(e);
+        container.innerHTML = '<div class="alert alert-danger">Error al cargar conceptos.</div>'; 
+    }
 }
 
 function calcularPuntos(id, puntos, opcion) {
