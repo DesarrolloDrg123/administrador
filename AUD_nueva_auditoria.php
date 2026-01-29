@@ -138,6 +138,10 @@ include("src/templates/adminheader.php");
 
 
 <script>
+
+// Variable global para persistir selecciones entre cambios de pestaña
+let memoriaRespuestas = {};
+
 // UN SOLO LISTENER PARA TODO
 document.addEventListener('DOMContentLoaded', () => {
     initForm();
@@ -323,34 +327,39 @@ async function cargarChecklist(tipo, containerId) {
             const p2 = parseFloat(c.c2) || 0;
             const p3 = parseFloat(c.c3) || 0;
 
-            // Ajuste: se usa d-flex y align-items-center para poner el radio y el texto en la misma línea
-            // Se cambia 'small' por 'fs-5' para que el texto sea más grande
+            // Recuperar valores de la memoria si existen
+            const seleccion Previa = memoriaRespuestas[c.id] || null;
+            const ptsMostrados = seleccionPrevia ? seleccionPrevia.puntos : 0;
+
             html += `
                 <tr>
                     <td class="fw-bold text-secondary">${c.descripcion}</td>
                     <td class="text-center">
                         <label class="d-flex align-items-center justify-content-center m-0 cursor-pointer">
                             <input type="radio" name="check_${c.id}" value="C1" class="form-check-input border-success me-2" 
-                            onclick="calcularPuntos(${c.id}, ${p1})" required style="width: 20px; height: 20px;">
+                            ${seleccionPrevia?.opcion === 'C1' ? 'checked' : ''} 
+                            onclick="calcularPuntos(${c.id}, ${p1}, 'C1')" required style="width: 20px; height: 20px;">
                             <span class="fs-5 fw-bold text-success">+${p1}</span>
                         </label>
                     </td>
                     <td class="text-center">
                         <label class="d-flex align-items-center justify-content-center m-0 cursor-pointer">
                             <input type="radio" name="check_${c.id}" value="C2" class="form-check-input border-warning me-2" 
-                            onclick="calcularPuntos(${c.id}, ${p2})" style="width: 20px; height: 20px;">
+                            ${seleccionPrevia?.opcion === 'C2' ? 'checked' : ''} 
+                            onclick="calcularPuntos(${c.id}, ${p2}, 'C2')" style="width: 20px; height: 20px;">
                             <span class="fs-5 fw-bold text-warning">+${p2}</span>
                         </label>
                     </td>
                     <td class="text-center">
                         <label class="d-flex align-items-center justify-content-center m-0 cursor-pointer">
                             <input type="radio" name="check_${c.id}" value="C3" class="form-check-input border-danger me-2" 
-                            onclick="calcularPuntos(${c.id}, ${p3})" style="width: 20px; height: 20px;">
+                            ${seleccionPrevia?.opcion === 'C3' ? 'checked' : ''} 
+                            onclick="calcularPuntos(${c.id}, ${p3}, 'C3')" style="width: 20px; height: 20px;">
                             <span class="fs-5 fw-bold text-danger">+${p3}</span>
                         </label>
                     </td>
                     <td class="text-center bg-light">
-                        <span id="pts_${c.id}" class="h5 fw-bold text-primary">0</span>
+                        <span id="pts_${c.id}" class="h5 fw-bold text-primary">${ptsMostrados}</span>
                     </td>
                 </tr>`;
         });
@@ -364,13 +373,25 @@ async function cargarChecklist(tipo, containerId) {
     }
 }
 
-function calcularPuntos(id, puntos) {
+function calcularPuntos(id, puntos, opcion) {
+    // Guardar en memoria
+    memoriaRespuestas[id] = {
+        puntos: puntos,
+        opcion: opcion
+    };
+
     const span = document.getElementById(`pts_${id}`);
     if(span) span.innerText = puntos;
     
+    actualizarTotalGlobal();
+}
+
+function actualizarTotalGlobal() {
     let total = 0;
-    document.querySelectorAll('[id^="pts_"]').forEach(s => {
-        total += parseInt(s.innerText) || 0;
+    // Sumamos lo que hay en memoria en lugar de lo que hay en el DOM 
+    // porque el DOM puede no estar renderizado en ese momento
+    Object.values(memoriaRespuestas).forEach(r => {
+        total += parseFloat(r.puntos) || 0;
     });
     document.getElementById('puntosTotales').innerText = total;
 }
@@ -379,8 +400,15 @@ function calcularPuntos(id, puntos) {
 document.getElementById('formNuevaAuditoria').addEventListener('submit', async function(e) {
     e.preventDefault();
 
+    // 1. Validación rápida: ¿Ha respondido algo?
+    if (Object.keys(memoriaRespuestas).length === 0) {
+        Swal.fire('Atención', 'Debes evaluar al menos un concepto en las pestañas 2, 3 o 4.', 'warning');
+        return;
+    }
+
     const confirmacion = await Swal.fire({
         title: '¿Finalizar Auditoría?',
+        text: "Se guardarán todos los puntos evaluados.",
         icon: 'question',
         showCancelButton: true,
         confirmButtonText: 'Sí, Guardar'
@@ -390,20 +418,21 @@ document.getElementById('formNuevaAuditoria').addEventListener('submit', async f
 
     Swal.fire({ title: 'Procesando...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); }});
 
+    // 2. PREPARAR RESPUESTAS (Solo desde la memoria para evitar duplicados)
     const respuestas = [];
-    document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
-        const id = input.name.replace('check_', '');
+    for (const id in memoriaRespuestas) {
         respuestas.push({
             concepto_id: id,
-            opcion: input.value,
-            puntos: document.getElementById(`pts_${id}`).innerText
+            opcion: memoriaRespuestas[id].opcion,
+            puntos: memoriaRespuestas[id].puntos
         });
-    });
+    }
 
+    // 3. MANTENIMIENTOS
     const mantenimientos = [];
     document.querySelectorAll('#tablaMantenimiento tbody tr').forEach(tr => {
         const servicio = tr.querySelector('.m_servicio').value;
-        if(servicio) {
+        if(servicio.trim() !== "") {
             mantenimientos.push({
                 fecha: tr.querySelector('.m_fecha').value,
                 km: tr.querySelector('.m_km').value,
@@ -414,6 +443,7 @@ document.getElementById('formNuevaAuditoria').addEventListener('submit', async f
         }
     });
 
+    // 4. INCIDENCIAS
     const incidencias = [];
     document.querySelectorAll('.row-incidencia').forEach(input => {
         if(input.value.trim() !== "") {
@@ -444,7 +474,10 @@ document.getElementById('formNuevaAuditoria').addEventListener('submit', async f
         } else {
             Swal.fire('Error', result.message, 'error');
         }
-    } catch (error) { Swal.fire('Error', 'No se pudo conectar', 'error'); }
+    } catch (error) { 
+        console.error(error);
+        Swal.fire('Error', 'No se pudo conectar con el servidor', 'error'); 
+    }
 });
 </script>
 <?php 
