@@ -86,8 +86,14 @@ include("src/templates/adminheader.php");
                 </div>
             </div>
             <div class="modal-footer">
+                <input type="hidden" id="det_id_auditoria">
+
                 <button type="button" id="btnTerminarAuditoria" class="btn btn-danger me-auto" onclick="confirmarTerminarAuditoria()">
                     <i class="bi bi-lock-fill"></i> Terminar y Bloquear
+                </button>
+
+                <button type="button" id="btnSolicitarMasFotos" class="btn btn-warning" onclick="solicitarMasFotos()">
+                    <i class="bi bi-envelope-plus"></i> Solicitar más Evidencias
                 </button>
                 
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -140,11 +146,15 @@ async function cargarHistorial() {
     } catch (e) { console.error(e); }
 }
 
+// Variable para el ID (aunque ahora usaremos el input hidden para mayor seguridad)
 async function verReporte(id) {
     try {
         const res = await fetch(`AUD_controller/get_detalle_auditoria.php?id=${id}`);
         const data = await res.json();
         const a = data.cabecera;
+
+        // GUARDAR EL ID EN EL INPUT OCULTO
+        document.getElementById('det_id_auditoria').value = id;
 
         // Llenar cabecera
         document.getElementById('det_folio').innerText = a.folio;
@@ -155,47 +165,91 @@ async function verReporte(id) {
         document.getElementById('det_fecha').innerText = a.fecha_auditoria;
         document.getElementById('det_obs').innerHTML = a.observaciones || 'Sin observaciones.';
 
-        // Llenar tabla
+        // Llenar tabla y fotos (tu código actual está bien aquí...)
         let tablaHtml = '';
         data.detalles.forEach(d => {
             const badge = (d.valor_seleccionado === 'SI' || d.valor_seleccionado === 'Bueno') ? 'bg-success' : 'bg-danger';
-            tablaHtml += `
-                <tr>
-                    <td>${d.pregunta}</td>
-                    <td><span class="badge ${badge}">${d.valor_seleccionado}</span></td>
-                    <td class="text-center fw-bold">${d.puntos_obtenidos}</td>
-                </tr>`;
+            tablaHtml += `<tr><td>${d.pregunta}</td><td><span class="badge ${badge}">${d.valor_seleccionado}</span></td><td class="text-center fw-bold">${d.puntos_obtenidos}</td></tr>`;
         });
         document.getElementById('det_tabla_body').innerHTML = tablaHtml;
 
-        // Llenar Fotos
         let fotosHtml = '';
         if(data.fotos.length > 0) {
             data.fotos.forEach(f => {
-                fotosHtml += `
-                    <div class="col-md-3">
-                        <img src="${f.ruta_archivo}" class="img-thumbnail" style="height:120px; width:100%; object-fit:cover; cursor:pointer" onclick="window.open('${f.ruta_archivo}')">
-                    </div>`;
+                fotosHtml += `<div class="col-md-3"><img src="${f.ruta_archivo}" class="img-thumbnail" style="height:120px; width:100%; object-fit:cover; cursor:pointer" onclick="window.open('${f.ruta_archivo}')"></div>`;
             });
-        } else {
-            fotosHtml = '<p class="text-muted">No hay fotos disponibles.</p>';
-        }
+        } else { fotosHtml = '<p class="text-muted">No hay fotos disponibles.</p>'; }
         document.getElementById('det_fotos').innerHTML = fotosHtml;
 
+        // Lógica de visibilidad de botones
         const btnTerminar = document.getElementById('btnTerminarAuditoria');
+        const btnSolicitar = document.getElementById('btnSolicitarMasFotos');
+        
+        // Si ya no tiene token (está bloqueada), ocultamos botones de acción
         if (!a.token_evidencia) { 
             btnTerminar.style.display = 'none'; 
+            btnSolicitar.style.display = 'none';
         } else {
             btnTerminar.style.display = 'block';
+            btnSolicitar.style.display = 'block';
         }
 
-        // Mostrar Modal
         new bootstrap.Modal(document.getElementById('modalDetalleAuditoria')).show();
+    } catch (e) { console.error(e); }
+}
 
-    } catch (e) {
-        console.error(e);
-        Swal.fire('Error', 'No se pudo cargar la información', 'error');
-    }
+// CORRECCIÓN: Ahora toma el ID del input oculto
+async function ejecutarTerminar() {
+    const id = document.getElementById('det_id_auditoria').value;
+    try {
+        const response = await fetch('AUD_controller/terminar_auditoria.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `id=${id}`
+        });
+        const res = await response.json();
+        if (res.success) {
+            Swal.fire('¡Bloqueada!', 'Auditoría finalizada.', 'success');
+            bootstrap.Modal.getInstance(document.getElementById('modalDetalleAuditoria')).hide();
+            location.reload(); 
+        } else {
+            Swal.fire('Error', res.error || 'No se pudo cerrar', 'error');
+        }
+    } catch (e) { console.error(e); }
+}
+
+// NUEVA FUNCIÓN: Enviar correo para solicitar más fotos
+async function solicitarMasFotos() {
+    const id = document.getElementById('det_id_auditoria').value;
+    
+    Swal.fire({
+        title: '¿Enviar notificación?',
+        text: "Se enviará un correo al responsable para que suba más evidencias.",
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, enviar correo'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            Swal.fire({ title: 'Enviando...', didOpen: () => { Swal.showLoading(); }});
+            
+            try {
+                const response = await fetch('AUD_controller/notificar_mas_fotos.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `id=${id}`
+                });
+                const res = await response.json();
+                
+                if(res.status === 'success') {
+                    Swal.fire('Enviado', 'El usuario ha sido notificado.', 'success');
+                } else {
+                    Swal.fire('Error', res.message || 'Error al enviar', 'error');
+                }
+            } catch (e) {
+                Swal.fire('Error', 'No se pudo conectar con el servidor', 'error');
+            }
+        }
+    });
 }
 
 function imprimirDesdeModal() {
