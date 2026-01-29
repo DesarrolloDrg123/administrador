@@ -12,7 +12,7 @@ $query = "SELECT i.descripcion, a.folio as folio_original
           FROM auditorias_incidencias_aud i
           JOIN auditorias_vehiculos_aud a ON i.auditoria_id = a.id 
           WHERE a.vehiculo_id = ? AND i.estatus = 'Pendiente'
-          ORDER BY a.fecha DESC";
+          ORDER BY a.fecha_incidencia DESC";
 
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $vehiculo_id);
