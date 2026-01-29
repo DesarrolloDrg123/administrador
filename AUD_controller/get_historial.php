@@ -7,7 +7,8 @@ $sql = "SELECT
             a.id, 
             a.folio, 
             a.fecha_auditoria, 
-            a.calif_total, 
+            a.calif_total,
+            a.estatus 
             (SELECT MAX(fecha_subida) FROM auditorias_evidencias_aud WHERE auditoria_id = a.id) as fecha_subida_evidencia,
             v.no_serie, 
             v.marca, 
