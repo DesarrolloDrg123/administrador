@@ -112,10 +112,7 @@ async function cargarHistorial() {
         let html = '';
 
         data.forEach(a => {
-            // Badge de puntuación (ejemplo: rojo si es baja, verde si es alta)
             let colorPuntos = a.calif_total < 70 ? 'danger' : (a.calif_total < 90 ? 'warning text-dark' : 'success');
-            
-            // Estado de las evidencias (fotos)
             let statusEvidencia = a.fecha_subida_evidencia 
                 ? `<span class="badge bg-success p-1 fs-6" title="${a.fecha_subida_evidencia}"><i class="fas fa-camera"></i> Subidas</span>` 
                 : `<span class="badge bg-secondary p-1 fs-6"><i class="fas fa-clock"></i> Pendientes</span>`;
@@ -129,11 +126,9 @@ async function cargarHistorial() {
                     <td><span class="badge bg-${colorPuntos} fs-6">${a.calif_total} pts</span></td>
                     <td>${statusEvidencia}</td>
                     <td class="text-center">
-                        <div class="btn-group">
-                            <button class="btn btn-sm btn-outline-primary" onclick="verReporte(${a.id})" title="Ver Detalles">
-                                Detalles
-                            </button>
-                        </div>
+                        <button class="btn btn-sm btn-outline-primary" onclick="verReporte(${a.id})" title="Ver Detalles">
+                            Detalles
+                        </button>
                     </td>
                 </tr>`;
         });
@@ -141,22 +136,21 @@ async function cargarHistorial() {
         
         $('#tablaHistorial').DataTable({
             "language": { "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json" },
-            "order": [[1, "desc"]]
+            "order": [[1, "desc"]],
+            "destroy": true // Para evitar error al recargar
         });
     } catch (e) { console.error(e); }
 }
 
-// Variable para el ID (aunque ahora usaremos el input hidden para mayor seguridad)
 async function verReporte(id) {
     try {
         const res = await fetch(`AUD_controller/get_detalle_auditoria.php?id=${id}`);
         const data = await res.json();
         const a = data.cabecera;
 
-        // GUARDAR EL ID EN EL INPUT OCULTO
+        // Guardamos el ID en el input oculto para usarlo después
         document.getElementById('det_id_auditoria').value = id;
 
-        // Llenar cabecera
         document.getElementById('det_folio').innerText = a.folio;
         document.getElementById('det_vehiculo').innerText = `${a.marca} ${a.modelo}`;
         document.getElementById('det_serie').innerText = `Serie: ${a.no_serie}`;
@@ -165,10 +159,9 @@ async function verReporte(id) {
         document.getElementById('det_fecha').innerText = a.fecha_auditoria;
         document.getElementById('det_obs').innerHTML = a.observaciones || 'Sin observaciones.';
 
-        // Llenar tabla y fotos (tu código actual está bien aquí...)
         let tablaHtml = '';
         data.detalles.forEach(d => {
-            const badge = (d.valor_seleccionado === 'SI' || d.valor_seleccionado === 'Bueno') ? 'bg-success' : 'bg-danger';
+            const badge = (d.valor_seleccionado === 'Bueno' || d.valor_seleccionado === 'SI') ? 'bg-success' : 'bg-danger';
             tablaHtml += `<tr><td>${d.pregunta}</td><td><span class="badge ${badge}">${d.valor_seleccionado}</span></td><td class="text-center fw-bold">${d.puntos_obtenidos}</td></tr>`;
         });
         document.getElementById('det_tabla_body').innerHTML = tablaHtml;
@@ -181,12 +174,11 @@ async function verReporte(id) {
         } else { fotosHtml = '<p class="text-muted">No hay fotos disponibles.</p>'; }
         document.getElementById('det_fotos').innerHTML = fotosHtml;
 
-        // Lógica de visibilidad de botones
         const btnTerminar = document.getElementById('btnTerminarAuditoria');
         const btnSolicitar = document.getElementById('btnSolicitarMasFotos');
         
-        // Si ya no tiene token (está bloqueada), ocultamos botones de acción
-        if (!a.token_evidencia) { 
+        // Control de visibilidad
+        if (!a.token_evidencia || a.estatus === 'Finalizado') { 
             btnTerminar.style.display = 'none'; 
             btnSolicitar.style.display = 'none';
         } else {
@@ -198,82 +190,14 @@ async function verReporte(id) {
     } catch (e) { console.error(e); }
 }
 
-// CORRECCIÓN: Ahora toma el ID del input oculto
-async function ejecutarTerminar() {
-    const id = document.getElementById('det_id_auditoria').value;
-    try {
-        const response = await fetch('AUD_controller/terminar_auditoria.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `id=${id}`
-        });
-        const res = await response.json();
-        if (res.success) {
-            Swal.fire('¡Bloqueada!', 'Auditoría finalizada.', 'success');
-            bootstrap.Modal.getInstance(document.getElementById('modalDetalleAuditoria')).hide();
-            location.reload(); 
-        } else {
-            Swal.fire('Error', res.error || 'No se pudo cerrar', 'error');
-        }
-    } catch (e) { console.error(e); }
-}
-
-// NUEVA FUNCIÓN: Enviar correo para solicitar más fotos
-async function solicitarMasFotos() {
-    const id = document.getElementById('det_id_auditoria').value;
-    
-    Swal.fire({
-        title: '¿Enviar notificación?',
-        text: "Se enviará un correo al responsable para que suba más evidencias.",
-        icon: 'info',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, enviar correo'
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            Swal.fire({ title: 'Enviando...', didOpen: () => { Swal.showLoading(); }});
-            
-            try {
-                const response = await fetch('AUD_controller/notificar_mas_fotos.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: `id=${id}`
-                });
-                const res = await response.json();
-                
-                if(res.status === 'success') {
-                    Swal.fire('Enviado', 'El usuario ha sido notificado.', 'success');
-                } else {
-                    Swal.fire('Error', res.message || 'Error al enviar', 'error');
-                }
-            } catch (e) {
-                Swal.fire('Error', 'No se pudo conectar con el servidor', 'error');
-            }
-        }
-    });
-}
-
-function imprimirDesdeModal() {
-    // Si aún quieres la opción de imprimir, puedes llamar al archivo que hicimos antes
-    const folio = document.getElementById('det_folio').innerText;
-    // O simplemente abrir el PDF que ya teníamos
-    window.print(); 
-}
-
-function verGaleria(folio) {
-    // Abrir la carpeta de fotos o una vista de galería
-    window.location.href = `AUD_controller/ver_evidencias.php?folio=${folio}`;
-}
-
-// Función para confirmar la acción
 function confirmarTerminarAuditoria() {
     Swal.fire({
         title: '¿Terminar Auditoría?',
-        text: "Ya no se podrán subir más evidencias ni hacer cambios.",
+        text: "Se bloqueará la subida de evidencias.",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Sí, terminar y bloquear',
+        confirmButtonText: 'Sí, terminar',
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
@@ -283,23 +207,51 @@ function confirmarTerminarAuditoria() {
 }
 
 async function ejecutarTerminar() {
+    const id = document.getElementById('det_id_auditoria').value;
+    if (!id) return;
+
     try {
         const response = await fetch('AUD_controller/terminar_auditoria.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `id=${currentAuditoriaId}`
+            body: `id=${id}`
         });
         const res = await response.json();
-
         if (res.success) {
-            Swal.fire('¡Cerrada!', 'La auditoría ha sido bloqueada correctamente.', 'success');
-            bootstrap.Modal.getInstance(document.getElementById('modalDetalleAuditoria')).hide();
-            cargarHistorial(); // Recargamos la tabla
+            Swal.fire('¡Listo!', 'Auditoría bloqueada.', 'success').then(() => {
+                location.reload();
+            });
         } else {
-            Swal.fire('Error', res.error || 'No se pudo cerrar', 'error');
+            Swal.fire('Error', res.error, 'error');
         }
     } catch (e) { console.error(e); }
 }
+
+async function solicitarMasFotos() {
+    const id = document.getElementById('det_id_auditoria').value;
+    Swal.fire({
+        title: '¿Enviar notificación?',
+        text: "Se enviará un correo para solicitar más fotos.",
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Enviar'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            Swal.fire({ title: 'Enviando...', didOpen: () => Swal.showLoading() });
+            try {
+                const response = await fetch('AUD_controller/notificar_mas_fotos.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `id=${id}`
+                });
+                const res = await response.json();
+                Swal.fire(res.status === 'success' ? 'Enviado' : 'Error', res.message, res.status);
+            } catch (e) { Swal.fire('Error', 'No se pudo conectar', 'error'); }
+        }
+    });
+}
+
+function imprimirDesdeModal() { window.print(); }
 </script>
 <?php 
 include("src/templates/adminfooter.php");
