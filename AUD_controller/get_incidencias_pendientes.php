@@ -9,8 +9,8 @@ if (!$vehiculo_id) {
 }
 
 $query = "SELECT i.descripcion, a.folio as folio_original 
-          FROM incidencias i
-          JOIN auditorias a ON i.auditoria_id = a.id 
+          FROM auditorias_incidencias_aud i
+          JOIN auditorias_vehiculos_aud a ON i.auditoria_id = a.id 
           WHERE a.vehiculo_id = ? AND i.estatus = 'Pendiente'
           ORDER BY a.fecha DESC";
 
