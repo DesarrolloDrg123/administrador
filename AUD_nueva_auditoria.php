@@ -7,7 +7,6 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 
 $usuario_id = $_SESSION['usuario_id'];
 include("src/templates/adminheader.php");
-
 ?>
 
 <div class="container-fluid mt-4">
@@ -43,19 +42,19 @@ include("src/templates/adminheader.php");
 
         <ul class="nav nav-pills nav-fill mb-3 shadow-sm" id="auditTabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" data-toggle="tab" href="#seg1">1. Datos Generales</a>
+                <a class="nav-link active" data-bs-toggle="tab" href="#seg1">1. Datos Generales</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg2">2. Documentos</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#seg2">2. Documentos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg3">3. Herramientas</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#seg3">3. Herramientas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg4">4. Estado Físico</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#seg4">4. Estado Físico</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#seg5">5. Mantenimiento</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#seg5">5. Mantenimiento</a>
             </li>
         </ul>
 
@@ -67,8 +66,7 @@ include("src/templates/adminheader.php");
                         <p>Seleccione un vehículo arriba para cargar la información técnica.</p>
                     </div>
                 </div>
-                <div id="alertaIncidenciasPendientes" class="mt-3" style="display: none;">
-                </div>
+                <div id="alertaIncidenciasPendientes" class="mt-3" style="display: none;"></div>
             </div>
             
             <div class="tab-pane fade" id="seg2"> <div class="checklist-container"></div> </div>
@@ -100,7 +98,7 @@ include("src/templates/adminheader.php");
 
         <div class="mt-4 mb-3 p-3 bg-white rounded border shadow-sm">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="text-danger mb-0 fw-bold"><i class="bi bi-exclamation-octagon"></i>Gestión de Tareas (Incidentes) Pendientes</h6>
+                <h6 class="text-danger mb-0 fw-bold"><i class="bi bi-exclamation-octagon"></i> Gestión de Tareas (Incidentes) Pendientes</h6>
                 <button type="button" class="btn btn-outline-danger btn-sm" onclick="agregarFilaIncidencia()">
                     <i class="bi bi-plus-circle"></i> Agregar Incidencia
                 </button>
@@ -136,30 +134,25 @@ include("src/templates/adminheader.php");
     </form>
 </div>
 
-
 <script>
-
-// Variable global para persistir selecciones entre cambios de pestaña
 let memoriaRespuestas = {};
 
-// UN SOLO LISTENER PARA TODO
 document.addEventListener('DOMContentLoaded', () => {
     initForm();
     consultarFolio();
     
-    // Inicializar Select2 si existe
     if (typeof $.fn.select2 !== 'undefined') {
         $('.select2').select2({ theme: 'bootstrap-5' });
     }
-});
 
-// Detectar cambio de pestaña para Bootstrap 4 o 5
-$(document).on('shown.bs.tab', 'a[data-toggle="tab"], a[data-bs-toggle="tab"]', function (e) {
-    const targetId = $(e.target).attr('href').replace('#', ''); // seg2, seg3, etc.
-    
-    if (targetId === 'seg2') cargarChecklist('Documento', 'seg2');
-    if (targetId === 'seg3') cargarChecklist('Inventario', 'seg3');
-    if (targetId === 'seg4') cargarChecklist('Estado', 'seg4');
+    // Listener para cambio de pestañas
+    const tabLinks = document.querySelectorAll('a[data-bs-toggle="tab"]');
+    tabLinks.forEach(link => {
+        link.addEventListener('shown.bs.tab', function (e) {
+            const targetId = e.target.getAttribute('href').replace('#', '');
+            ejecutarCargaPorTab(targetId);
+        });
+    });
 });
 
 async function initForm() {
@@ -167,8 +160,6 @@ async function initForm() {
         const res = await fetch('AUD_controller/get_vehiculos.php');
         const vehiculos = await res.json();
         const select = document.getElementById('selectVehiculo');
-        
-        // Limpiar y cargar
         select.innerHTML = '<option value="">Seleccione una serie activa...</option>';
         vehiculos.filter(v => v.estatus !== 'Baja').forEach(v => {
             select.innerHTML += `<option value="${v.id}">${v.no_serie} - ${v.marca} (${v.placas})</option>`;
@@ -187,65 +178,20 @@ async function consultarFolio() {
     } catch (error) { console.error("Error en consultarFolio:", error); }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    initForm();
-    consultarFolio();
-
-    // ESCUCHADOR UNIVERSAL PARA TABS (Bootstrap 4 y 5)
-    const tabLinks = document.querySelectorAll('#auditTabs a');
-    tabLinks.forEach(link => {
-        link.addEventListener('shown.bs.tab', function (e) {
-            const targetId = e.target.getAttribute('href').replace('#', '');
-            ejecutarCargaPorTab(targetId);
-        });
-        
-        // Soporte extra para versiones viejas si el evento anterior no dispara
-        link.addEventListener('click', function (e) {
-            const targetId = this.getAttribute('href').replace('#', '');
-            ejecutarCargaPorTab(targetId);
-        });
-    });
-
-    if (typeof $.fn.select2 !== 'undefined') {
-        $('.select2').select2({ theme: 'bootstrap-5' });
-    }
-});
-
-function agregarFilaIncidencia() {
-    const tbody = document.querySelector('#tablaIncidencias tbody');
-    const sinIncidencias = document.getElementById('sinIncidencias');
-    if (sinIncidencias) sinIncidencias.remove(); // Quita el mensaje de "No hay incidentes"
-
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-        <td><input type="text" class="form-control form-control-sm row-incidencia" placeholder="Ej. Limpiaparabrisas dañados, Falta llanta de refacción..." required></td>
-        <td class="text-center">
-            <button type="button" class="btn btn-link text-danger p-0" onclick="this.closest('tr').remove()">
-                <i class="fas fa-trash fa-2x"></i>
-            </button>
-        </td>
-    `;
-    tbody.appendChild(tr);
-}
-// Función auxiliar para decidir qué cargar
 function ejecutarCargaPorTab(id) {
     if (id === 'seg2') cargarChecklist('Documento', 'seg2');
     if (id === 'seg3') cargarChecklist('Inventario', 'seg3');
     if (id === 'seg4') cargarChecklist('Estado', 'seg4');
 }
 
-// CARGAR DATOS DEL VEHÍCULO (SEGMENTO 1)
 async function cargarDatosVehiculo(id) {
     if(!id) {
         document.getElementById('alertaIncidenciasPendientes').style.display = 'none';
         return;
     }
-    
     try {
-        // 1. Cargar detalles técnicos (lo que ya tenías)
         const res = await fetch(`AUD_controller/get_detalle_vehiculo.php?id=${id}`);
         const v = await res.json();
-        
         document.getElementById('infoVehiculo').innerHTML = `
             <div class="col-md-3 border-end"><strong>Sucursal</strong><p class="text-primary">${v.sucursal_nombre || 'N/A'}</p></div>
             <div class="col-md-3 border-end"><strong>Responsable</strong><p class="text-primary">${v.responsable_nombre || 'N/A'}</p></div>
@@ -253,203 +199,106 @@ async function cargarDatosVehiculo(id) {
             <div class="col-md-3"><strong>Vehículo</strong><p class="text-primary">${v.marca} ${v.modelo} ${v.anio}<br>Placas: ${v.placas}</p></div>
         `;
 
-        // 2. NUEVO: Consultar incidencias pendientes
         const resInc = await fetch(`AUD_controller/get_incidencias_pendientes.php?vehiculo_id=${id}`);
         const incidencias = await resInc.json();
-        
         const alertaDiv = document.getElementById('alertaIncidenciasPendientes');
         
         if (incidencias.length > 0) {
             let listaHtml = incidencias.map(i => `<li>${i.descripcion} <small class="text-muted">(Folio: ${i.folio_original})</small></li>`).join('');
-            
-            alertaDiv.innerHTML = `
-                <div class="alert alert-danger shadow-sm border-start border-5 border-danger">
-                    <div class="d-flex align-items-center">
-                        <i class="bi bi-exclamation-triangle-fill fs-3 me-3"></i>
-                        <div>
-                            <h5 class="alert-heading mb-1">¡Atención! Incidencias Pendientes</h5>
-                            <p class="mb-2">Este vehículo tiene <strong>${incidencias.length}</strong> tarea(s) sin resolver de auditorías anteriores:</p>
-                            <ul class="mb-0 small">${listaHtml}</ul>
-                        </div>
-                    </div>
-                </div>`;
+            alertaDiv.innerHTML = `<div class="alert alert-danger shadow-sm border-start border-5 border-danger">
+                <h5 class="alert-heading small fw-bold">Incidencias Pendientes</h5>
+                <ul class="mb-0 small">${listaHtml}</ul>
+            </div>`;
             alertaDiv.style.display = 'block';
-        } else {
-            alertaDiv.style.display = 'none';
-        }
-
-    } catch (e) { 
-        console.error("Error en cargarDatosVehiculo:", e); 
-    }
+        } else { alertaDiv.style.display = 'none'; }
+    } catch (e) { console.error(e); }
 }
 
-// CARGAR CHECKLIST (SEGMENTOS 2, 3, 4)
 async function cargarChecklist(tipo, containerId) {
     const container = document.querySelector(`#${containerId} .checklist-container`);
     if (!container) return;
-
-    container.innerHTML = `
-        <div class="text-center p-4">
-            <div class="spinner-border text-primary" role="status"></div>
-            <p class="mt-2">Cargando conceptos de ${tipo}...</p>
-        </div>`;
+    container.innerHTML = '<div class="text-center p-3"><div class="spinner-border spinner-border-sm text-primary"></div></div>';
 
     try {
         const res = await fetch('AUD_controller/get_conceptos_auditoria.php?solo_activos=1');
         const conceptos = await res.json();
-        
         const tipoBusqueda = tipo.trim().toLowerCase();
-        const items = conceptos.filter(c => {
-            const tipoBD = c.tipo.trim().toLowerCase();
-            return tipoBD.includes(tipoBusqueda) || tipoBusqueda.includes(tipoBD);
-        });
+        const items = conceptos.filter(c => c.tipo.trim().toLowerCase().includes(tipoBusqueda));
 
-        if (items.length === 0) {
-            container.innerHTML = `<div class="alert alert-warning m-3">No se encontraron conceptos para "${tipo}"</div>`;
-            return;
-        }
-
-        let html = `
-        <table class="table table-bordered table-hover align-middle shadow-sm bg-white">
-            <thead class="table-dark">
-                <tr>
-                    <th style="width: 45%;">Descripción del Concepto</th>
-                    <th class="text-center">Bueno</th>
-                    <th class="text-center">Regular</th>
-                    <th class="text-center">Malo</th>
-                    <th class="text-center" style="width: 100px;">Puntos</th>
-                </tr>
-            </thead>
-            <tbody>`;
+        let html = '<table class="table table-sm table-bordered align-middle"><thead><tr class="table-dark"><th>Concepto</th><th class="text-center">B</th><th class="text-center">R</th><th class="text-center">M</th><th class="text-center">Pts</th></tr></thead><tbody>';
 
         items.forEach(c => {
             const p1 = parseFloat(c.c1) || 0;
             const p2 = parseFloat(c.c2) || 0;
             const p3 = parseFloat(c.c3) || 0;
+            const previa = memoriaRespuestas[c.id] || null;
+            const ptsVal = previa ? previa.puntos : 0;
 
-            // Recuperar valores de la memoria si existen
-            const seleccion Previa = memoriaRespuestas[c.id] || null;
-            const ptsMostrados = seleccionPrevia ? seleccionPrevia.puntos : 0;
-
-            html += `
-                <tr>
-                    <td class="fw-bold text-secondary">${c.descripcion}</td>
-                    <td class="text-center">
-                        <label class="d-flex align-items-center justify-content-center m-0 cursor-pointer">
-                            <input type="radio" name="check_${c.id}" value="C1" class="form-check-input border-success me-2" 
-                            ${seleccionPrevia?.opcion === 'C1' ? 'checked' : ''} 
-                            onclick="calcularPuntos(${c.id}, ${p1}, 'C1')" required style="width: 20px; height: 20px;">
-                            <span class="fs-5 fw-bold text-success">+${p1}</span>
-                        </label>
-                    </td>
-                    <td class="text-center">
-                        <label class="d-flex align-items-center justify-content-center m-0 cursor-pointer">
-                            <input type="radio" name="check_${c.id}" value="C2" class="form-check-input border-warning me-2" 
-                            ${seleccionPrevia?.opcion === 'C2' ? 'checked' : ''} 
-                            onclick="calcularPuntos(${c.id}, ${p2}, 'C2')" style="width: 20px; height: 20px;">
-                            <span class="fs-5 fw-bold text-warning">+${p2}</span>
-                        </label>
-                    </td>
-                    <td class="text-center">
-                        <label class="d-flex align-items-center justify-content-center m-0 cursor-pointer">
-                            <input type="radio" name="check_${c.id}" value="C3" class="form-check-input border-danger me-2" 
-                            ${seleccionPrevia?.opcion === 'C3' ? 'checked' : ''} 
-                            onclick="calcularPuntos(${c.id}, ${p3}, 'C3')" style="width: 20px; height: 20px;">
-                            <span class="fs-5 fw-bold text-danger">+${p3}</span>
-                        </label>
-                    </td>
-                    <td class="text-center bg-light">
-                        <span id="pts_${c.id}" class="h5 fw-bold text-primary">${ptsMostrados}</span>
-                    </td>
-                </tr>`;
+            html += `<tr>
+                <td class="small">${c.descripcion}</td>
+                <td class="text-center"><input type="radio" name="check_${c.id}" value="C1" ${previa?.opcion==='C1'?'checked':''} onclick="calcularPuntos(${c.id}, ${p1}, 'C1')"></td>
+                <td class="text-center"><input type="radio" name="check_${c.id}" value="C2" ${previa?.opcion==='C2'?'checked':''} onclick="calcularPuntos(${c.id}, ${p2}, 'C2')"></td>
+                <td class="text-center"><input type="radio" name="check_${c.id}" value="C3" ${previa?.opcion==='C3'?'checked':''} onclick="calcularPuntos(${c.id}, ${p3}, 'C3')"></td>
+                <td class="text-center fw-bold text-primary"><span id="pts_${c.id}">${ptsVal}</span></td>
+            </tr>`;
         });
-
-        html += `</tbody></table>`;
-        container.innerHTML = html;
-
-    } catch (error) {
-        console.error("Error:", error);
-        container.innerHTML = '<div class="alert alert-danger m-3">Error crítico al conectar con el servidor.</div>';
-    }
+        container.innerHTML = html + '</tbody></table>';
+    } catch (e) { container.innerHTML = 'Error de carga'; }
 }
 
 function calcularPuntos(id, puntos, opcion) {
-    // Guardar en memoria
-    memoriaRespuestas[id] = {
-        puntos: puntos,
-        opcion: opcion
-    };
-
+    memoriaRespuestas[id] = { puntos, opcion };
     const span = document.getElementById(`pts_${id}`);
     if(span) span.innerText = puntos;
-    
     actualizarTotalGlobal();
 }
 
 function actualizarTotalGlobal() {
-    let total = 0;
-    // Sumamos lo que hay en memoria en lugar de lo que hay en el DOM 
-    // porque el DOM puede no estar renderizado en ese momento
-    Object.values(memoriaRespuestas).forEach(r => {
-        total += parseFloat(r.puntos) || 0;
-    });
+    let total = Object.values(memoriaRespuestas).reduce((acc, r) => acc + (parseFloat(r.puntos) || 0), 0);
     document.getElementById('puntosTotales').innerText = total;
 }
 
-// GUARDAR AUDITORÍA
+function agregarFilaIncidencia() {
+    const tbody = document.querySelector('#tablaIncidencias tbody');
+    const sin = document.getElementById('sinIncidencias');
+    if (sin) sin.remove();
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td><input type="text" class="form-control form-control-sm row-incidencia" required></td>
+                    <td class="text-center"><button type="button" class="btn btn-sm text-danger" onclick="this.closest('tr').remove()"><i class="bi bi-trash"></i></button></td>`;
+    tbody.appendChild(tr);
+}
+
 document.getElementById('formNuevaAuditoria').addEventListener('submit', async function(e) {
     e.preventDefault();
-
-    // 1. Validación rápida: ¿Ha respondido algo?
     if (Object.keys(memoriaRespuestas).length === 0) {
-        Swal.fire('Atención', 'Debes evaluar al menos un concepto en las pestañas 2, 3 o 4.', 'warning');
+        Swal.fire('Error', 'Debe evaluar conceptos antes de guardar.', 'warning');
         return;
     }
 
-    const confirmacion = await Swal.fire({
-        title: '¿Finalizar Auditoría?',
-        text: "Se guardarán todos los puntos evaluados.",
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, Guardar'
-    });
+    const conf = await Swal.fire({ title: '¿Guardar Auditoría?', icon: 'question', showCancelButton: true });
+    if (!conf.isConfirmed) return;
 
-    if (!confirmacion.isConfirmed) return;
+    const respuestas = Object.keys(memoriaRespuestas).map(id => ({
+        concepto_id: id,
+        opcion: memoriaRespuestas[id].opcion,
+        puntos: memoriaRespuestas[id].puntos
+    }));
 
-    Swal.fire({ title: 'Procesando...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); }});
-
-    // 2. PREPARAR RESPUESTAS (Solo desde la memoria para evitar duplicados)
-    const respuestas = [];
-    for (const id in memoriaRespuestas) {
-        respuestas.push({
-            concepto_id: id,
-            opcion: memoriaRespuestas[id].opcion,
-            puntos: memoriaRespuestas[id].puntos
-        });
-    }
-
-    // 3. MANTENIMIENTOS
     const mantenimientos = [];
     document.querySelectorAll('#tablaMantenimiento tbody tr').forEach(tr => {
-        const servicio = tr.querySelector('.m_servicio').value;
-        if(servicio.trim() !== "") {
+        const serv = tr.querySelector('.m_servicio').value;
+        if(serv.trim()) {
             mantenimientos.push({
                 fecha: tr.querySelector('.m_fecha').value,
                 km: tr.querySelector('.m_km').value,
-                servicio: servicio,
+                servicio: serv,
                 taller: tr.querySelector('.m_taller').value,
                 obs: tr.querySelector('.m_obs').value
             });
         }
     });
 
-    // 4. INCIDENCIAS
-    const incidencias = [];
-    document.querySelectorAll('.row-incidencia').forEach(input => {
-        if(input.value.trim() !== "") {
-            incidencias.push({ descripcion: input.value.trim() });
-        }
-    });
+    const incidencias = Array.from(document.querySelectorAll('.row-incidencia')).map(i => ({ descripcion: i.value.trim() })).filter(i => i.descripcion);
 
     const payload = {
         folio: document.getElementById('folio_final').value,
@@ -463,23 +312,16 @@ document.getElementById('formNuevaAuditoria').addEventListener('submit', async f
     };
 
     try {
-        const response = await fetch('AUD_controller/guardar_auditoria.php', {
+        const res = await fetch('AUD_controller/guardar_auditoria.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
-        const result = await response.json();
-        if (result.status === 'success') {
-            Swal.fire('¡Éxito!', result.message, 'success').then(() => location.reload());
-        } else {
-            Swal.fire('Error', result.message, 'error');
-        }
-    } catch (error) { 
-        console.error(error);
-        Swal.fire('Error', 'No se pudo conectar con el servidor', 'error'); 
-    }
+        const result = await res.json();
+        if(result.status === 'success') Swal.fire('Éxito', result.message, 'success').then(() => location.reload());
+        else Swal.fire('Error', result.message, 'error');
+    } catch (e) { Swal.fire('Error', 'Conexión fallida', 'error'); }
 });
 </script>
-<?php 
-include("src/templates/adminfooter.php");
-?>
+
+<?php include("src/templates/adminfooter.php"); ?>
