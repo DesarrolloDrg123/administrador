@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data = $res->fetch_assoc();
 
     if ($data && $data['token_evidencia']) {
-        $enlace = "https://administrador2.intranetdrg.com.mx/AUD_subir_evidencia.php?token=" . $data['token_evidencia'];
+        $enlace = "https://administrador2.intranetdrg.com.mx/AUD_subir_evidencia.php?t=" . $data['token_evidencia'];
         
         // 2. Enviar el correo (Ejemplo básico con mail de PHP, lo ideal es PHPMailer)
         $to = $data['email'];
