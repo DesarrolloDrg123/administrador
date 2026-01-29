@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = (int)$_POST['id'];
 
     // 1. Obtener el correo del responsable y el token actual
-    $query = "SELECT a.token_evidencia, a.folio, u.correo, u.nombre 
+    $query = "SELECT a.token_evidencia, a.folio, u.email, u.nombre 
               FROM auditorias_vehiculos_aud a
               JOIN vehiculos_aud v ON a.vehiculo_id = v.id
               JOIN usuarios u ON v.responsable_id = u.id 
