@@ -19,6 +19,7 @@ include("src/templates/adminheader.php");
                             <th>Auditor</th>
                             <th>Puntuación</th>
                             <th>Evidencias</th>
+                            <th>Estatus</th>
                             <th class="text-center">Acciones</th>
                         </tr>
                     </thead>
@@ -125,6 +126,7 @@ async function cargarHistorial() {
                     <td>${a.auditor_nombre}</td>
                     <td><span class="badge bg-${colorPuntos} fs-6">${a.calif_total} pts</span></td>
                     <td>${statusEvidencia}</td>
+                    <td>${a.estatus}</td>
                     <td class="text-center">
                         <button class="btn btn-sm btn-outline-primary" onclick="verReporte(${a.id})" title="Ver Detalles">
                             Detalles
