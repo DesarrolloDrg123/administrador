@@ -178,6 +178,16 @@ require("config/db.php");
                             <input type="text" id="edit_telefono_siniestro" name="telefono_siniestro" class="form-control form-control-sm">
                         </div>
                     </div>
+                    <div class="col-md-2">
+                        <label class="form-label small">Estatus</label>
+                        <select id="edit_estatus" name="estatus" class="form-select form-select-sm" required>
+                            <option value="">Cargando...</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label small">Observaciones</label>
+                        <input type="text" id="edit_observaciones" name="observaciones" class="form-control form-control-sm">
+                    </div>
                 </div>
                 <div class="modal-footer bg-light">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -275,8 +285,8 @@ async function cargarSelectsEdicion() {
     try {
         // Ejecutamos ambas peticiones en paralelo para mayor velocidad
         const [resSuc, resUsr] = await Promise.all([
-            fetch('AUD_controller/get_sucursales.php'),      // Tu archivo existente
-            fetch('AUD_controller/get_usuarios_activos.php') // Tu archivo existente
+            fetch('AUD_controller/get_sucursales.php'),      
+            fetch('AUD_controller/get_usuarios_activos.php') 
         ]);
 
         const sucursales = await resSuc.json();
@@ -298,6 +308,12 @@ async function cargarSelectsEdicion() {
 
         document.getElementById('edit_responsable_id').innerHTML = opcionesUsuario;
         document.getElementById('edit_gerente_reportar_id').innerHTML = opcionesUsuario;
+
+        // 3. Llenar Estatus
+        let opcionesEstatus = '<option value="">Seleccione Estatus...</option>';
+        opcionesEstatus += `<option value="Activo">Activo</option>`;
+        opcionesEstatus += `<option value="Disponible">Disponible</option>`;
+        document.getElementById('edit_estatus').innerHTML = opcionesEstatus;
 
         selectsCargados = true; 
 
@@ -344,6 +360,7 @@ async function prepararEdicion(id) {
         document.getElementById('edit_no_poliza').value = v.no_poliza;
         document.getElementById('edit_vigencia_poliza').value = v.vigencia_poliza;
         document.getElementById('edit_telefono_siniestro').value = v.telefono_siniestro;
+        document.getElementById('edit_estatus').value = v.estatus;
 
         const modalEdit = new bootstrap.Modal(document.getElementById('modalEditar'));
         modalEdit.show();

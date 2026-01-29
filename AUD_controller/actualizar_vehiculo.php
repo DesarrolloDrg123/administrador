@@ -30,7 +30,9 @@ $config_campos = [
     'aseguradora' => ['label' => 'Aseguradora'],
     'no_poliza' => ['label' => 'No. Póliza'],
     'vigencia_poliza' => ['label' => 'Vigencia Póliza'],
-    'telefono_siniestro' => ['label' => 'Tel. Siniestro']
+    'telefono_siniestro' => ['label' => 'Tel. Siniestro'],
+    'estatus' => ['label' => 'Estatus'],
+    'observaciones' => ['label' => 'Observaciones'],
 ];
 
 $cambios_realizados = 0;

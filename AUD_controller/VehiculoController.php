@@ -22,7 +22,8 @@ $aseguradora         = $_POST['aseguradora'] ?? '';
 $no_poliza           = $_POST['no_poliza'] ?? '';
 $vigencia_poliza     = $_POST['vigencia_poliza'] ?? null;
 $telefono_siniestro  = $_POST['telefono_siniestro'] ?? '';
-$estatus             = 'Activo';
+$estatus             = $_POST['estatus'] ?? 'Activo';
+$observaciones       = $_POST['observaciones'] ?? '';
 
 if (!$no_serie || !$marca || !$modelo || !$fecha_alta) {
     echo json_encode(['status' => 'error', 'message' => 'Faltan campos obligatorios.']);
@@ -52,16 +53,16 @@ try {
                 sucursal_id, responsable_id, gerente_reportar_id, 
                 no_licencia, fecha_vencimiento_licencia, placas, 
                 tarjeta_circulacion, aseguradora, no_poliza, 
-                vigencia_poliza, telefono_siniestro, estatus
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                vigencia_poliza, telefono_siniestro, estatus, observaciones
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssiiisssssssss", 
+    $stmt->bind_param("sssssiiissssssssss", 
         $no_serie, $fecha_alta, $marca, $modelo, $anio, 
         $sucursal_id, $responsable_id, $gerente_reportar_id, 
         $no_licencia, $vigencia_licencia, $placas, 
         $tarjeta_circulacion, $aseguradora, $no_poliza, 
-        $vigencia_poliza, $telefono_siniestro, $estatus
+        $vigencia_poliza, $telefono_siniestro, $estatus, $observaciones
     );
 
     if (!$stmt->execute()) {
@@ -72,7 +73,7 @@ try {
 
     // Historial
     $usuario_sesion = $_SESSION['usuario_id'] ?? $responsable_id;
-    $detalle = "Alta inicial de unidad";
+    $detalle = "Alta de Unidad";
     $campo = "Registro";
     
     $sql_h = "INSERT INTO vehiculos_historial_aud (vehiculo_id, usuario_id, campo_modificado, valor_nuevo) 

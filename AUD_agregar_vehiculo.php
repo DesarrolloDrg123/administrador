@@ -92,6 +92,17 @@ require("config/db.php");
                         <label class="form-label">Telefono Reporte Siniestro *</label>
                         <input type="number" name="telefono_siniestro" class="form-control" min="0000000001" max="9999999999" required>
                     </div>
+                    <div class="col-md-2">
+                        <label class="form-label small">Estatus</label>
+                        <select id="edit_estatus" name="estatus" class="form-select form-select-sm" required>
+                            <option value="Activo">Activo</option>
+                            <option value="Disponible">Disponible</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label small">Observaciones</label>
+                        <input type="text" id="edit_observaciones" name="observaciones" class="form-control form-control-sm">
+                    </div>
                     <div class="col-12 mt-4 text-end">
                         <button type="button" class="btn btn-info" onclick="window.location.href='AUD_catalogo_vehiculos.php'">Regresar</button>
                         <button type="button" class="btn btn-secondary" onclick="this.form.reset()">Limpiar</button>

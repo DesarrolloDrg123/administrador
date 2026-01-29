@@ -67,6 +67,8 @@ include("src/templates/adminheader.php");
                         <p>Seleccione un vehículo arriba para cargar la información técnica.</p>
                     </div>
                 </div>
+                <div id="alertaIncidenciasPendientes" class="mt-3" style="display: none;">
+                </div>
             </div>
             
             <div class="tab-pane fade" id="seg2"> <div class="checklist-container"></div> </div>
@@ -230,8 +232,13 @@ function ejecutarCargaPorTab(id) {
 
 // CARGAR DATOS DEL VEHÍCULO (SEGMENTO 1)
 async function cargarDatosVehiculo(id) {
-    if(!id) return;
+    if(!id) {
+        document.getElementById('alertaIncidenciasPendientes').style.display = 'none';
+        return;
+    }
+    
     try {
+        // 1. Cargar detalles técnicos (lo que ya tenías)
         const res = await fetch(`AUD_controller/get_detalle_vehiculo.php?id=${id}`);
         const v = await res.json();
         
@@ -241,7 +248,35 @@ async function cargarDatosVehiculo(id) {
             <div class="col-md-3 border-end"><strong>Licencia</strong><p class="text-primary">${v.no_licencia || 'N/A'}<br><small>(Vence: ${v.fecha_vencimiento_licencia || 'N/A'})</small></p></div>
             <div class="col-md-3"><strong>Vehículo</strong><p class="text-primary">${v.marca} ${v.modelo} ${v.anio}<br>Placas: ${v.placas}</p></div>
         `;
-    } catch (e) { console.error("Error en cargarDatosVehiculo:", e); }
+
+        // 2. NUEVO: Consultar incidencias pendientes
+        const resInc = await fetch(`AUD_controller/get_incidencias_pendientes.php?vehiculo_id=${id}`);
+        const incidencias = await resInc.json();
+        
+        const alertaDiv = document.getElementById('alertaIncidenciasPendientes');
+        
+        if (incidencias.length > 0) {
+            let listaHtml = incidencias.map(i => `<li>${i.descripcion} <small class="text-muted">(Folio: ${i.folio_original})</small></li>`).join('');
+            
+            alertaDiv.innerHTML = `
+                <div class="alert alert-danger shadow-sm border-start border-5 border-danger">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-triangle-fill fs-3 me-3"></i>
+                        <div>
+                            <h5 class="alert-heading mb-1">¡Atención! Incidencias Pendientes</h5>
+                            <p class="mb-2">Este vehículo tiene <strong>${incidencias.length}</strong> tarea(s) sin resolver de auditorías anteriores:</p>
+                            <ul class="mb-0 small">${listaHtml}</ul>
+                        </div>
+                    </div>
+                </div>`;
+            alertaDiv.style.display = 'block';
+        } else {
+            alertaDiv.style.display = 'none';
+        }
+
+    } catch (e) { 
+        console.error("Error en cargarDatosVehiculo:", e); 
+    }
 }
 
 // CARGAR CHECKLIST (SEGMENTOS 2, 3, 4)
@@ -275,9 +310,9 @@ async function cargarChecklist(tipo, containerId) {
             <thead class="table-dark">
                 <tr>
                     <th style="width: 45%;">Descripción del Concepto</th>
-                    <th class="text-center">Si/Bueno</th>
-                    <th class="text-center">No/Regular</th>
-                    <th class="text-center">No Aplica/Malo</th>
+                    <th class="text-center">Bueno</th>
+                    <th class="text-center">Regular</th>
+                    <th class="text-center">Malo</th>
                     <th class="text-center" style="width: 100px;">Puntos</th>
                 </tr>
             </thead>
