@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $enlace = "https://administrador2.intranetdrg.com.mx/AUD_subir_evidencia.php?token=" . $data['token_evidencia'];
         
         // 2. Enviar el correo (Ejemplo básico con mail de PHP, lo ideal es PHPMailer)
-        $to = $data['correo'];
+        $to = $data['email'];
         $subject = "Acción Requerida: Evidencias Pendientes - Folio " . $data['folio'];
         $message = "Hola " . $data['nombre'] . ",\n\nSe han solicitado evidencias fotográficas adicionales para la auditoría con folio " . $data['folio'] . ".\n\nPor favor, sube las fotos en el siguiente enlace:\n" . $enlace;
         $headers = "From: administrador@intranetdrg.com.mx";
