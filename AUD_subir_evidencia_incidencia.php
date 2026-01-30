@@ -1,0 +1,188 @@
+<?php
+require("config/db.php"); 
+
+// En incidencias, usaremos el ID directo o un token si decides implementarlo después
+$id_incidencia = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+if ($id_incidencia <= 0) {
+    die("Acceso denegado: ID de incidencia no válido.");
+}
+
+// Consultamos la incidencia y los datos del vehículo relacionado
+$sql = "SELECT i.id, i.pregunta as incidencia, a.folio, v.no_serie, v.placas
+        FROM auditorias_detalle_aud i
+        JOIN auditorias_vehiculos_aud a ON i.auditoria_id = a.id
+        JOIN vehiculos v ON a.vehiculo_id = v.id
+        WHERE i.id = ?";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id_incidencia);
+$stmt->execute();
+$resultado = $stmt->get_result();
+$datos = $resultado->fetch_assoc();
+
+if (!$datos) {
+    die("Incidencia no encontrada o ya ha sido gestionada.");
+}
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Evidencia de Incidencia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --primary-color: #80bf1f; /* Tu color corporativo */
+            --dark-color: #2b2d42;
+            --bg-body: #f8f9fa;
+        }
+        
+        body { 
+            background-color: var(--bg-body); 
+            font-family: 'Segoe UI', sans-serif; 
+        }
+
+        .container-custom { padding: 20px 10px; }
+        
+        .card { 
+            border-radius: 20px; 
+            border: none; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1); 
+        }
+
+        .card-header { 
+            background: linear-gradient(135deg, #80bf1f 0%, #6da31a 100%) !important; 
+            border: none;
+            padding: 30px 15px !important;
+            border-radius: 20px 20px 0 0 !important;
+        }
+
+        .upload-zone {
+            border: 2px dashed #80bf1f;
+            border-radius: 15px;
+            padding: 40px 20px;
+            transition: all 0.3s ease;
+            background: #fff;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .upload-zone:hover { background: #f2f9e9; }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            padding: 15px;
+        }
+
+        .preview-item {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .incidencia-info {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-custom">
+    <div class="row justify-content-center g-0">
+        <div class="col-12 col-md-10 col-lg-6">
+            <div class="card">
+                <div class="card-header text-white text-center">
+                    <i class="bi bi-tools fs-1 mb-2 d-block"></i>
+                    <h4 class="mb-1 fw-bold">Evidencia de Corrección</h4>
+                    <span class="badge bg-white text-dark py-2 px-3">Placas: <?= $datos['placas'] ?></span>
+                </div>
+                
+                <div class="card-body p-4">
+                    <div class="incidencia-info">
+                        <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 0.7rem;">Incidencia a Solventar:</small>
+                        <span class="text-dark fw-bold fs-5"><?= $datos['incidencia'] ?></span>
+                        <p class="mb-0 mt-1 text-muted small">Folio Auditoría: <?= $datos['folio'] ?></p>
+                    </div>
+
+                    <form id="formEvidencias" action="AUD_controller/guardar_evidencia_incidencia.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="incidencia_id" value="<?= $datos['id'] ?>">
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold mb-3">
+                                <i class="bi bi-camera-fill me-2 text-success"></i>Seleccione la fotografía de la reparación
+                            </label>
+                            
+                            <label for="inputFotos" class="upload-zone w-100 text-center">
+                                <i class="bi bi-cloud-arrow-up text-success fs-1 mb-2"></i>
+                                <span class="fw-bold text-secondary">Tocar aquí para tomar foto o elegir archivo</span>
+                                <input type="file" name="fotos[]" id="inputFotos" class="d-none" multiple accept="image/*" required>
+                            </label>
+                            
+                            <div id="previewFotos" class="mt-3 d-flex flex-wrap gap-2 justify-content-center"></div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold small">Comentarios adicionales (opcional)</label>
+                            <textarea name="comentarios" class="form-control" rows="2" placeholder="Ej. Se realizó el cambio de pieza..."></textarea>
+                        </div>
+
+                        <button type="submit" id="btnEnviar" class="btn btn-primary w-100 shadow">
+                            <i class="bi bi-check-circle-fill me-2"></i>Enviar Evidencia de Reparación
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <p class="text-center mt-4 text-muted small">Control Vehicular - Sistema de Auditorías</p>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('inputFotos').addEventListener('change', function() {
+    const preview = document.getElementById('previewFotos');
+    preview.innerHTML = '';
+    
+    if (this.files) {
+        [...this.files].forEach(file => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'preview-item';
+                preview.appendChild(img);
+            }
+            reader.readAsDataURL(file);
+        });
+    }
+});
+
+document.getElementById('formEvidencias').addEventListener('submit', function(e) {
+    document.getElementById('btnEnviar').disabled = true;
+    document.getElementById('btnEnviar').innerHTML = '<span class="spinner-border spinner-border-sm"></span> Enviando...';
+    
+    Swal.fire({
+        title: 'Enviando Evidencia',
+        text: 'Subiendo archivos al servidor, por favor espere.',
+        allowOutsideClick: false,
+        didOpen: () => { Swal.showLoading(); }
+    });
+});
+</script>
+</body>
+</html>

@@ -1,14 +1,13 @@
 <?php
-// AUD_controller/generar_reporte_pdf.php
-require_once '../vendor/autoload.php'; // Requiere Dompdf
-use Dompdf\Dompdf;
+require '../vendor/autoload.php';
+use Mpdf\Mpdf;
 
 function crearReportePDF($id_auditoria, $conn) {
-    // 1. Obtener datos completos (Cabecera, Detalles, Fotos y Mantenimientos)
+    // 1. Obtener datos (JOINs con vehiculos, sucursales y usuarios)
     $query = "SELECT a.*, v.*, s.sucursal as sucursal_nombre, u.nombre as responsable_nombre, 
               u.email as correo_responsable, g.nombre as gerente_nombre, auditor.nombre as auditor_nombre
               FROM auditorias_vehiculos_aud a
-              JOIN vehiculos_aud v ON a.vehiculo_id = v.id
+              JOIN vehiculos v ON a.vehiculo_id = v.id
               JOIN sucursales s ON v.sucursal_id = s.id
               JOIN usuarios u ON v.responsable_id = u.id
               JOIN usuarios g ON v.gerente_reportar_id = g.id
@@ -20,84 +19,137 @@ function crearReportePDF($id_auditoria, $conn) {
     $stmt->execute();
     $data = $stmt->get_result()->fetch_assoc();
 
-    // 2. Construir el HTML con el formato de la bitácora 
+    // 2. Definir estilos y HTML
     $html = '
-    <html>
-    <head>
-        <style>
-            body { font-family: sans-serif; font-size: 12px; }
-            .header-table { width: 100%; border-collapse: collapse; background-color: #80bf1f; color: white; }
-            .section-title { background-color: #80bf1f; color: white; padding: 5px; font-weight: bold; text-transform: uppercase; margin-top: 10px; }
-            table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
-            th, td { border: 1px solid #ccc; padding: 6px; text-align: left; }
-            .foto-container { width: 30%; display: inline-block; margin: 5px; text-align: center; }
-            .foto-img { width: 150px; height: 100px; object-fit: cover; }
-        </style>
-    </head>
-    <body>
-        <table class="header-table">
+    <style>
+        body { font-family: "Arial", sans-serif; font-size: 10pt; color: #333; }
+        .header { background-color: #80bf1f; color: white; padding: 15px; width: 100%; }
+        .section-title { background-color: #80bf1f; color: white; padding: 5px 10px; font-weight: bold; margin-top: 15px; text-transform: uppercase; }
+        table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+        th, td { border: 1px solid #80bf1f; padding: 6px; text-align: left; }
+        .bg-gray { background-color: #f2f9e9; font-weight: bold; width: 25%; }
+        .foto-box { border: 1px solid #ccc; text-align: center; margin: 5px; padding: 5px; float: left; width: 30%; }
+        .foto-img { width: 100%; height: auto; }
+        .footer-table { margin-top: 40px; border: none; }
+        .footer-table td { border: none; text-align: center; width: 50%; }
+        .linea-firma { border-top: 1px solid #000; padding-top: 5px; margin: 0 20px; }
+    </style>
+
+    <div class="header">
+        <table style="width:100%; border:none;">
             <tr>
-                <td style="border:none;"><strong>BITÁCORA DE CONTROL VEHICULAR</strong></td>
-                <td style="text-align:right; border:none;">Folio: '.$data['folio'].'</td>
+                <td style="border:none; color:white; font-size:14pt;"><strong>BÍTACORA DE CONTROL VEHICULAR</strong></td>
+                <td style="border:none; color:white; text-align:right;">Folio: '.$data['folio'].'</td>
             </tr>
         </table>
+    </div>
 
-        <div class="section-title">Información General de la Unidad</div>
-        <table>
-            <tr>
-                <td><strong>Marca/Modelo:</strong> '.$data['marca'].' '.$data['modelo'].'</td>
-                <td><strong>No. Serie:</strong> '.$data['no_serie'].'</td>
+    <div class="section-title">INFORMACIÓN GENERAL DE LA UNIDAD</div>
+    <table>
+        <tr>
+            <td class="bg-gray">Modelo / Marca</td><td>'.$data['modelo'].' / '.$data['marca'].'</td>
+            <td class="bg-gray">No de Serie</td><td>'.$data['no_serie'].'</td>
+        </tr>
+    </table>
+
+    <div class="section-title">DATOS GENERALES</div>
+    <table>
+        <tr>
+            <td class="bg-gray">Sucursal</td><td>'.$data['sucursal_nombre'].'</td>
+            <td class="bg-gray">Gerente de Sucursal</td><td>'.$data['gerente_nombre'].'</td>
+        </tr>
+        <tr>
+            <td class="bg-gray">Responsable</td><td>'.$data['responsable_nombre'].'</td>
+            <td class="bg-gray">Auditor Realizó</td><td>'.$data['auditor_nombre'].'</td>
+        </tr>
+        <tr>
+            <td class="bg-gray">No. de Placas</td><td>'.$data['placas'].'</td>
+            <td class="bg-gray">T. de Circulación</td><td>'.$data['tarjeta_circulacion'].'</td>
+        </tr>
+        <tr>
+            <td class="bg-gray">Póliza / Vigencia</td><td>'.$data['no_poliza'].' / '.$data['vigencia_poliza'].'</td>
+            <td class="bg-gray">Aseguradora / Tel</td><td>'.$data['aseguradora'].' / '.$data['telefono_siniestro'].'</td>
+        </tr>
+    </table>
+
+    <div class="section-title">RESULTADOS DE LA AUDITORÍA (PUNTOS)</div>
+    <table>
+        <thead>
+            <tr style="background-color: #f2f9e9;">
+                <th>Elemento</th><th style="text-align:center;">Estado</th><th style="text-align:center;">Puntos</th>
             </tr>
-        </table>
+        </thead>
+        <tbody>';
 
-        <div class="section-title">Datos Generales</div>
-        <table>
-            <tr><td><strong>Sucursal:</strong> '.$data['sucursal_nombre'].'</td><td><strong>Gerente:</strong> '.$data['gerente_nombre'].'</td></tr>
-            <tr><td><strong>Responsable:</strong> '.$data['responsable_nombre'].'</td><td><strong>Auditor:</strong> '.$data['auditor_nombre'].'</td></tr>
-            <tr><td><strong>Placas:</strong> '.$data['placas'].'</td><td><strong>Vig. Póliza:</strong> '.$data['vigencia_poliza'].'</td></tr>
-        </table>
-
-        <div class="section-title">Resultados de Auditoría (Puntos)</div>
-        <table>
-            <thead><tr><th>Elemento</th><th>Estado</th><th>Puntos</th></tr></thead>
-            <tbody>';
-            
-    // Consulta de puntos/preguntas
-    $res = $conn->query("SELECT * FROM auditorias_detalle_aud WHERE auditoria_id = $id_auditoria");
-    while($row = $res->fetch_assoc()) {
-        $html .= "<tr><td>{$row['pregunta']}</td><td>{$row['valor_seleccionado']}</td><td>{$row['puntos_obtenidos']}</td></tr>";
+    $resDet = $conn->query("SELECT * FROM auditorias_detalle_aud WHERE auditoria_id = $id_auditoria");
+    $puntosTotales = 0;
+    while($row = $resDet->fetch_assoc()) {
+        $puntosTotales += $row['puntos_obtenidos'];
+        $html .= "<tr>
+                    <td>{$row['pregunta']}</td>
+                    <td style='text-align:center;'>{$row['valor_seleccionado']}</td>
+                    <td style='text-align:center;'>{$row['puntos_obtenidos']}</td>
+                  </tr>";
     }
 
-    $html .= '</tbody></table>
-        <div class="section-title">Fotografías y Evidencias</div>
-        <div style="width:100%;">';
-    
-    // Agregar fotos [cite: 4, 6-14]
+    $html .= '
+            <tr style="font-weight:bold; background-color:#e2f2cf;">
+                <td colspan="2" style="text-align:right;">CALIFICACIÓN TOTAL:</td>
+                <td style="text-align:center;">'.$puntosTotales.'</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="section-title">EVIDENCIA FOTOGRÁFICA</div>
+    <div style="width:100%;">';
+
     $fotos = $conn->query("SELECT * FROM auditorias_evidencias_aud WHERE auditoria_id = $id_auditoria");
     while($f = $fotos->fetch_assoc()) {
         $ruta = '../' . $f['ruta_archivo'];
         if(file_exists($ruta) && !str_ends_with($ruta, '.pdf')) {
-            $html .= '<div class="foto-container"><img src="'.$ruta.'" class="foto-img"><br><small>Evidencia</small></div>';
+            $html .= '
+            <div class="foto-box">
+                <img src="'.$ruta.'" class="foto-img" />
+                <div style="font-size:8pt; margin-top:3px;">'.$f['tipo_evidencia'].'</div>
+            </div>';
         }
     }
 
-    $html .= '</div></body></html>';
-
-    // 3. Generar el PDF
-    $dompdf = new Dompdf(['isRemoteEnabled' => true]);
-    $dompdf->loadHtml($html);
-    $dompdf->setPaper('A4', 'portrait');
-    $dompdf->render();
+    $html .= '
+    </div>
+    <pagebreak /> <div class="section-title">FIRMAS DE CONFORMIDAD</div>
+    <p style="font-size:8pt;">Quien firma este documento avala que la información proporcionada es la correcta.</p>
     
-    // Guardar en servidor para futuras consultas
-    $output = $dompdf->output();
-    $nombreArchivo = "reportes/Auditoria_{$id_auditoria}.pdf";
-    file_put_contents("../".$nombreArchivo, $output);
+    <table class="footer-table">
+        <tr>
+            <td>
+                <div class="linea-firma"></div>
+                <strong>Nombre y Firma</strong><br>Responsable del Vehículo: '.$data['responsable_nombre'].'
+            </td>
+            <td>
+                <div class="linea-firma"></div>
+                <strong>Nombre y Firma</strong><br>Gerente de Sucursal: '.$data['gerente_nombre'].'
+            </td>
+        </tr>
+    </table>';
+
+    // 3. Inicializar mPDF y generar
+    $mpdf = new \Mpdf\Mpdf([
+        'margin_left' => 10,
+        'margin_right' => 10,
+        'margin_top' => 10,
+        'margin_bottom' => 10,
+    ]);
+
+    $mpdf->WriteHTML($html);
+    
+    $nombreArchivo = "reportes/Auditoria_{$data['folio']}.pdf";
+    $mpdf->Output("../".$nombreArchivo, \Mpdf\Output\Destination::FILE);
     
     return [
         'ruta' => "../".$nombreArchivo,
         'correo_responsable' => $data['correo_responsable'],
-        'correo_auditor' => 'vgonzalez@drg.mx', // 
+        'correo_auditor' => 'vgonzalez@drg.mx',
         'folio' => $data['folio']
     ];
 }

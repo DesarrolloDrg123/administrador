@@ -37,25 +37,42 @@ include("src/templates/adminheader.php");
 </div>
 
 <div class="modal fade" id="modalGestion" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal-dialog modal-lg"> <div class="modal-content">
             <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title">Actualizar Estatus de Incidencia</h5>
+                <h5 class="modal-title"><i class="bi bi-tools"></i> Gestión de Incidencia</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="modal_id_incidencia">
-                <div class="mb-3">
-                    <label class="fw-bold">Nuevo Estatus</label>
-                    <select id="modal_estatus" class="form-select">
-                        <option value="Pendiente">Pendiente</option>
-                        <option value="Proceso">Proceso</option>
-                        <option value="Terminada">Terminada</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="fw-bold">Observaciones / Historial</label>
-                    <textarea id="modal_obs" class="form-control" rows="4" placeholder="Describa el avance o motivo del cambio..."></textarea>
+                
+                <div class="row">
+                    <div class="col-md-6 border-end">
+                        <div class="mb-3">
+                            <label class="fw-bold">Nuevo Estatus</label>
+                            <select id="modal_estatus" class="form-select border-primary">
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="Proceso">Proceso</option>
+                                <option value="Terminada">Terminada</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="fw-bold">Observaciones / Historial</label>
+                            <textarea id="modal_obs" class="form-control" rows="4" placeholder="Describa el avance..."></textarea>
+                        </div>
+                        <hr>
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-primary" onclick="solicitarEvidenciaIncidencia()">
+                                <i class="bi bi-envelope-at"></i> Solicitar Evidencia por Correo
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="fw-bold d-block mb-2">Evidencias de la Incidencia</label>
+                        <div id="contenedorEvidenciasIncidencia" class="bg-light p-2 rounded border" style="min-height: 200px; max-height: 300px; overflow-y: auto;">
+                            <p class="text-muted text-center small mt-4">Cargando evidencias...</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -75,14 +92,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function cargarIncidencias() {
     try {
-        // Si la tabla ya existe, la destruimos para reinicializarla con nuevos datos
         if ($.fn.DataTable.isDataTable('#tablaIncidencias')) {
             $('#tablaIncidencias').DataTable().destroy();
         }
 
         const res = await fetch('AUD_controller/get_incidencias.php', {
             method: 'POST',
-            body: JSON.stringify({}) // Enviamos vacío ya que quitamos filtros manuales
+            body: JSON.stringify({})
         });
         const incidencias = await res.json();
         let html = '';
@@ -104,7 +120,7 @@ async function cargarIncidencias() {
                     <td class="text-center">
                         ${i.estatus !== 'Terminada' ? 
                           `<button class="btn btn-sm btn-outline-primary" onclick="abrirModal(${i.id}, '${i.estatus}')">
-                             <i class="bi bi-pencil-square"></i> Gestionar
+                               <i class="bi bi-pencil-square"></i> Gestionar
                            </button>` : 
                           `<i class="bi bi-check-circle-fill text-success" title="Finalizada"></i>`
                         }
@@ -113,34 +129,87 @@ async function cargarIncidencias() {
         });
         
         document.getElementById('tablaIncidenciasBody').innerHTML = html;
-        
-        // Inicializar DataTables después de cargar el HTML
         inicializarDataTable();
-
-    } catch (e) { 
-        console.error(e); 
-    }
+    } catch (e) { console.error(e); }
 }
 
 function inicializarDataTable() {
     tablaIncidenciasDT = $('#tablaIncidencias').DataTable({
         "pageLength": 10,
-        "order": [[2, "desc"]], // Ordenar por Fecha de Incidencia por defecto
-        "language": {
-            "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-        },
-        "columnDefs": [
-            { "orderable": false, "targets": 6 }
-        ],
+        "order": [[2, "desc"]],
+        "language": { "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json" },
+        "columnDefs": [{ "orderable": false, "targets": 6 }],
         "responsive": true
     });
 }
 
-function abrirModal(id, estatus) {
+// --- FUNCIÓN CORREGIDA (SOLO UNA VEZ) ---
+async function abrirModal(id, estatus) {
     document.getElementById('modal_id_incidencia').value = id;
     document.getElementById('modal_estatus').value = estatus;
     document.getElementById('modal_obs').value = '';
-    new bootstrap.Modal(document.getElementById('modalGestion')).show();
+    
+    const contenedor = document.getElementById('contenedorEvidenciasIncidencia');
+    contenedor.innerHTML = '<div class="text-center mt-4"><div class="spinner-border spinner-border-sm text-primary"></div></div>';
+    
+    // Mostramos el modal
+    const myModal = new bootstrap.Modal(document.getElementById('modalGestion'));
+    myModal.show();
+    
+    // Cargar fotos guardadas
+    try {
+        const res = await fetch(`AUD_controller/get_evidencias_incidencia.php?id=${id}`);
+        const fotos = await res.json();
+        
+        if(fotos.length === 0) {
+            contenedor.innerHTML = '<p class="text-center text-muted small mt-4">No hay evidencias cargadas aún.</p>';
+        } else {
+            let htmlFotos = '<div class="row g-2">';
+            fotos.forEach(f => {
+                htmlFotos += `
+                    <div class="col-6">
+                        <a href="${f.ruta}" target="_blank">
+                            <img src="${f.ruta}" class="img-thumbnail w-100" style="height:80px; object-fit:cover;">
+                        </a>
+                        <small class="d-block text-truncate" style="font-size:10px;">${f.fecha}</small>
+                    </div>`;
+            });
+            htmlFotos += '</div>';
+            contenedor.innerHTML = htmlFotos;
+        }
+    } catch (e) {
+        contenedor.innerHTML = '<p class="text-danger small">Error al conectar con el servidor.</p>';
+    }
+}
+
+async function solicitarEvidenciaIncidencia() {
+    const id = document.getElementById('modal_id_incidencia').value;
+    
+    const result = await Swal.fire({
+        title: '¿Solicitar evidencia?',
+        text: "Se enviará un correo al responsable para que suba fotos de esta reparación.",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#80bf1f',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, enviar correo'
+    });
+
+    if (result.isConfirmed) {
+        Swal.showLoading();
+        const res = await fetch('AUD_controller/enviar_solicitud_incidencia.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ id: id })
+        });
+        const data = await res.json();
+        
+        if(data.status === 'success') {
+            Swal.fire('¡Enviado!', 'Correo enviado al responsable.', 'success');
+        } else {
+            Swal.fire('Error', 'No se pudo enviar: ' + data.message, 'error');
+        }
+    }
 }
 
 async function guardarCambioEstatus() {
