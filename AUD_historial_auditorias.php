@@ -150,9 +150,7 @@ async function verReporte(id) {
         const data = await res.json();
         const a = data.cabecera;
 
-        // Guardamos el ID en el input oculto para usarlo después
         document.getElementById('det_id_auditoria').value = id;
-
         document.getElementById('det_folio').innerText = a.folio;
         document.getElementById('det_vehiculo').innerText = `${a.marca} ${a.modelo}`;
         document.getElementById('det_serie').innerText = `Serie: ${a.no_serie}`;
@@ -168,18 +166,44 @@ async function verReporte(id) {
         });
         document.getElementById('det_tabla_body').innerHTML = tablaHtml;
 
+        // --- SECCIÓN DE EVIDENCIAS (FOTOS Y PDF) ---
         let fotosHtml = '';
         if(data.fotos.length > 0) {
             data.fotos.forEach(f => {
-                fotosHtml += `<div class="col-md-3"><img src="${f.ruta_archivo}" class="img-thumbnail" style="height:120px; width:100%; object-fit:cover; cursor:pointer" onclick="window.open('${f.ruta_archivo}')"></div>`;
+                // Verificamos si la ruta o el campo tipo indica que es PDF
+                const esPdf = f.ruta_archivo.toLowerCase().endsWith('.pdf') || f.tipo_archivo === 'pdf';
+                
+                if(esPdf) {
+                    // Diseño para el cuadro de PDF
+                    fotosHtml += `
+                    <div class="col-md-3">
+                        <div class="card h-100 border-danger shadow-sm" style="cursor:pointer; min-height:120px;" onclick="window.open('${f.ruta_archivo}', '_blank')">
+                            <div class="card-body d-flex flex-column align-items-center justify-content-center text-danger">
+                                <i class="bi bi-file-earmark-pdf-fill fs-1"></i>
+                                <small class="text-dark fw-bold mt-2 text-truncate w-100">Ver Documento</small>
+                            </div>
+                        </div>
+                    </div>`;
+                } else {
+                    // Diseño para Fotos
+                    fotosHtml += `
+                    <div class="col-md-3">
+                        <img src="${f.ruta_archivo}" class="img-thumbnail shadow-sm" 
+                             style="height:120px; width:100%; object-fit:cover; cursor:pointer" 
+                             onclick="window.open('${f.ruta_archivo}', '_blank')"
+                             title="Click para ampliar">
+                    </div>`;
+                }
             });
-        } else { fotosHtml = '<p class="text-muted">No hay fotos disponibles.</p>'; }
+        } else { 
+            fotosHtml = '<p class="text-muted w-100 text-center">No hay evidencias disponibles.</p>'; 
+        }
         document.getElementById('det_fotos').innerHTML = fotosHtml;
+        // -------------------------------------------
 
         const btnTerminar = document.getElementById('btnTerminarAuditoria');
         const btnSolicitar = document.getElementById('btnSolicitarMasFotos');
         
-        // Control de visibilidad
         if (!a.token_evidencia || a.estatus === 'Finalizado') { 
             btnTerminar.style.display = 'none'; 
             btnSolicitar.style.display = 'none';
