@@ -197,7 +197,7 @@ async function cargarDatosVehiculo(id) {
             <div class="col-md-3 border-end"><strong>Responsable</strong><p class="text-primary">${v.responsable_nombre || 'N/A'}</p></div>
             <div class="col-md-3 border-end"><strong>Licencia</strong><p class="text-primary">${v.no_licencia || 'N/A'}<br><small>(Vence: ${v.fecha_vencimiento_licencia || 'N/A'})</small></p></div>
             <div class="col-md-3"><strong>Vehículo</strong><p class="text-primary">${v.marca} ${v.modelo} ${v.anio}<br>Placas: ${v.placas}</p></div>
-            <div class="col-md-3"><strong>Observaciones</strong><p class="text-primary">${v.observaciones || 'N/A'}</p></div>
+            <div class="col-md-12"><strong>Observaciones</strong><p class="text-primary">${v.observaciones || 'N/A'}</p></div>
         `;
 
         const resInc = await fetch(`AUD_controller/get_incidencias_pendientes.php?vehiculo_id=${id}`);
