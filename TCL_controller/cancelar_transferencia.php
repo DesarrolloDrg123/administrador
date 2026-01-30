@@ -19,60 +19,138 @@ if (empty($_POST['folio']) || empty($_POST['motivo'])) {
 $folio  = $_POST['folio'];
 $motivo = $_POST['motivo'];
 
-// ==============================
-// 1. Obtener datos de la transferencia
-// ==============================
-$stmt = $conn->prepare("
-    SELECT 
-        t.folio,
-        t.descripcion,
-        t.importe,
-        t.importedls,
-        t.estado,
-        u_sol.email   AS email_solicitante,
-        u_sol.nombre  AS nombre_solicitante,
-        u_ben.email   AS email_beneficiario,
-        u_ben.nombre  AS nombre_beneficiario
-    FROM transferencias_clara_tcl t
-    LEFT JOIN usuarios u_sol ON t.usuario_solicitante_id = u_sol.id
-    LEFT JOIN usuarios u_ben ON t.beneficiario_id = u_ben.id
-    WHERE t.folio = ?
-    LIMIT 1
-");
+// Iniciamos transacción para asegurar que si falla el presupuesto, no se cancele la transferencia
+$conn->begin_transaction();
 
-$stmt->bind_param("s", $folio);
-$stmt->execute();
-$res = $stmt->get_result();
+try {
+    // =========================================================================
+    // 1. OBTENER DATOS (Agregamos Sucursal, Depto y Fecha para el Presupuesto)
+    // =========================================================================
+    $stmt = $conn->prepare("
+        SELECT 
+            t.id,
+            t.folio,
+            t.descripcion,
+            t.importe,
+            t.importedls,
+            t.estado,
+            t.sucursal_id,      -- Necesario para presupuesto
+            t.departamento_id,  -- Necesario para presupuesto
+            t.fecha_solicitud,  -- Necesario para calcular el periodo
+            u_sol.email   AS email_solicitante,
+            u_sol.nombre  AS nombre_solicitante,
+            u_sol.id      AS id_solicitante, -- ID del dueño del presupuesto
+            u_ben.email   AS email_beneficiario,
+            u_ben.nombre  AS nombre_beneficiario
+        FROM transferencias_clara_tcl t
+        LEFT JOIN usuarios u_sol ON t.usuario_solicitante_id = u_sol.id
+        LEFT JOIN usuarios u_ben ON t.beneficiario_id = u_ben.id
+        WHERE t.folio = ?
+        LIMIT 1 FOR UPDATE
+    ");
 
-if ($res->num_rows === 0) {
-    echo "no_encontrado";
-    exit;
+    $stmt->bind_param("s", $folio);
+    $stmt->execute();
+    $res = $stmt->get_result();
+
+    if ($res->num_rows === 0) {
+        throw new Exception("no_encontrado");
+    }
+
+    $info = $res->fetch_assoc();
+    $stmt->close();
+
+    // Verificamos si ya estaba cancelada para no devolver el dinero dos veces
+    if ($info['estado'] === 'Cancelada') {
+        $conn->rollback();
+        echo "ya_cancelada";
+        exit;
+    }
+
+    // Definir el importe a devolver (Prioridad Pesos como indicaste)
+    // Limpiamos comas por si acaso vienen en la BD
+    $importe_devolver = floatval(str_replace(',', '', $info['importe']));
+
+    // =========================================================================
+    // 2. DEVOLUCIÓN DE PRESUPUESTO
+    // =========================================================================
+    
+    // Calculamos el periodo basado en la FECHA DE LA SOLICITUD (no la fecha actual)
+    $meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    $timestamp_solicitud = strtotime($info['fecha_solicitud']);
+    $mes_num = date('n', $timestamp_solicitud) - 1; 
+    $anio = date('y', $timestamp_solicitud);
+    $periodoTarget = $meses[$mes_num] . '-' . $anio; // Ejemplo: Ene-25
+
+    // Query para regresar el dinero: 
+    // Aumentamos el 'restante' (+) y disminuimos lo 'registrado' (-)
+    $stmtPres = $conn->prepare("
+        UPDATE presupuestos 
+        SET restante = restante + ?, 
+            registrado = registrado - ? 
+        WHERE periodo = ? 
+          AND sucursal_id = ? 
+          AND departamento_id = ?
+    ");
+
+    $stmtPres->bind_param("ddsii", $importe_devolver, $importe_devolver, $periodoTarget, $info['sucursal_id'], $info['departamento_id']);
+    
+    if (!$stmtPres->execute()) {
+        throw new Exception("Error al actualizar presupuesto.");
+    }
+    $stmtPres->close();
+
+    // =========================================================================
+    // 3. ACTUALIZAR ESTATUS A CANCELADA
+    // =========================================================================
+    $stmtUpd = $conn->prepare("
+        UPDATE transferencias_clara_tcl
+        SET estado = 'Cancelada',
+            motivo = ?
+        WHERE folio = ?
+    ");
+
+    $stmtUpd->bind_param("ss", $motivo, $folio);
+
+    if (!$stmtUpd->execute()) {
+        throw new Exception("error_db");
+    }
+    $stmtUpd->close();
+
+    // Si todo salió bien, guardamos cambios
+    $conn->commit();
+
+    // =========================================================================
+    // 4. ENVIAR CORREOS (Fuera de la lógica crítica de BD)
+    // =========================================================================
+    
+    // Calcular importe visual para el correo
+    $importe_visual = (!empty($info['importedls']) && $info['importedls'] != '0.00') 
+                ? $info['importedls'] 
+                : $info['importe'];
+
+    $asunto = "Transferencia cancelada - Folio {$folio}";
+    
+    // Preparamos HTMLs (Reutilizando tu estructura)
+    $htmlSolicitante = generarHtml($info['nombre_solicitante'], $folio, $info['descripcion'], $importe_visual, $motivo, true);
+    $htmlBeneficiario = generarHtml($info['nombre_beneficiario'], $folio, $info['descripcion'], $importe_visual, $motivo, false);
+
+    enviarCorreo($info['email_solicitante'], $asunto, $htmlSolicitante);
+    enviarCorreo($info['email_beneficiario'], $asunto, $htmlBeneficiario);
+
+    echo "success";
+
+} catch (Exception $e) {
+    $conn->rollback();
+    // Si el error es uno de los nuestros controlados, lo imprimimos, si no, error genérico
+    $msg = $e->getMessage();
+    echo ($msg == "no_encontrado") ? "no_encontrado" : "error_db";
 }
 
-$info = $res->fetch_assoc();
-$stmt->close();
-
 // ==============================
-// 2. Actualizar estatus y motivo
+// FUNCIONES AUXILIARES
 // ==============================
-$stmtUpd = $conn->prepare("
-    UPDATE transferencias_clara_tcl
-    SET estado = 'Cancelada',
-        motivo = ?
-    WHERE folio = ?
-");
 
-$stmtUpd->bind_param("ss", $motivo, $folio);
-
-if (!$stmtUpd->execute()) {
-    echo "error_db";
-    exit;
-}
-$stmtUpd->close();
-
-// ==============================
-// 3. Enviar correos
-// ==============================
 function enviarCorreo($para, $asunto, $html) {
     if (empty($para)) return;
 
@@ -99,75 +177,36 @@ function enviarCorreo($para, $asunto, $html) {
     }
 }
 
-// Calcular importe correcto
-$importe = (!empty($info['importedls']) && $info['importedls'] != '0.00') 
-            ? $info['importedls'] 
-            : $info['importe'];
+function generarHtml($nombre, $folio, $descripcion, $importe, $motivo, $esSolicitante) {
+    $mensajeExtra = $esSolicitante 
+        ? "<p>Tu transferencia fue <strong>cancelada</strong> y el presupuesto ha sido devuelto.</p>" 
+        : "<p>La transferencia asociada fue <strong>cancelada</strong>.</p>";
+    
+    $motivoBloque = $esSolicitante 
+        ? "<p><b>Motivo de la cancelación:</b></p><p style='background:#f2f2f2;padding:10px;border-left:4px solid red;'>{$motivo}</p>" 
+        : "";
 
-$asunto = "Transferencia cancelada - Folio {$folio}";
-
-// Correo para el solicitante
-$htmlSolicitante = "
-<style>
-    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-    h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
-    h2 { color: #2980b9; }
-    strong { color: #2c3e50; }
-    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-    .info-row { margin-bottom: 10px; }
-    .label { font-weight: bold; color: #34495e; }
-    .value { margin-left: 10px; }
-    .logo { position: absolute; top: 20px; right: 100px; max-width: 300px; height: 250; width: 250px; }
-</style>
-</head>
-<html>
-<body style='font-family:Arial;'>
-    <img src='https://administrador.intranetdrg.com.mx/img/logo-drg.png' alt='Logo' class='logo'>
-    <h2>Transferencia Cancelada</h2>
-    <p>Hola <strong>{$info['nombre_solicitante']}</strong>,</p>
-    <p>Tu transferencia fue <strong>cancelada</strong>.</p>
-
-    <p><b>Folio:</b> {$folio}</p>
-    <p><b>Descripción:</b> {$info['descripcion']}</p>
-    <p><b>Importe:</b> $" . number_format($importe,2) . "</p>
-
-    <p><b>Motivo de la cancelación:</b></p>
-    <p style='background:#f2f2f2;padding:10px;border-left:4px solid red;'>{$motivo}</p>
-</body>
-</html>
-";
-
-// Correo para el beneficiario
-$htmlBeneficiario = "
-<style>
-    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-    h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
-    h2 { color: #2980b9; }
-    strong { color: #2c3e50; }
-    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-    .info-row { margin-bottom: 10px; }
-    .label { font-weight: bold; color: #34495e; }
-    .value { margin-left: 10px; }
-    .logo { position: absolute; top: 20px; right: 100px; max-width: 300px; height: 250; width: 250px; }
-</style>
-</head>
-<html>
-<body style='font-family:Arial;'>
-    <img src='https://administrador.intranetdrg.com.mx/img/logo-drg.png' alt='Logo' class='logo'>
-    <h2>Transferencia Cancelada</h2>
-    <p>Hola <strong>{$info['nombre_beneficiario']}</strong>,</p>
-    <p>La transferencia asociada fue <strong>cancelada</strong>.</p>
-
-    <p><b>Folio:</b> {$folio}</p>
-    <p><b>Descripción:</b> {$info['descripcion']}</p>
-    <p><b>Importe:</b> $" . number_format($importe,2) . "</p>
-</body>
-</html>
-";
-
-// Envío de correos
-enviarCorreo($info['email_solicitante'], $asunto, $htmlSolicitante);
-enviarCorreo($info['email_beneficiario'], $asunto, $htmlBeneficiario);
-
-echo "success";
+    return "
+    <html>
+    <head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        h2 { color: #2980b9; }
+        strong { color: #2c3e50; }
+        .logo { max-width: 200px; }
+    </style>
+    </head>
+    <body>
+        <img src='https://administrador.intranetdrg.com.mx/img/logo-drg.png' alt='Logo' class='logo'>
+        <h2>Transferencia Cancelada</h2>
+        <p>Hola <strong>{$nombre}</strong>,</p>
+        {$mensajeExtra}
+        <p><b>Folio:</b> {$folio}</p>
+        <p><b>Descripción:</b> {$descripcion}</p>
+        <p><b>Importe:</b> $" . number_format((float)$importe, 2) . "</p>
+        {$motivoBloque}
+    </body>
+    </html>
+    ";
+}
 ?>
