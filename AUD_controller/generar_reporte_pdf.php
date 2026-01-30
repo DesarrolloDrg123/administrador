@@ -97,7 +97,7 @@ function crearReportePDF($id_auditoria, $conn) {
     return [
         'ruta' => "../".$nombreArchivo,
         'correo_responsable' => $data['correo_responsable'],
-        'correo_auditor' => 'avelez@drg.mx', // 
+        'correo_auditor' => 'vgonzalez@drg.mx', // 
         'folio' => $data['folio']
     ];
 }
