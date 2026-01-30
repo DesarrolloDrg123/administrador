@@ -24,7 +24,7 @@ function enviarCorreoDRG($destinatario, $asunto, $cuerpoHTML, $adjunto = null) {
         $mail->CharSet = 'UTF-8';
 
         // --- DESTINATARIOS ---
-        $mail->setFrom('auditoria@empresa.com', 'Sistema de Auditoría DRG');
+        $mail->setFrom('notification@intranetdrg.com.mx', 'Sistema de Auditoría DRG');
         $mail->addAddress($destinatario);
 
         // --- ADJUNTO ---
