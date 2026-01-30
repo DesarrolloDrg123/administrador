@@ -27,7 +27,7 @@ include("src/templates/adminheader.php");
                     </div>
                     <div class="col-md-3">
                         <label class="fw-bold">Fecha de Auditoría</label>
-                        <input type="date" class="form-control" name="fecha_auditoria" value="<?= date('Y-m-d') ?>" required>
+                        <input type="date" class="form-control" name="fecha_auditoria" value="<?= date('Y-m-d') ?>" disabled>
                     </div>
                     <div class="col-md-3">
                         <label class="fw-bold">Kilometraje Actual</label>
