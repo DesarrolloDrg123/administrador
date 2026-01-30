@@ -63,7 +63,7 @@ function crearReportePDF($id_auditoria, $conn) {
             <tbody>';
             
     // Consulta de puntos/preguntas
-    $res = $conn->query("SELECT * FROM auditorias_detalles_aud WHERE auditoria_id = $id_auditoria");
+    $res = $conn->query("SELECT * FROM auditorias_detalle_aud WHERE auditoria_id = $id_auditoria");
     while($row = $res->fetch_assoc()) {
         $html .= "<tr><td>{$row['pregunta']}</td><td>{$row['valor_seleccionado']}</td><td>{$row['puntos_obtenidos']}</td></tr>";
     }
