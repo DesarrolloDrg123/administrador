@@ -18,7 +18,7 @@ $id_incidencia = (int)$_GET['id'];
  * auditorias_evidencias_incidencias
  */
 $query = "SELECT ruta_archivo as ruta, fecha_subida as fecha, comentarios 
-          FROM auditorias_evidencias_incidencias 
+          FROM auditorias_evidencias_incidencias_aud 
           WHERE incidencia_id = ? 
           ORDER BY fecha_subida DESC";
 
