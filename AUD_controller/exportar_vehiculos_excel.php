@@ -12,7 +12,7 @@ header("Cache-Control: private", false);
 $query = "SELECT v.*, s.sucursal as sucursal_nombre, 
           u1.nombre as responsable_nombre, 
           u2.nombre as gerente_nombre 
-          FROM vehiculos v
+          FROM vehiculos_aud v
           LEFT JOIN sucursales s ON v.sucursal_id = s.id
           LEFT JOIN usuarios u1 ON v.responsable_id = u1.id
           LEFT JOIN usuarios u2 ON v.gerente_reportar_id = u2.id
