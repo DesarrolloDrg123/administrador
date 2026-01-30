@@ -150,6 +150,7 @@ async function verReporte(id) {
         const data = await res.json();
         const a = data.cabecera;
 
+        // Llenado de datos básicos
         document.getElementById('det_id_auditoria').value = id;
         document.getElementById('det_folio').innerText = a.folio;
         document.getElementById('det_vehiculo').innerText = `${a.marca} ${a.modelo}`;
@@ -159,6 +160,7 @@ async function verReporte(id) {
         document.getElementById('det_fecha').innerText = a.fecha_auditoria;
         document.getElementById('det_obs').innerHTML = a.observaciones || 'Sin observaciones.';
 
+        // Llenado de tabla de resultados
         let tablaHtml = '';
         data.detalles.forEach(d => {
             const badge = (d.valor_seleccionado === 'Bueno' || d.valor_seleccionado === 'SI') ? 'bg-success' : 'bg-danger';
@@ -166,41 +168,46 @@ async function verReporte(id) {
         });
         document.getElementById('det_tabla_body').innerHTML = tablaHtml;
 
-        // --- SECCIÓN DE EVIDENCIAS (FOTOS Y PDF) ---
+        // --- CORRECCIÓN DE EVIDENCIAS (FOTOS Y PDF) ---
         let fotosHtml = '';
-        if(data.fotos.length > 0) {
+        if(data.fotos && data.fotos.length > 0) {
             data.fotos.forEach(f => {
-                // Verificamos si la ruta o el campo tipo indica que es PDF
-                const esPdf = f.ruta_archivo.toLowerCase().endsWith('.pdf') || f.tipo_archivo === 'pdf';
+                // Verificamos si es PDF por extensión o por el campo tipo_archivo
+                const rutaArchivo = f.ruta_archivo;
+                const esPdf = rutaArchivo.toLowerCase().endsWith('.pdf') || f.tipo_archivo === 'pdf';
                 
                 if(esPdf) {
-                    // Diseño para el cuadro de PDF
+                    // Si es PDF, dibujamos un contenedor con icono
                     fotosHtml += `
-                    <div class="col-md-3">
-                        <div class="card h-100 border-danger shadow-sm" style="cursor:pointer; min-height:120px;" onclick="window.open('${f.ruta_archivo}', '_blank')">
-                            <div class="card-body d-flex flex-column align-items-center justify-content-center text-danger">
-                                <i class="bi bi-file-earmark-pdf-fill fs-1"></i>
-                                <small class="text-dark fw-bold mt-2 text-truncate w-100">Ver Documento</small>
+                    <div class="col-md-3 mb-3">
+                        <div class="card h-100 border-danger border-2 shadow-sm" style="cursor:pointer; min-height:130px;" onclick="window.open('../${rutaArchivo}', '_blank')">
+                            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                                <i class="bi bi-file-pdf-fill text-danger" style="font-size: 3rem;"></i>
+                                <span class="badge bg-danger mt-2">Ver Documento PDF</span>
                             </div>
                         </div>
                     </div>`;
                 } else {
-                    // Diseño para Fotos
+                    // Si es Imagen, dibujamos la miniatura
                     fotosHtml += `
-                    <div class="col-md-3">
-                        <img src="${f.ruta_archivo}" class="img-thumbnail shadow-sm" 
-                             style="height:120px; width:100%; object-fit:cover; cursor:pointer" 
-                             onclick="window.open('${f.ruta_archivo}', '_blank')"
-                             title="Click para ampliar">
+                    <div class="col-md-3 mb-3">
+                        <div class="card h-100 shadow-sm">
+                            <img src="../${rutaArchivo}" class="card-img-top" 
+                                 style="height:130px; object-fit:cover; cursor:pointer" 
+                                 onclick="window.open('../${rutaArchivo}', '_blank')">
+                            <div class="card-footer p-1 text-center">
+                                <small class="text-muted" style="font-size:0.7rem;">Imagen</small>
+                            </div>
+                        </div>
                     </div>`;
                 }
             });
         } else { 
-            fotosHtml = '<p class="text-muted w-100 text-center">No hay evidencias disponibles.</p>'; 
+            fotosHtml = '<div class="col-12"><p class="text-muted">No hay evidencias disponibles.</p></div>'; 
         }
         document.getElementById('det_fotos').innerHTML = fotosHtml;
-        // -------------------------------------------
 
+        // Control de botones de acción
         const btnTerminar = document.getElementById('btnTerminarAuditoria');
         const btnSolicitar = document.getElementById('btnSolicitarMasFotos');
         
@@ -213,7 +220,10 @@ async function verReporte(id) {
         }
 
         new bootstrap.Modal(document.getElementById('modalDetalleAuditoria')).show();
-    } catch (e) { console.error(e); }
+    } catch (e) { 
+        console.error("Error al cargar detalles:", e);
+        Swal.fire('Error', 'No se pudo cargar la información de la auditoría', 'error');
+    }
 }
 
 function confirmarTerminarAuditoria() {

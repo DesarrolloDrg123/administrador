@@ -24,7 +24,7 @@ $stmt_det->execute();
 $detalles = $stmt_det->get_result()->fetch_all(MYSQLI_ASSOC);
 
 // 3. Fotos
-$sql_fot = "SELECT * FROM auditorias_evidencias_aud WHERE auditoria_id = ? AND tipo_archivo = 'Foto'";
+$sql_fot = "SELECT * FROM auditorias_evidencias_aud WHERE auditoria_id = ? ";
 $stmt_fot = $conn->prepare($sql_fot);
 $stmt_fot->bind_param("i", $id);
 $stmt_fot->execute();
