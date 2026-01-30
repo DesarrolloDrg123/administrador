@@ -15,13 +15,13 @@ function enviarCorreoDRG($destinatario, $asunto, $cuerpoHTML, $adjunto = null) {
     try {
         // --- CONFIGURACIÓN DEL SERVIDOR SMTP ---
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com'; 
-        $mail->SMTPAuth   = true;
-        $mail->Username   = 'tu-correo@empresa.com'; // REEMPLAZAR
-        $mail->Password   = 'tu-contraseña-o-token'; // REEMPLAZAR
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
-        $mail->CharSet    = 'UTF-8';
+        $mail->Host = 'mail.intranetdrg.com.mx';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'notification@intranetdrg.com.mx';
+        $mail->Password = 'r-eHQi64a7!3QT9';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port = 465;
+        $mail->CharSet = 'UTF-8';
 
         // --- DESTINATARIOS ---
         $mail->setFrom('auditoria@empresa.com', 'Sistema de Auditoría DRG');
