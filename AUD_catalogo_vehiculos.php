@@ -265,13 +265,16 @@ function inicializarDataTable() {
         dom: 'lBfrtip',
         buttons: [
             {
-                text: '<i class="fas fa-file-excel"></i> Reporte Excel',
+                text: '<i class="bi bi-file-earmark-excel"></i> Descargar Base de Datos (Excel)',
                 className: 'btn btn-success btn-sm m-2',
-                action: function() { /* Tu lógica de Excel */ }
+                action: function (e, dt, node, config) {
+                    // Redirige al archivo PHP que genera el Excel completo
+                    window.location.href = 'AUD_controller/exportar_vehiculos_excel.php';
+                }
             },
             {
                 extend: 'print',
-                text: 'Imprimir',
+                text: 'Imprimir Vista',
                 className: 'btn btn-info btn-sm m-2'
             }
         ]
