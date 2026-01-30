@@ -6,7 +6,7 @@ use Dompdf\Dompdf;
 function crearReportePDF($id_auditoria, $conn) {
     // 1. Obtener datos completos (Cabecera, Detalles, Fotos y Mantenimientos)
     $query = "SELECT a.*, v.*, s.sucursal as sucursal_nombre, u.nombre as responsable_nombre, 
-              u.correo as correo_responsable, g.nombre as gerente_nombre, auditor.nombre as auditor_nombre
+              u.email as correo_responsable, g.nombre as gerente_nombre, auditor.nombre as auditor_nombre
               FROM auditorias_vehiculos_aud a
               JOIN vehiculos_aud v ON a.vehiculo_id = v.id
               JOIN sucursales s ON v.sucursal_id = s.id
