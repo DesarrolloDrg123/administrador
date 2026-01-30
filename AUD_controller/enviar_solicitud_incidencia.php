@@ -15,7 +15,7 @@ $id_incidencia = $data['id'];
 
 // CONSULTA CORREGIDA: Eliminamos 'pregunta' y usamos 'descripcion'
 $query = "SELECT i.id, i.descripcion, v.placas, u.email, u.nombre as responsable 
-          FROM auditorias_detalle_aud i
+          FROM auditorias_incidencias_aud i
           JOIN vehiculos_aud v ON i.vehiculo_id = v.id
           JOIN usuarios u ON v.responsable_id = u.id
           WHERE i.id = ?";
