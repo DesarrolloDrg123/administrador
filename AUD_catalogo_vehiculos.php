@@ -361,6 +361,7 @@ async function prepararEdicion(id) {
         document.getElementById('edit_vigencia_poliza').value = v.vigencia_poliza;
         document.getElementById('edit_telefono_siniestro').value = v.telefono_siniestro;
         document.getElementById('edit_estatus').value = v.estatus;
+        document.getElementById('edit_observaciones').value = v.observaciones;
 
         const modalEdit = new bootstrap.Modal(document.getElementById('modalEditar'));
         modalEdit.show();
