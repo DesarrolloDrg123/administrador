@@ -69,7 +69,7 @@ include("src/templates/adminheader.php");
 
                     <div class="col-md-6">
                         <label class="fw-bold d-block mb-2">Evidencias de la Incidencia</label>
-                        <div id="contenedorEvidenciasIncidencia" class="bg-light p-2 rounded border" style="min-height: 200px; max-height: 300px; overflow-y: auto;">
+                        <div id="contenedorEvidenciasIncidencia" id="btnSolicitarCorreo" class="bg-light p-2 rounded border" style="min-height: 200px; max-height: 300px; overflow-y: auto;">
                             <p class="text-muted text-center small mt-4">Cargando evidencias...</p>
                         </div>
                     </div>
@@ -166,6 +166,9 @@ async function abrirModal(id, estatus) {
     // Ocultar botones si ya terminó
     document.querySelector('.modal-footer .btn-success').style.display = esTerminada ? 'none' : 'block';
 
+    // Ocultar/Mostrar botón de Solicitar Correo
+    const btnCorreo = document.getElementById('btnSolicitarCorreo');
+    btnCorreo.style.display = esTerminada ? 'none' : 'block';
 
     const contenedor = document.getElementById('contenedorEvidenciasIncidencia');
     contenedor.innerHTML = '<div class="text-center mt-4"><div class="spinner-border spinner-border-sm text-primary"></div></div>';
