@@ -119,10 +119,12 @@ async function cargarIncidencias() {
                     <td>${badge}</td>
                     <td class="text-center">
                         ${i.estatus !== 'Terminada' ? 
-                          `<button class="btn btn-sm btn-outline-primary" onclick="abrirModal(${i.id}, '${i.estatus}')">
-                               <i class="bi bi-pencil-square"></i> Gestionar
-                           </button>` : 
-                          `<i class="bi bi-check-circle-fill text-success" title="Finalizada"></i>`
+                        `<button class="btn btn-sm btn-outline-primary" onclick="abrirModal(${i.id}, '${i.estatus}')">
+                            <i class="bi bi-pencil-square"></i> Gestionar
+                        </button>` : 
+                        `<button class="btn btn-sm btn-outline-success" onclick="abrirModal(${i.id}, '${i.estatus}')">
+                            <i class="bi bi-eye-fill"></i> Ver Detalles
+                        </button>`
                         }
                     </td>
                 </tr>`;
@@ -149,6 +151,13 @@ async function abrirModal(id, estatus) {
     document.getElementById('modal_estatus').value = estatus;
     document.getElementById('modal_obs').value = '';
     
+    const esTerminada = (estatus === 'Terminada');
+    document.getElementById('modal_estatus').disabled = esTerminada;
+    document.getElementById('modal_obs').disabled = esTerminada;
+    document.querySelector('.modal-footer .btn-success').style.display = esTerminada ? 'none' : 'block';
+    document.querySelector('.btn-primary[onclick="solicitarEvidenciaIncidencia()"]').style.display = esTerminada ? 'none' : 'block';
+
+
     const contenedor = document.getElementById('contenedorEvidenciasIncidencia');
     contenedor.innerHTML = '<div class="text-center mt-4"><div class="spinner-border spinner-border-sm text-primary"></div></div>';
     
