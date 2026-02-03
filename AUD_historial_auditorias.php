@@ -115,7 +115,11 @@ async function cargarHistorial() {
         let html = '';
 
         data.forEach(a => {
-            let colorPuntos = a.calif_total < 70 ? 'danger' : (a.calif_total < 90 ? 'warning text-dark' : 'success');
+            // 1. Cálculo de promedio y semáforo para la TABLA
+            let promedio = (a.calif_total / 3).toFixed(1);
+            let colorClass = promedio >= 90 ? 'success' : (promedio >= 70 ? 'warning text-dark' : 'danger');
+            let etiqueta = promedio >= 90 ? 'Excelente' : (promedio >= 70 ? 'Regular' : 'Crítico');
+
             let statusEvidencia = a.fecha_subida_evidencia 
                 ? `<span class="badge bg-success p-1 fs-6"><i class="fas fa-camera"></i> Subidas</span>` 
                 : `<span class="badge bg-secondary p-1 fs-6"><i class="fas fa-clock"></i> Pendientes</span>`;
@@ -126,7 +130,12 @@ async function cargarHistorial() {
                     <td>${a.fecha_auditoria}</td>
                     <td>${a.no_serie} <br><small class="text-muted">${a.marca} ${a.modelo}</small></td>
                     <td>${a.auditor_nombre}</td>
-                    <td><span class="badge bg-${colorPuntos} fs-6">${a.calif_total} pts</span></td>
+                    <td>
+                        <div class="d-flex flex-column">
+                            <span class="badge bg-${colorClass} fs-6">${promedio} / 100</span>
+                            <small class="fw-bold text-center text-${colorClass === 'warning text-dark' ? 'warning' : colorClass}" style="font-size: 0.7rem; text-transform: uppercase;">${etiqueta}</small>
+                        </div>
+                    </td>
                     <td>${statusEvidencia}</td>
                     <td>${a.estatus}</td>
                     <td class="text-center">
@@ -153,21 +162,29 @@ async function verReporte(id) {
         const data = await res.json();
         const a = data.cabecera;
 
-        // Limpiar
-        document.getElementById('det_tabla_body').innerHTML = '';
-        document.getElementById('det_fotos').innerHTML = '';
+        // 2. Cálculo de promedio y semáforo para el MODAL
+        let promedioModal = (a.calif_total / 3).toFixed(1);
+        let colorModal = promedioModal >= 90 ? '#198754' : (promedioModal >= 70 ? '#ffc107' : '#dc3545');
+        let nivelTexto = promedioModal >= 90 ? 'EXCELENTE' : (promedioModal >= 70 ? 'REGULAR' : 'CRÍTICO');
 
-        // Llenar datos
+        // Llenar datos de cabecera
         document.getElementById('det_id_auditoria').value = id;
         document.getElementById('det_folio').innerText = a.folio;
         document.getElementById('det_vehiculo').innerText = `${a.marca} ${a.modelo}`;
         document.getElementById('det_serie').innerText = `Serie: ${a.no_serie}`;
-        document.getElementById('det_puntos').innerText = `${a.calif_total}/100`;
         document.getElementById('det_auditor').innerText = a.auditor;
         document.getElementById('det_fecha').innerText = a.fecha_auditoria;
         document.getElementById('det_obs').innerHTML = a.observaciones || 'Sin observaciones.';
 
-        // Llenar Tabla
+        // APLICAR DISEÑO AL PUNTAJE (Aquí eliminé la línea que lo sobrescribía)
+        const detPuntosElement = document.getElementById('det_puntos');
+        detPuntosElement.style.color = colorModal;
+        detPuntosElement.innerHTML = `
+            ${promedioModal} <small style="font-size: 0.5em; color: gray;">/ 100</small>
+            <br><span class="badge border" style="font-size: 0.35em; color: ${colorModal}; border-color: ${colorModal} !important;">${nivelTexto}</span>
+        `;
+
+        // Llenar Tabla de detalles
         let tablaHtml = '';
         data.detalles.forEach(d => {
             const badge = (d.valor_seleccionado === 'Bueno' || d.valor_seleccionado === 'SI') ? 'bg-success' : 'bg-danger';
@@ -190,9 +207,8 @@ async function verReporte(id) {
         } else { fotosHtml = '<p class="text-muted">Sin evidencias.</p>'; }
         document.getElementById('det_fotos').innerHTML = fotosHtml;
 
-        // LÓGICA DE VISIBILIDAD DE BOTONES
+        // Gestión de botones según estatus
         const esFinalizada = (a.estatus.toLowerCase() === 'finalizada' || a.estatus.toLowerCase() === 'finalizado');
-        
         document.getElementById('btnTerminarAuditoria').style.display = esFinalizada ? 'none' : 'block';
         document.getElementById('btnSolicitarMasFotos').style.display = esFinalizada ? 'none' : 'block';
         

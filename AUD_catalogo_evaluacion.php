@@ -48,7 +48,7 @@ require("config/db.php");
                     <div class="mb-3">
                         <label class="form-label">Tipo</label>
                         <select name="tipo" id="tipo" class="form-select" required>
-                            <option value="Documento">Documento</option>
+                            <option value="Documentos">Documento</option>
                             <option value="Inventario">Inventario</option>
                             <option value="Estado">Estado Vehículo</option>
                         </select>
