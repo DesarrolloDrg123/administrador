@@ -98,9 +98,6 @@ include("src/templates/adminheader.php");
                 </button>
                 
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" id="btnAccionReporte" class="btn btn-primary" onclick="gestionarAccionReporte()">
-                    <i class="bi bi-printer"></i> <span id="txtBtnAccion">Imprimir Pantalla</span>
-                </button>
             </div>
         </div>
     </div>
