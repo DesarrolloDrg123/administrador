@@ -86,7 +86,7 @@ function crearReportePDF($id_auditoria, $conn) {
         </tr>
         <tr>
             <td class="label"><span class="check">✔</span> No. de Licencia</td><td class="value">'.$data['no_licencia'].'</td>
-            <td class="label"><span class="check">✔</span> Vencimiento Licencia</td><td class="value">'.$data['vencimiento_licencia'].'</td>
+            <td class="value">'.($data['fecha_vencimiento_licencia'] ? date("d/m/Y", strtotime($data['fecha_vencimiento_licencia'])) : 'N/A').'</td>
         </tr>
         <tr>
             <td class="label"><span class="check">✔</span> No. de Placas</td><td class="value">'.$data['placas'].'</td>
@@ -183,7 +183,7 @@ function crearReportePDF($id_auditoria, $conn) {
     <div class="section-title">EVIDENCIA FOTOGRÁFICA</div>
     <div style="width:100%; margin-top:10px;">';
 
-    $$fotos = $conn->query("SELECT * FROM auditorias_evidencias_aud WHERE auditoria_id = $id_auditoria");
+    $fotos = $conn->query("SELECT * FROM auditorias_evidencias_aud WHERE auditoria_id = $id_auditoria");
     $count = 0;
     while($f = $fotos->fetch_assoc()) {
         // 1. Ruta relativa para que PHP la encuentre y valide
