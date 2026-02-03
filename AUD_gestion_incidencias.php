@@ -56,7 +56,7 @@ include("src/templates/adminheader.php");
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="fw-bold">Observaciones / Historial</label>
+                            <label class="fw-bold">Observaciones</label>
                             <textarea id="modal_obs" class="form-control" rows="4" placeholder="Describa el avance..."></textarea>
                         </div>
                         <hr>
