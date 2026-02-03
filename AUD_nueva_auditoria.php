@@ -48,7 +48,7 @@ include("src/templates/adminheader.php");
                 <a class="nav-link" data-bs-toggle="tab" href="#seg2">2. Documentos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#seg3">3. Herramientas</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#seg3">3. Inventario</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" href="#seg4">4. Estado Físico</a>

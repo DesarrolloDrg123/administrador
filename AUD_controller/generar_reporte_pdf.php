@@ -117,35 +117,68 @@ function crearReportePDF($id_auditoria, $conn) {
         </thead>
         <tbody>';
 
-    $queryDetalle = "SELECT i.descripcion as nombre_item, d.valor_seleccionado, d.puntos_obtenidos 
-                 FROM auditorias_detalle_aud d
-                 JOIN cat_items_auditoria_aud i ON d.concepto_id = i.id
-                 WHERE d.auditoria_id = $id_auditoria";
+    $queryDetalle = "SELECT i.tipo AS categoria_nombre, i.descripcion as nombre_item, d.valor_seleccionado, d.puntos_obtenidos 
+                     FROM auditorias_detalle_aud d
+                     JOIN cat_items_auditoria_aud i ON d.concepto_id = i.id
+                     WHERE d.auditoria_id = $id_auditoria
+                     ORDER BY i.tipo ASC"; // O i.categoria, ajusta al nombre real de tu columna
 
     $resDet = $conn->query($queryDetalle);
+    
+    $categoriaActual = "";
+    $subtotalCat = 0;
     $puntosTotales = 0;
+    $registros = $resDet->fetch_all(MYSQLI_ASSOC);
 
-    while($row = $resDet->fetch_assoc()) {
+    foreach($registros as $index => $row) {
+        
+        // ¿Cambió la categoría?
+        if ($row['categoria_nombre'] !== $categoriaActual) {
+            
+            // Si no es la primera, imprimimos el subtotal de la categoría que acaba de terminar
+            if ($categoriaActual !== "") {
+                $html .= '
+                <tr class="subtotal-row">
+                    <td colspan="3" style="text-align:right;">Subtotal '.$categoriaActual.':</td>
+                    <td style="text-align:center;">'.$subtotalCat.'</td>
+                </tr>';
+                $subtotalCat = 0; // Reiniciamos para la nueva
+            }
+
+            // Pintar el nombre de la nueva categoría
+            $html .= '
+            <tr class="category-header">
+                <td colspan="4">'.strtoupper($row['categoria_nombre']).'</td>
+            </tr>';
+            
+            $categoriaActual = $row['categoria_nombre'];
+        }
+
+        $subtotalCat += $row['puntos_obtenidos'];
         $puntosTotales += $row['puntos_obtenidos'];
+
         $html .= '<tr>
                     <td style="width:5%; text-align:center;"><span class="check">✔</span></td>
                     <td style="width:55%;">'.$row['nombre_item'].'</td>
                     <td style="width:25%; text-align:center;">'.$row['valor_seleccionado'].'</td>
                     <td style="width:15%; text-align:center;">'.$row['puntos_obtenidos'].'</td>
                   </tr>';
+
+        // Si es el último registro de todos, imprimimos el último subtotal pendiente
+        if ($index === count($registros) - 1) {
+            $html .= '
+            <tr class="subtotal-row">
+                <td colspan="3" style="text-align:right;">Subtotal '.$categoriaActual.':</td>
+                <td style="text-align:center;">'.$subtotalCat.'</td>
+            </tr>
+        </tbody>
+    </table>';
+        }
     }
 
-    $html .= '
-                <tr style="font-weight:bold; background-color:#f2f9e9;">
-                    <td colspan="3" style="text-align:right;">CALIFICACIÓN TOTAL:</td>
-                    <td style="text-align:center;">'.$puntosTotales.'</td>
-                </tr>
-            </tbody>
-        </table>'; // Aquí termina la tabla anterior
+    $html .= '</tbody></table>';
 
-    // ======================================================
-    // INSERTAR AQUÍ EL BLOQUE DE MANTENIMIENTO
-    // ======================================================
+    // --- SECCIÓN: MTTOS CAPTURADOS ---
     $html .= '<div class="section-title">SERVICIOS DE MANTENIMIENTO</div>
     <table>
         <thead>
@@ -180,7 +213,7 @@ function crearReportePDF($id_auditoria, $conn) {
     }
     $html .= '</tbody></table>';
 
-    // --- NUEVA SECCIÓN: INCIDENCIAS CAPTURADAS ---
+    // --- SECCIÓN: INCIDENCIAS CAPTURADAS ---
     $html .= '<div class="section-title">INCIDENCIAS REPORTADAS EN ESTA AUDITORÍA</div>
     <table>
         <thead>
@@ -209,7 +242,7 @@ function crearReportePDF($id_auditoria, $conn) {
         '.(!empty($data['observaciones']) ? nl2br($data['observaciones']) : 'Sin observaciones adicionales por parte del auditor.').'
     </div>';
 
-    // Tu código continúa aquí:
+    // --- SECCIÓN: EVIDENCIAS FOTOGRAFICAS ---
     $html .= '
     <div class="section-title">EVIDENCIA FOTOGRÁFICA</div>
     <div style="width:100%; margin-top:10px;">';
@@ -252,11 +285,7 @@ function crearReportePDF($id_auditoria, $conn) {
                 </div>
             </td>
         </tr>
-    </table>
-
-    <div class="footer-text">
-        Quien firma este documento avala que la información proporcionada es la correcta.
-    </div>';
+    </table>';
 
     // 3. Inicializar mPDF y generar
     $mpdf = new \Mpdf\Mpdf([
