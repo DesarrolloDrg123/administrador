@@ -184,30 +184,39 @@ async function abrirModal(id, estatus) {
 
 async function solicitarEvidenciaIncidencia() {
     const id = document.getElementById('modal_id_incidencia').value;
-    
+    const btn = event.target.closest('button'); // Captura el botón clicado
+
     const result = await Swal.fire({
         title: '¿Solicitar evidencia?',
-        text: "Se enviará un correo al responsable para que suba fotos de esta reparación.",
+        text: "Se enviará un correo al responsable.",
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#80bf1f',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, enviar correo'
+        confirmButtonText: 'Sí, enviar'
     });
 
     if (result.isConfirmed) {
-        Swal.showLoading();
-        const res = await fetch('AUD_controller/enviar_solicitud_incidencia.php', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ id: id })
-        });
-        const data = await res.json();
-        
-        if(data.status === 'success') {
-            Swal.fire('¡Enviado!', 'Correo enviado al responsable.', 'success');
-        } else {
-            Swal.fire('Error', 'No se pudo enviar: ' + data.message, 'error');
+        // Bloquear botón y mostrar carga
+        btn.disabled = true;
+        Swal.fire({ title: 'Enviando...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+        try {
+            const res = await fetch('AUD_controller/enviar_solicitud_incidencia.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ id: id })
+            });
+            const data = await res.json();
+            
+            if(data.status === 'success') {
+                Swal.fire('¡Enviado!', 'El correo ha sido enviado con éxito.', 'success');
+            } else {
+                Swal.fire('Error', data.message, 'error');
+            }
+        } catch (e) {
+            Swal.fire('Error', 'No se pudo conectar con el servidor de correos.', 'error');
+        } finally {
+            btn.disabled = false;
         }
     }
 }
