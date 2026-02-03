@@ -140,7 +140,7 @@ function crearReportePDF($id_auditoria, $conn) {
     $fotos = $conn->query("SELECT * FROM auditorias_evidencias_aud WHERE auditoria_id = $id_auditoria");
     $count = 0;
     while($f = $fotos->fetch_assoc()) {
-        $ruta = '../' . $f['ruta_archivo'];
+        $ruta = $f['ruta_archivo'];
         if(file_exists($ruta)) {
             $html .= '
             <div class="foto-box">
@@ -189,10 +189,10 @@ function crearReportePDF($id_auditoria, $conn) {
     $mpdf->WriteHTML($html);
     
     $nombreArchivo = "reportes/Auditoria_{$data['folio']}.pdf";
-    $mpdf->Output("../".$nombreArchivo, \Mpdf\Output\Destination::FILE);
+    $mpdf->Output($nombreArchivo, \Mpdf\Output\Destination::FILE);
     
     return [
-        'ruta' => "../".$nombreArchivo,
+        'ruta' => $nombreArchivo,
         'correo_responsable' => $data['correo_responsable'],
         'folio' => $data['folio']
     ];
