@@ -211,7 +211,7 @@ async function verReporte(id) {
         const btnTerminar = document.getElementById('btnTerminarAuditoria');
         const btnSolicitar = document.getElementById('btnSolicitarMasFotos');
         
-        if (!a.token_evidencia || a.estatus === 'Finalizado') { 
+        if (a.estatus === 'Finalizado') { 
             btnTerminar.style.display = 'none'; 
             btnSolicitar.style.display = 'none';
         } else {
