@@ -15,11 +15,16 @@ if (!isset($data['id'])) {
 $id_incidencia = $data['id'];
 
 // Consulta para obtener datos del responsable y la unidad
-$query = "SELECT i.id, i.descripcion, v.placas, u.email, u.nombre as responsable 
-          FROM auditorias_incidencias_aud i
-          JOIN vehiculos_aud v ON i.vehiculo_id = v.id
-          JOIN usuarios u ON v.responsable_id = u.id
-          WHERE i.id = ?";
+$query = "SELECT 
+            i.id, 
+            i.descripcion, 
+            v.placas, 
+            u.email, 
+            u.nombre as responsable 
+        FROM auditorias_incidencias_aud i
+        JOIN vehiculos_aud v ON i.vehiculo_id = v.id
+        LEFT JOIN usuarios u ON v.responsable_id = u.id
+        WHERE i.id = ?";
 
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $id_incidencia);
