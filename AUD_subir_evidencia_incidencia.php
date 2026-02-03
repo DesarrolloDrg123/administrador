@@ -99,6 +99,36 @@ if (!$datos) {
 </div>
 
 <script>
+document.getElementById('inputFotos').addEventListener('change', function() {
+    const preview = document.getElementById('previewFotos');
+    preview.innerHTML = '';
+    
+    if (this.files) {
+        [...this.files].forEach(file => {
+            const reader = new FileReader();
+            
+            // Si es imagen, mostramos miniatura
+            if (file.type.startsWith('image/')) {
+                reader.onload = (e) => {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'preview-item';
+                    preview.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            } 
+            // Si es PDF, mostramos un icono de PDF
+            else if (file.type === 'application/pdf') {
+                const div = document.createElement('div');
+                div.className = 'preview-pdf';
+                div.innerHTML = '<i class="bi bi-file-pdf"></i>';
+                div.title = file.name;
+                preview.appendChild(div);
+            }
+        });
+    }
+});
+
 document.getElementById('formEvidencias').addEventListener('submit', async function(e) {
     e.preventDefault(); // Evita que la página se recargue
 
