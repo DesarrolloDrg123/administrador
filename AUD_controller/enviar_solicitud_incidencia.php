@@ -39,7 +39,7 @@ if ($res) {
     // DEFINIMOS LA VARIABLE QUE USAREMOS EN EL JSON
     $email_destino = $res['email']; 
     $link = "https://administrador2.intranetdrg.com.mx/AUD_subir_evidencia_incidencia.php?id=" . $id_incidencia;
-    $asunto = "⚠️ Acción Requerida: Evidencia de Incidencia - " . $res['placas'];
+    $asunto = "Acción Requerida: Evidencia de Incidencia - " . $res['placas'];
     
     $html = "
         <p>Estimado <strong>{$res['responsable']}</strong>,</p>
