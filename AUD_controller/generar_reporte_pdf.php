@@ -48,7 +48,7 @@ function crearReportePDF($id_auditoria, $conn) {
 
     <table class="header-table">
         <tr>
-            <td style="border:none;"><img src="../img/logo_drg.png" class="logo"></td>
+            <td style="border:none;"><img src="../img/logo-drg.png" class="logo"></td>
             <td class="header-text" style="border:none;">
                 <strong style="color:#80bf1f; font-size:11pt;">Distribuidora Reyes G</strong><br>
                 Tamazula 309-A, Parque Industrial,<br>
@@ -94,7 +94,8 @@ function crearReportePDF($id_auditoria, $conn) {
         </tr>
         <tr>
             <td class="label"><span class="check">✔</span> Póliza de Seguro</td><td class="value">'.$data['no_poliza'].'</td>
-            <td class="label"><span class="check">✔</span> Vigencia Póliza</td><td class="value">'.$data['vigencia_poliza'].'</td>
+            <td class="label"><span class="check">✔</span> Vigencia Póliza</td>
+                <td class="value">'.($data['vigencia_poliza'] ? date("d/m/Y", strtotime($data['vigencia_poliza'])) : 'N/A').'</td>
         </tr>
         <tr>
             <td class="label"><span class="check">✔</span> Aseguradora</td><td class="value">'.$data['aseguradora'].'</td>
@@ -182,16 +183,19 @@ function crearReportePDF($id_auditoria, $conn) {
     <div class="section-title">EVIDENCIA FOTOGRÁFICA</div>
     <div style="width:100%; margin-top:10px;">';
 
-    $fotos = $conn->query("SELECT * FROM auditorias_evidencias_aud WHERE auditoria_id = $id_auditoria");
+    $$fotos = $conn->query("SELECT * FROM auditorias_evidencias_aud WHERE auditoria_id = $id_auditoria");
     $count = 0;
     while($f = $fotos->fetch_assoc()) {
-        $ruta = $f['ruta_archivo'];
-        if(file_exists($ruta)) {
+        // 1. Ruta relativa para que PHP la encuentre y valide
+        $rutaParaValidar = '../' . $f['ruta_archivo']; 
+        
+        if(file_exists($rutaParaValidar)) {
             $html .= '
             <div class="foto-box">
-                <img src="../'.$ruta.'" class="foto-img" />
+                <img src="'.$rutaParaValidar.'" class="foto-img" />
                 <div style="font-size:7pt; font-weight:bold; color:#80bf1f;">'.$f['tipo_evidencia'].'</div>
             </div>';
+            
             $count++;
             if($count % 2 == 0) $html .= '<div style="clear:both;"></div>';
         }
