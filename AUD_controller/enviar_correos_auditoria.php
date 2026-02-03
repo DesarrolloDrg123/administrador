@@ -4,16 +4,18 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require __DIR__ . '/../vendor/autoload.php'; 
+// Intentamos una ruta más robusta para encontrar el vendor
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require __DIR__ . '/../vendor/autoload.php';
+} else {
+    // Si tu vendor está un nivel más arriba
+    require __DIR__ . '/../../vendor/autoload.php';
+}
 
-/**
- * Función genérica para enviar correos con diseño corporativo
- */
 function enviarCorreoDRG($destinatario, $asunto, $cuerpoHTML, $adjunto = null) {
     $mail = new PHPMailer(true);
 
     try {
-        // --- CONFIGURACIÓN DEL SERVIDOR SMTP ---
         $mail->isSMTP();
         $mail->Host = 'mail.intranetdrg.com.mx';
         $mail->SMTPAuth = true;
@@ -23,29 +25,31 @@ function enviarCorreoDRG($destinatario, $asunto, $cuerpoHTML, $adjunto = null) {
         $mail->Port = 465;
         $mail->CharSet = 'UTF-8';
 
-        // --- DESTINATARIOS ---
+        // ESTO ES CLAVE: Si el servidor tiene problemas de certificados SSL
+        $mail->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
+
         $mail->setFrom('notification@intranetdrg.com.mx', 'Sistema de Auditoría DRG');
         $mail->addAddress($destinatario);
 
-        // --- MANEJO DE ADJUNTOS (Soporta archivo único o Array) ---
+        // Adjuntos
         if ($adjunto) {
             if (is_array($adjunto)) {
-                // Si es un array, recorremos cada elemento
                 foreach ($adjunto as $ruta) {
-                    if (is_string($ruta) && file_exists($ruta)) {
-                        $mail->addAttachment($ruta);
-                    }
+                    if (is_string($ruta) && file_exists($ruta)) $mail->addAttachment($ruta);
                 }
             } elseif (is_string($adjunto) && file_exists($adjunto)) {
-                // Si es un solo string
                 $mail->addAttachment($adjunto);
             }
         }
 
-        // --- CONTENIDO DEL CORREO CON DISEÑO CORPORATIVO ---
         $mail->isHTML(true);
         $mail->Subject = $asunto;
-        
         $mail->Body = "
         <div style='font-family: Arial, sans-serif; border: 1px solid #eee; border-radius: 10px; overflow: hidden; max-width: 600px;'>
             <div style='background-color: #80bf1f; padding: 20px; text-align: center; color: white;'>
@@ -55,15 +59,13 @@ function enviarCorreoDRG($destinatario, $asunto, $cuerpoHTML, $adjunto = null) {
                 $cuerpoHTML
             </div>
             <div style='background-color: #f8f9fa; padding: 15px; text-align: center; font-size: 12px; color: #777;'>
-                Este es un mensaje automático, por favor no responda. <br> 
                 &copy; " . date('Y') . " Grupo DRG.
             </div>
         </div>";
 
-        $mail->send();
-        return true;
+        return $mail->send();
     } catch (Exception $e) {
-        error_log("Error al enviar correo: {$mail->ErrorInfo}");
+        error_log("Error PHPMailer: {$mail->ErrorInfo}");
         return false;
     }
 }

@@ -1,7 +1,6 @@
 <?php
 // AUD_controller/enviar_solicitud_incidencia.php
 require("../config/db.php");
-// Asegúrate de que esta ruta sea la correcta para llegar al archivo de funciones
 require_once "enviar_correos_auditoria.php"; 
 
 header('Content-Type: application/json');
@@ -14,7 +13,7 @@ if (!isset($data['id'])) {
 
 $id_incidencia = $data['id'];
 
-// Consulta para obtener datos del responsable y la unidad
+// Consulta limpia sin folio
 $query = "SELECT 
             i.id, 
             i.descripcion, 
@@ -37,10 +36,11 @@ if ($res) {
         exit;
     }
 
+    // DEFINIMOS LA VARIABLE QUE USAREMOS EN EL JSON
+    $email_destino = $res['email']; 
     $link = "https://administrador2.intranetdrg.com.mx/AUD_subir_evidencia_incidencia.php?id=" . $id_incidencia;
     $asunto = "⚠️ Acción Requerida: Evidencia de Incidencia - " . $res['placas'];
     
-    // Cuerpo del correo (diseño limpio)
     $html = "
         <p>Estimado <strong>{$res['responsable']}</strong>,</p>
         <p>Se solicita cargar la evidencia de seguimiento para la incidencia en la unidad: <strong>{$res['placas']}</strong>.</p>
@@ -55,22 +55,21 @@ if ($res) {
             </a>
         </div>";
 
-    // Llamamos a la función. No pasamos el 4to parámetro porque no hay adjuntos en esta solicitud
-    $envio = enviarCorreoDRG($res['email'], $asunto, $html);
+    $envio = enviarCorreoDRG($email_destino, $asunto, $html);
 
     if ($envio) {
-        // Aquí devolvemos el correo en la respuesta exitosa
         echo json_encode([
             'status' => 'success', 
-            'message' => 'Correo enviado correctamente',
-            'email' => $email_destino
+            'email' => $email_destino // Ahora sí tiene valor
         ]);
     } else {
         echo json_encode([
             'status' => 'error', 
-            'message' => 'Error al procesar el envío de correo a: ' . $email_destino
+            'message' => 'PHPMailer no pudo enviar el correo',
+            'email' => $email_destino
         ]);
     }
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'Incidencia no encontrada']);
+    echo json_encode(['status' => 'error', 'message' => 'Incidencia no encontrada en la base de datos']);
 }
+?>
