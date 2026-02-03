@@ -2,6 +2,13 @@
 // 1. Conexión a la base de datos
 require("../config/db.php"); 
 
+?>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+    body { font-family: 'Segoe UI', sans-serif; background-color: #f8f9fa; }
+</style>
+
+<?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // 2. Recolección de datos
     $auditoria_id = isset($_POST['auditoria_id']) ? (int)$_POST['auditoria_id'] : 0;
@@ -28,22 +35,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
                 $mime = $_FILES['fotos']['type'][$key];
                 
-                // Determinamos el tipo de archivo para la base de datos
-                $tipo_evidencia = 'foto'; // por defecto
+                // Determinamos el tipo de archivo
+                $tipo_evidencia = 'foto'; 
                 if ($ext === 'pdf' || $mime === 'application/pdf') {
                     $tipo_evidencia = 'pdf';
                 }
 
-                // Generamos un nombre único para evitar sobreescrituras
+                // Generamos un nombre único
                 $prefix = ($tipo_evidencia === 'pdf') ? "doc_" : "foto_";
                 $nuevo_nombre = $prefix . uniqid() . "." . $ext;
                 $ruta_destino = $upload_dir . $nuevo_nombre;
 
                 if (move_uploaded_file($_FILES['fotos']['tmp_name'][$key], $ruta_destino)) {
-                    // Ruta relativa para la base de datos
                     $ruta_db = "uploads/evidencias_aud/{$folio}/{$nuevo_nombre}";
                     
-                    // Insertamos indicando si es 'foto' o 'pdf'
                     $stmt = $conn->prepare("INSERT INTO auditorias_evidencias_aud (auditoria_id, tipo_archivo, ruta_archivo) VALUES (?, ?, ?)");
                     $stmt->bind_param("iss", $auditoria_id, $tipo_evidencia, $ruta_db);
                     $stmt->execute();
@@ -53,12 +58,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // 5. Finalización
+    // 5. Finalización con Alerta Visual
     if ($archivos_guardados > 0) {
-        header("Location: ../AUD_subir_evidencia.php?status=success&folio=$folio&t=$token");
-        exit();
+        echo "<script>
+            Swal.fire({
+                icon: 'success',
+                title: '¡Evidencias Enviadas!',
+                text: 'Se guardaron $archivos_guardados archivo(s) correctamente.',
+                confirmButtonColor: '#80bf1f',
+                confirmButtonText: 'Finalizar'
+            }).then((result) => {
+                // Redirigir a una página de éxito o al mismo formulario limpio
+                window.location.href = '../AUD_subir_evidencia.php?status=success&folio=$folio&t=$token';
+            });
+        </script>";
     } else {
-        echo "No se pudieron procesar los archivos. Verifica que no excedan el tamaño permitido por el servidor.";
+        echo "<script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al subir',
+                text: 'No se pudieron procesar los archivos. Verifica el tamaño y formato.',
+                confirmButtonColor: '#d33'
+            }).then(() => {
+                window.history.back();
+            });
+        </script>";
     }
 }
 ?>
