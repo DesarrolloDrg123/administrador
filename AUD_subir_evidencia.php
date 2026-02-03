@@ -21,6 +21,9 @@ $auditoria = $resultado->fetch_assoc();
 if (!$auditoria) {
     die("Enlace no válido, expirado o auditoría no encontrada.");
 }
+
+// Detectar si venimos de un envío exitoso
+$status = isset($_GET['status']) ? $_GET['status'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -32,79 +35,16 @@ if (!$auditoria) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        :root {
-            --primary-color: #80bf1f; 
-            --dark-color: #2b2d42;
-            --bg-body: #f8f9fa;
-        }
-        
-        body { 
-            background-color: var(--bg-body); 
-            font-family: 'Segoe UI', sans-serif; 
-        }
-
+        :root { --primary-color: #80bf1f; --bg-body: #f8f9fa; }
+        body { background-color: var(--bg-body); font-family: 'Segoe UI', sans-serif; }
         .container-custom { padding: 20px 10px; }
-        
-        .card { 
-            border-radius: 20px; 
-            border: none; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1); 
-        }
-
-        .card-header { 
-            background: linear-gradient(135deg, #80bf1f 0%, #6da31a 100%) !important; 
-            border: none;
-            padding: 30px 15px !important;
-            border-radius: 20px 20px 0 0 !important;
-        }
-
-        .upload-zone {
-            border: 2px dashed #80bf1f;
-            border-radius: 15px;
-            padding: 40px 20px;
-            transition: all 0.3s ease;
-            background: #fff;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .upload-zone:hover { background: #f2f9e9; }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            padding: 15px;
-        }
-
-        .preview-item {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 3px solid white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            background: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
+        .card { border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        .card-header { background: linear-gradient(135deg, #80bf1f 0%, #6da31a 100%) !important; padding: 30px 15px !important; border-radius: 20px 20px 0 0 !important; }
+        .upload-zone { border: 2px dashed #80bf1f; border-radius: 15px; padding: 40px 20px; background: #fff; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
+        .btn-primary { background-color: var(--primary-color); border: none; border-radius: 12px; font-weight: 600; padding: 15px; }
+        .preview-item { width: 100px; height: 100px; object-fit: cover; border-radius: 10px; border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
         .preview-item i { font-size: 2.5rem; color: #dc3545; }
-        .preview-item span { font-size: 0.6rem; padding: 2px; }
-
-        .info-box {
-            background-color: #f2f9e9;
-            border-left: 5px solid #80bf1f;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
+        .info-box { background-color: #f2f9e9; border-left: 5px solid #80bf1f; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -120,6 +60,7 @@ if (!$auditoria) {
                 </div>
                 
                 <div class="card-body p-4">
+                    <?php if ($status !== 'success'): ?>
                     <div class="info-box">
                         <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 0.7rem;">Unidad a Revisar:</small>
                         <span class="text-dark fw-bold fs-5"><?= $auditoria['no_serie'] ?></span>
@@ -132,47 +73,55 @@ if (!$auditoria) {
                         <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>"> 
                         
                         <div class="mb-4">
-                            <label class="form-label fw-bold mb-3">
-                                <i class="bi bi-file-earmark-plus me-2 text-success"></i>Seleccione Fotos o archivos PDF
-                            </label>
-                            
+                            <label class="form-label fw-bold mb-3"><i class="bi bi-file-earmark-plus me-2 text-success"></i>Seleccione Fotos o PDF</label>
                             <label for="inputFotos" class="upload-zone w-100 text-center">
                                 <i class="bi bi-images text-success fs-1 mb-2"></i>
-                                <span class="fw-bold text-secondary">Tocar para seleccionar archivos</span>
-                                <small class="text-muted">JPG, PNG o PDF</small>
+                                <span class="fw-bold text-secondary">Tocar para seleccionar</span>
                                 <input type="file" name="fotos[]" id="inputFotos" class="d-none" multiple accept="image/*,.pdf" required>
                             </label>
-                            
                             <div id="previewFotos" class="mt-3 d-flex flex-wrap gap-2 justify-content-center"></div>
                         </div>
 
                         <button type="submit" id="btnEnviar" class="btn btn-primary w-100 shadow">
-                            <i class="bi bi-check-circle-fill me-2"></i>Subir y Finalizar Auditoría
+                            <i class="bi bi-check-circle-fill me-2"></i>Subir y Finalizar
                         </button>
                     </form>
+                    <?php else: ?>
+                        <div class="text-center py-5">
+                            <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+                            <h3 class="mt-3 fw-bold">¡Todo listo!</h3>
+                            <p class="text-muted">Las evidencias se enviaron correctamente. Ya puede cerrar esta ventana.</p>
+                            <button onclick="window.location.href='?t=<?= $token ?>'" class="btn btn-outline-secondary btn-sm mt-3">Subir más archivos</button>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
-            <p class="text-center mt-4 text-muted small">Control Vehicular - Grupo DRG</p>
         </div>
     </div>
 </div>
 
 <script>
-document.getElementById('inputFotos').addEventListener('change', function() {
+// --- Lógica del SweetAlert al cargar la página ---
+<?php if ($status === 'success'): ?>
+    Swal.fire({
+        icon: 'success',
+        title: '¡Envío Exitoso!',
+        text: 'Las evidencias del folio <?= $_GET['folio'] ?> se guardaron correctamente.',
+        confirmButtonColor: '#80bf1f',
+        confirmButtonText: 'Entendido'
+    });
+<?php endif; ?>
+
+// --- Previsualización ---
+document.getElementById('inputFotos')?.addEventListener('change', function() {
     const preview = document.getElementById('previewFotos');
     preview.innerHTML = '';
-    
     if (this.files) {
         [...this.files].forEach(file => {
             const container = document.createElement('div');
             container.className = 'preview-item';
-
             if (file.type === "application/pdf") {
-                container.innerHTML = `
-                    <i class="bi bi-file-pdf"></i>
-                    <span class="text-truncate w-100 px-1 text-center">${file.name}</span>
-                `;
-                preview.appendChild(container);
+                container.innerHTML = `<i class="bi bi-file-pdf"></i><span class="text-truncate w-100 px-1 text-center">${file.name}</span>`;
             } else {
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -182,19 +131,18 @@ document.getElementById('inputFotos').addEventListener('change', function() {
                     container.appendChild(img);
                 }
                 reader.readAsDataURL(file);
-                preview.appendChild(container);
             }
+            preview.appendChild(container);
         });
     }
 });
 
-document.getElementById('formEvidencias').addEventListener('submit', function(e) {
+document.getElementById('formEvidencias')?.addEventListener('submit', function() {
     document.getElementById('btnEnviar').disabled = true;
-    document.getElementById('btnEnviar').innerHTML = '<span class="spinner-border spinner-border-sm"></span> Subiendo archivos...';
-    
+    document.getElementById('btnEnviar').innerHTML = '<span class="spinner-border spinner-border-sm"></span> Subiendo...';
     Swal.fire({
-        title: 'Procesando Envío',
-        text: 'Subiendo evidencias al servidor, espere un momento.',
+        title: 'Subiendo...',
+        text: 'Espere un momento.',
         allowOutsideClick: false,
         didOpen: () => { Swal.showLoading(); }
     });

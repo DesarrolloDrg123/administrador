@@ -2,13 +2,6 @@
 // 1. Conexión a la base de datos
 require("../config/db.php"); 
 
-?>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<style>
-    body { font-family: 'Segoe UI', sans-serif; background-color: #f8f9fa; }
-</style>
-
-<?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // 2. Recolección de datos
     $auditoria_id = isset($_POST['auditoria_id']) ? (int)$_POST['auditoria_id'] : 0;
@@ -47,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $ruta_destino = $upload_dir . $nuevo_nombre;
 
                 if (move_uploaded_file($_FILES['fotos']['tmp_name'][$key], $ruta_destino)) {
+                    // Ruta relativa para la base de datos
                     $ruta_db = "uploads/evidencias_aud/{$folio}/{$nuevo_nombre}";
                     
                     $stmt = $conn->prepare("INSERT INTO auditorias_evidencias_aud (auditoria_id, tipo_archivo, ruta_archivo) VALUES (?, ?, ?)");
@@ -58,31 +52,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // 5. Finalización con Alerta Visual
+    // 5. Redirección estratégica
+    // Enviamos el conteo de archivos y el status para que el formulario principal muestre el SweetAlert
     if ($archivos_guardados > 0) {
-        echo "<script>
-            Swal.fire({
-                icon: 'success',
-                title: '¡Evidencias Enviadas!',
-                text: 'Se guardaron $archivos_guardados archivo(s) correctamente.',
-                confirmButtonColor: '#80bf1f',
-                confirmButtonText: 'Finalizar'
-            }).then((result) => {
-                // Redirigir a una página de éxito o al mismo formulario limpio
-                window.location.href = '../AUD_subir_evidencia.php?status=success&folio=$folio&t=$token';
-            });
-        </script>";
+        header("Location: ../AUD_subir_evidencia.php?status=success&folio=$folio&t=$token&count=$archivos_guardados");
+        exit();
     } else {
-        echo "<script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Error al subir',
-                text: 'No se pudieron procesar los archivos. Verifica el tamaño y formato.',
-                confirmButtonColor: '#d33'
-            }).then(() => {
-                window.history.back();
-            });
-        </script>";
+        // Si falló, regresamos con un error
+        header("Location: ../AUD_subir_evidencia.php?status=error&t=$token");
+        exit();
     }
 }
 ?>
