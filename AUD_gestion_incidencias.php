@@ -119,10 +119,10 @@ async function cargarIncidencias() {
                     <td>${badge}</td>
                     <td class="text-center">
                         ${i.estatus !== 'Terminada' ? 
-                        `<button class="btn btn-sm btn-outline-primary" onclick="abrirModal(${i.id}, '${i.estatus}')">
+                        `<button class="btn btn-sm btn-outline-primary" onclick="abrirModal(${i.id}, '${i.estatus}', '${i.observaciones}')">
                             <i class="bi bi-pencil-square"></i> Gestionar
                         </button>` : 
-                        `<button class="btn btn-sm btn-outline-success" onclick="abrirModal(${i.id}, '${i.estatus}')">
+                        `<button class="btn btn-sm btn-outline-success" onclick="abrirModal(${i.id}, '${i.estatus}', '${i.observaciones}')">
                             <i class="bi bi-eye-fill"></i> Ver Detalles
                         </button>`
                         }
@@ -146,10 +146,10 @@ function inicializarDataTable() {
 }
 
 // --- FUNCIÓN CORREGIDA (SOLO UNA VEZ) ---
-async function abrirModal(id, estatus) {
+async function abrirModal(id, estatus, observaciones) {
     document.getElementById('modal_id_incidencia').value = id;
     document.getElementById('modal_estatus').value = estatus;
-    document.getElementById('modal_obs').value = '';
+    document.getElementById('modal_obs').value = observaciones;
     
     const esTerminada = (estatus === 'Terminada');
     document.getElementById('modal_estatus').disabled = esTerminada;
