@@ -5,7 +5,7 @@ use Mpdf\Mpdf;
 function crearReportePDF($id_auditoria, $conn) {
     // 1. Obtener datos (JOINs con vehiculos, sucursales y usuarios)
     $query = "SELECT a.*, v.*, s.sucursal as sucursal_nombre, u.nombre as responsable_nombre, 
-              u.email as correo_responsable, u.no_empleado, u.no_licencia, u.vencimiento_licencia,
+              u.email as correo_responsable, u.num_empleado, v.no_licencia, v.fecha_vencimiento_licencia,
               g.nombre as gerente_nombre, auditor.nombre as auditor_nombre
               FROM auditorias_vehiculos_aud a
               JOIN vehiculos_aud v ON a.vehiculo_id = v.id
@@ -82,7 +82,7 @@ function crearReportePDF($id_auditoria, $conn) {
         </tr>
         <tr>
             <td class="label"><span class="check">✔</span> Responsable</td><td class="value">'.$data['responsable_nombre'].'</td>
-            <td class="label"><span class="check">✔</span> No. de Empleado</td><td class="value">'.$data['no_empleado'].'</td>
+            <td class="label"><span class="check">✔</span> No. de Empleado</td><td class="value">'.$data['num_empleado'].'</td>
         </tr>
         <tr>
             <td class="label"><span class="check">✔</span> No. de Licencia</td><td class="value">'.$data['no_licencia'].'</td>
