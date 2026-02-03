@@ -61,7 +61,7 @@ include("src/templates/adminheader.php");
                         </div>
                         <hr>
                         <div class="d-grid">
-                            <button type="button" class="btn btn-primary" onclick="solicitarEvidenciaIncidencia()">
+                            <button type="button" id="btnSolicitarCorreo" class="btn btn-primary" onclick="solicitarEvidenciaIncidencia()">
                                 <i class="bi bi-envelope-at"></i> Solicitar Evidencia por Correo
                             </button>
                         </div>
@@ -69,7 +69,7 @@ include("src/templates/adminheader.php");
 
                     <div class="col-md-6">
                         <label class="fw-bold d-block mb-2">Evidencias de la Incidencia</label>
-                        <div id="contenedorEvidenciasIncidencia" id="btnSolicitarCorreo" class="bg-light p-2 rounded border" style="min-height: 200px; max-height: 300px; overflow-y: auto;">
+                        <div id="contenedorEvidenciasIncidencia" class="bg-light p-2 rounded border" style="min-height: 200px; max-height: 300px; overflow-y: auto;">
                             <p class="text-muted text-center small mt-4">Cargando evidencias...</p>
                         </div>
                     </div>
@@ -148,34 +148,38 @@ function inicializarDataTable() {
 }
 
 // --- FUNCIÓN CORREGIDA (SOLO UNA VEZ) ---
-async function abrirModal(id, estatus) {
+async function abrirModal(id) { // Solo recibe ID ahora
     const info = datosIncidencias.find(i => i.id == id);
     
-    // Ahora llenamos los campos con lo que encontramos
+    if(!info) return; // Seguridad por si no encuentra el dato
+
     document.getElementById('modal_id_incidencia').value = info.id;
     document.getElementById('modal_estatus').value = info.estatus;
-    
-    // AQUÍ CARGAMOS LA OBSERVACIÓN CAPTURADA
     document.getElementById('modal_obs').value = info.observaciones || ''; 
 
-    // Lógica de bloqueo si está terminada
     const esTerminada = (info.estatus === 'Terminada');
+    
+    // Bloqueos
     document.getElementById('modal_estatus').disabled = esTerminada;
     document.getElementById('modal_obs').disabled = esTerminada;
     
-    // Ocultar botones si ya terminó
+    // Ocultar botones
     document.querySelector('.modal-footer .btn-success').style.display = esTerminada ? 'none' : 'block';
-
-    // Ocultar/Mostrar botón de Solicitar Correo
+    
+    // Ahora esto sí funcionará porque el ID está en el botón
     const btnCorreo = document.getElementById('btnSolicitarCorreo');
-    btnCorreo.style.display = esTerminada ? 'none' : 'block';
+    if(btnCorreo) {
+        btnCorreo.style.display = esTerminada ? 'none' : 'block';
+    }
 
     const contenedor = document.getElementById('contenedorEvidenciasIncidencia');
     contenedor.innerHTML = '<div class="text-center mt-4"><div class="spinner-border spinner-border-sm text-primary"></div></div>';
     
-    const myModal = new bootstrap.Modal(document.getElementById('modalGestion'));
+    const modalElement = document.getElementById('modalGestion');
+    const myModal = bootstrap.Modal.getOrCreateInstance(modalElement);
     myModal.show();
     
+    // Carga de evidencias (se mantiene igual)
     try {
         const res = await fetch(`AUD_controller/get_evidencias_incidencia.php?id=${id}`);
         const fotos = await res.json();
@@ -212,9 +216,7 @@ async function abrirModal(id, estatus) {
             htmlFotos += '</div>';
             contenedor.innerHTML = htmlFotos;
         }
-    } catch (e) {
-        contenedor.innerHTML = '<p class="text-danger small">Error al conectar con el servidor.</p>';
-    }
+    } catch(e) { console.error(e); }
 }
 
 async function solicitarEvidenciaIncidencia() {
