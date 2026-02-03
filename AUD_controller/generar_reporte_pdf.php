@@ -115,7 +115,7 @@ function crearReportePDF($id_auditoria, $conn) {
 
     $queryDetalle = "SELECT i.descripcion as nombre_item, d.valor_seleccionado, d.puntos_obtenidos 
                  FROM auditorias_detalle_aud d
-                 JOIN cat_items_auditoria_aud i ON d.categoria_id = i.id
+                 JOIN cat_items_auditoria_aud i ON d.concepto_id = i.id
                  WHERE d.auditoria_id = $id_auditoria";
 
     $resDet = $conn->query($queryDetalle);
