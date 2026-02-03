@@ -44,6 +44,8 @@ function crearReportePDF($id_auditoria, $conn) {
         
         .footer-text { text-align: center; font-style: italic; margin-top: 20px; font-size: 9pt; }
         .signature-box { text-align: center; padding-top: 40px; }
+
+        .obs-box { border: 1px solid #ccc; background-color: #f9f9f9; padding: 10px; min-height: 50px; margin-bottom: 10px; }
     </style>
 
     <table class="header-table">
@@ -177,14 +179,42 @@ function crearReportePDF($id_auditoria, $conn) {
         }
     }
     $html .= '</tbody></table>';
-    // ======================================================
+
+    // --- NUEVA SECCIÓN: INCIDENCIAS CAPTURADAS ---
+    $html .= '<div class="section-title">INCIDENCIAS REPORTADAS EN ESTA AUDITORÍA</div>
+    <table>
+        <thead>
+            <tr style="background-color: #f8f9fa;">
+                <th style="width:70%;">Descripción de la Incidencia</th>
+                <th style="width:30%; text-align:center;">Estatus</th>
+            </tr>
+        </thead>
+        <tbody>';
+    
+    $resInc = $conn->query("SELECT descripcion, estatus FROM auditorias_incidencias_aud WHERE auditoria_id = $id_auditoria");
+    if ($resInc && $resInc->num_rows > 0) {
+        while($inc = $resInc->fetch_assoc()) {
+            $html .= '<tr>
+                        <td>'.$inc['descripcion'].'</td>
+                        <td style="text-align:center;">'.$inc['estatus'].'</td>
+                      </tr>';
+        }
+    } else {
+        $html .= '<tr><td colspan="2" style="text-align:center; color: #999;">No se reportaron incidencias en esta revisión.</td></tr>';
+    }
+    $html .= '</tbody></table>';
+
+    $html .= '<div class="section-title">OBSERVACIONES GENERALES DEL AUDITOR</div>
+    <div class="obs-box">
+        '.(!empty($data['observaciones']) ? nl2br($data['observaciones']) : 'Sin observaciones adicionales por parte del auditor.').'
+    </div>';
 
     // Tu código continúa aquí:
     $html .= '
     <div class="section-title">EVIDENCIA FOTOGRÁFICA</div>
     <div style="width:100%; margin-top:10px;">';
 
-    $$fotos = $conn->query("SELECT * FROM auditorias_evidencias_aud WHERE auditoria_id = $id_auditoria");
+    $fotos = $conn->query("SELECT * FROM auditorias_evidencias_aud WHERE auditoria_id = $id_auditoria");
     $count = 0;
     while($f = $fotos->fetch_assoc()) {
         // 1. Ruta relativa para que PHP la encuentre y valide
@@ -266,3 +296,4 @@ function crearReportePDF($id_auditoria, $conn) {
         'adjuntos_pdf' => $adjuntosExtra // Agregamos este array al retorno
     ];
 }
+?>
