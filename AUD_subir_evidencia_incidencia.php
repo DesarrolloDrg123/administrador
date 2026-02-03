@@ -1,20 +1,14 @@
 <?php
-// AUD_subir_evidencia_incidencia.php
 require("config/db.php"); 
 
-// Validamos el ID
 $id_incidencia = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($id_incidencia <= 0) {
     die("Acceso denegado: ID de incidencia no válido.");
 }
 
-// CONSULTA CORREGIDA: Ajustada a la estructura que manejamos en el envío de correo
-$sql = "SELECT 
-            i.id, 
-            i.descripcion as incidencia, 
-            v.placas,
-            v.no_serie
+// Mantenemos la consulta que ya te funcionaba
+$sql = "SELECT i.id, i.descripcion as incidencia, v.placas, v.no_serie
         FROM auditorias_incidencias_aud i
         JOIN vehiculos_aud v ON i.vehiculo_id = v.id
         WHERE i.id = ?";
@@ -26,8 +20,7 @@ $resultado = $stmt->get_result();
 $datos = $resultado->fetch_assoc();
 
 if (!$datos) {
-    // Si entra aquí es porque el ID no existe en la tabla auditorias_incidencias_aud
-    die("Incidencia no encontrada o ya ha sido gestionada. Verifique el enlace.");
+    die("Incidencia no encontrada o ya ha sido gestionada.");
 }
 ?>
 <!DOCTYPE html>
@@ -35,75 +28,24 @@ if (!$datos) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subir Evidencia de Incidencia</title>
+    <title>Subir Evidencia</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        :root {
-            --primary-color: #80bf1f; /* Tu color corporativo */
-            --dark-color: #2b2d42;
-            --bg-body: #f8f9fa;
-        }
-        
-        body { 
-            background-color: var(--bg-body); 
-            font-family: 'Segoe UI', sans-serif; 
-        }
-
+        :root { --primary-color: #80bf1f; --bg-body: #f8f9fa; }
+        body { background-color: var(--bg-body); font-family: 'Segoe UI', sans-serif; }
         .container-custom { padding: 20px 10px; }
-        
-        .card { 
-            border-radius: 20px; 
-            border: none; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1); 
-        }
-
-        .card-header { 
-            background: linear-gradient(135deg, #80bf1f 0%, #6da31a 100%) !important; 
-            border: none;
-            padding: 30px 15px !important;
-            border-radius: 20px 20px 0 0 !important;
-        }
-
-        .upload-zone {
-            border: 2px dashed #80bf1f;
-            border-radius: 15px;
-            padding: 40px 20px;
-            transition: all 0.3s ease;
-            background: #fff;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
+        .card { border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        .card-header { background: linear-gradient(135deg, #80bf1f 0%, #6da31a 100%) !important; padding: 30px 15px !important; border-radius: 20px 20px 0 0 !important; }
+        .upload-zone { border: 2px dashed #80bf1f; border-radius: 15px; padding: 40px 20px; transition: all 0.3s ease; background: #fff; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
         .upload-zone:hover { background: #f2f9e9; }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            padding: 15px;
-        }
-
-        .preview-item {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 3px solid white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .incidencia-info {
-            background-color: #fff3cd;
-            border-left: 5px solid #ffc107;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
+        .btn-primary { background-color: var(--primary-color); border: none; border-radius: 12px; font-weight: 600; padding: 15px; }
+        
+        /* Estilos para la previsualización */
+        .preview-item { width: 100px; height: 100px; object-fit: cover; border-radius: 10px; border: 2px solid #ddd; }
+        .preview-pdf { width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; background: #f8d7da; color: #dc3545; border-radius: 10px; font-size: 2rem; border: 2px solid #f5c2c7; }
+        .incidencia-info { background-color: #fff3cd; border-left: 5px solid #ffc107; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -113,16 +55,15 @@ if (!$datos) {
         <div class="col-12 col-md-10 col-lg-6">
             <div class="card">
                 <div class="card-header text-white text-center">
-                    <i class="bi bi-tools fs-1 mb-2 d-block"></i>
-                    <h4 class="mb-1 fw-bold">Evidencia de Corrección</h4>
+                    <i class="bi bi-file-earmark-arrow-up fs-1 mb-2 d-block"></i>
+                    <h4 class="mb-1 fw-bold">Subir Evidencia</h4>
                     <span class="badge bg-white text-dark py-2 px-3">Placas: <?= $datos['placas'] ?></span>
                 </div>
                 
                 <div class="card-body p-4">
                     <div class="incidencia-info">
-                        <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 0.7rem;">Incidencia a Solventar:</small>
+                        <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 0.7rem;">Tarea:</small>
                         <span class="text-dark fw-bold fs-5"><?= $datos['incidencia'] ?></span>
-                        <p class="mb-0 mt-1 text-muted small">Folio Auditoría: <?= $datos['folio'] ?></p>
                     </div>
 
                     <form id="formEvidencias" action="AUD_controller/guardar_evidencia_incidencia.php" method="POST" enctype="multipart/form-data">
@@ -130,30 +71,29 @@ if (!$datos) {
                         
                         <div class="mb-4">
                             <label class="form-label fw-bold mb-3">
-                                <i class="bi bi-camera-fill me-2 text-success"></i>Seleccione la fotografía de la reparación
+                                <i class="bi bi-paperclip me-2 text-success"></i>Seleccione fotos o documentos PDF
                             </label>
                             
                             <label for="inputFotos" class="upload-zone w-100 text-center">
-                                <i class="bi bi-cloud-arrow-up text-success fs-1 mb-2"></i>
-                                <span class="fw-bold text-secondary">Tocar aquí para tomar foto o elegir archivo</span>
-                                <input type="file" name="fotos[]" id="inputFotos" class="d-none" multiple accept="image/*" required>
+                                <i class="bi bi-cloud-upload text-success fs-1 mb-2"></i>
+                                <span class="fw-bold text-secondary">Tocar para subir Imagen o PDF</span>
+                                <input type="file" name="fotos[]" id="inputFotos" class="d-none" multiple accept="image/*,.pdf" required>
                             </label>
                             
                             <div id="previewFotos" class="mt-3 d-flex flex-wrap gap-2 justify-content-center"></div>
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label fw-bold small">Comentarios adicionales (opcional)</label>
-                            <textarea name="comentarios" class="form-control" rows="2" placeholder="Ej. Se realizó el cambio de pieza..."></textarea>
+                            <label class="form-label fw-bold small">Comentarios</label>
+                            <textarea name="comentarios" class="form-control" rows="2" placeholder="Notas sobre la reparación..."></textarea>
                         </div>
 
                         <button type="submit" id="btnEnviar" class="btn btn-primary w-100 shadow">
-                            <i class="bi bi-check-circle-fill me-2"></i>Enviar Evidencia de Reparación
+                            <i class="bi bi-send-fill me-2"></i>Enviar Información
                         </button>
                     </form>
                 </div>
             </div>
-            <p class="text-center mt-4 text-muted small">Control Vehicular - Sistema de Auditorías</p>
         </div>
     </div>
 </div>
@@ -166,13 +106,25 @@ document.getElementById('inputFotos').addEventListener('change', function() {
     if (this.files) {
         [...this.files].forEach(file => {
             const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.className = 'preview-item';
-                preview.appendChild(img);
+            
+            // Si es imagen, mostramos miniatura
+            if (file.type.startsWith('image/')) {
+                reader.onload = (e) => {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'preview-item';
+                    preview.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            } 
+            // Si es PDF, mostramos un icono de PDF
+            else if (file.type === 'application/pdf') {
+                const div = document.createElement('div');
+                div.className = 'preview-pdf';
+                div.innerHTML = '<i class="bi bi-file-pdf"></i>';
+                div.title = file.name;
+                preview.appendChild(div);
             }
-            reader.readAsDataURL(file);
         });
     }
 });
@@ -182,8 +134,8 @@ document.getElementById('formEvidencias').addEventListener('submit', function(e)
     document.getElementById('btnEnviar').innerHTML = '<span class="spinner-border spinner-border-sm"></span> Enviando...';
     
     Swal.fire({
-        title: 'Enviando Evidencia',
-        text: 'Subiendo archivos al servidor, por favor espere.',
+        title: 'Subiendo archivos',
+        text: 'Por favor no cierre esta ventana.',
         allowOutsideClick: false,
         didOpen: () => { Swal.showLoading(); }
     });
