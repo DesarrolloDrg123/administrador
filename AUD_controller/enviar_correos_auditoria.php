@@ -21,10 +21,15 @@ function enviarCorreoDRG($destinatario, $asunto, $cuerpoHTML, $adjunto = null) {
         $mail->SMTPAuth = true;
         $mail->Username = 'notification@intranetdrg.com.mx';
         $mail->Password = 'r-eHQi64a7!3QT9';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-        $mail->Port = 465;
+        // Prueba esta combinación si la anterior falla
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
         $mail->CharSet = 'UTF-8';
-
+        // Debajo de $mail = new PHPMailer(true);
+        $mail->SMTPDebug = 2; // Cambia de 0 a 2
+        $mail->Debugoutput = function($str, $level) {
+            error_log("SMTP DEBUG: $str"); // Guarda el log en el servidor
+        };
         // ESTO ES CLAVE: Si el servidor tiene problemas de certificados SSL
         $mail->SMTPOptions = array(
             'ssl' => array(
