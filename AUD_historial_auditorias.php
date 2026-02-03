@@ -146,11 +146,22 @@ async function cargarHistorial() {
     } catch (e) { console.error(e); }
 }
 
+let modalDetalle = null;
+
 async function verReporte(id) {
     try {
+        // Inicializar el modal solo si no existe
+        if (!modalDetalle) {
+            modalDetalle = new bootstrap.Modal(document.getElementById('modalDetalleAuditoria'));
+        }
+
         const res = await fetch(`AUD_controller/get_detalle_auditoria.php?id=${id}`);
         const data = await res.json();
         const a = data.cabecera;
+
+        // --- IMPORTANTE: Limpiar el contenido anterior para que no se "parpadee" la info vieja ---
+        document.getElementById('det_tabla_body').innerHTML = '';
+        document.getElementById('det_fotos').innerHTML = '';
 
         // Llenado de datos básicos
         document.getElementById('det_id_auditoria').value = id;
@@ -170,36 +181,28 @@ async function verReporte(id) {
         });
         document.getElementById('det_tabla_body').innerHTML = tablaHtml;
 
-        // --- CORRECCIÓN DE EVIDENCIAS (FOTOS Y PDF) ---
+        // Llenado de Evidencias (Fotos y PDF)
         let fotosHtml = '';
         if(data.fotos && data.fotos.length > 0) {
             data.fotos.forEach(f => {
-                // Verificamos si es PDF por extensión o por el campo tipo_archivo
                 const rutaArchivo = f.ruta_archivo;
-                const esPdf = rutaArchivo.toLowerCase().endsWith('.pdf') || f.tipo_archivo === 'pdf';
+                const esPdf = rutaArchivo.toLowerCase().endsWith('.pdf');
                 
                 if(esPdf) {
-                    // Si es PDF, dibujamos un contenedor con icono
                     fotosHtml += `
                     <div class="col-md-3 mb-3">
                         <div class="card h-100 border-danger border-2 shadow-sm" style="cursor:pointer; min-height:130px;" onclick="window.open('../${rutaArchivo}', '_blank')">
                             <div class="card-body d-flex flex-column align-items-center justify-content-center">
                                 <i class="bi bi-file-pdf-fill text-danger" style="font-size: 3rem;"></i>
-                                <span class="badge bg-danger mt-2">Ver Documento PDF</span>
+                                <span class="badge bg-danger mt-2">Ver PDF</span>
                             </div>
                         </div>
                     </div>`;
                 } else {
-                    // Si es Imagen, dibujamos la miniatura
                     fotosHtml += `
                     <div class="col-md-3 mb-3">
                         <div class="card h-100 shadow-sm">
-                            <img src="../${rutaArchivo}" class="card-img-top" 
-                                 style="height:130px; object-fit:cover; cursor:pointer" 
-                                 onclick="window.open('../${rutaArchivo}', '_blank')">
-                            <div class="card-footer p-1 text-center">
-                                <small class="text-muted" style="font-size:0.7rem;">Imagen</small>
-                            </div>
+                            <img src="../${rutaArchivo}" class="card-img-top" style="height:130px; object-fit:cover; cursor:pointer" onclick="window.open('../${rutaArchivo}', '_blank')">
                         </div>
                     </div>`;
                 }
@@ -209,38 +212,32 @@ async function verReporte(id) {
         }
         document.getElementById('det_fotos').innerHTML = fotosHtml;
 
-        // Control de botones de acción
+        // Control de botones
         const btnTerminar = document.getElementById('btnTerminarAuditoria');
         const btnSolicitar = document.getElementById('btnSolicitarMasFotos');
-        const btnAccion = document.getElementById('btnAccionReporte'); // El botón azul
-        const txtAccion = document.getElementById('txtBtnAccion');     // El texto del botón
+        const btnAccion = document.getElementById('btnAccionReporte');
+        const txtAccion = document.getElementById('txtBtnAccion');
         
-        if (a.estatus === 'Finalizada' || a.estatus === 'Finalizado') { 
+        if (a.estatus.toLowerCase() === 'finalizada' || a.estatus.toLowerCase() === 'finalizado') { 
             btnTerminar.style.display = 'none'; 
             btnSolicitar.style.display = 'none';
-            
-            // Cambiamos el botón a modo Descarga
-            btnAccion.className = "btn btn-success"; // Color verde de Excel/PDF
+            btnAccion.className = "btn btn-success";
             txtAccion.innerText = "Descargar Reporte";
-            btnAccion.innerHTML = '<i class="fas fa-file-pdf"></i> Descargar Reporte';
-            
-            // Guardamos la ruta del PDF en un atributo del botón para usarlo luego
             btnAccion.setAttribute('data-pdf', a.reporte); 
         } else {
             btnTerminar.style.display = 'block';
             btnSolicitar.style.display = 'block';
-            
-            // Volvemos al modo Imprimir normal
             btnAccion.className = "btn btn-primary";
             txtAccion.innerText = "Imprimir Pantalla";
-            btnAccion.innerHTML = '<i class="bi bi-printer"></i> Imprimir Pantalla';
             btnAccion.removeAttribute('data-pdf');
         }
 
-        new bootstrap.Modal(document.getElementById('modalDetalleAuditoria')).show();
+        // 2. Mostrar el modal usando la instancia guardada
+        modalDetalle.show();
+
     } catch (e) { 
         console.error("Error al cargar detalles:", e);
-        Swal.fire('Error', 'No se pudo cargar la información de la auditoría', 'error');
+        Swal.fire('Error', 'No se pudo cargar la información', 'error');
     }
 }
 
@@ -313,9 +310,6 @@ function gestionarAccionReporte() {
         // Si hay una ruta de reporte, abrimos el PDF directamente
         // Asumiendo que el PDF está en AUD_controller/reportes/
         window.open('AUD_controller/' + rutaPdf, '_blank');
-    } else {
-        // Si no está finalizada, solo imprime la pantalla actual del navegador
-        window.print();
     }
 }
 </script>
