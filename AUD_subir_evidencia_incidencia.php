@@ -1,18 +1,22 @@
 <?php
+// AUD_subir_evidencia_incidencia.php
 require("config/db.php"); 
 
-// En incidencias, usaremos el ID directo o un token si decides implementarlo después
+// Validamos el ID
 $id_incidencia = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($id_incidencia <= 0) {
     die("Acceso denegado: ID de incidencia no válido.");
 }
 
-// Consultamos la incidencia y los datos del vehículo relacionado
-$sql = "SELECT i.id, i.pregunta as incidencia, a.folio, v.no_serie, v.placas
-        FROM auditorias_detalle_aud i
-        JOIN auditorias_vehiculos_aud a ON i.auditoria_id = a.id
-        JOIN vehiculos v ON a.vehiculo_id = v.id
+// CONSULTA CORREGIDA: Ajustada a la estructura que manejamos en el envío de correo
+$sql = "SELECT 
+            i.id, 
+            i.descripcion as incidencia, 
+            v.placas,
+            v.no_serie
+        FROM auditorias_incidencias_aud i
+        JOIN vehiculos_aud v ON i.vehiculo_id = v.id
         WHERE i.id = ?";
 
 $stmt = $conn->prepare($sql);
@@ -22,7 +26,8 @@ $resultado = $stmt->get_result();
 $datos = $resultado->fetch_assoc();
 
 if (!$datos) {
-    die("Incidencia no encontrada o ya ha sido gestionada.");
+    // Si entra aquí es porque el ID no existe en la tabla auditorias_incidencias_aud
+    die("Incidencia no encontrada o ya ha sido gestionada. Verifique el enlace.");
 }
 ?>
 <!DOCTYPE html>
