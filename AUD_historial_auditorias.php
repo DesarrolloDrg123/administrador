@@ -98,6 +98,9 @@ include("src/templates/adminheader.php");
                 </button>
                 
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" id="btnDescargarReporte" class="btn btn-success" onclick="descargarPDF()" style="display:none;">
+                    <i class="bi bi-file-earmark-pdf"></i> Descargar Reporte
+                </button>
             </div>
         </div>
     </div>
@@ -114,7 +117,7 @@ async function cargarHistorial() {
         data.forEach(a => {
             let colorPuntos = a.calif_total < 70 ? 'danger' : (a.calif_total < 90 ? 'warning text-dark' : 'success');
             let statusEvidencia = a.fecha_subida_evidencia 
-                ? `<span class="badge bg-success p-1 fs-6" title="${a.fecha_subida_evidencia}"><i class="fas fa-camera"></i> Subidas</span>` 
+                ? `<span class="badge bg-success p-1 fs-6"><i class="fas fa-camera"></i> Subidas</span>` 
                 : `<span class="badge bg-secondary p-1 fs-6"><i class="fas fa-clock"></i> Pendientes</span>`;
 
             html += `
@@ -127,18 +130,15 @@ async function cargarHistorial() {
                     <td>${statusEvidencia}</td>
                     <td>${a.estatus}</td>
                     <td class="text-center">
-                        <button class="btn btn-sm btn-outline-primary" onclick="verReporte(${a.id})" title="Ver Detalles">
-                            Detalles
-                        </button>
+                        <button class="btn btn-sm btn-outline-primary" onclick="verReporte(${a.id})"> Detalles </button>
                     </td>
                 </tr>`;
         });
         document.getElementById('historialBody').innerHTML = html;
-        
         $('#tablaHistorial').DataTable({
             "language": { "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json" },
             "order": [[1, "desc"]],
-            "destroy": true // Para evitar error al recargar
+            "destroy": true
         });
     } catch (e) { console.error(e); }
 }
@@ -147,20 +147,17 @@ let modalDetalle = null;
 
 async function verReporte(id) {
     try {
-        // Inicializar el modal solo si no existe
-        if (!modalDetalle) {
-            modalDetalle = new bootstrap.Modal(document.getElementById('modalDetalleAuditoria'));
-        }
+        if (!modalDetalle) modalDetalle = new bootstrap.Modal(document.getElementById('modalDetalleAuditoria'));
 
         const res = await fetch(`AUD_controller/get_detalle_auditoria.php?id=${id}`);
         const data = await res.json();
         const a = data.cabecera;
 
-        // --- IMPORTANTE: Limpiar el contenido anterior para que no se "parpadee" la info vieja ---
+        // Limpiar
         document.getElementById('det_tabla_body').innerHTML = '';
         document.getElementById('det_fotos').innerHTML = '';
 
-        // Llenado de datos básicos
+        // Llenar datos
         document.getElementById('det_id_auditoria').value = id;
         document.getElementById('det_folio').innerText = a.folio;
         document.getElementById('det_vehiculo').innerText = `${a.marca} ${a.modelo}`;
@@ -170,7 +167,7 @@ async function verReporte(id) {
         document.getElementById('det_fecha').innerText = a.fecha_auditoria;
         document.getElementById('det_obs').innerHTML = a.observaciones || 'Sin observaciones.';
 
-        // Llenado de tabla de resultados
+        // Llenar Tabla
         let tablaHtml = '';
         data.detalles.forEach(d => {
             const badge = (d.valor_seleccionado === 'Bueno' || d.valor_seleccionado === 'SI') ? 'bg-success' : 'bg-danger';
@@ -178,64 +175,42 @@ async function verReporte(id) {
         });
         document.getElementById('det_tabla_body').innerHTML = tablaHtml;
 
-        // Llenado de Evidencias (Fotos y PDF)
+        // Llenar Fotos
         let fotosHtml = '';
         if(data.fotos && data.fotos.length > 0) {
             data.fotos.forEach(f => {
-                const rutaArchivo = f.ruta_archivo;
-                const esPdf = rutaArchivo.toLowerCase().endsWith('.pdf');
-                
-                if(esPdf) {
-                    fotosHtml += `
+                const esPdf = f.ruta_archivo.toLowerCase().endsWith('.pdf');
+                fotosHtml += `
                     <div class="col-md-3 mb-3">
-                        <div class="card h-100 border-danger border-2 shadow-sm" style="cursor:pointer; min-height:130px;" onclick="window.open('../${rutaArchivo}', '_blank')">
-                            <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                                <i class="bi bi-file-pdf-fill text-danger" style="font-size: 3rem;"></i>
-                                <span class="badge bg-danger mt-2">Ver PDF</span>
-                            </div>
+                        <div class="card h-100 shadow-sm" style="cursor:pointer" onclick="window.open('../${f.ruta_archivo}', '_blank')">
+                            ${esPdf ? '<div class="card-body text-center"><i class="bi bi-file-pdf text-danger fs-1"></i><br>PDF</div>' : `<img src="../${f.ruta_archivo}" class="card-img-top" style="height:120px; object-fit:cover;">`}
                         </div>
                     </div>`;
-                } else {
-                    fotosHtml += `
-                    <div class="col-md-3 mb-3">
-                        <div class="card h-100 shadow-sm">
-                            <img src="../${rutaArchivo}" class="card-img-top" style="height:130px; object-fit:cover; cursor:pointer" onclick="window.open('../${rutaArchivo}', '_blank')">
-                        </div>
-                    </div>`;
-                }
             });
-        } else { 
-            fotosHtml = '<div class="col-12"><p class="text-muted">No hay evidencias disponibles.</p></div>'; 
-        }
+        } else { fotosHtml = '<p class="text-muted">Sin evidencias.</p>'; }
         document.getElementById('det_fotos').innerHTML = fotosHtml;
 
-        // Control de botones
-        const btnTerminar = document.getElementById('btnTerminarAuditoria');
-        const btnSolicitar = document.getElementById('btnSolicitarMasFotos');
-        const btnAccion = document.getElementById('btnAccionReporte');
-        const txtAccion = document.getElementById('txtBtnAccion');
+        // LÓGICA DE VISIBILIDAD DE BOTONES
+        const esFinalizada = (a.estatus.toLowerCase() === 'finalizada' || a.estatus.toLowerCase() === 'finalizado');
         
-        if (a.estatus.toLowerCase() === 'finalizada' || a.estatus.toLowerCase() === 'finalizado') { 
-            btnTerminar.style.display = 'none'; 
-            btnSolicitar.style.display = 'none';
-            btnAccion.className = "btn btn-success";
-            txtAccion.innerText = "Descargar Reporte";
-            btnAccion.setAttribute('data-pdf', a.reporte); 
+        document.getElementById('btnTerminarAuditoria').style.display = esFinalizada ? 'none' : 'block';
+        document.getElementById('btnSolicitarMasFotos').style.display = esFinalizada ? 'none' : 'block';
+        
+        const btnReporte = document.getElementById('btnDescargarReporte');
+        if (esFinalizada) {
+            btnReporte.style.display = 'block';
+            btnReporte.setAttribute('data-pdf', a.reporte);
         } else {
-            btnTerminar.style.display = 'block';
-            btnSolicitar.style.display = 'block';
-            btnAccion.className = "btn btn-primary";
-            txtAccion.innerText = "Imprimir Pantalla";
-            btnAccion.removeAttribute('data-pdf');
+            btnReporte.style.display = 'none';
         }
 
-        // 2. Mostrar el modal usando la instancia guardada
         modalDetalle.show();
+    } catch (e) { console.error(e); }
+}
 
-    } catch (e) { 
-        console.error("Error al cargar detalles:", e);
-        Swal.fire('Error', 'No se pudo cargar la información', 'error');
-    }
+function descargarPDF() {
+    const ruta = document.getElementById('btnDescargarReporte').getAttribute('data-pdf');
+    if(ruta) window.open('AUD_controller/' + ruta, '_blank');
 }
 
 function confirmarTerminarAuditoria() {
