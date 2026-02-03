@@ -42,14 +42,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         if ($errores == 0) {
-            echo "Evidencia guardada correctamente.";
+            // Actualizar el estatus de la incidencia si es necesario
+            $conn->query("UPDATE auditorias_incidencias_aud SET estatus = 'Enviada' WHERE id = $incidencia_id");
+            
+            echo json_encode(['status' => 'success', 'message' => 'Evidencia guardada correctamente.']);
         } else {
-            echo "Hubo errores al subir algunos archivos.";
+            echo json_encode(['status' => 'error', 'message' => 'Hubo errores al subir algunos archivos.']);
         }
     } else {
-        echo "Datos incompletos.";
+        echo json_encode(['status' => 'error', 'message' => 'Datos incompletos.']);
     }
 } else {
-    echo "Método no permitido.";
+    echo json_encode(['status' => 'error', 'message' => 'Método no permitido.']);
 }
 ?>

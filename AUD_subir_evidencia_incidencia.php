@@ -99,46 +99,55 @@ if (!$datos) {
 </div>
 
 <script>
-document.getElementById('inputFotos').addEventListener('change', function() {
-    const preview = document.getElementById('previewFotos');
-    preview.innerHTML = '';
-    
-    if (this.files) {
-        [...this.files].forEach(file => {
-            const reader = new FileReader();
-            
-            // Si es imagen, mostramos miniatura
-            if (file.type.startsWith('image/')) {
-                reader.onload = (e) => {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.className = 'preview-item';
-                    preview.appendChild(img);
-                }
-                reader.readAsDataURL(file);
-            } 
-            // Si es PDF, mostramos un icono de PDF
-            else if (file.type === 'application/pdf') {
-                const div = document.createElement('div');
-                div.className = 'preview-pdf';
-                div.innerHTML = '<i class="bi bi-file-pdf"></i>';
-                div.title = file.name;
-                preview.appendChild(div);
-            }
-        });
-    }
-});
+document.getElementById('formEvidencias').addEventListener('submit', async function(e) {
+    e.preventDefault(); // Evita que la página se recargue
 
-document.getElementById('formEvidencias').addEventListener('submit', function(e) {
-    document.getElementById('btnEnviar').disabled = true;
-    document.getElementById('btnEnviar').innerHTML = '<span class="spinner-border spinner-border-sm"></span> Enviando...';
+    const btn = document.getElementById('btnEnviar');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Enviando...';
     
+    // Mostrar Loading
     Swal.fire({
         title: 'Subiendo archivos',
-        text: 'Por favor no cierre esta ventana.',
+        text: 'Por favor espere...',
         allowOutsideClick: false,
         didOpen: () => { Swal.showLoading(); }
     });
+
+    try {
+        const formData = new FormData(this);
+        const response = await fetch(this.action, {
+            method: 'POST',
+            body: formData
+        });
+
+        const res = await response.json();
+
+        if (res.status === 'success') {
+            Swal.fire({
+                icon: 'success',
+                title: '¡Enviado!',
+                text: 'La evidencia se ha recibido correctamente.',
+                confirmButtonColor: '#80bf1f',
+                confirmButtonText: 'Entendido'
+            }).then(() => {
+                // Opcional: Redirigir o limpiar el formulario
+                window.location.reload(); 
+            });
+        } else {
+            throw new Error(res.message);
+        }
+
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.message || 'No se pudo enviar la información.',
+            confirmButtonColor: '#d33'
+        });
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-send-fill me-2"></i>Enviar Información';
+    }
 });
 </script>
 </body>
