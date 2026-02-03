@@ -91,7 +91,6 @@ $status = isset($_GET['status']) ? $_GET['status'] : '';
                             <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
                             <h3 class="mt-3 fw-bold">¡Todo listo!</h3>
                             <p class="text-muted">Las evidencias se enviaron correctamente. Ya puede cerrar esta ventana.</p>
-                            <button onclick="window.location.href='?t=<?= $token ?>'" class="btn btn-outline-secondary btn-sm mt-3">Subir más archivos</button>
                         </div>
                     <?php endif; ?>
                 </div>
