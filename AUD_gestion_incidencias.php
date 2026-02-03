@@ -209,7 +209,7 @@ async function solicitarEvidenciaIncidencia() {
             const data = await res.json();
             
             if(data.status === 'success') {
-                Swal.fire('¡Enviado!', 'El correo ha sido enviado con éxito.', 'success');
+                Swal.fire('¡Enviado!', `El correo ha sido enviado a: <b>${data.email}</b>`, 'success');
             } else {
                 Swal.fire('Error', data.message, 'error');
             }

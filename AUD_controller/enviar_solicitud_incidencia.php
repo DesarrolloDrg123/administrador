@@ -54,9 +54,17 @@ if ($res) {
     $envio = enviarCorreoDRG($res['email'], $asunto, $html);
 
     if ($envio) {
-        echo json_encode(['status' => 'success']);
+        // Aquí devolvemos el correo en la respuesta exitosa
+        echo json_encode([
+            'status' => 'success', 
+            'message' => 'Correo enviado correctamente',
+            'email' => $email_destino
+        ]);
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Error al procesar el envío de correo']);
+        echo json_encode([
+            'status' => 'error', 
+            'message' => 'Error al procesar el envío de correo a: ' . $email_destino
+        ]);
     }
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Incidencia no encontrada']);
