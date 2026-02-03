@@ -48,7 +48,7 @@ function crearReportePDF($id_auditoria, $conn) {
 
     <table class="header-table">
         <tr>
-            <td style="border:none;"><img src="../assets/img/logo_drg.png" class="logo"></td>
+            <td style="border:none;"><img src="../img/logo_drg.png" class="logo"></td>
             <td class="header-text" style="border:none;">
                 <strong style="color:#80bf1f; font-size:11pt;">Distribuidora Reyes G</strong><br>
                 Tamazula 309-A, Parque Industrial,<br>
