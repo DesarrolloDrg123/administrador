@@ -71,3 +71,4 @@ function enviarNotificacionAuditoria($infoReporte) {
     
     return enviarCorreoDRG($infoReporte['correo_responsable'], $asunto, $cuerpo, $infoReporte['ruta']);
 }
+?>
