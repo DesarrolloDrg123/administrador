@@ -85,6 +85,7 @@ include("src/templates/adminheader.php");
 
 <script>
 let tablaIncidenciasDT;
+let datosIncidencias = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     cargarIncidencias();
@@ -101,6 +102,7 @@ async function cargarIncidencias() {
             body: JSON.stringify({})
         });
         const incidencias = await res.json();
+        datosIncidencias = incidencias;
         let html = '';
 
         incidencias.forEach(i => {
@@ -119,10 +121,10 @@ async function cargarIncidencias() {
                     <td>${badge}</td>
                     <td class="text-center">
                         ${i.estatus !== 'Terminada' ? 
-                        `<button class="btn btn-sm btn-outline-primary" onclick="abrirModal(${i.id}, '${i.estatus}', '${i.observaciones}')">
+                        `<button class="btn btn-sm btn-outline-primary" onclick="abrirModal(${i.id})">
                             <i class="bi bi-pencil-square"></i> Gestionar
                         </button>` : 
-                        `<button class="btn btn-sm btn-outline-success" onclick="abrirModal(${i.id}, '${i.estatus}', '${i.observaciones}')">
+                        `<button class="btn btn-sm btn-outline-primary" onclick="abrirModal(${i.id})">
                             <i class="bi bi-eye-fill"></i> Ver Detalles
                         </button>`
                         }
@@ -146,16 +148,23 @@ function inicializarDataTable() {
 }
 
 // --- FUNCIÓN CORREGIDA (SOLO UNA VEZ) ---
-async function abrirModal(id, estatus, observaciones) {
-    document.getElementById('modal_id_incidencia').value = id;
-    document.getElementById('modal_estatus').value = estatus;
-    document.getElementById('modal_obs').value = observaciones;
+async function abrirModal(id, estatus) {
+    const info = datosIncidencias.find(i => i.id == id);
     
-    const esTerminada = (estatus === 'Terminada');
+    // Ahora llenamos los campos con lo que encontramos
+    document.getElementById('modal_id_incidencia').value = info.id;
+    document.getElementById('modal_estatus').value = info.estatus;
+    
+    // AQUÍ CARGAMOS LA OBSERVACIÓN CAPTURADA
+    document.getElementById('modal_obs').value = info.observaciones || ''; 
+
+    // Lógica de bloqueo si está terminada
+    const esTerminada = (info.estatus === 'Terminada');
     document.getElementById('modal_estatus').disabled = esTerminada;
     document.getElementById('modal_obs').disabled = esTerminada;
+    
+    // Ocultar botones si ya terminó
     document.querySelector('.modal-footer .btn-success').style.display = esTerminada ? 'none' : 'block';
-    document.querySelector('.btn-primary[onclick="solicitarEvidenciaIncidencia()"]').style.display = esTerminada ? 'none' : 'block';
 
 
     const contenedor = document.getElementById('contenedorEvidenciasIncidencia');
