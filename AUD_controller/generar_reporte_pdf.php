@@ -7,7 +7,7 @@ function crearReportePDF($id_auditoria, $conn) {
     $query = "SELECT a.*, v.*, s.sucursal as sucursal_nombre, u.nombre as responsable_nombre, 
               u.email as correo_responsable, g.nombre as gerente_nombre, auditor.nombre as auditor_nombre
               FROM auditorias_vehiculos_aud a
-              JOIN vehiculos v ON a.vehiculo_id = v.id
+              JOIN vehiculos_aud v ON a.vehiculo_id = v.id
               JOIN sucursales s ON v.sucursal_id = s.id
               JOIN usuarios u ON v.responsable_id = u.id
               JOIN usuarios g ON v.gerente_reportar_id = g.id
