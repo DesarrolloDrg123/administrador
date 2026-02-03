@@ -98,7 +98,9 @@ include("src/templates/adminheader.php");
                 </button>
                 
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" onclick="imprimirDesdeModal()"><i class="bi bi-printer"></i> Imprimir</button>
+                <button type="button" id="btnAccionReporte" class="btn btn-primary" onclick="gestionarAccionReporte()">
+                    <i class="bi bi-printer"></i> <span id="txtBtnAccion">Imprimir Pantalla</span>
+                </button>
             </div>
         </div>
     </div>
@@ -210,13 +212,29 @@ async function verReporte(id) {
         // Control de botones de acción
         const btnTerminar = document.getElementById('btnTerminarAuditoria');
         const btnSolicitar = document.getElementById('btnSolicitarMasFotos');
+        const btnAccion = document.getElementById('btnAccionReporte'); // El botón azul
+        const txtAccion = document.getElementById('txtBtnAccion');     // El texto del botón
         
-        if (a.estatus === 'Finalizado') { 
+        if (a.estatus === 'Finalizada' || a.estatus === 'Finalizado') { 
             btnTerminar.style.display = 'none'; 
             btnSolicitar.style.display = 'none';
+            
+            // Cambiamos el botón a modo Descarga
+            btnAccion.className = "btn btn-success"; // Color verde de Excel/PDF
+            txtAccion.innerText = "Descargar Reporte";
+            btnAccion.innerHTML = '<i class="fas fa-file-pdf"></i> Descargar Reporte';
+            
+            // Guardamos la ruta del PDF en un atributo del botón para usarlo luego
+            btnAccion.setAttribute('data-pdf', a.reporte); 
         } else {
             btnTerminar.style.display = 'block';
             btnSolicitar.style.display = 'block';
+            
+            // Volvemos al modo Imprimir normal
+            btnAccion.className = "btn btn-primary";
+            txtAccion.innerText = "Imprimir Pantalla";
+            btnAccion.innerHTML = '<i class="bi bi-printer"></i> Imprimir Pantalla';
+            btnAccion.removeAttribute('data-pdf');
         }
 
         new bootstrap.Modal(document.getElementById('modalDetalleAuditoria')).show();
@@ -287,7 +305,19 @@ async function solicitarMasFotos() {
     });
 }
 
-function imprimirDesdeModal() { window.print(); }
+function gestionarAccionReporte() {
+    const btn = document.getElementById('btnAccionReporte');
+    const rutaPdf = btn.getAttribute('data-pdf');
+
+    if (rutaPdf) {
+        // Si hay una ruta de reporte, abrimos el PDF directamente
+        // Asumiendo que el PDF está en AUD_controller/reportes/
+        window.open('AUD_controller/' + rutaPdf, '_blank');
+    } else {
+        // Si no está finalizada, solo imprime la pantalla actual del navegador
+        window.print();
+    }
+}
 </script>
 <?php 
 include("src/templates/adminfooter.php");

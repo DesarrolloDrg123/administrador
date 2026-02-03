@@ -62,13 +62,22 @@ function enviarCorreoDRG($destinatario, $asunto, $cuerpoHTML, $adjunto = null) {
  * Mantenemos tu función original pero ahora llama a la genérica
  */
 function enviarNotificacionAuditoria($infoReporte) {
+    // 1. Creamos la lista de adjuntos empezando por el reporte principal
+    $listaAdjuntos = [$infoReporte['ruta']];
+
+    // 2. Si existen PDFs adicionales de evidencias, los sumamos a la lista
+    if (isset($infoReporte['adjuntos_pdf']) && is_array($infoReporte['adjuntos_pdf'])) {
+        $listaAdjuntos = array_merge($listaAdjuntos, $infoReporte['adjuntos_pdf']);
+    }
+
     $cuerpo = "
         <h3 style='color: #80bf1f;'>Auditoría Vehicular Finalizada</h3>
         <p>Se ha generado un nuevo reporte de control vehicular para la unidad con folio <strong>{$infoReporte['folio']}</strong>.</p>
-        <p>Adjunto encontrará el documento PDF con el detalle técnico de la revisión y evidencias fotográficas.</p>";
+        <p>Adjunto encontrará el documento PDF con el detalle técnico de la revisión, evidencias fotográficas y documentos anexos capturados.</p>";
     
     $asunto = "Finalización de Auditoría Vehicular - Folio: " . $infoReporte['folio'];
     
-    return enviarCorreoDRG($infoReporte['correo_responsable'], $asunto, $cuerpo, $infoReporte['ruta']);
+    // Enviamos la lista completa de archivos
+    return enviarCorreoDRG($infoReporte['correo_responsable'], $asunto, $cuerpo, $listaAdjuntos);
 }
 ?>

@@ -86,7 +86,8 @@ function crearReportePDF($id_auditoria, $conn) {
         </tr>
         <tr>
             <td class="label"><span class="check">✔</span> No. de Licencia</td><td class="value">'.$data['no_licencia'].'</td>
-            <td class="value">'.($data['fecha_vencimiento_licencia'] ? date("d/m/Y", strtotime($data['fecha_vencimiento_licencia'])) : 'N/A').'</td>
+            <td class="label"><span class="check">✔</span> Vencimiento Licencia</td>
+                <td class="value">'.($data['fecha_vencimiento_licencia'] ? date("d/m/Y", strtotime($data['fecha_vencimiento_licencia'])) : 'N/A').'</td>
         </tr>
         <tr>
             <td class="label"><span class="check">✔</span> No. de Placas</td><td class="value">'.$data['placas'].'</td>
@@ -183,7 +184,7 @@ function crearReportePDF($id_auditoria, $conn) {
     <div class="section-title">EVIDENCIA FOTOGRÁFICA</div>
     <div style="width:100%; margin-top:10px;">';
 
-    $fotos = $conn->query("SELECT * FROM auditorias_evidencias_aud WHERE auditoria_id = $id_auditoria");
+    $$fotos = $conn->query("SELECT * FROM auditorias_evidencias_aud WHERE auditoria_id = $id_auditoria");
     $count = 0;
     while($f = $fotos->fetch_assoc()) {
         // 1. Ruta relativa para que PHP la encuentre y valide
@@ -240,9 +241,28 @@ function crearReportePDF($id_auditoria, $conn) {
     $nombreArchivo = "reportes/Auditoria_{$data['folio']}.pdf";
     $mpdf->Output($nombreArchivo, \Mpdf\Output\Destination::FILE);
     
+    // --- AQUÍ GUARDAMOS SOLO LA UBICACIÓN (EL TEXTO) ---
+    $sqlRuta = "UPDATE auditorias_vehiculos_aud SET reporte = ? WHERE id = ?";
+    $stmtRuta = $conn->prepare($sqlRuta);
+    $stmtRuta->bind_param("si", $nombreArchivo, $id_auditoria);
+    $stmtRuta->execute();
+    // --------------------------------------------------
+    
+    $adjuntosExtra = [];
+    $resEvidencias = $conn->query("SELECT ruta_archivo FROM auditorias_evidencias_aud WHERE auditoria_id = $id_auditoria");
+    while($ev = $resEvidencias->fetch_assoc()){
+        if (str_ends_with(strtolower($ev['ruta_archivo']), '.pdf')) {
+            $rutaCompleta = '../' . $ev['ruta_archivo'];
+            if(file_exists($rutaCompleta)){
+                $adjuntosExtra[] = $rutaCompleta;
+            }
+        }
+    }
+
     return [
         'ruta' => $nombreArchivo,
         'correo_responsable' => $data['correo_responsable'],
-        'folio' => $data['folio']
+        'folio' => $data['folio'],
+        'adjuntos_pdf' => $adjuntosExtra // Agregamos este array al retorno
     ];
 }

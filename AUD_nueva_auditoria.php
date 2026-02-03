@@ -314,7 +314,7 @@ function agregarFilaIncidencia() {
     if (sin) sin.remove();
     const tr = document.createElement('tr');
     tr.innerHTML = `<td><input type="text" class="form-control form-control-sm row-incidencia" required></td>
-                    <td class="text-center"><button type="button" class="btn btn-sm text-danger" onclick="this.closest('tr').remove()"><i class="bi bi-trash"></i></button></td>`;
+                    <td class="text-center"><button type="button" class="btn btn-sm text-danger" onclick="this.closest('tr').remove()"><i class="fas fa-trash"></i></button></td>`;
     tbody.appendChild(tr);
 }
 
