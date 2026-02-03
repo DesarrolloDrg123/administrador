@@ -4,7 +4,7 @@ use Mpdf\Mpdf;
 
 function crearReportePDF($id_auditoria, $conn) {
     // 1. Obtener datos (JOINs con vehiculos, sucursales y usuarios)
-    $query = "SELECT a.*, v.*, s.sucursal as sucursal_nombre, u.nombre as responsable_nombre, 
+    $query = "SELECT a.*,a.observaciones AS observaciones_auditoria, v.*, s.sucursal as sucursal_nombre, u.nombre as responsable_nombre, 
               u.email as correo_responsable, u.num_empleado, v.no_licencia, v.fecha_vencimiento_licencia,
               g.nombre as gerente_nombre, auditor.nombre as auditor_nombre
               FROM auditorias_vehiculos_aud a
@@ -239,7 +239,7 @@ function crearReportePDF($id_auditoria, $conn) {
 
     $html .= '<div class="section-title">OBSERVACIONES GENERALES DEL AUDITOR</div>
     <div class="obs-box">
-        '.(!empty($data['observaciones']) ? nl2br($data['observaciones']) : 'Sin observaciones adicionales por parte del auditor.').'
+        '.(!empty($data['observaciones_auditoria']) ? nl2br($data['observaciones_auditoria']) : 'Sin observaciones adicionales por parte del auditor.').'
     </div>';
 
     // --- SECCIÓN: EVIDENCIAS FOTOGRAFICAS ---
@@ -271,14 +271,14 @@ function crearReportePDF($id_auditoria, $conn) {
 
     <table style="width:100%; margin-top:30px; border:none;">
         <tr>
-            <td style="border:none; width:45%; border-top: 1px solid #000; text-align:center;">
+            <td style="border:none; width:45%; text-align:center;">
                 <div class="signature-box">
                     <strong>'.$data['responsable_nombre'].'</strong><br>
                     Responsable del Vehículo
                 </div>
             </td>
             <td style="border:none; width:10%;"></td>
-            <td style="border:none; width:45%; border-top: 1px solid #000; text-align:center;">
+            <td style="border:none; width:45%; text-align:center;">
                 <div class="signature-box">
                     <strong>'.$data['gerente_nombre'].'</strong><br>
                     Gerente de Sucursal
