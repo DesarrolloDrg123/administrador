@@ -152,11 +152,9 @@ async function abrirModal(id, estatus) {
     const contenedor = document.getElementById('contenedorEvidenciasIncidencia');
     contenedor.innerHTML = '<div class="text-center mt-4"><div class="spinner-border spinner-border-sm text-primary"></div></div>';
     
-    // Mostramos el modal
     const myModal = new bootstrap.Modal(document.getElementById('modalGestion'));
     myModal.show();
     
-    // Cargar fotos guardadas
     try {
         const res = await fetch(`AUD_controller/get_evidencias_incidencia.php?id=${id}`);
         const fotos = await res.json();
@@ -166,12 +164,28 @@ async function abrirModal(id, estatus) {
         } else {
             let htmlFotos = '<div class="row g-2">';
             fotos.forEach(f => {
+                // Verificar si es PDF por la extensión
+                const esPdf = f.ruta.toLowerCase().endsWith('.pdf');
+                
                 htmlFotos += `
-                    <div class="col-6">
-                        <a href="${f.ruta}" target="_blank">
-                            <img src="${f.ruta}" class="img-thumbnail w-100" style="height:80px; object-fit:cover;">
-                        </a>
-                        <small class="d-block text-truncate" style="font-size:10px;">${f.fecha}</small>
+                    <div class="col-6 mb-2">
+                        <div class="card h-100 shadow-sm border-0">
+                            <a href="${f.ruta}" target="_blank" class="text-decoration-none text-center p-1">
+                                ${esPdf ? 
+                                    // Diseño para PDF
+                                    `<div class="bg-light d-flex flex-column align-items-center justify-content-center rounded" style="height:80px;">
+                                        <i class="bi bi-file-earmark-pdf-fill text-danger fs-2"></i>
+                                        <span class="text-dark d-block small mt-1" style="font-size: 8px;">VER DOCUMENTO</span>
+                                    </div>` 
+                                    : 
+                                    // Diseño para Imagen
+                                    `<img src="${f.ruta}" class="img-thumbnail w-100" style="height:80px; object-fit:cover;">`
+                                }
+                            </a>
+                            <div class="p-1">
+                                <small class="d-block text-muted text-center" style="font-size:9px;">${f.fecha}</small>
+                            </div>
+                        </div>
                     </div>`;
             });
             htmlFotos += '</div>';
