@@ -214,7 +214,7 @@ function crearReportePDF($id_auditoria, $conn) {
     <div class="section-title">EVIDENCIA FOTOGRÁFICA</div>
     <div style="width:100%; margin-top:10px;">';
 
-    $fotos = $conn->query("SELECT * FROM auditorias_evidencias_aud WHERE auditoria_id = $id_auditoria AND tipo_evidencia = 'foto'");
+    $fotos = $conn->query("SELECT * FROM auditorias_evidencias_aud WHERE auditoria_id = $id_auditoria AND tipo_archivo = 'foto'");
     $count = 0;
     while($f = $fotos->fetch_assoc()) {
         // 1. Ruta relativa para que PHP la encuentre y valide
@@ -224,7 +224,7 @@ function crearReportePDF($id_auditoria, $conn) {
             $html .= '
             <div class="foto-box">
                 <img src="'.$rutaParaValidar.'" class="foto-img" />
-                <div style="font-size:7pt; font-weight:bold; color:#80bf1f;">'.$f['tipo_evidencia'].'</div>
+                <div style="font-size:7pt; font-weight:bold; color:#80bf1f;">'.$f['tipo_archivo'].'</div>
             </div>';
             
             $count++;
