@@ -90,7 +90,14 @@ $status = isset($_GET['status']) ? $_GET['status'] : '';
                         <div class="text-center py-5">
                             <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
                             <h3 class="mt-3 fw-bold">¡Todo listo!</h3>
-                            <p class="text-muted">Las evidencias se enviaron correctamente. Ya puede cerrar esta ventana.</p>
+                            <p class="text-muted">Las evidencias se enviaron correctamente.</p>
+                            
+                            <div class="mt-4 d-grid gap-2">
+                                <a href="?t=<?= htmlspecialchars($token) ?>" class="btn btn-outline-success border-2 fw-bold py-3">
+                                    <i class="bi bi-plus-circle me-2"></i>Cargar más documentos
+                                </a>
+                                <p class="small text-muted mt-2">O puede cerrar esta ventana si ha terminado.</p>
+                            </div>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -106,8 +113,17 @@ $status = isset($_GET['status']) ? $_GET['status'] : '';
         icon: 'success',
         title: '¡Envío Exitoso!',
         text: 'Las evidencias del folio <?= $_GET['folio'] ?> se guardaron correctamente.',
+        showCancelButton: true,
         confirmButtonColor: '#80bf1f',
-        confirmButtonText: 'Entendido'
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: '<i class="bi bi-plus-circle me-1"></i> Subir más documentos',
+        cancelButtonText: 'Finalizar',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Recarga la página sin el parámetro status para mostrar el formulario limpio
+            window.location.href = '?t=<?= htmlspecialchars($token) ?>';
+        }
     });
 <?php endif; ?>
 
@@ -120,7 +136,7 @@ document.getElementById('inputFotos')?.addEventListener('change', function() {
             const container = document.createElement('div');
             container.className = 'preview-item';
             if (file.type === "application/pdf") {
-                container.innerHTML = `<i class="bi bi-file-pdf"></i><span class="text-truncate w-100 px-1 text-center">${file.name}</span>`;
+                container.innerHTML = `<i class="bi bi-file-pdf"></i><span class="text-truncate w-100 px-1 text-center" style="font-size: 0.6rem;">${file.name}</span>`;
             } else {
                 const reader = new FileReader();
                 reader.onload = (e) => {
