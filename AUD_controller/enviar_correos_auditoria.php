@@ -27,9 +27,19 @@ function enviarCorreoDRG($destinatario, $asunto, $cuerpoHTML, $adjunto = null) {
         $mail->setFrom('notification@intranetdrg.com.mx', 'Sistema de Auditoría DRG');
         $mail->addAddress($destinatario);
 
-        // --- ADJUNTO ---
-        if ($adjunto && file_exists($adjunto)) {
-            $mail->addAttachment($adjunto);
+        // --- MANEJO DE ADJUNTOS (Soporta archivo único o Array) ---
+        if ($adjunto) {
+            if (is_array($adjunto)) {
+                // Si es un array, recorremos cada elemento
+                foreach ($adjunto as $ruta) {
+                    if (is_string($ruta) && file_exists($ruta)) {
+                        $mail->addAttachment($ruta);
+                    }
+                }
+            } elseif (is_string($adjunto) && file_exists($adjunto)) {
+                // Si es un solo string
+                $mail->addAttachment($adjunto);
+            }
         }
 
         // --- CONTENIDO DEL CORREO CON DISEÑO CORPORATIVO ---
@@ -62,22 +72,35 @@ function enviarCorreoDRG($destinatario, $asunto, $cuerpoHTML, $adjunto = null) {
  * Mantenemos tu función original pero ahora llama a la genérica
  */
 function enviarNotificacionAuditoria($infoReporte) {
-    // 1. Creamos la lista de adjuntos empezando por el reporte principal
-    $listaAdjuntos = [$infoReporte['ruta']];
+    // 1. Agregamos el prefijo '../' si el archivo se guardó en una carpeta relativa 
+    // y estamos dentro de AUD_controller.
+    $rutaPrincipal = '../' . $infoReporte['ruta'];
 
-    // 2. Si existen PDFs adicionales de evidencias, los sumamos a la lista
+    $listaAdjuntos = [];
+    
+    // Validamos que el reporte principal exista antes de añadirlo
+    if (file_exists($rutaPrincipal)) {
+        $listaAdjuntos[] = $rutaPrincipal;
+    }
+
+    // 2. Sumamos los PDFs adicionales que ya vienen con la ruta correcta
     if (isset($infoReporte['adjuntos_pdf']) && is_array($infoReporte['adjuntos_pdf'])) {
-        $listaAdjuntos = array_merge($listaAdjuntos, $infoReporte['adjuntos_pdf']);
+        foreach ($infoReporte['adjuntos_pdf'] as $adjunto) {
+            // Verificamos que sea un string y no un array para evitar el Fatal Error
+            if (is_string($adjunto) && file_exists($adjunto)) {
+                $listaAdjuntos[] = $adjunto;
+            }
+        }
     }
 
     $cuerpo = "
         <h3 style='color: #80bf1f;'>Auditoría Vehicular Finalizada</h3>
         <p>Se ha generado un nuevo reporte de control vehicular para la unidad con folio <strong>{$infoReporte['folio']}</strong>.</p>
-        <p>Adjunto encontrará el documento PDF con el detalle técnico de la revisión, evidencias fotográficas y documentos anexos capturados.</p>";
+        <p>Adjunto encontrará el documento PDF con el detalle técnico de la revisión y anexos.</p>";
     
     $asunto = "Finalización de Auditoría Vehicular - Folio: " . $infoReporte['folio'];
     
-    // Enviamos la lista completa de archivos
+    // Enviamos la lista depurada de archivos
     return enviarCorreoDRG($infoReporte['correo_responsable'], $asunto, $cuerpo, $listaAdjuntos);
 }
 ?>
