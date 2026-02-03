@@ -7,7 +7,6 @@ if ($id_incidencia <= 0) {
     die("Acceso denegado: ID de incidencia no válido.");
 }
 
-// Mantenemos la consulta que ya te funcionaba
 $sql = "SELECT i.id, i.descripcion as incidencia, v.placas, v.no_serie
         FROM auditorias_incidencias_aud i
         JOIN vehiculos_aud v ON i.vehiculo_id = v.id
@@ -41,8 +40,6 @@ if (!$datos) {
         .upload-zone { border: 2px dashed #80bf1f; border-radius: 15px; padding: 40px 20px; transition: all 0.3s ease; background: #fff; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
         .upload-zone:hover { background: #f2f9e9; }
         .btn-primary { background-color: var(--primary-color); border: none; border-radius: 12px; font-weight: 600; padding: 15px; }
-        
-        /* Estilos para la previsualización */
         .preview-item { width: 100px; height: 100px; object-fit: cover; border-radius: 10px; border: 2px solid #ddd; }
         .preview-pdf { width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; background: #f8d7da; color: #dc3545; border-radius: 10px; font-size: 2rem; border: 2px solid #f5c2c7; }
         .incidencia-info { background-color: #fff3cd; border-left: 5px solid #ffc107; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
@@ -85,7 +82,7 @@ if (!$datos) {
 
                         <div class="mb-4">
                             <label class="form-label fw-bold small">Comentarios</label>
-                            <textarea name="comentarios" class="form-control" rows="2" placeholder="Notas sobre la reparación..."></textarea>
+                            <textarea name="comentarios" id="comentarios" class="form-control" rows="2" placeholder="Notas sobre la reparación..."></textarea>
                         </div>
 
                         <button type="submit" id="btnEnviar" class="btn btn-primary w-100 shadow">
@@ -99,6 +96,7 @@ if (!$datos) {
 </div>
 
 <script>
+// Manejo de Previsualización
 document.getElementById('inputFotos').addEventListener('change', function() {
     const preview = document.getElementById('previewFotos');
     preview.innerHTML = '';
@@ -106,8 +104,6 @@ document.getElementById('inputFotos').addEventListener('change', function() {
     if (this.files) {
         [...this.files].forEach(file => {
             const reader = new FileReader();
-            
-            // Si es imagen, mostramos miniatura
             if (file.type.startsWith('image/')) {
                 reader.onload = (e) => {
                     const img = document.createElement('img');
@@ -117,26 +113,26 @@ document.getElementById('inputFotos').addEventListener('change', function() {
                 }
                 reader.readAsDataURL(file);
             } 
-            // Si es PDF, mostramos un icono de PDF
             else if (file.type === 'application/pdf') {
                 const div = document.createElement('div');
                 div.className = 'preview-pdf';
                 div.innerHTML = '<i class="bi bi-file-pdf"></i>';
-                div.title = file.name;
                 preview.appendChild(div);
             }
         });
     }
 });
 
+// Manejo del Envío
 document.getElementById('formEvidencias').addEventListener('submit', async function(e) {
-    e.preventDefault(); // Evita que la página se recargue
+    e.preventDefault();
 
     const btn = document.getElementById('btnEnviar');
+    const form = this;
+    
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Enviando...';
     
-    // Mostrar Loading
     Swal.fire({
         title: 'Subiendo archivos',
         text: 'Por favor espere...',
@@ -156,13 +152,25 @@ document.getElementById('formEvidencias').addEventListener('submit', async funct
         if (res.status === 'success') {
             Swal.fire({
                 icon: 'success',
-                title: '¡Enviado!',
-                text: 'La evidencia se ha recibido correctamente.',
+                title: '¡Recibido!',
+                text: 'Los archivos se cargaron correctamente.',
+                showCancelButton: true,
                 confirmButtonColor: '#80bf1f',
-                confirmButtonText: 'Entendido'
-            }).then(() => {
-                // Opcional: Redirigir o limpiar el formulario
-                window.location.reload(); 
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: '<i class="bi bi-plus-circle me-1"></i> Subir más documentos',
+                cancelButtonText: 'Finalizar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Acción: Cargar más documentos
+                    form.reset(); // Limpia campos de texto y archivos
+                    document.getElementById('previewFotos').innerHTML = ''; // Limpia miniaturas
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="bi bi-send-fill me-2"></i>Enviar Información';
+                } else {
+                    // Acción: Finalizar
+                    window.location.reload(); 
+                }
             });
         } else {
             throw new Error(res.message);
