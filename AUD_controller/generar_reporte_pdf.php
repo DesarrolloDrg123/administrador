@@ -113,27 +113,72 @@ function crearReportePDF($id_auditoria, $conn) {
         </thead>
         <tbody>';
 
-    // Aquí corregimos el nombre de los campos usando la columna 'pregunta' de tu tabla detalle
-    $resDet = $conn->query("SELECT * FROM auditorias_detalle_aud WHERE auditoria_id = $id_auditoria");
+    $queryDetalle = "SELECT i.descripcion as nombre_item, d.valor_seleccionado, d.puntos_obtenidos 
+                 FROM auditorias_detalle_aud d
+                 JOIN cat_items_auditoria_aud i ON d.categoria_id = i.id
+                 WHERE d.auditoria_id = $id_auditoria";
+
+    $resDet = $conn->query($queryDetalle);
     $puntosTotales = 0;
+
     while($row = $resDet->fetch_assoc()) {
         $puntosTotales += $row['puntos_obtenidos'];
         $html .= '<tr>
                     <td style="width:5%; text-align:center;"><span class="check">✔</span></td>
-                    <td style="width:55%;">'.$row['pregunta'].'</td>
+                    <td style="width:55%;">'.$row['nombre_item'].'</td>
                     <td style="width:25%; text-align:center;">'.$row['valor_seleccionado'].'</td>
                     <td style="width:15%; text-align:center;">'.$row['puntos_obtenidos'].'</td>
                   </tr>';
     }
 
     $html .= '
-            <tr style="font-weight:bold; background-color:#f2f9e9;">
-                <td colspan="3" style="text-align:right;">CALIFICACIÓN TOTAL:</td>
-                <td style="text-align:center;">'.$puntosTotales.'</td>
-            </tr>
-        </tbody>
-    </table>
+                <tr style="font-weight:bold; background-color:#f2f9e9;">
+                    <td colspan="3" style="text-align:right;">CALIFICACIÓN TOTAL:</td>
+                    <td style="text-align:center;">'.$puntosTotales.'</td>
+                </tr>
+            </tbody>
+        </table>'; // Aquí termina la tabla anterior
 
+    // ======================================================
+    // INSERTAR AQUÍ EL BLOQUE DE MANTENIMIENTO
+    // ======================================================
+    $html .= '<div class="section-title">SERVICIOS DE MANTENIMIENTO</div>
+    <table>
+        <thead>
+            <tr style="background-color: #f8f9fa;">
+                <th style="text-align:center; width:15%;">Fecha</th>
+                <th style="text-align:center; width:10%;">KM</th>
+                <th style="text-align:center; width:20%;">Tipo de Servicio</th>
+                <th style="text-align:center; width:15%;">Taller</th>
+                <th style="text-align:center; width:40%;">Observaciones</th>
+            </tr>
+        </thead>
+        <tbody>';
+
+    $resMant = $conn->query("SELECT * FROM auditorias_mantenimiento_aud WHERE auditoria_id = $id_auditoria");
+    
+    if ($resMant && $resMant->num_rows > 0) {
+        while($m = $resMant->fetch_assoc()) {
+            $fechaMant = ($m['fecha'] && $m['fecha'] != '0000-00-00') ? date("d/m/Y", strtotime($m['fecha'])) : 'N/A';
+            $html .= '<tr>
+                        <td style="text-align:center;">'.$fechaMant.'</td>
+                        <td style="text-align:center;">'.number_format($m['km']).'</td>
+                        <td>'.$m['servicio'].'</td>
+                        <td>'.$m['taller'].'</td>
+                        <td>'.$m['observaciones'].'</td>
+                      </tr>';
+        }
+    } else {
+        // Filas vacías para mantener el formato si no hay datos
+        for ($i = 0; $i < 3; $i++) {
+            $html .= '<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
+        }
+    }
+    $html .= '</tbody></table>';
+    // ======================================================
+
+    // Tu código continúa aquí:
+    $html .= '
     <div class="section-title">EVIDENCIA FOTOGRÁFICA</div>
     <div style="width:100%; margin-top:10px;">';
 
@@ -144,7 +189,7 @@ function crearReportePDF($id_auditoria, $conn) {
         if(file_exists($ruta)) {
             $html .= '
             <div class="foto-box">
-                <img src="'.$ruta.'" class="foto-img" />
+                <img src="../'.$ruta.'" class="foto-img" />
                 <div style="font-size:7pt; font-weight:bold; color:#80bf1f;">'.$f['tipo_evidencia'].'</div>
             </div>';
             $count++;
