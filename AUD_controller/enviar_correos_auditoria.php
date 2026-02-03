@@ -75,7 +75,7 @@ function enviarCorreoDRG($destinatario, $asunto, $cuerpoHTML, $adjunto = null) {
 function enviarNotificacionAuditoria($infoReporte) {
     // 1. Agregamos el prefijo '../' si el archivo se guardó en una carpeta relativa 
     // y estamos dentro de AUD_controller.
-    $rutaPrincipal = '../' . $infoReporte['ruta'];
+    $rutaPrincipal =  $infoReporte['ruta'];
 
     $listaAdjuntos = [];
     
