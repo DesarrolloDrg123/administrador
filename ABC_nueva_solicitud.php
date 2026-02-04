@@ -313,7 +313,7 @@ try {
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="puesto_actual_baja" readonly placeholder="Puesto del colaborador">
                                     <a id="btn-pdf-baja" href="#" target="_blank" class="btn btn-pdf-custom btn-outline-info" style="display:none;">
-                                        <i class="fas fa-file-pdf"></i> Ver descripción
+                                        <i class="fas fa-file-pdf"></i> Ver descripción de Puesto
                                     </a>
                                 </div>
                             </div>
