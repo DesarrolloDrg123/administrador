@@ -77,33 +77,32 @@ try {
                 <h5 class="text-primary">1. Información del Puesto</h5>
                 <hr>
                 <div class="row g-3 mb-3">
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <label for="puesto_id" class="form-label">Puesto Solicitado*</label>
-                        <select class="form-select" name="puesto_id" id="puesto_id" required>
-                            <option value="" disabled selected>Selecciona un puesto</option>
-                            <?php
-                            // --- CÓDIGO PHP PARA LLENAR LOS PUESTOS DESDE LA BD ---
-                            try {
-                                $stmt = $conn->prepare("SELECT id, puesto FROM puestos ORDER BY puesto ASC");
-                                $stmt->execute();
-                                $result = $stmt->get_result();
-                                while ($row = $result->fetch_assoc()) {
-                                    echo '<option value="' . htmlspecialchars($row['id']) . '">' . htmlspecialchars($row['puesto']) . '</option>';
+                        <div class="input-group">
+                            <select class="form-select" name="puesto_id" id="puesto_id" required>
+                                <option value="" disabled selected>Selecciona un puesto</option>
+                                <?php
+                                try {
+                                    // MODIFICADO: Agregamos 'documento' a la consulta
+                                    $stmt = $conn->prepare("SELECT id, puesto, documento FROM puestos ORDER BY puesto ASC");
+                                    $stmt->execute();
+                                    $result = $stmt->get_result();
+                                    while ($row = $result->fetch_assoc()) {
+                                        // MODIFICADO: Guardamos el documento en el atributo data-doc
+                                        echo '<option value="' . htmlspecialchars($row['id']) . '" data-doc="' . htmlspecialchars($row['documento'] ?? '') . '">' 
+                                            . htmlspecialchars($row['puesto']) . 
+                                            '</option>';
+                                    }
+                                } catch (Exception $e) {
+                                    echo '<option value="" disabled>Error al cargar puestos</option>';
                                 }
-                            } catch (Exception $e) {
-                                echo '<option value="" disabled>Error al cargar puestos</option>';
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <?php if (!empty($row['documento'])): ?>
-                            <a href="UT_controller/documentos_puestos/<?= $row['documento'] ?>" target="_blank" class="btn btn-sm btn-outline-info">
-                                Ver PDF
+                                ?>
+                            </select>
+                            <a id="btn-ver-pdf" href="#" target="_blank" class="btn btn-outline-info" style="display: none;">
+                                <i class="bi bi-file-earmark-pdf"></i> Ver PDF
                             </a>
-                        <?php else: ?>
-                            <span class="text-muted small">Sin archivo</span>
-                        <?php endif; ?>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <label for="fecha_solicitud" class="form-label">Fecha de Solicitud</label>
