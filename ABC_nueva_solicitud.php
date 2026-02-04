@@ -288,21 +288,40 @@ try {
                     <div id="form-baja" class="dynamic-form-section">
                         <h3 class="form-section-title">Datos del Colaborador a dar de Baja</h3>
                         <div class="row g-3 align-items-end">
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <label for="usuario_baja_id" class="form-label">Usuario a dar de baja <span class="text-danger">*</span></label>
-                                <select class="form-select" id="usuario_baja_id" name="usuario_baja_id" required>
+                                <select class="form-select" id="usuario_baja_id" name="usuario_baja_id" required onchange="actualizarPuestoBaja(this)">
                                     <option selected disabled value="">Elige un usuario...</option>
                                     <?php foreach ($usuarios_all as $usuario): ?>
-                                        <option value="<?= $usuario['id'] ?>">
+                                        <option value="<?= $usuario['id'] ?>" data-puesto="<?= htmlspecialchars($usuario['puesto'] ?? 'No asignado') ?>" data-descripcion="<?= htmlspecialchars($usuario['descripcion_puesto'] ?? 'Sin descripción disponible') ?>">
                                             <?= htmlspecialchars($usuario['usuario']) ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <div class="col-md-4">
+
+                            <div class="col-md-5">
+                                <label class="form-label">Puesto Actual</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="puesto_actual_baja" readonly placeholder="Puesto del colaborador">
+                                    <button class="btn btn-outline-secondary" type="button" id="btn_ver_descripcion" onclick="mostrarDescripcionPuesto()" title="Ver descripción del puesto">
+                                        <i class="bi bi-info-circle"></i> Ver Descripción
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
                                 <label class="form-label">¿Es foráneo? <span class="text-danger">*</span></label>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="es_foraneo" id="foraneo_si" value="1" required><label class="form-check-label" for="foraneo_si">Sí</label></div>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="es_foraneo" id="foraneo_no" value="0" checked><label class="form-check-label" for="foraneo_no">No</label></div>
+                                <div class="d-flex gap-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="es_foraneo" id="foraneo_si" value="1" required>
+                                        <label class="form-check-label" for="foraneo_si">Sí</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="es_foraneo" id="foraneo_no" value="0" checked>
+                                        <label class="form-check-label" for="foraneo_no">No</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <h3 class="form-section-title">Detalles de la Baja</h3>
@@ -619,6 +638,29 @@ $(document).ready(function() {
         }
     });
 });
+
+function actualizarPuestoBaja(select) {
+    const selectedOption = select.options[select.selectedIndex];
+    const puesto = selectedOption.getAttribute('data-puesto');
+    document.getElementById('puesto_actual_baja').value = puesto;
+}
+
+function mostrarDescripcionPuesto() {
+    const select = document.getElementById('usuario_baja_id');
+    if (select.value === "") {
+        Swal.fire('Atención', 'Primero selecciona un usuario', 'warning');
+        return;
+    }
+    const selectedOption = select.options[select.selectedIndex];
+    const descripcion = selectedOption.getAttribute('data-descripcion');
+    
+    Swal.fire({
+        title: 'Descripción del Puesto',
+        text: descripcion,
+        icon: 'info',
+        confirmButtonText: 'Entendido'
+    });
+}
 </script>
 
 <?php
