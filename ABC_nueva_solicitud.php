@@ -598,32 +598,32 @@ $(document).ready(function() {
     // ==========================================
     // 1. LÓGICA ESPECÍFICA PARA BAJA (PRIORIDAD)
     // ==========================================
-    $('#usuario_baja_id').on('change', function() {
-        // 1. Obtener la opción seleccionada
-        var $option = $(this).find('option:selected');
+    $(document).on('change', '#usuario_baja_id', function() {
+        // 1. Obtener el option seleccionado de forma robusta
+        var selectedOption = $(this).find('option:selected');
         
-        // 2. Extraer datos de los atributos data-
-        var puesto = $option.attr('data-puesto') || 'No asignado';
-        var doc = $option.attr('data-doc') || '';
-        
-        // 3. Asignar el nombre del puesto al input
-        $('#puesto_actual_baja').val(puesto);
+        // 2. Extraer los datos usando .attr() que es más directo que .data()
+        var puestoNombre = selectedOption.attr('data-puesto') || 'No asignado';
+        var documento = selectedOption.attr('data-doc') || '';
+
+        // DEBUG: Esto te dirá en consola exactamente qué está leyendo
+        console.log("Detectado para baja -> Puesto:", puestoNombre, "Doc:", documento);
+
+        // 3. Rellenar el input de texto
+        $('#puesto_actual_baja').val(puestoNombre);
 
         // 4. Lógica del botón PDF
-        var $btn = $('#btn-pdf-baja');
+        var btnPdf = $('#btn-pdf-baja');
         
-        if (doc !== "" && doc !== null && doc !== undefined) {
-            // Construir la ruta
-            var url = 'UT_controller/documentos_puestos/' + doc;
-            $btn.attr('href', url);
-            
-            // Forzar la visibilidad (Quitamos display:none y d-none)
-            $btn.prop('style', 'display: inline-block !important;');
-            $btn.show(); 
+        if (documento.trim() !== "") {
+            // Actualizar link y mostrar
+            btnPdf.attr('href', 'UT_controller/documentos_puestos/' + documento);
+            btnPdf.css('display', 'inline-block'); // Fuerza el estilo sobre Bootstrap
+            btnPdf.show();
         } else {
-            // Si no hay documento, ocultar
-            $btn.hide();
-            $btn.attr('href', '#');
+            // No hay documento, ocultar
+            btnPdf.hide();
+            btnPdf.attr('href', '#');
         }
     });
 
