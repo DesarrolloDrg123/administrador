@@ -149,8 +149,7 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
             border-top: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* Forzar que el menú de usuario suba */
-        .sidebar-footer .dropup .dropdown-menu {
+        .sidebar-footer .dropdown .dropdown-menu {
             position: absolute !important;
             bottom: 100% !important;
             top: auto !important;
@@ -171,7 +170,6 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
             color: white !important;
         }
 
-        /* Evitar que el dropdown se abra de lado en modo cerrado */
         header#main-sidebar.sidebar-collapsed .sidebar-footer .dropdown-menu {
             left: 75px !important;
             bottom: 10px !important;
