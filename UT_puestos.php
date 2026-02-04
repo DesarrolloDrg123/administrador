@@ -65,7 +65,7 @@ $result_puestos = $conn->query("SELECT * FROM puestos ORDER BY puesto ASC");
                             <td><?= htmlspecialchars($row['puesto']) ?></td>
                             <td class="text-center">
                                 <?php if (!empty($row['documento'])): ?>
-                                    <a href="uploads/documentos_puestos/<?= $row['documento'] ?>" target="_blank" class="btn btn-sm btn-outline-info">
+                                    <a href="UT_controller/documentos_puestos/<?= $row['documento'] ?>" target="_blank" class="btn btn-sm btn-outline-info">
                                         Ver PDF
                                     </a>
                                 <?php else: ?>
