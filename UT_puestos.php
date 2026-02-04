@@ -193,3 +193,6 @@ $(document).ready(function() {
     });
 });
 </script>
+<?php
+include("src/templates/adminfooter.php");
+?>
