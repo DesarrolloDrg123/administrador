@@ -657,35 +657,29 @@ $(document).ready(function() {
     }
     
     // Si es el select de baja, también llenamos el campo de texto del puesto
-    if (this.id === 'usuario_baja_id') {
-        const puestoNombre = selectedOption.getAttribute('data-puesto');
-        document.getElementById('puesto_actual_baja').value = puestoNombre || '';
-    }
-});
-});
+    // Dentro de $(document).ready(function () { ...
 
-function actualizarPuestoBaja(select) {
-    const selectedOption = select.options[select.selectedIndex];
-    const puesto = selectedOption.getAttribute('data-puesto');
-    document.getElementById('puesto_actual_baja').value = puesto;
-}
+    $('#usuario_baja_id').on('change', function() {
+        const selectedOption = $(this).find(':selected');
+        const puestoNombre = selectedOption.data('puesto');
+        const documento = selectedOption.data('doc');
+        
+        // 1. Llenar el input de texto del puesto
+        $('#puesto_actual_baja').val(puestoNombre || 'No asignado');
 
-function mostrarDescripcionPuesto() {
-    const select = document.getElementById('usuario_baja_id');
-    if (select.value === "") {
-        Swal.fire('Atención', 'Primero selecciona un usuario', 'warning');
-        return;
-    }
-    const selectedOption = select.options[select.selectedIndex];
-    const descripcion = selectedOption.getAttribute('data-descripcion');
-    
-    Swal.fire({
-        title: 'Descripción del Puesto',
-        text: descripcion,
-        icon: 'info',
-        confirmButtonText: 'Entendido'
+        // 2. Manejar el botón PDF
+        const btnPdf = $('#btn-pdf-baja');
+        
+        if (documento && documento.trim() !== "") {
+            // Asegúrate de que esta ruta sea la correcta (donde guardas tus PDFs)
+            btnPdf.attr('href', 'UT_controller/documentos_puestos/' + documento);
+            btnPdf.show(); // Usamos show() de jQuery para evitar conflictos de display:none
+        } else {
+            btnPdf.hide();
+        }
     });
-}
+});
+});
 </script>
 
 <?php
