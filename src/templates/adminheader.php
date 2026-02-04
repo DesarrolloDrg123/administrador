@@ -149,7 +149,16 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
             border-top: 1px solid rgba(255,255,255,0.05);
         }
 
-        .sidebar-footer .dropdown-menu {
+        .sidebar-footer .navbar-nav {
+            width: 100%;
+        }
+
+        .sidebar-footer .nav-item {
+            width: 100%;
+        }
+
+        .sidebar-footer .dropup .dropdown-menu {
+            position: absolute !important;
             bottom: 100% !important;
             top: auto !important;
             left: 5px !important;
@@ -169,9 +178,29 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
             color: white !important;
         }
 
+        /* Estilos para cuando el sidebar está colapsado */
+        header#main-sidebar.sidebar-collapsed .sidebar-footer .nav-link {
+            justify-content: center !important;
+            padding: 15px 0 !important;
+        }
+
+        header#main-sidebar.sidebar-collapsed .sidebar-footer .nav-link i {
+            margin-right: 0 !important;
+        }
+
+        header#main-sidebar.sidebar-collapsed .sidebar-footer .nav-text {
+            display: none !important;
+        }
+
         header#main-sidebar.sidebar-collapsed .sidebar-footer .dropdown-menu {
+            position: absolute !important;
+            bottom: 100% !important;
+            top: auto !important;
             left: 75px !important;
-            bottom: 10px !important;
+            margin-bottom: 10px;
+            background-color: #22282e !important;
+            border: 1px solid rgba(255,255,255,0.1);
+            min-width: 200px;
         }
 
         header#main-sidebar.sidebar-collapsed .nav-item.dropdown {
