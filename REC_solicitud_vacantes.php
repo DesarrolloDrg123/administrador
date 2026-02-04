@@ -77,7 +77,7 @@ try {
                 <h5 class="text-primary">1. Información del Puesto</h5>
                 <hr>
                 <div class="row g-3 mb-3">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <label for="puesto_id" class="form-label">Puesto Solicitado*</label>
                         <select class="form-select" name="puesto_id" id="puesto_id" required>
                             <option value="" disabled selected>Selecciona un puesto</option>
@@ -95,6 +95,15 @@ try {
                             }
                             ?>
                         </select>
+                    </div>
+                    <div class="col-md-3">
+                        <?php if (!empty($row['documento'])): ?>
+                            <a href="UT_controller/documentos_puestos/<?= $row['documento'] ?>" target="_blank" class="btn btn-sm btn-outline-info">
+                                Ver PDF
+                            </a>
+                        <?php else: ?>
+                            <span class="text-muted small">Sin archivo</span>
+                        <?php endif; ?>
                     </div>
                     <div class="col-md-6">
                         <label for="fecha_solicitud" class="form-label">Fecha de Solicitud</label>

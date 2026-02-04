@@ -34,7 +34,7 @@ try {
     $sucursales = $resultado_sucursales->fetch_all(MYSQLI_ASSOC);
 
     // Obtener puestos
-    $resultado_puestos = $conn->query("SELECT id, puesto FROM puestos ORDER BY puesto");
+    $resultado_puestos = $conn->query("SELECT id, puesto, documento FROM puestos ORDER BY puesto");
     if (!$resultado_puestos) throw new Exception("Error en la consulta de puestos.");
     $puestos = $resultado_puestos->fetch_all(MYSQLI_ASSOC);
 
@@ -141,7 +141,7 @@ try {
 
                 <!-- CONTENEDOR PARA LAS SECCIONES DINÁMICAS -->
                 <div id="dynamic-form-container">
-                    <!-- SECCIÓN: ALTA / REMPLAZO / PRACTICANTE -->
+                    <!-- SECCIÓN: ALTA / REEMPLAZO / PRACTICANTE -->
                     <div id="form-alta-remplazo-practicante" class="dynamic-form-section">
                         <div class="mb-3 dynamic-field" data-type="remplazo">
                             <h3 class="form-section-title">Colaborador a Reemplazar</h3>
@@ -193,12 +193,19 @@ try {
                             <!-- CAMBIO: Se añade un ID al contenedor del campo Puesto -->
                             <div class="col-md-8" id="puesto-container">
                                 <label for="puesto_alta" class="form-label">Puesto <span class="text-danger">*</span></label>
-                                <select class="form-select" id="puesto_alta" name="puesto_alta" required>
-                                     <option selected disabled value="">Elige un puesto...</option>
-                                     <?php foreach ($puestos as $puesto): ?>
-                                         <option value="<?= $puesto['id'] ?>"><?= htmlspecialchars($puesto['puesto']) ?></option>
-                                     <?php endforeach; ?>
-                                </select>
+                                <div class="input-group">
+                                    <select class="form-select select-puesto-pdf" id="puesto_alta" name="puesto_alta" data-btn="btn-pdf-alta">
+                                        <option selected disabled value="">Elige un puesto...</option>
+                                        <?php foreach ($puestos as $puesto): ?>
+                                            <option value="<?= $puesto['id'] ?>" data-doc="<?= htmlspecialchars($puesto['documento'] ?? '') ?>">
+                                                <?= htmlspecialchars($puesto['puesto']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <a id="btn-pdf-alta" href="#" target="_blank" class="btn btn-outline-info" style="display:none;">
+                                        <i class="fas fa-file-pdf"></i> Ver descripción
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <div class="row g-3 mt-2">
@@ -241,12 +248,19 @@ try {
                             </div>
                             <div class="col-md-6">
                                 <label for="puesto_nuevo" class="form-label">Puesto Nuevo <span class="text-danger">*</span></label>
-                                <select class="form-select" id="puesto_nuevo" name="puesto_nuevo" required>
-                                     <option selected disabled value="">Elige un puesto...</option>
-                                     <?php foreach ($puestos as $puesto): ?>
-                                         <option value="<?= $puesto['id'] ?>"><?= htmlspecialchars($puesto['puesto']) ?></option>
-                                     <?php endforeach; ?>
-                                </select>
+                                <div class="input-group">
+                                    <select class="form-select select-puesto-pdf" id="puesto_nuevo" name="puesto_nuevo" data-btn="btn-pdf-nuevo" required>
+                                        <option selected disabled value="">Elige un puesto...</option>
+                                        <?php foreach ($puestos as $puesto): ?>
+                                            <option value="<?= $puesto['id'] ?>" data-doc="<?= htmlspecialchars($puesto['documento'] ?? '') ?>">
+                                                <?= htmlspecialchars($puesto['puesto']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <a id="btn-pdf-nuevo" href="#" target="_blank" class="btn btn-outline-info" style="display:none;">
+                                        <i class="fas fa-file-pdf"></i> Ver descripción
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <div class="mb-3 mt-3"><label for="justificacion_cambio" class="form-label">Justificación del Cambio <span class="text-danger">*</span></label><textarea class="form-control" id="justificacion_cambio" name="justificacion_cambio" rows="3" required></textarea></div>
@@ -532,6 +546,60 @@ $(document).ready(function () { // Se usa jQuery para asegurar que todo cargue p
     // Llamadas iniciales para configurar la UI
     updateFormUI();
     handleForaneoChange(); // Si tienes esta función, asegúrate de que esté definida
+});
+
+$(document).ready(function() {
+    $('#puesto_alta').on('change', function() {
+        // Obtenemos la opción seleccionada y su atributo data-doc
+        const selectedOption = $(this).find(':selected');
+        const documento = selectedOption.data('doc');
+        const btnPdf = $('#btn-ver-pdf-alta');
+        const msgSinArchivo = $('#sin-archivo-msg');
+
+        if (documento && documento.trim() !== "") {
+            // Si hay documento, actualizamos el link y mostramos el botón
+            btnPdf.attr('href', 'UT_controller/documentos_puestos/' + documento);
+            btnPdf.fadeIn();
+            msgSinArchivo.hide();
+        } else {
+            // Si no hay documento, ocultamos el botón y mostramos el aviso opcional
+            btnPdf.fadeOut();
+            msgSinArchivo.show();
+        }
+    });
+    // --- 1. LÓGICA PARA RELLENAR DATOS EN "ALTA POR REEMPLAZO" ---
+    $('#usuario_remplazo_id').on('change', function() {
+        const selectedOption = $(this).find(':selected');
+        const puestoNombre = selectedOption.data('puesto'); // Viene del data-puesto en el option
+        const estatus = selectedOption.data('estatus');    // Viene del data-estatus en el option
+
+        // Rellenamos el campo de texto del puesto
+        $('#puesto_remplazo').val(puestoNombre || 'No definido');
+
+        // Actualizamos el badge de estatus
+        const badge = $('#estatus_remplazo');
+        if (estatus == '1') {
+            badge.text('Activo').removeClass('status-inactive').addClass('status-active');
+        } else {
+            badge.text('Inactivo').removeClass('status-active').addClass('status-inactive');
+        }
+    });
+
+    // --- 2. LÓGICA UNIFICADA PARA MOSTRAR PDF DE PUESTOS ---
+    $('.select-puesto-pdf').on('change', function() {
+        const option = $(this).find(':selected');
+        const documento = option.data('doc'); // Nombre del archivo PDF
+        const btnId = $(this).data('btn');    // ID del botón vinculado (btn-pdf-alta o btn-pdf-nuevo)
+        const btn = $('#' + btnId);
+
+        if (documento && documento.trim() !== "") {
+            // IMPORTANTE: Ajusta la ruta a tu carpeta real de documentos
+            btn.attr('href', 'UT_controller/documentos_puestos/' + documento);
+            btn.fadeIn();
+        } else {
+            btn.fadeOut();
+        }
+    });
 });
 </script>
 
