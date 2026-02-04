@@ -606,9 +606,6 @@ $(document).ready(function() {
         var puestoNombre = selectedOption.attr('data-puesto') || 'No asignado';
         var documento = selectedOption.attr('data-doc') || '';
 
-        // DEBUG: Esto te dirá en consola exactamente qué está leyendo
-        console.log("Detectado para baja -> Puesto:", puestoNombre, "Doc:", documento);
-
         // 3. Rellenar el input de texto
         $('#puesto_actual_baja').val(puestoNombre);
 
