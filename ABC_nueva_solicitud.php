@@ -589,27 +589,7 @@ $(document).ready(function () { // Se usa jQuery para asegurar que todo cargue p
 
 $(document).ready(function() {
     
-    // --- LÓGICA PARA EL FORMULARIO DE BAJA (CORREGIDA) ---
-    $('#usuario_baja_id').on('change', function() {
-        const selectedOption = $(this).find(':selected');
-        const puestoNombre = selectedOption.data('puesto');
-        const documento = selectedOption.data('doc');
-        const btnPdf = $('#btn-pdf-baja');
-
-        // 1. Llenamos el input del puesto
-        $('#puesto_actual_baja').val(puestoNombre || 'No asignado');
-
-        // 2. Gestionamos el botón PDF
-        if (documento && documento.toString().trim() !== "") {
-            // Usamos la ruta que definiste como correcta
-            btnPdf.attr('href', 'UT_controller/documentos_puestos/' + documento);
-            btnPdf.show(); // Mostramos el botón
-        } else {
-            btnPdf.hide(); // Ocultamos si no hay documento
-        }
-    });
-
-    // --- LÓGICA PARA EL FORMULARIO DE ALTA ---
+    // 1. LÓGICA PARA "ALTA" (Puesto de alta)
     $('#puesto_alta').on('change', function() {
         const selectedOption = $(this).find(':selected');
         const documento = selectedOption.data('doc');
@@ -617,8 +597,7 @@ $(document).ready(function() {
         const msgSinArchivo = $('#sin-archivo-msg');
 
         if (documento && documento.toString().trim() !== "") {
-            btnPdf.attr('href', 'UT_controller/documentos_puestos/' + documento);
-            btnPdf.fadeIn();
+            btnPdf.attr('href', 'UT_controller/documentos_puestos/' + documento).fadeIn();
             msgSinArchivo.hide();
         } else {
             btnPdf.fadeOut();
@@ -626,7 +605,7 @@ $(document).ready(function() {
         }
     });
 
-    // --- LÓGICA PARA RELLENAR DATOS EN "ALTA POR REEMPLAZO" ---
+    // 2. LÓGICA PARA "REEMPLAZO" (Rellenar puesto y estatus)
     $('#usuario_remplazo_id').on('change', function() {
         const selectedOption = $(this).find(':selected');
         const puestoNombre = selectedOption.data('puesto');
@@ -642,7 +621,42 @@ $(document).ready(function() {
         }
     });
 
-});
+    // 3. LÓGICA PARA "BAJA" (Botón PDF y nombre del puesto)
+    // Usamos el ID directamente para evitar conflictos con clases genéricas
+    $('#usuario_baja_id').on('change', function() {
+        const selectedOption = $(this).find(':selected');
+        const puestoNombre = selectedOption.data('puesto');
+        const documento = selectedOption.data('doc');
+        const btnPdf = $('#btn-pdf-baja');
+        
+        // Rellenar el input de texto
+        $('#puesto_actual_baja').val(puestoNombre || 'No asignado');
+
+        // Mostrar u ocultar el PDF
+        if (documento && documento.toString().trim() !== "") {
+            // AJUSTA AQUÍ LA RUTA: Usa la misma que en "Alta" si los archivos están en el mismo lugar
+            btnPdf.attr('href', 'UT_controller/documentos_puestos/' + documento).show();
+        } else {
+            btnPdf.hide();
+        }
+    });
+
+    // 4. LÓGICA GENÉRICA (Solo si tienes otros campos con esa clase que no sean los de arriba)
+    // Si no tienes más campos, puedes borrar este bloque.
+    $('.select-puesto-pdf').not('#usuario_baja_id, #puesto_alta').on('change', function() {
+        const option = $(this).find(':selected');
+        const documento = option.data('doc');
+        const btnId = $(this).data('btn');
+        const btn = $('#' + btnId);
+
+        if (documento && documento.trim() !== "") {
+            btn.attr('href', 'UT_controller/documentos_puestos/' + documento).fadeIn();
+        } else {
+            btn.fadeOut();
+        }
+    });
+
+}); // Fin del ready
 </script>
 
 <?php
