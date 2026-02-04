@@ -39,7 +39,7 @@ try {
     $puestos = $resultado_puestos->fetch_all(MYSQLI_ASSOC);
 
     // MEJORA: La consulta ahora une con la tabla de puestos para obtener el ID y el nombre del puesto.
-    $resultado_usuarios = $conn->query("SELECT u.id, u.nombre as usuario, u.estatus, u.puesto, u.email, p.id AS puesto_id, p.puesto,p.documento
+    $resultado_usuarios = $conn->query("SELECT u.id, u.nombre as usuario, u.estatus, u.puesto, u.email, p.id AS puesto_id
                                         FROM usuarios u
                                         LEFT JOIN puestos p ON u.puesto = p.puesto
                                         ORDER BY u.nombre");
@@ -290,10 +290,12 @@ try {
                         <div class="row g-3 align-items-end">
                             <div class="col-md-4">
                                 <label for="usuario_baja_id" class="form-label">Usuario a dar de baja <span class="text-danger">*</span></label>
-                                <select class="form-select" id="usuario_baja_id" name="usuario_baja_id" required onchange="actualizarPuestoBaja(this)">
+                                <select class="form-select select-puesto-pdf" id="usuario_baja_id" name="usuario_baja_id" data-btn="btn-pdf-baja" required>
                                     <option selected disabled value="">Elige un usuario...</option>
                                     <?php foreach ($usuarios_all as $usuario): ?>
-                                        <option value="<?= $usuario['id'] ?>" data-puesto="<?= htmlspecialchars($usuario['puesto'] ?? 'No asignado') ?>" data-descripcion="<?= htmlspecialchars($usuario['descripcion_puesto'] ?? 'Sin descripción disponible') ?>">
+                                        <option value="<?= $usuario['id'] ?>" 
+                                                data-puesto="<?= htmlspecialchars($usuario['puesto'] ?? 'No asignado') ?>" 
+                                                data-doc="<?= htmlspecialchars($usuario['documento'] ?? '') ?>"> 
                                             <?= htmlspecialchars($usuario['usuario']) ?>
                                         </option>
                                     <?php endforeach; ?>
@@ -304,9 +306,9 @@ try {
                                 <label class="form-label">Puesto Actual</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="puesto_actual_baja" readonly placeholder="Puesto del colaborador">
-                                    <button class="btn btn-outline-secondary" type="button" id="btn_ver_descripcion" onclick="mostrarDescripcionPuesto()" title="Ver descripción del puesto">
-                                        <i class="bi bi-info-circle"></i> Ver Descripción
-                                    </button>
+                                    <a id="btn-pdf-baja" href="#" target="_blank" class="btn btn-pdf-custom btn-outline-info" style="display:none;">
+                                        <i class="fas fa-file-pdf"></i> Ver descripción
+                                    </a>
                                 </div>
                             </div>
 
@@ -637,6 +639,29 @@ $(document).ready(function() {
             btn.fadeOut();
         }
     });
+
+    $(document).on('change', '.select-puesto-pdf', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    const docPath = selectedOption.getAttribute('data-doc');
+    const btnId = this.getAttribute('data-btn');
+    const btn = document.getElementById(btnId);
+
+    if (btn) {
+        if (docPath && docPath.trim() !== "") {
+            btn.href = "uploads/puestos/" + docPath; // Ajusta la ruta a tu carpeta real
+            btn.style.display = 'inline-block';
+        } else {
+            btn.style.display = 'none';
+            btn.href = "#";
+        }
+    }
+    
+    // Si es el select de baja, también llenamos el campo de texto del puesto
+    if (this.id === 'usuario_baja_id') {
+        const puestoNombre = selectedOption.getAttribute('data-puesto');
+        document.getElementById('puesto_actual_baja').value = puestoNombre || '';
+    }
+});
 });
 
 function actualizarPuestoBaja(select) {
