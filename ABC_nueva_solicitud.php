@@ -39,7 +39,7 @@ try {
     $puestos = $resultado_puestos->fetch_all(MYSQLI_ASSOC);
 
     // MEJORA: La consulta ahora une con la tabla de puestos para obtener el ID y el nombre del puesto.
-    $resultado_usuarios = $conn->query("SELECT u.id, u.nombre as usuario, u.estatus, u.puesto, u.email, p.id AS puesto_id
+    $resultado_usuarios = $conn->query("SELECT u.id, u.nombre as usuario, u.estatus, u.puesto, u.email, p.id AS puesto_id, p.documento
                                         FROM usuarios u
                                         LEFT JOIN puestos p ON u.puesto = p.puesto
                                         ORDER BY u.nombre");
