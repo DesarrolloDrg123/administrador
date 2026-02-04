@@ -39,10 +39,16 @@ try {
     $puestos = $resultado_puestos->fetch_all(MYSQLI_ASSOC);
 
     // MEJORA: La consulta ahora une con la tabla de puestos para obtener el ID y el nombre del puesto.
-    $resultado_usuarios = $conn->query("SELECT u.id, u.nombre as usuario, u.estatus, u.puesto, u.email, p.id AS puesto_id, p.documento
-                                        FROM usuarios u
-                                        LEFT JOIN puestos p ON u.puesto = p.puesto
-                                        ORDER BY u.nombre");
+    $resultado_usuarios = $conn->query("SELECT 
+            u.id, 
+            u.nombre as usuario, 
+            u.estatus, 
+            u.puesto, 
+            u.email, 
+            p.documento
+            FROM usuarios u
+            LEFT JOIN puestos p ON TRIM(LOWER(u.puesto)) = TRIM(LOWER(p.puesto))
+            ORDER BY u.nombre");
     if (!$resultado_usuarios) throw new Exception("Error en la consulta de usuarios.");
     $usuarios_all = $resultado_usuarios->fetch_all(MYSQLI_ASSOC);
 
@@ -589,50 +595,69 @@ $(document).ready(function () { // Se usa jQuery para asegurar que todo cargue p
 
 $(document).ready(function() {
 
-    // --- 1. LÓGICA PARA BAJA (Corregida y reforzada) ---
+    // ==========================================
+    // 1. LÓGICA ESPECÍFICA PARA BAJA (PRIORIDAD)
+    // ==========================================
     $('#usuario_baja_id').on('change', function() {
-        // Usamos 'find' para localizar la opción seleccionada
-        const selectedOption = $(this).find('option:selected');
+        // 1. Obtener la opción seleccionada
+        var $option = $(this).find('option:selected');
         
-        // 1. Obtenemos los datos directos del atributo HTML (más seguro que .data)
-        const puestoNombre = selectedOption.attr('data-puesto');
-        const documento = selectedOption.attr('data-doc'); 
+        // 2. Extraer datos de los atributos data-
+        var puesto = $option.attr('data-puesto') || 'No asignado';
+        var doc = $option.attr('data-doc') || '';
         
-        const btnPdf = $('#btn-pdf-baja');
+        // 3. Asignar el nombre del puesto al input
+        $('#puesto_actual_baja').val(puesto);
 
-        // Debug: Esto imprimirá en la consola (F12) lo que realmente ve el navegador
-        console.log("Puesto:", puestoNombre);
-        console.log("Documento:", documento);
-
-        // 2. Llenamos el input de texto
-        $('#puesto_actual_baja').val(puestoNombre || 'No asignado');
-
-        // 3. Lógica del botón con limpieza de estilos
-        if (documento && documento.trim() !== "") {
-            // Actualizamos el link
-            btnPdf.attr('href', 'UT_controller/documentos_puestos/' + documento);
+        // 4. Lógica del botón PDF
+        var $btn = $('#btn-pdf-baja');
+        
+        if (doc !== "" && doc !== null && doc !== undefined) {
+            // Construir la ruta
+            var url = 'UT_controller/documentos_puestos/' + doc;
+            $btn.attr('href', url);
             
-            // TRUCO CSS: Removemos el 'display:none' manual y forzamos inline-block
-            // Esto arregla conflictos con Bootstrap input-groups
-            btnPdf.removeAttr('style'); 
-            btnPdf.css('display', 'inline-block'); 
-            btnPdf.removeClass('d-none'); // Por si acaso tiene clase d-none
-            
+            // Forzar la visibilidad (Quitamos display:none y d-none)
+            $btn.prop('style', 'display: inline-block !important;');
+            $btn.show(); 
         } else {
-            // Ocultamos
-            btnPdf.css('display', 'none');
+            // Si no hay documento, ocultar
+            $btn.hide();
+            $btn.attr('href', '#');
         }
     });
 
-    // --- 2. LÓGICA PARA ALTA (Igual que antes, simplificada) ---
+    // ==========================================
+    // 2. LÓGICA GENÉRICA (PARA LOS DEMÁS)
+    // ==========================================
+    // AQUÍ ESTÁ EL TRUCO: .not('#usuario_baja_id')
+    // Le decimos: "Aplica esto a todos, MENOS al de baja, porque ese ya tiene su propio código arriba"
+    $('.select-puesto-pdf').not('#usuario_baja_id').on('change', function() {
+        const option = $(this).find(':selected');
+        const documento = option.data('doc');
+        const btnId = $(this).data('btn');
+        const btn = $('#' + btnId);
+
+        if (documento && documento.toString().trim() !== "") {
+            btn.attr('href', 'UT_controller/documentos_puestos/' + documento);
+            btn.fadeIn();
+        } else {
+            btn.fadeOut();
+        }
+    });
+
+    // ==========================================
+    // 3. LÓGICA PARA ALTA (Específica)
+    // ==========================================
     $('#puesto_alta').on('change', function() {
-        const selectedOption = $(this).find('option:selected');
-        const documento = selectedOption.attr('data-doc');
+        const selectedOption = $(this).find(':selected');
+        const documento = selectedOption.data('doc');
         const btnPdf = $('#btn-ver-pdf-alta');
         const msgSinArchivo = $('#sin-archivo-msg');
 
-        if (documento && documento.trim() !== "") {
-            btnPdf.attr('href', 'UT_controller/documentos_puestos/' + documento).fadeIn();
+        if (documento && documento.toString().trim() !== "") {
+            btnPdf.attr('href', 'UT_controller/documentos_puestos/' + documento);
+            btnPdf.fadeIn();
             msgSinArchivo.hide();
         } else {
             btnPdf.fadeOut();
@@ -640,11 +665,13 @@ $(document).ready(function() {
         }
     });
 
-    // --- 3. LÓGICA PARA REEMPLAZO ---
+    // ==========================================
+    // 4. LÓGICA PARA REEMPLAZO
+    // ==========================================
     $('#usuario_remplazo_id').on('change', function() {
-        const selectedOption = $(this).find('option:selected');
-        const puestoNombre = selectedOption.attr('data-puesto');
-        const estatus = selectedOption.attr('data-estatus');
+        const selectedOption = $(this).find(':selected');
+        const puestoNombre = selectedOption.data('puesto');
+        const estatus = selectedOption.data('estatus');
 
         $('#puesto_remplazo').val(puestoNombre || 'No definido');
 
@@ -655,6 +682,7 @@ $(document).ready(function() {
             badge.text('Inactivo').removeClass('status-active').addClass('status-inactive');
         }
     });
+
 });
 </script>
 
