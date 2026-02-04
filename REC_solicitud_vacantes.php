@@ -56,6 +56,24 @@ try {
     .validation-feedback.visible {
         display: block;
     }
+    /* Botón personalizado con tu color #299dbf */
+    .btn-pdf-custom {
+        color: #299dbf;
+        border-color: #299dbf;
+        background-color: transparent;
+        transition: all 0.3s ease;
+    }
+
+    .btn-pdf-custom:hover {
+        background-color: #299dbf;
+        color: #ffffff;
+        border-color: #299dbf;
+    }
+
+    /* Ajuste para que el icono y el texto se vean bien alineados */
+    .btn-pdf-custom i {
+        margin-right: 5px;
+    }
 </style>
 <div class="container mt-4">
     <div class="card shadow-lg border-0">
@@ -80,7 +98,7 @@ try {
                     <div class="col-md-6">
                         <label for="puesto_id" class="form-label">Puesto Solicitado*</label>
                         <div class="input-group">
-                            <select class="form-select" name="puesto_id" id="puesto_id" required>
+                            <select class="form-select select-puesto-pdf" name="puesto_id" id="puesto_id" required>
                                 <option value="" disabled selected>Selecciona un puesto</option>
                                 <?php
                                 try {
@@ -99,8 +117,8 @@ try {
                                 }
                                 ?>
                             </select>
-                            <a id="btn-ver-pdf" href="#" target="_blank" class="btn btn-outline-info" style="display: none;">
-                                <i class="bi bi-file-earmark-pdf"></i> Ver PDF
+                            <a id="btn-ver-pdf" href="#" target="_blank" class="btn btn-pdf-custom btn-outline-info" style="display: none;">
+                                <i class="bi bi-file-earmark-pdf"></i> Ver Descripción
                             </a>
                         </div>
                     </div>

@@ -96,6 +96,24 @@ try {
         min-height: 38px !important;
         padding: 0.375rem 0.75rem;
     }
+    /* Botón personalizado con tu color #299dbf */
+    .btn-pdf-custom {
+        color: #299dbf;
+        border-color: #299dbf;
+        background-color: transparent;
+        transition: all 0.3s ease;
+    }
+
+    .btn-pdf-custom:hover {
+        background-color: #299dbf;
+        color: #ffffff;
+        border-color: #299dbf;
+    }
+
+    /* Ajuste para que el icono y el texto se vean bien alineados */
+    .btn-pdf-custom i {
+        margin-right: 5px;
+    }
 </style>
 
 <div class="container mt-4">
@@ -202,7 +220,7 @@ try {
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
-                                    <a id="btn-pdf-alta" href="#" target="_blank" class="btn btn-outline-info" style="display:none;">
+                                    <a id="btn-pdf-alta" href="#" target="_blank" class="btn btn-pdf-custom btn-outline-info" style="display:none;">
                                         <i class="fas fa-file-pdf"></i> Ver descripción
                                     </a>
                                 </div>
@@ -257,7 +275,7 @@ try {
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
-                                    <a id="btn-pdf-nuevo" href="#" target="_blank" class="btn btn-outline-info" style="display:none;">
+                                    <a id="btn-pdf-nuevo" href="#" target="_blank" class="btn btn-pdf-custom btn-outline-info" style="display:none;">
                                         <i class="fas fa-file-pdf"></i> Ver descripción
                                     </a>
                                 </div>
