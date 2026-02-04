@@ -2,37 +2,40 @@
 require("config/db.php");
 include("src/templates/adminheader.php");
 
-// 1. --- VALIDACIÓN DE SESIÓN ---
 if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
     header("Location: index.php");
     exit();
 }
 
-// 2. --- OBTENER TODOS LOS PUESTOS PARA LA TABLA ---
 $result_puestos = $conn->query("SELECT * FROM puestos ORDER BY puesto ASC");
 ?>
 
 <style>
-    /* Estilos para centrar el contenido y darle un ancho máximo */
-    .main-container { max-width: 800px; margin: 40px auto; }
-    /* Cursor de 'mano' para los botones de acción */
+    .main-container { max-width: 900px; margin: 40px auto; }
     .btn-editar, .btn-eliminar { cursor: pointer; }
+    .doc-link { text-decoration: none; color: #0d6efd; font-weight: bold; }
 </style>
 
 <div class="main-container">
-
     <div class="card shadow-sm mb-4">
         <div class="card-header bg-dark text-white">
             <h2 class="mb-0 h5" id="form-title">Agregar Nuevo Puesto</h2>
         </div>
         <div class="card-body">
-            <form id="form-puesto">
+            <form id="form-puesto" enctype="multipart/form-data">
                 <input type="hidden" name="id" id="puesto-id" value="0">
                 
-                <div class="mb-3">
-                    <label for="puesto-nombre" class="form-label">Nombre del Puesto:*</label>
-                    <input type="text" id="puesto-nombre" name="puesto" class="form-control" 
-                           placeholder="Ej. Gerente de Ventas" required>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="puesto-nombre" class="form-label">Nombre del Puesto:*</label>
+                        <input type="text" id="puesto-nombre" name="puesto" class="form-control" placeholder="Ej. Gerente" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="puesto-documento" class="form-label">Documento (PDF):</label>
+                        <input type="file" id="puesto-documento" name="documento" class="form-control" accept=".pdf">
+                        <small class="text-info d-block mt-1" id="doc-actual-info"></small>
+                    </div>
                 </div>
                 
                 <div class="text-end">
@@ -52,6 +55,7 @@ $result_puestos = $conn->query("SELECT * FROM puestos ORDER BY puesto ASC");
                 <thead class="table-dark">
                     <tr>
                         <th>Puesto</th>
+                        <th class="text-center">Documento</th>
                         <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
@@ -60,10 +64,19 @@ $result_puestos = $conn->query("SELECT * FROM puestos ORDER BY puesto ASC");
                         <tr>
                             <td><?= htmlspecialchars($row['puesto']) ?></td>
                             <td class="text-center">
+                                <?php if (!empty($row['documento'])): ?>
+                                    <a href="uploads/documentos_puestos/<?= $row['documento'] ?>" target="_blank" class="btn btn-sm btn-outline-info">
+                                        Ver PDF
+                                    </a>
+                                <?php else: ?>
+                                    <span class="text-muted small">Sin archivo</span>
+                                <?php endif; ?> </td>
+                            <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
                                     <button class="btn btn-sm btn-warning btn-editar" 
                                             data-id="<?= $row['id'] ?>" 
-                                            data-puesto="<?= htmlspecialchars($row['puesto']) ?>">
+                                            data-puesto="<?= htmlspecialchars($row['puesto']) ?>"
+                                            data-doc="<?= htmlspecialchars($row['documento']) ?>">
                                         Editar
                                     </button>
                                     <button class="btn btn-sm btn-danger btn-eliminar" 
@@ -85,11 +98,12 @@ $result_puestos = $conn->query("SELECT * FROM puestos ORDER BY puesto ASC");
 
 <script>
 $(document).ready(function() {
-    // --- 1. INICIALIZACIÓN DE DATATABLE ---
-    $('#tabla-puestos').DataTable({
-        "language": { "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json" },
-        "pageLength": 10
-    });
+    // Inicializar DataTable solo si no está inicializado
+    if ( ! $.fn.DataTable.isDataTable( '#tabla-puestos' ) ) {
+        $('#tabla-puestos').DataTable({
+            "language": { "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json" }
+        });
+    }
 
     const form = $('#form-puesto');
     const formTitle = $('#form-title');
@@ -97,113 +111,85 @@ $(document).ready(function() {
     const puestoNombreInput = $('#puesto-nombre');
     const btnGuardar = $('#btn-guardar');
     const btnCancelar = $('#btn-cancelar');
+    const docInfo = $('#doc-actual-info');
 
-    // --- 2. LÓGICA PARA AGREGAR Y EDITAR (SUBMIT DEL FORMULARIO) ---
     form.on('submit', function(e) {
-        e.preventDefault(); // Evitar que la página se recargue
-
-        const id = puestoIdInput.val();
-        const puesto = puestoNombreInput.val();
-        const accion = (id > 0) ? 'editar' : 'agregar'; // Determinar si es una edición o un nuevo registro
+        e.preventDefault();
+        const formData = new FormData(this);
+        formData.append('accion', (puestoIdInput.val() > 0) ? 'editar' : 'agregar');
 
         $.ajax({
             url: 'UT_controller/puestos_ajax.php',
             type: 'POST',
+            data: formData,
+            processData: false, 
+            contentType: false, 
             dataType: 'json',
-            data: {
-                id: id,
-                puesto: puesto,
-                accion: accion
-            },
             success: function(response) {
                 if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Éxito!',
-                        text: response.message,
-                        timer: 2000,
-                        showConfirmButton: false
-                    }).then(() => {
-                        location.reload(); // Recargar la página para ver los cambios
-                    });
+                    Swal.fire('¡Éxito!', response.message, 'success').then(() => { location.reload(); });
                 } else {
                     Swal.fire('Error', response.message, 'error');
                 }
             },
             error: function() {
-                Swal.fire('Error', 'No se pudo comunicar con el servidor.', 'error');
+                Swal.fire('Error', 'Error en el servidor', 'error');
             }
         });
     });
 
-    // --- 3. LÓGICA PARA EL BOTÓN EDITAR (POBLAR EL FORMULARIO) ---
     $('#tabla-puestos-body').on('click', '.btn-editar', function() {
         const id = $(this).data('id');
         const puesto = $(this).data('puesto');
+        const doc = $(this).data('doc');
 
-        // Llenar el formulario con los datos
         formTitle.text('Editar Puesto');
         puestoIdInput.val(id);
         puestoNombreInput.val(puesto);
+        
+        docInfo.text(doc ? 'Archivo actual: ' + doc : 'Sin archivo previo');
+
         btnGuardar.text('Actualizar');
         btnCancelar.show();
-        
-        // Mover la vista al formulario
         $('html, body').animate({ scrollTop: 0 }, 'slow');
     });
 
-    // --- 4. LÓGICA PARA EL BOTÓN ELIMINAR ---
     $('#tabla-puestos-body').on('click', '.btn-eliminar', function() {
         const id = $(this).data('id');
         const puesto = $(this).data('puesto');
 
         Swal.fire({
             title: '¿Estás seguro?',
-            text: `No podrás revertir la eliminación de "${puesto}".`,
+            text: `Se eliminará "${puesto}" y su documento.`,
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, ¡eliminar!',
-            cancelButtonText: 'Cancelar'
+            confirmButtonText: 'Sí, eliminar'
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
                     url: 'UT_controller/puestos_ajax.php',
                     type: 'POST',
                     dataType: 'json',
-                    data: {
-                        id: id,
-                        accion: 'eliminar'
-                    },
+                    data: { id: id, accion: 'eliminar' },
                     success: function(response) {
                         if (response.success) {
-                            Swal.fire('¡Eliminado!', response.message, 'success').then(() => {
-                                location.reload();
-                            });
+                            location.reload();
                         } else {
                             Swal.fire('Error', response.message, 'error');
                         }
-                    },
-                    error: function() {
-                        Swal.fire('Error', 'No se pudo comunicar con el servidor.', 'error');
                     }
                 });
             }
         });
     });
 
-    // --- 5. LÓGICA PARA EL BOTÓN CANCELAR EDICIÓN ---
     btnCancelar.on('click', function() {
         formTitle.text('Agregar Nuevo Puesto');
         puestoIdInput.val(0);
-        form[0].reset(); // Limpia el formulario
+        form[0].reset();
+        docInfo.text('');
         btnGuardar.text('Guardar');
         btnCancelar.hide();
     });
 });
 </script>
-
-<?php
-include("src/templates/adminfooter.php");
-?>
