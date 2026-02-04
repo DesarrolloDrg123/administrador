@@ -176,6 +176,52 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
             left: 75px !important;
             bottom: 10px !important;
         }
+
+        header#main-sidebar.sidebar-collapsed .nav-item.dropdown {
+            position: relative;
+        }
+
+        header#main-sidebar.sidebar-collapsed .nav-item.dropdown .dropdown-menu {
+            /* Reseteamos el comportamiento de Bootstrap */
+            position: absolute !important;
+            top: 0 !important;
+            left: 100% !important; /* Lo saca justo a la derecha del sidebar */
+            margin: 0 !important;
+            transform: none !important;
+            
+            /* Diseño del panel flotante */
+            background-color: #2c343b;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 0 6px 6px 0;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.3);
+            min-width: 200px;
+            padding: 10px 0;
+            display: none; /* Se controla por JS de Bootstrap o por Hover */
+        }
+
+        /* Opcional: Mostrar al pasar el mouse (más intuitivo cuando está cerrado) */
+        header#main-sidebar.sidebar-collapsed .nav-item.dropdown:hover > .dropdown-menu {
+            display: block !important;
+        }
+
+        /* Estilo de los items dentro del submenú flotante */
+        header#main-sidebar.sidebar-collapsed .dropdown-menu .dropdown-item {
+            color: #d1d4d7 !important;
+            padding: 10px 20px !important;
+            font-size: 0.9rem;
+        }
+
+        header#main-sidebar.sidebar-collapsed .dropdown-menu .dropdown-item:hover {
+            background-color: rgba(255,255,255,0.05);
+            color: #fff !important;
+        }
+
+        /* Ajuste para que el icono del folder no se vea desplazado */
+        header#main-sidebar.sidebar-collapsed .dropdown-toggle {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
     </style>
 </head>
 
