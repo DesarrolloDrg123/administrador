@@ -648,7 +648,7 @@ $(document).ready(function() {
 
     if (btn) {
         if (docPath && docPath.trim() !== "") {
-            btn.href = "uploads/puestos/" + docPath; // Ajusta la ruta a tu carpeta real
+            btn.href = "UT_controller/documentos_puestos/" + docPath; // Ajusta la ruta a tu carpeta real
             btn.style.display = 'inline-block';
         } else {
             btn.style.display = 'none';
