@@ -34,7 +34,6 @@ $result_puestos = $conn->query("SELECT * FROM puestos ORDER BY puesto ASC");
                     <div class="col-md-6 mb-3">
                         <label for="puesto-documento" class="form-label">Documento (PDF):</label>
                         <input type="file" id="puesto-documento" name="documento" class="form-control" accept=".pdf">
-                        <small class="text-info d-block mt-1" id="doc-actual-info"></small>
                     </div>
                 </div>
                 

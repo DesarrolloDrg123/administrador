@@ -118,7 +118,7 @@ try {
                                 ?>
                             </select>
                             <a id="btn-ver-pdf" href="#" target="_blank" class="btn btn-pdf-custom btn-outline-info" style="display: none;">
-                                <i class="bi bi-file-earmark-pdf"></i> Ver Descripción
+                                <i class="bi bi-file-earmark-pdf"></i> Ver Descripción de Puesto
                             </a>
                         </div>
                     </div>

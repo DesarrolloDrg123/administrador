@@ -221,7 +221,7 @@ try {
                                         <?php endforeach; ?>
                                     </select>
                                     <a id="btn-pdf-alta" href="#" target="_blank" class="btn btn-pdf-custom btn-outline-info" style="display:none;">
-                                        <i class="fas fa-file-pdf"></i> Ver descripción
+                                        <i class="fas fa-file-pdf"></i> Ver descripción de Puesto
                                     </a>
                                 </div>
                             </div>
@@ -276,7 +276,7 @@ try {
                                         <?php endforeach; ?>
                                     </select>
                                     <a id="btn-pdf-nuevo" href="#" target="_blank" class="btn btn-pdf-custom btn-outline-info" style="display:none;">
-                                        <i class="fas fa-file-pdf"></i> Ver descripción
+                                        <i class="fas fa-file-pdf"></i> Ver descripción de Puesto
                                     </a>
                                 </div>
                             </div>
