@@ -149,8 +149,7 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
             border-top: 1px solid rgba(255,255,255,0.05);
         }
 
-        .sidebar-footer .dropdown .dropdown-menu {
-            position: absolute !important;
+        .sidebar-footer .dropdown-menu {
             bottom: 100% !important;
             top: auto !important;
             left: 5px !important;
