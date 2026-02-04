@@ -153,7 +153,27 @@ try {
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- ELEMENTOS DEL DOM ---
+    // --- NUEVA LÓGICA PARA EL BOTÓN PDF ---
+    const puestoSelect = document.getElementById('puesto_id');
+    const btnPdf = document.getElementById('btn-ver-pdf');
+
+    if (puestoSelect) {
+        puestoSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const documento = selectedOption.getAttribute('data-doc');
+
+            if (documento && documento.trim() !== "") {
+                // Ajusta la ruta si es necesario
+                btnPdf.href = "UT_controller/documentos_puestos/" + documento;
+                btnPdf.style.display = 'inline-block';
+            } else {
+                btnPdf.style.display = 'none';
+                btnPdf.href = "#";
+            }
+        });
+    }
+
+    // --- (Mantén aquí tu lógica anterior de tipoVacante y Fetch) ---
     const miFormulario = document.getElementById('form-reclutamiento');
     const tipoVacanteSelect = document.getElementById('tipo_vacante');
     const campoReemplazoDiv = document.getElementById('campo_reemplazo');
