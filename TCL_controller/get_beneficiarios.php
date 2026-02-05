@@ -4,7 +4,7 @@ require("../config/db.php");
 header('Content-Type: application/json');
 
 try {
-    $stmt = $conn->prepare("SELECT id, nombre, tarjeta_clara FROM usuarios WHERE estatus = '1' ORDER BY nombre ASC");
+    $stmt = $conn->prepare("SELECT id, nombre, tarjeta_clara FROM usuarios WHERE estatus = '1' AND tarjeta_clara NOT IN ('0', '', ' ') ORDER BY nombre ASC");
     $stmt->execute();
     $result = $stmt->get_result();
 
