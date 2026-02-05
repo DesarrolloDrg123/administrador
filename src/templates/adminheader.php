@@ -59,160 +59,166 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 
     <style>
-        /* =========================================
-        1. ESTRUCTURA Y SIDEBAR
-        ========================================= */
-        body {
-            background-color: #EEF1F2;
-            margin-left: 260px;
-            transition: margin-left 0.3s ease;
-        }
+    /* =========================================
+    1. ESTRUCTURA Y SIDEBAR
+    ========================================= */
+    body {
+        background-color: #EEF1F2;
+        margin-left: 260px;
+        transition: margin-left 0.3s ease;
+    }
 
-        header#main-sidebar {
-            width: 260px;
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            background-color: #2c343b;
-            display: flex;
-            flex-direction: column;
-            z-index: 1050;
-            transition: width 0.3s ease;
-        }
+    header#main-sidebar {
+        width: 260px;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        background-color: #2c343b;
+        display: flex;
+        flex-direction: column;
+        z-index: 1050;
+        transition: width 0.3s ease;
+    }
 
-        .sidebar-top {
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 70px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            flex-shrink: 0;
-        }
+    .sidebar-top {
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 70px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        flex-shrink: 0;
+    }
 
-        #sidebar-logo { max-height: 40px; width: auto; }
+    #sidebar-logo { max-height: 40px; width: auto; }
 
-        #btn-toggle-sidebar {
-            background: transparent;
-            border: none;
-            color: #aebecd;
-            font-size: 1.4rem;
-            cursor: pointer;
-        }
+    #btn-toggle-sidebar {
+        background: transparent;
+        border: none;
+        color: #aebecd;
+        font-size: 1.4rem;
+        cursor: pointer;
+    }
 
-        /* =========================================
-        2. NAVEGACIÓN (CORRECCIÓN DE SUBMENÚS)
-        ========================================= */
-        .sidebar-center { 
-            flex: 1; 
-            overflow-y: auto; 
-            overflow-x: hidden; 
-        }
+    /* =========================================
+    2. NAVEGACIÓN Y CARPETAS (FIX SUBMENÚS)
+    ========================================= */
+    .sidebar-center { 
+        flex: 1; 
+        overflow-y: auto; 
+        overflow-x: hidden; 
+    }
 
-        .nav-link {
-            color: #d1d4d7 !important;
-            padding: 12px 20px !important;
-            display: flex;
-            align-items: center;
-            transition: all 0.2s;
-            width: 100%;
-        }
+    .nav-link {
+        color: #d1d4d7 !important;
+        padding: 12px 20px !important;
+        display: flex;
+        align-items: center;
+        transition: all 0.2s;
+        width: 100%;
+    }
 
-        .nav-link i {
-            width: 30px;
-            text-align: center;
-            font-size: 1.1rem;
-            margin-right: 15px;
-        }
+    .nav-link i {
+        width: 30px;
+        text-align: center;
+        font-size: 1.1rem;
+        margin-right: 15px;
+    }
 
-        /* --- ESTADO COLAPSADO --- */
-        header#main-sidebar.sidebar-collapsed { width: 70px; }
-        body.sidebar-collapsed { margin-left: 70px; }
+    /* --- ESTADO COLAPSADO --- */
+    header#main-sidebar.sidebar-collapsed { width: 70px; }
+    body.sidebar-collapsed { margin-left: 70px; }
 
-        header#main-sidebar.sidebar-collapsed .nav-text,
-        header#main-sidebar.sidebar-collapsed #sidebar-logo,
-        header#main-sidebar.sidebar-collapsed .dropdown-toggle::after {
-            display: none !important;
-        }
+    header#main-sidebar.sidebar-collapsed .nav-text,
+    header#main-sidebar.sidebar-collapsed #sidebar-logo,
+    header#main-sidebar.sidebar-collapsed .dropdown-toggle::after {
+        display: none !important;
+    }
 
-        header#main-sidebar.sidebar-collapsed .nav-link {
-            justify-content: center !important;
-            padding: 15px 0 !important;
-        }
+    header#main-sidebar.sidebar-collapsed .nav-link {
+        justify-content: center !important;
+        padding: 15px 0 !important;
+    }
 
-        header#main-sidebar.sidebar-collapsed .nav-link i {
-            margin-right: 0 !important;
-        }
+    header#main-sidebar.sidebar-collapsed .nav-link i {
+        margin-right: 0 !important;
+    }
 
-        /* CORRECCIÓN: Submenús laterales cuando el menú está cerrado */
-        header#main-sidebar.sidebar-collapsed .nav-item.dropdown .dropdown-menu {
-            position: absolute !important;
-            left: 70px !important; /* Aparece justo al lado del sidebar */
-            top: 0 !important;
-            margin: 0 !important;
-            background-color: #2c343b;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 0 6px 6px 0;
-            box-shadow: 5px 0 15px rgba(0,0,0,0.3);
-            display: none; /* Se oculta por defecto */
-            min-width: 200px;
-        }
+    /* SUBMENÚS LATERALES: Se ven por FUERA cuando está cerrado */
+    header#main-sidebar.sidebar-collapsed .nav-item.dropdown .dropdown-menu {
+        position: absolute !important;
+        left: 70px !important; 
+        top: 0 !important;
+        margin: 0 !important;
+        background-color: #2c343b;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 0 6px 6px 0;
+        box-shadow: 5px 0 15px rgba(0,0,0,0.3);
+        display: none; 
+        min-width: 200px;
+        z-index: 2000;
+    }
 
-        /* Mostrar al pasar el mouse en modo cerrado */
-        header#main-sidebar.sidebar-collapsed .nav-item.dropdown:hover > .dropdown-menu {
-            display: block !important;
-        }
+    header#main-sidebar.sidebar-collapsed .nav-item.dropdown:hover > .dropdown-menu {
+        display: block !important;
+    }
 
-        /* =========================================
-        3. FOOTER (CERRAR SESIÓN ABAJO)
-        ========================================= */
-        .sidebar-footer {
-            padding: 10px 0;
-            background-color: #2c343b;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            flex-shrink: 0;
-        }
+    /* =========================================
+    3. FOOTER (USUARIO Y CERRAR SESIÓN)
+    ========================================= */
+    .sidebar-footer {
+        padding: 10px 0;
+        background-color: #2c343b;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        flex-shrink: 0;
+        position: relative; /* Importante para el posicionamiento del hijo */
+    }
 
-        /* Forzar que el menú se abra ABAJO cuando el sidebar está abierto */
-        .sidebar-footer .dropdown .dropdown-menu {
-            position: absolute !important;
-            top: 100% !important; /* Debajo del nombre */
-            bottom: auto !important;
-            left: 10px !important;
-            margin-top: 5px !important;
-            background-color: #22282e !important;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-            min-width: 180px;
-        }
+    /* MENÚ ABIERTO: Cerrar sesión DEBAJO del nombre */
+    .sidebar-footer .dropdown .dropdown-menu {
+        position: absolute !important;
+        /* Forzamos posición abajo anulando a Bootstrap */
+        top: 100% !important; 
+        bottom: auto !important;
+        left: 10px !important;
+        transform: none !important; 
+        margin-top: 5px !important;
+        background-color: #22282e !important;
+        border: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        min-width: 240px; /* Un poco más ancho para que no se vea feo */
+        padding: 8px 0;
+    }
 
-        /* Ajuste especial para cerrar sesión cuando está COLAPSADO */
-        header#main-sidebar.sidebar-collapsed .sidebar-footer .dropdown-menu {
-            left: 70px !important;
-            top: auto !important;
-            bottom: 10px !important; /* Alineado con el icono de usuario */
-            display: none;
-        }
+    /* MENÚ COLAPSADO: Flotando a la derecha */
+    header#main-sidebar.sidebar-collapsed .sidebar-footer .dropdown-menu {
+        left: 70px !important;
+        top: auto !important;
+        bottom: 10px !important; 
+        border-radius: 6px;
+        min-width: 180px;
+    }
 
-        header#main-sidebar.sidebar-collapsed .sidebar-footer .nav-item:hover .dropdown-menu {
-            display: block !important;
-        }
+    header#main-sidebar.sidebar-collapsed .sidebar-footer .nav-item:hover .dropdown-menu {
+        display: block !important;
+    }
 
-        .sidebar-footer .dropdown-item {
-            color: #adb5bd !important;
-            padding: 10px 15px !important;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.2s;
-        }
+    .sidebar-footer .dropdown-item {
+        color: #adb5bd !important;
+        padding: 12px 20px !important;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: 0.2s;
+        white-space: nowrap; /* Evita que el texto se amontone */
+    }
 
-        .sidebar-footer .dropdown-item:hover {
-            background-color: #dc3545 !important;
-            color: white !important;
-        }
-    </style>
+    .sidebar-footer .dropdown-item:hover {
+        background-color: #dc3545 !important;
+        color: white !important;
+    }
+</style>
 </head>
 
 <body>
@@ -253,7 +259,7 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
         <div class="sidebar-footer">
             <ul class="navbar-nav w-100">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-boundary="window">
                         <i class="fa fa-user"></i>
                         <span class="nav-text"><?php echo $_SESSION['nombre']; ?></span>
                     </a>
