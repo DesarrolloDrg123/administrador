@@ -141,92 +141,59 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
         }
 
         /* =========================================
-        3. FOOTER Y CERRAR SESIÓN (SOLUCIÓN DROPUPS)
+        3. FOOTER Y CERRAR SESIÓN (CORREGIDO)
         ========================================= */
         .sidebar-footer {
             padding: 10px 0;
             background-color: #2c343b;
             border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: auto; /* Empuja el footer siempre al final */
         }
 
-        .sidebar-footer .navbar-nav {
-            width: 100%;
-        }
-
-        .sidebar-footer .nav-item {
-            width: 100%;
-        }
-
+        /* Estilo general del Dropup en el footer */
         .sidebar-footer .dropup .dropdown-menu {
-            position: absolute !important;
-            bottom: 100% !important;
-            top: auto !important;
-            left: 5px !important;
-            margin-bottom: 10px;
             background-color: #22282e !important;
             border: 1px solid rgba(255,255,255,0.1);
-            min-width: 200px;
+            border-radius: 6px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+            padding: 8px 0;
+            min-width: 180px;
+            /* Evita que se pegue al borde izquierdo */
+            left: 10px !important; 
+            margin-bottom: 5px !important;
         }
 
+        /* Ítem de Cerrar Sesión */
         .sidebar-footer .dropdown-item {
             color: #adb5bd !important;
             padding: 10px 15px !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-footer .dropdown-item i {
+            font-size: 1rem;
+            width: 20px;
+            text-align: center;
         }
 
         .sidebar-footer .dropdown-item:hover {
-            background-color: rgba(255,255,255,0.05);
+            background-color: #dc3545 !important; /* Rojo sutil para logout */
             color: white !important;
         }
 
-        /* Estilos para cuando el sidebar está colapsado */
-        header#main-sidebar.sidebar-collapsed .sidebar-footer .nav-link {
-            justify-content: center !important;
-            padding: 15px 0 !important;
-        }
-
-        header#main-sidebar.sidebar-collapsed .sidebar-footer .nav-link i {
-            margin-right: 0 !important;
-        }
-
-        header#main-sidebar.sidebar-collapsed .sidebar-footer .nav-text {
-            display: none !important;
-        }
-
+        /* --- AJUSTE CUANDO ESTÁ CERRADO --- */
         header#main-sidebar.sidebar-collapsed .sidebar-footer .dropdown-menu {
+            left: 75px !important; /* Lo saca del sidebar hacia la derecha */
+            bottom: 10px !important; /* Lo alinea con el icono de usuario */
             position: absolute !important;
-            bottom: 100% !important;
-            top: auto !important;
-            left: 75px !important;
-            margin-bottom: 10px;
-            background-color: #22282e !important;
-            border: 1px solid rgba(255,255,255,0.1);
-            min-width: 200px;
-        }
-
-        header#main-sidebar.sidebar-collapsed .nav-item.dropdown {
-            position: relative;
-        }
-
-        header#main-sidebar.sidebar-collapsed .nav-item.dropdown .dropdown-menu {
-            /* Reseteamos el comportamiento de Bootstrap */
-            position: absolute !important;
-            top: 0 !important;
-            left: 100% !important; /* Lo saca justo a la derecha del sidebar */
-            margin: 0 !important;
             transform: none !important;
-            
-            /* Diseño del panel flotante */
-            background-color: #2c343b;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 0 6px 6px 0;
-            box-shadow: 5px 0 15px rgba(0,0,0,0.3);
-            min-width: 200px;
-            padding: 10px 0;
-            display: none; /* Se controla por JS de Bootstrap o por Hover */
         }
 
-        /* Opcional: Mostrar al pasar el mouse (más intuitivo cuando está cerrado) */
-        header#main-sidebar.sidebar-collapsed .nav-item.dropdown:hover > .dropdown-menu {
+        /* Mostrar al pasar el mouse si está cerrado */
+        header#main-sidebar.sidebar-collapsed .sidebar-footer .nav-item:hover .dropdown-menu {
             display: block !important;
         }
 
