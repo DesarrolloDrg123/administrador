@@ -202,7 +202,7 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
     }
 
     .logout-link:hover {
-        background-color: #dc3545 !important;
+        background-color: #2c343b !important;
         color: white !important;
     }
 </style>
