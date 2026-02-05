@@ -86,7 +86,7 @@ if (!isset($_SESSION['permisos'][5])) { //Permiso de Solicitar vacaciones
         }
     
         th {
-            background-color: #22282e;
+            background-color: #2C343B;
             color: white;
         }
     </style>

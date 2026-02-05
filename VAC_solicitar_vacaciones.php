@@ -63,7 +63,7 @@ try {
             padding: 0;
         }
         .jb1 {
-            background-color: #22282e;
+            background-color: #2C343B;
             color: white;
             width: 1000px;
         }
@@ -72,7 +72,7 @@ try {
         }
         .btn-request {
             background-color: white;
-            color: #22282e;
+            color: #2C343B;
             padding: 10px 30px;
             border: 2px solid #ffffff;
             border-radius: 25px;
@@ -108,7 +108,7 @@ try {
         }
         
     .jb1 {
-        background-color: #22282e;
+        background-color: #2C343B;
         color: white;
         width: 1000px;
     }
@@ -155,7 +155,7 @@ try {
     }
 
     th {
-        background-color: #22282e;
+        background-color: #2C343B;
         color: white;
     }
     </style>
@@ -330,7 +330,7 @@ try {
             <body>
                 <form action="VAC_controller/procesar_vacaciones.php" method="post">
 
-                    <div class="container jumbotron mt-5" style="background-color:#22282e; color: white;">
+                    <div class="container jumbotron mt-5" style="background-color:#2C343B; color: white;">
                         <!-- Flex container for layout -->
                         <div class="content">
                             <!-- Left box for Bienvenido and Antigüedad -->
