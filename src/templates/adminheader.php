@@ -141,46 +141,53 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
         }
 
         /* =========================================
-        3. FOOTER Y CERRAR SESIÓN (CORREGIDO)
+        3. FOOTER Y CERRAR SESIÓN (SOLUCIÓN FINAL)
         ========================================= */
         .sidebar-footer {
             padding: 10px 0;
             background-color: #2c343b;
             border-top: 1px solid rgba(255,255,255,0.05);
-            margin-top: auto; /* Empuja el footer siempre al final */
+            margin-top: auto;
         }
 
-        /* Estilo general del Dropup en el footer */
-        .sidebar-footer .dropup .dropdown-menu {
+        /* Estado NORMAL (Menú abierto): Se despliega hacia ABAJO */
+        .sidebar-footer .dropdown .dropdown-menu {
             background-color: #22282e !important;
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 6px;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             padding: 8px 0;
             min-width: 180px;
-            /* Evita que se pegue al borde izquierdo */
-            left: 10px !important; 
-            margin-bottom: 5px !important;
+            left: 10px !important;
+            /* Quitamos el bottom: 100% y usamos top */
+            top: 100% !important; 
+            bottom: auto !important;
+            margin-top: 5px !important;
         }
 
-        /* Ítem de Cerrar Sesión */
+        /* Estado COLAPSADO (Menú cerrado): Se despliega a la DERECHA */
+        header#main-sidebar.sidebar-collapsed .sidebar-footer .dropdown-menu {
+            left: 75px !important;
+            bottom: 10px !important; /* Aquí sí lo subimos un poco para que alinee con el icono */
+            top: auto !important; 
+            position: absolute !important;
+            transform: none !important;
+        }
+
+        /* Mostrar al pasar el mouse SOLO cuando está colapsado */
+        header#main-sidebar.sidebar-collapsed .sidebar-footer .nav-item:hover .dropdown-menu {
+            display: block !important;
+        }
+
         .sidebar-footer .dropdown-item {
             color: #adb5bd !important;
             padding: 10px 15px !important;
-            display: flex;
-            align-items: center;
-            gap: 10px;
             font-size: 0.9rem;
-        }
-
-        .sidebar-footer .dropdown-item i {
-            font-size: 1rem;
-            width: 20px;
-            text-align: center;
+            transition: all 0.2s;
         }
 
         .sidebar-footer .dropdown-item:hover {
-            background-color: #dc3545 !important; /* Rojo sutil para logout */
+            background-color: #dc3545 !important; /* Rojo sutil para cerrar sesión */
             color: white !important;
         }
 
@@ -255,7 +262,7 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
 
         <div class="sidebar-footer">
             <ul class="navbar-nav w-100">
-                <li class="nav-item dropup"> 
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                         <i class="fa fa-user"></i>
                         <span class="nav-text"><?php echo $_SESSION['nombre']; ?></span>
