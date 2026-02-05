@@ -20,7 +20,7 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
                 }
 
                 .header {
-                    background-color: #192a56;
+                    background-color: #22282e;
                     color: white;
                     padding: 15px;
                     text-align: center;
@@ -34,7 +34,7 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
                 .nav {
                     display: flex;
                     justify-content: center;
-                    background-color: #192a56;
+                    background-color: #22282e;
                     padding: 10px;
                 }
 
@@ -103,7 +103,7 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 
                 .btn-request {
                     background-color: white;
-                    color: #34495e;
+                    color: #22282e;
                     padding: 10px 30px;
                     border: 2px solid #ffffff;
                     border-radius: 25px;

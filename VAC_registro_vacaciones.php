@@ -216,7 +216,7 @@ sort($estatus_filtro);
         text-align: center;
     }
     th {
-        background-color: #343a40;
+        background-color: #22282e;
         color: white;
     }
     .acciones {

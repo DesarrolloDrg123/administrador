@@ -63,7 +63,7 @@ try {
             padding: 0;
         }
         .jb1 {
-            background-color: #343a40;
+            background-color: #22282e;
             color: white;
             width: 1000px;
         }
@@ -72,7 +72,7 @@ try {
         }
         .btn-request {
             background-color: white;
-            color: #34495e;
+            color: #22282e;
             padding: 10px 30px;
             border: 2px solid #ffffff;
             border-radius: 25px;
@@ -108,7 +108,7 @@ try {
         }
         
     .jb1 {
-        background-color: #343a40;
+        background-color: #22282e;
         color: white;
         width: 1000px;
     }
