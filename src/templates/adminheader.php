@@ -88,6 +88,7 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
             justify-content: space-between;
             height: 70px;
             border-bottom: 1px solid rgba(255,255,255,0.05);
+            flex-shrink: 0;
         }
 
         #sidebar-logo { max-height: 40px; width: auto; }
@@ -101,9 +102,13 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
         }
 
         /* =========================================
-        2. NAVEGACIÓN E ICONOS (SOLUCIÓN CENTRADO)
+        2. NAVEGACIÓN (CORRECCIÓN DE SUBMENÚS)
         ========================================= */
-        .sidebar-center { flex: 1; overflow-y: auto; overflow-x: hidden; }
+        .sidebar-center { 
+            flex: 1; 
+            overflow-y: auto; 
+            overflow-x: hidden; 
+        }
 
         .nav-link {
             color: #d1d4d7 !important;
@@ -111,16 +116,17 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
             display: flex;
             align-items: center;
             transition: all 0.2s;
+            width: 100%;
         }
 
         .nav-link i {
-            width: 30px; /* Ancho fijo para centrado */
+            width: 30px;
             text-align: center;
             font-size: 1.1rem;
             margin-right: 15px;
         }
 
-        /* Estado Colapsado */
+        /* --- ESTADO COLAPSADO --- */
         header#main-sidebar.sidebar-collapsed { width: 70px; }
         body.sidebar-collapsed { margin-left: 70px; }
 
@@ -130,7 +136,6 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
             display: none !important;
         }
 
-        /* Centrado de iconos al cerrar barra */
         header#main-sidebar.sidebar-collapsed .nav-link {
             justify-content: center !important;
             padding: 15px 0 !important;
@@ -140,41 +145,56 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
             margin-right: 0 !important;
         }
 
+        /* CORRECCIÓN: Submenús laterales cuando el menú está cerrado */
+        header#main-sidebar.sidebar-collapsed .nav-item.dropdown .dropdown-menu {
+            position: absolute !important;
+            left: 70px !important; /* Aparece justo al lado del sidebar */
+            top: 0 !important;
+            margin: 0 !important;
+            background-color: #2c343b;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 0 6px 6px 0;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.3);
+            display: none; /* Se oculta por defecto */
+            min-width: 200px;
+        }
+
+        /* Mostrar al pasar el mouse en modo cerrado */
+        header#main-sidebar.sidebar-collapsed .nav-item.dropdown:hover > .dropdown-menu {
+            display: block !important;
+        }
+
         /* =========================================
-        3. FOOTER Y CERRAR SESIÓN (SOLUCIÓN FINAL)
+        3. FOOTER (CERRAR SESIÓN ABAJO)
         ========================================= */
         .sidebar-footer {
             padding: 10px 0;
             background-color: #2c343b;
             border-top: 1px solid rgba(255,255,255,0.05);
-            margin-top: auto;
+            flex-shrink: 0;
         }
 
-        /* Estado NORMAL (Menú abierto): Se despliega hacia ABAJO */
+        /* Forzar que el menú se abra ABAJO cuando el sidebar está abierto */
         .sidebar-footer .dropdown .dropdown-menu {
+            position: absolute !important;
+            top: 100% !important; /* Debajo del nombre */
+            bottom: auto !important;
+            left: 10px !important;
+            margin-top: 5px !important;
             background-color: #22282e !important;
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 6px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            padding: 8px 0;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
             min-width: 180px;
-            left: 10px !important;
-            /* Quitamos el bottom: 100% y usamos top */
-            top: 100% !important; 
-            bottom: auto !important;
-            margin-top: 5px !important;
         }
 
-        /* Estado COLAPSADO (Menú cerrado): Se despliega a la DERECHA */
+        /* Ajuste especial para cerrar sesión cuando está COLAPSADO */
         header#main-sidebar.sidebar-collapsed .sidebar-footer .dropdown-menu {
-            left: 75px !important;
-            bottom: 10px !important; /* Aquí sí lo subimos un poco para que alinee con el icono */
-            top: auto !important; 
-            position: absolute !important;
-            transform: none !important;
+            left: 70px !important;
+            top: auto !important;
+            bottom: 10px !important; /* Alineado con el icono de usuario */
+            display: none;
         }
 
-        /* Mostrar al pasar el mouse SOLO cuando está colapsado */
         header#main-sidebar.sidebar-collapsed .sidebar-footer .nav-item:hover .dropdown-menu {
             display: block !important;
         }
@@ -182,45 +202,15 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
         .sidebar-footer .dropdown-item {
             color: #adb5bd !important;
             padding: 10px 15px !important;
-            font-size: 0.9rem;
-            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.2s;
         }
 
         .sidebar-footer .dropdown-item:hover {
-            background-color: #dc3545 !important; /* Rojo sutil para cerrar sesión */
+            background-color: #dc3545 !important;
             color: white !important;
-        }
-
-        /* --- AJUSTE CUANDO ESTÁ CERRADO --- */
-        header#main-sidebar.sidebar-collapsed .sidebar-footer .dropdown-menu {
-            left: 75px !important; /* Lo saca del sidebar hacia la derecha */
-            bottom: 10px !important; /* Lo alinea con el icono de usuario */
-            position: absolute !important;
-            transform: none !important;
-        }
-
-        /* Mostrar al pasar el mouse si está cerrado */
-        header#main-sidebar.sidebar-collapsed .sidebar-footer .nav-item:hover .dropdown-menu {
-            display: block !important;
-        }
-
-        /* Estilo de los items dentro del submenú flotante */
-        header#main-sidebar.sidebar-collapsed .dropdown-menu .dropdown-item {
-            color: #d1d4d7 !important;
-            padding: 10px 20px !important;
-            font-size: 0.9rem;
-        }
-
-        header#main-sidebar.sidebar-collapsed .dropdown-menu .dropdown-item:hover {
-            background-color: rgba(255,255,255,0.05);
-            color: #fff !important;
-        }
-
-        /* Ajuste para que el icono del folder no se vea desplazado */
-        header#main-sidebar.sidebar-collapsed .dropdown-toggle {
-            width: 100%;
-            display: flex;
-            justify-content: center;
         }
     </style>
 </head>
