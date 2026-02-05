@@ -113,7 +113,7 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
                 }
 
                 .btn-request:hover {
-                    background-color: #343a40;
+                    background-color: #212529;
                     color: white;
                 }
 
@@ -170,7 +170,7 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 
 <style>
     .jb1 {
-        background-color: #343a40;
+        background-color: #212529;
         color: white;
         width: 1000px;
     }
@@ -217,7 +217,7 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
     }
 
     th {
-        background-color: #343a40;
+        background-color: #212529;
         color: white;
     }
 </style>
