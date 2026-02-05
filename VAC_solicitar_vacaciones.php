@@ -330,7 +330,7 @@ try {
             <body>
                 <form action="VAC_controller/procesar_vacaciones.php" method="post">
 
-                    <div class="container jumbotron mt-5" style="background-color:#343a40; color: white;">
+                    <div class="container jumbotron mt-5" style="background-color:#22282e; color: white;">
                         <!-- Flex container for layout -->
                         <div class="content">
                             <!-- Left box for Bienvenido and Antigüedad -->
