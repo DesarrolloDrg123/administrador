@@ -262,8 +262,8 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
                     </a>
                     <ul class="dropdown-menu"> 
                         <li>
-                            <a class="dropdown-item" href="logout.php">
-                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            <a class="dropdown-item d-flex align-items-center" href="logout.php">
+                                <i class="fas fa-sign-out-alt me-2"></i> <span>Cerrar Sesión</span>
                             </a>
                         </li>
                     </ul>
