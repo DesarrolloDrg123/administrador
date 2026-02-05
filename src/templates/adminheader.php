@@ -183,7 +183,7 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
         left: 70px !important; /* Justo al borde del sidebar colapsado */
         top: 0 !important;
         background-color: #2c343b !important;
-        min-width: 220px;
+        min-width: 260px;
         border-radius: 0 6px 6px 0;
         box-shadow: 10px 0 25px rgba(0,0,0,0.5); /* Sombra para que resalte */
         z-index: 9999 !important;
