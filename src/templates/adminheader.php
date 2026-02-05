@@ -102,12 +102,18 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
     }
 
     /* =========================================
-    2. NAVEGACIÓN (FLUJO ÚNICO)
+    2. NAVEGACIÓN (CONTROL DE SCROLL)
     ========================================= */
     .sidebar-center { 
         flex: 1; 
         overflow-y: auto; 
-        overflow-x: visible; /* Permitir que los menús floten fuera */
+        overflow-x: hidden; 
+        position: relative;
+    }
+
+    /* FIX CRÍTICO: Cuando está colapsado, permitimos que el contenido SALGA del sidebar */
+    header#main-sidebar.sidebar-collapsed .sidebar-center {
+        overflow: visible !important;
     }
 
     .nav-link {
@@ -116,6 +122,7 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
         display: flex;
         align-items: center;
         transition: all 0.2s;
+        cursor: pointer;
     }
 
     .nav-link i {
@@ -125,7 +132,6 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
         margin-right: 15px;
     }
 
-    /* Línea divisoria para el usuario */
     .sidebar-divider {
         border-top: 1px solid rgba(255,255,255,0.1);
         margin: 10px 20px;
@@ -150,12 +156,12 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
     header#main-sidebar.sidebar-collapsed .nav-link i { margin-right: 0 !important; }
 
     /* =========================================
-    3. SUBMENÚS (CARPETAS Y USUARIO)
+    3. SUBMENÚS (ELIMINACIÓN DE SLIDERS FEOS)
     ========================================= */
     
-    /* CUANDO ESTÁ ABIERTO: Menús normales hacia abajo */
+    /* MODO ABIERTO: Acordeón hacia abajo */
     .nav-item.dropdown .dropdown-menu {
-        position: static !important; /* Lo mete dentro del flujo para no tapar nada */
+        position: static !important;
         float: none;
         background-color: #22282e !important;
         border: none;
@@ -167,39 +173,37 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
 
     .nav-item.dropdown .dropdown-item {
         color: #adb5bd !important;
-        padding: 10px 20px 10px 65px !important; /* Sangría para que se vea dentro */
+        padding: 10px 20px 10px 65px !important;
         font-size: 0.9rem;
     }
 
-    /* CUANDO ESTÁ COLAPSADO: Menús flotantes a la DERECHA */
+    /* MODO COLAPSADO: Flotado lateral real */
     header#main-sidebar.sidebar-collapsed .nav-item.dropdown .dropdown-menu {
         position: absolute !important;
-        left: 70px !important;
+        left: 70px !important; /* Justo al borde del sidebar colapsado */
         top: 0 !important;
-        display: none;
         background-color: #2c343b !important;
-        min-width: 200px;
+        min-width: 220px;
         border-radius: 0 6px 6px 0;
-        box-shadow: 5px 0 15px rgba(0,0,0,0.3);
-        z-index: 2000;
+        box-shadow: 10px 0 25px rgba(0,0,0,0.5); /* Sombra para que resalte */
+        z-index: 9999 !important;
+        display: none;
+        border: 1px solid rgba(255,255,255,0.1);
+        margin: 0;
     }
 
+    /* Mostrar al pasar el mouse SOLO cuando está colapsado */
     header#main-sidebar.sidebar-collapsed .nav-item.dropdown:hover > .dropdown-menu {
         display: block !important;
     }
 
     header#main-sidebar.sidebar-collapsed .dropdown-item {
-        padding: 12px 20px !important; /* Reset de sangría al estar colapsado */
+        padding: 12px 20px !important; /* Corregimos sangría en modo flotante */
     }
 
-    /* Estilo especial botón Cerrar Sesión */
     .logout-link:hover {
         background-color: #dc3545 !important;
         color: white !important;
-    }
-    
-    .logout-link i {
-        margin-right: 10px;
     }
 </style>
 </head>
