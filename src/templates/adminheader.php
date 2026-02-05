@@ -64,12 +64,12 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
     ========================================= */
     body {
         background-color: #EEF1F2;
-        margin-left: 260px;
+        margin-left: 300px;
         transition: margin-left 0.3s ease;
     }
 
     header#main-sidebar {
-        width: 260px;
+        width: 300px;
         height: 100vh;
         position: fixed;
         left: 0;
