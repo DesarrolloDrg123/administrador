@@ -65,7 +65,7 @@ if (!isset($_SESSION['permisos'][3])) { //Permiso de Solicitar vacaciones
     }
 
     th {
-        background-color: #212529;
+        background-color: #2C343B;
         color: white;
     }
 
@@ -169,7 +169,7 @@ if (!isset($_SESSION['permisos'][3])) { //Permiso de Solicitar vacaciones
     }
 
     .btn-request:hover {
-        background-color: #212529;
+        background-color: #2C343B;
         color: white;
     }
 
@@ -229,7 +229,7 @@ if (!isset($_SESSION['permisos'][3])) { //Permiso de Solicitar vacaciones
 <br>
 
 <form action="VAC_controller/aprobar_vacaciones.php" method="post">
-    <div class="container jumbotron jb1 mt-5" style="background-color:#212529; color: white;">
+    <div class="container jumbotron jb1 mt-5" style="background-color:#2C343B; color: white;">
         <?php if($_SESSION['departamento'] == 'Gerente Sistemas'): ?>
         <h1>Departamento de Sistemas</h1>
         <?php else :?>

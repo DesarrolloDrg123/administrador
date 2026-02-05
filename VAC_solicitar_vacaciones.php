@@ -81,7 +81,7 @@ try {
             transition: background-color 0.3s ease, color 0.3s ease;
         }
         .btn-request:hover {
-            background-color: #212529;
+            background-color: #2C343B;
             color: white;
         }
         .form-group {
@@ -272,7 +272,7 @@ try {
                 }
 
                 .btn-request:hover {
-                    background-color: #212529;
+                    background-color: #2C343B;
                     color: white;
                 }
 

@@ -194,7 +194,7 @@ sort($estatus_filtro);
         border-radius: .9rem;
     }
     .jb1 {
-        background-color: #212529;
+        background-color: #2C343B;
         color: white;
         width: 1000px;
     }
