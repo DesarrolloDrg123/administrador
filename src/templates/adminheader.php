@@ -60,7 +60,7 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
 
     <style>
     /* =========================================
-    1. ESTRUCTURA Y SIDEBAR
+    1. ESTRUCTURA BASE
     ========================================= */
     body {
         background-color: #EEF1F2;
@@ -102,12 +102,12 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
     }
 
     /* =========================================
-    2. NAVEGACIÓN Y CARPETAS (FIX SUBMENÚS)
+    2. NAVEGACIÓN (FLUJO ÚNICO)
     ========================================= */
     .sidebar-center { 
         flex: 1; 
         overflow-y: auto; 
-        overflow-x: hidden; 
+        overflow-x: visible; /* Permitir que los menús floten fuera */
     }
 
     .nav-link {
@@ -116,7 +116,6 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
         display: flex;
         align-items: center;
         transition: all 0.2s;
-        width: 100%;
     }
 
     .nav-link i {
@@ -126,13 +125,20 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
         margin-right: 15px;
     }
 
+    /* Línea divisoria para el usuario */
+    .sidebar-divider {
+        border-top: 1px solid rgba(255,255,255,0.1);
+        margin: 10px 20px;
+    }
+
     /* --- ESTADO COLAPSADO --- */
     header#main-sidebar.sidebar-collapsed { width: 70px; }
     body.sidebar-collapsed { margin-left: 70px; }
 
     header#main-sidebar.sidebar-collapsed .nav-text,
     header#main-sidebar.sidebar-collapsed #sidebar-logo,
-    header#main-sidebar.sidebar-collapsed .dropdown-toggle::after {
+    header#main-sidebar.sidebar-collapsed .dropdown-toggle::after,
+    header#main-sidebar.sidebar-collapsed .sidebar-divider {
         display: none !important;
     }
 
@@ -141,22 +147,40 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
         padding: 15px 0 !important;
     }
 
-    header#main-sidebar.sidebar-collapsed .nav-link i {
-        margin-right: 0 !important;
+    header#main-sidebar.sidebar-collapsed .nav-link i { margin-right: 0 !important; }
+
+    /* =========================================
+    3. SUBMENÚS (CARPETAS Y USUARIO)
+    ========================================= */
+    
+    /* CUANDO ESTÁ ABIERTO: Menús normales hacia abajo */
+    .nav-item.dropdown .dropdown-menu {
+        position: static !important; /* Lo mete dentro del flujo para no tapar nada */
+        float: none;
+        background-color: #22282e !important;
+        border: none;
+        padding: 0;
+        margin: 0;
+        box-shadow: none;
+        width: 100%;
     }
 
-    /* SUBMENÚS LATERALES: Se ven por FUERA cuando está cerrado */
+    .nav-item.dropdown .dropdown-item {
+        color: #adb5bd !important;
+        padding: 10px 20px 10px 65px !important; /* Sangría para que se vea dentro */
+        font-size: 0.9rem;
+    }
+
+    /* CUANDO ESTÁ COLAPSADO: Menús flotantes a la DERECHA */
     header#main-sidebar.sidebar-collapsed .nav-item.dropdown .dropdown-menu {
         position: absolute !important;
-        left: 70px !important; 
+        left: 70px !important;
         top: 0 !important;
-        margin: 0 !important;
-        background-color: #2c343b;
-        border: 1px solid rgba(255,255,255,0.1);
+        display: none;
+        background-color: #2c343b !important;
+        min-width: 200px;
         border-radius: 0 6px 6px 0;
         box-shadow: 5px 0 15px rgba(0,0,0,0.3);
-        display: none; 
-        min-width: 200px;
         z-index: 2000;
     }
 
@@ -164,59 +188,18 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
         display: block !important;
     }
 
-    /* =========================================
-    3. FOOTER (USUARIO Y CERRAR SESIÓN)
-    ========================================= */
-    .sidebar-footer {
-        padding: 10px 0;
-        background-color: #2c343b;
-        border-top: 1px solid rgba(255,255,255,0.05);
-        flex-shrink: 0;
-        position: relative; /* Importante para el posicionamiento del hijo */
+    header#main-sidebar.sidebar-collapsed .dropdown-item {
+        padding: 12px 20px !important; /* Reset de sangría al estar colapsado */
     }
 
-    /* MENÚ ABIERTO: Cerrar sesión DEBAJO del nombre */
-    .sidebar-footer .dropdown .dropdown-menu {
-        position: absolute !important;
-        /* Forzamos posición abajo anulando a Bootstrap */
-        top: 100% !important; 
-        bottom: auto !important;
-        left: 10px !important;
-        transform: none !important; 
-        margin-top: 5px !important;
-        background-color: #22282e !important;
-        border: 1px solid rgba(255,255,255,0.1);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        min-width: 240px; /* Un poco más ancho para que no se vea feo */
-        padding: 8px 0;
-    }
-
-    /* MENÚ COLAPSADO: Flotando a la derecha */
-    header#main-sidebar.sidebar-collapsed .sidebar-footer .dropdown-menu {
-        left: 70px !important;
-        top: auto !important;
-        bottom: 10px !important; 
-        border-radius: 6px;
-        min-width: 180px;
-    }
-
-    header#main-sidebar.sidebar-collapsed .sidebar-footer .nav-item:hover .dropdown-menu {
-        display: block !important;
-    }
-
-    .sidebar-footer .dropdown-item {
-        color: #adb5bd !important;
-        padding: 12px 20px !important;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        transition: 0.2s;
-        white-space: nowrap; /* Evita que el texto se amontone */
-    }
-
-    .sidebar-footer .dropdown-item:hover {
+    /* Estilo especial botón Cerrar Sesión */
+    .logout-link:hover {
         background-color: #dc3545 !important;
         color: white !important;
+    }
+    
+    .logout-link i {
+        margin-right: 10px;
     }
 </style>
 </head>
@@ -238,6 +221,7 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
                             <i class="fas fa-home"></i><span class="nav-text">Inicio</span>
                         </a>
                     </li>
+
                     <?php if (!empty($_SESSION['permisos'])) : ?>
                         <?php foreach ($_SESSION['permisos'] as $categoria => $programas) : ?>
                             <li class="nav-item dropdown">
@@ -252,26 +236,22 @@ if(!isset($_SESSION["usuario"]) && (!isset($_SESSION['loggedin']) || $_SESSION['
                             </li>
                         <?php endforeach; ?>
                     <?php endif; ?>
+
+                    <li class="nav-item dropdown user-section">
+                        <hr class="sidebar-divider"> <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="fa fa-user"></i>
+                            <span class="nav-text"><?php echo $_SESSION['nombre']; ?></span>
+                        </a>
+                        <ul class="dropdown-menu"> 
+                            <li>
+                                <a class="dropdown-item logout-link" href="logout.php">
+                                    <i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
-        </div>
-
-        <div class="sidebar-footer">
-            <ul class="navbar-nav w-100">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-boundary="window">
-                        <i class="fa fa-user"></i>
-                        <span class="nav-text"><?php echo $_SESSION['nombre']; ?></span>
-                    </a>
-                    <ul class="dropdown-menu"> 
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="logout.php">
-                                <i class="fas fa-sign-out-alt me-2"></i> <span>Cerrar Sesión</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
         </div>
     </header>
 
